@@ -1,0 +1,73 @@
+# home-assistant.yaml
+
+image:
+  tag: 2021.9.7
+
+ingress:
+  main:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    hosts:
+    - host: ha.home
+    # - host: ha-my-home.duckdns.org
+      paths:
+        - path: /
+    tls:
+    - secretName: home-assistant-tls
+      hosts:
+        # - ha-my-home.duckdns.org
+        - ha.home
+
+hostNetwork: true
+dnsPolicy: ClusterFirstWithHostNet
+
+persistence:
+  config:
+    enabled: true
+    size: 2G
+    # existingClaim: ha-config
+  # usb:
+  #   enabled: true
+  #   type: hostPath
+  #   hostPath: /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2434151-if00
+  #   mountPath: /dev/ttyUSB0
+
+nodeSelector:
+  kubernetes.io/hostname: k3s
+
+securityContext:
+  privileged: true
+
+addons:
+  codeserver:
+    image:
+      tag: 3.11.1
+    enabled: true
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+      hosts:
+      - host: code-ha.home
+        paths:
+          - path: /
+      tls:
+      - secretName: codeserver-tls
+        hosts:
+          - code-ha.home
+    
+    args:
+    - --auth
+    - none
+    - --user-data-dir
+    - "/config/.vscode"
+    
+    git:
+      deployKeyBase64: ""
+
+    workingDir: "/config"
+
+    volumeMounts:
+    - name: config
+      mountPath: /config

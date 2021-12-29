@@ -1,0 +1,54 @@
+- name: Add hardened SSH config
+  copy:
+    dest: /etc/ssh/sshd_config
+    src: ../files/sshd_config
+    owner: root
+    group: root
+    mode: 0600
+  notify: Reload SSH
+
+- name: Ensure firewalld is  installed
+  package:
+    name: firewalld
+    state: present
+
+- name: Ensure firewalld is  running
+  service:
+    name: firewalld
+    state: started
+
+- name: Add SSH port to public zone
+  firewalld:
+    zone: public
+    service: ssh
+    state: enabled
+    immediate: yes
+    permanent: yes
+  
+
+- name: Add permitted networks to public zone
+  firewalld:
+    zone: public
+    source: "{{ item }}"
+    state: enabled
+    immediate: yes
+    permanent: yes
+  with_items: "{{ allowed_ssh_networks }}"
+
+
+- name: Add HTTPS port to public zone
+  firewalld:
+    zone: public
+    service: https
+    state: enabled
+    immediate: yes
+    permanent: yes
+
+- name: Add WIFI  to public zone
+  firewalld:
+    zone: public
+    interface: wlan0
+    state: enabled
+    immediate: yes
+    permanent: yes
+    

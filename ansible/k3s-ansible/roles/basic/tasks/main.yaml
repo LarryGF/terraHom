@@ -1,0 +1,110 @@
+---
+# Disable SWAP
+- name: Disable Raspbian SWAP service
+  systemd:
+    name: dphys-swapfile
+    state: stopped
+    enabled: no
+    masked: yes
+
+
+
+- name: Disable SWAP
+  command: /sbin/swapoff -a
+  when:
+    - ansible_swaptotal_mb > 1
+
+# Upgrade System
+- name: Upgrade system
+  apt:
+    upgrade: dist
+    update_cache: yes
+
+# Time
+- name: Set timezone
+  timezone:
+    name: "{{ timezone }}"
+
+- name: Ensure chrony is not installed
+  package:
+    name: chrony
+    state: absent
+
+- name: Install NTP
+  package:
+    name: ntp
+    state: present
+  notify: enable ntp
+
+# - name: Install networkmanager
+#   package:
+#     name: network-manager
+#     state: present
+#   notify: enable NetworkManager
+
+# DNS
+- name: Set hostname
+  hostname:
+    name: "{{ group_names[0] }}"
+
+- name: Update the /etc/hosts file with node name
+  lineinfile:
+    path: "/etc/hosts"
+    regexp: "^127.0.1.1.*"
+    line: "127.0.1.1\t{{ group_names[0] }}"
+    state: present
+    backup: yes
+
+
+
+# - name: Stop and disable systemd-resolved
+#   systemd:
+#     name: systemd-resolved
+#     state: stopped
+#     enabled: no
+#     masked: yes
+
+# - name: Stop NetworkManager from modifying resolv.conf
+#   lineinfile:
+#     path: '/etc/NetworkManager/NetworkManager.conf'
+#     state: present
+#     line: 'dns=none'
+#     regexp: '^dns=.*'
+#     insertafter: '^\[main\]'
+#   notify: restart networkmanager
+
+- name: Configure Cloudflare DNS
+  copy:
+    src: 'resolv.conf'
+    dest: '/etc/resolv.conf'
+    owner: root
+    group: root
+    mode: 0644
+
+# AppArmor
+- name: Install apparmor
+  package:
+    name: apparmor
+    state: present
+
+# Iptables
+- name: Install iptables
+  package:
+    name: iptables
+    state: present
+# Longhorn
+- name: Install open-iscsi
+  package:
+    name: open-iscsi
+    state: present
+  notify: enable iscsid
+
+- name: Install required packages for Longhorn
+  package:
+    name:
+      - curl
+      - grep
+      - mawk
+      - util-linux
+      - nfs-common
+    state: present
