@@ -1,0 +1,11 @@
+- name: restart networkmanager
+  service: name=NetworkManager state=restarted
+
+- name: enable ntp
+  service: name=ntp state=started enabled=yes
+
+- name: enable NetworkManager
+  service: name=NetworkManager state=started enabled=yes
+  
+- name: enable iscsid
+  service: name=iscsid state=started enabled=yes

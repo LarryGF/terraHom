@@ -1,0 +1,29 @@
+---
+
+- hosts: all
+  become: yes
+  roles:
+    - role: basic
+    - role: harden
+
+- hosts: k3s
+  gather_facts: yes
+  become: yes
+  roles:
+    - role: prereq
+    - role: download
+    - role: raspberrypi
+
+- hosts: master
+  become: yes
+  roles:
+    - role: k3s/master
+
+- hosts: node
+  become: yes
+  roles:
+    - role: k3s/node
+
+- hosts: master
+  roles:
+    - role: sync
