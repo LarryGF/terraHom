@@ -57,21 +57,21 @@
 
 
 
-# - name: Stop and disable systemd-resolved
-#   systemd:
-#     name: systemd-resolved
-#     state: stopped
-#     enabled: no
-#     masked: yes
+- name: Stop and disable systemd-resolved
+  systemd:
+    name: systemd-resolved
+    state: stopped
+    enabled: no
+    masked: yes
 
-# - name: Stop NetworkManager from modifying resolv.conf
-#   lineinfile:
-#     path: '/etc/NetworkManager/NetworkManager.conf'
-#     state: present
-#     line: 'dns=none'
-#     regexp: '^dns=.*'
-#     insertafter: '^\[main\]'
-#   notify: restart networkmanager
+- name: Stop NetworkManager from modifying resolv.conf
+  lineinfile:
+    path: '/etc/NetworkManager/NetworkManager.conf'
+    state: present
+    line: 'dns=none'
+    regexp: '^dns=.*'
+    insertafter: '^\[main\]'
+  notify: restart networkmanager
 
 - name: Configure Cloudflare DNS
   copy:

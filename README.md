@@ -12,8 +12,9 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
     ssh-copy-id pi@<NODE_IP>
     ```
 
-- Add cgroup_memory=1 cgroup_enable=memory to /boot/cmdline.txt and reboot the Pi
-
+- Create an account on duckdns.org
+  - Create your subdomain on duckdns.org, save your subdomain and your token
+  
 ## Deployment
 
 - Create `ansible/k3s-ansible/inventory/deploy/group_vars/all.yml with the following:

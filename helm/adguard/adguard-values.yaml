@@ -27,11 +27,19 @@ nodeSelector:
 ingress:
   main:
     enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: internal-services-error-pages@kubernetescrd,default-whitelist@kubernetescrd
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+
     hosts:
-      - host: dns.home
+      - host: "adguard.${duckdns_domain}.duckdns.org"
         paths:
         - path: /
-
+    tls:
+      - hosts:
+          - "adguard.${duckdns_domain}.duckdns.org"
+        secretName: tls-adguard-ingress
 service:
   dns-tcp:
     enabled: true
@@ -126,21 +134,8 @@ config: |
     safesearch_cache_size: 1048576
     parental_cache_size: 1048576
     cache_time: 30
-    rewrites:
-      - domain: router.home
-        answer: 192.168.1.254
-      - domain: ha.home
-        answer: 192.168.1.97
-      - domain: rancher.home
-        answer: 192.168.1.97
-      - domain: rancher.pi-k3s-home.duckdns.org
-        answer: 192.168.1.97
-      - domain: ha.pi-k3s-home.duckdns.org
-        answer: 192.168.1.97
-      - domain: code-ha.pi-k3s-home.duckdns.org
-        answer: 192.168.1.97
-      - domain: dns.home
-        answer: 192.168.1.97
+    rewrites: ${dns_rewrites}
+      
 
     blocked_services: []
     customresolver: null

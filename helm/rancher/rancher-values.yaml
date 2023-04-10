@@ -32,7 +32,7 @@ busyboxImage: busybox
 # busyboxImagePullPolicy: <pullPolicy>
 
 # Add debug flag to Rancher server
-debug: true
+debug: false
 
 # When starting Rancher for the first time, bootstrap the admin as restricted-admin
 restrictedAdmin: false
@@ -43,7 +43,7 @@ restrictedAdmin: false
 #   value: "1.0"
 
 # Fully qualified name to reach your Rancher server
-hostname: rancher.home
+hostname: rancher.${domain}.duckdns.org
 
 ## Optional array of imagePullSecrets containing private registry credentials
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -56,11 +56,11 @@ ingress:
   # If set to false, ingress will not be created
   # Defaults to true
   # options: true, false
-  annotations:
-    ingress.kubernetes.io/whitelist-source-range: "2.28.115.141/32"
   enabled: true
   includeDefaultExtraAnnotations: true
-  extraAnnotations: {}
+  extraAnnotations: 
+    traefik.ingress.kubernetes.io/router.middlewares: "internal-services-error-pages@kubernetescrd,default-whitelist@kubernetescrd"
+
 
   # configurationSnippet - Add additional Nginx configuration. This example statically sets a header on the ingress.
   # configurationSnippet: |
@@ -68,7 +68,7 @@ ingress:
 
   tls:
     # options: rancher, letsEncrypt, secret
-    source: rancher
+    source: letsEncrypt
     secretName: tls-rancher-ingress
 
 ### LetsEncrypt config ###
@@ -79,7 +79,7 @@ letsEncrypt:
   environment: production
   ingress:
     # options: traefik, nginx
-    class: ""
+    class: "traefik"
 # If you are using certs signed by a private CA set to 'true' and set the 'tls-ca'
 # in the 'rancher-system' namespace. See the README.md for details
 privateCA: false
@@ -103,7 +103,7 @@ rancherImage: rancher/rancher
 
 # Number of Rancher server replicas. Setting to negative number will dynamically between 0 and the abs(replicas) based on available nodes.
 # of available nodes in the cluster
-replicas: 3
+replicas: 2
 
 # Set pod resource requests/limits for Rancher.
 resources: {}

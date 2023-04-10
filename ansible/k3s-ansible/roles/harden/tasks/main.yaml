@@ -44,11 +44,34 @@
     immediate: yes
     permanent: yes
 
-- name: Add WIFI  to public zone
+- name: Add Kubernetes port to public zone
   firewalld:
     zone: public
-    interface: wlan0
+    port: 6443/tcp
     state: enabled
     immediate: yes
     permanent: yes
-    
+
+- name: Add test port to public zone
+  firewalld:
+    zone: public
+    port: 8080/tcp
+    state: disabled
+    immediate: yes
+    permanent: yes
+
+# - name: Add WIFI  to public zone
+#   firewalld:
+#     zone: public
+#     interface: wlan0
+#     state: enabled
+#     immediate: yes
+#     permanent: yes
+
+- name: Add Ethernet  to public zone
+  firewalld:
+    zone: public
+    interface: eth0
+    state: enabled
+    immediate: yes
+    permanent: yes
