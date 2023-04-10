@@ -1,29 +1,44 @@
 ---
 
-- hosts: all
+- name: Basic configuration
+  hosts: all
   become: yes
   roles:
     - role: basic
     - role: harden
+  tags:
+    - basic
 
-- hosts: k3s
+- name: Kubernetes installation prerequisites
+  hosts: k3s
   gather_facts: yes
   become: yes
   roles:
     - role: prereq
     - role: download
     - role: raspberrypi
+  tags:
+    - kubernetes
 
-- hosts: master
+- name: Kubernetes master installation 
+  hosts: master
   become: yes
   roles:
     - role: k3s/master
+  tags:
+    - kubernetes
 
-- hosts: node
+- name: Kubernetes nodes installation
+  hosts: node
   become: yes
   roles:
     - role: k3s/node
+  tags:
+    - kubernetes
 
-- hosts: master
+- name: Kubernetes config sync to host
+  hosts: master
   roles:
     - role: sync
+  tags:
+    - kubernetes

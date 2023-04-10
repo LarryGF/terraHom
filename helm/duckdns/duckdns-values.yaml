@@ -31,8 +31,8 @@ strategy:
 
 customLabels: {}
 
-extraEnvVars: {}
-  # TZ: Europe/Berlin
+extraEnvVars: 
+  TZ: ${timezone}
 
 podAnnotations: {}
 
