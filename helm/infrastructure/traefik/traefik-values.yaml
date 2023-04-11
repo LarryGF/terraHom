@@ -289,7 +289,9 @@ ports:
     # middlewares:
     #   - namespace-name1@kubernetescrd
     #   - namespace-name2@kubernetescrd
-    middlewares: []
+    middlewares: 
+      - internal-services-error-pages@kubernetescrd
+      - internal-services-whitelist@kubernetescrd
   metrics:
     # When using hostNetwork, use another port to avoid conflict with node exporter:
     # https://github.com/prometheus/prometheus/wiki/Default-port-allocations
