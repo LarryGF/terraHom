@@ -25,7 +25,6 @@
     immediate: yes
     permanent: yes
   
-
 - name: Add permitted networks to public zone
   firewalld:
     zone: public
@@ -52,21 +51,13 @@
     immediate: yes
     permanent: yes
 
-- name: Add test port to public zone
+- name: Add monitor port to public zone
   firewalld:
     zone: public
-    port: 8080/tcp
-    state: disabled
+    port: 10250/tcp
+    state: enabled
     immediate: yes
     permanent: yes
-
-# - name: Add WIFI  to public zone
-#   firewalld:
-#     zone: public
-#     interface: wlan0
-#     state: enabled
-#     immediate: yes
-#     permanent: yes
 
 - name: Add Ethernet  to public zone
   firewalld:
@@ -75,3 +66,37 @@
     state: enabled
     immediate: yes
     permanent: yes
+
+# - name: Add DNS port to public zone
+#   firewalld:
+#     zone: public
+#     service: dns
+#     state: enabled
+#     immediate: yes
+#     permanent: yes
+
+- name: Create kubernetes_pods zone
+  firewalld:
+    zone: kubernetes_pods
+    state: present
+    permanent: true
+
+- name: Reload Firewalld
+  service:
+    name: firewalld
+    state: reloaded
+
+- name: Add flannel subnet
+  firewalld:
+    zone: kubernetes_pods
+    state: enabled
+    source: 10.42.0.0/24
+    immediate: yes
+    permanent: yes
+
+- name: Accept flannel subnet
+  firewalld:
+    zone: kubernetes_pods
+    state: "enabled"
+    target: "ACCEPT"
+    permanent: true

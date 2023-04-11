@@ -1,4 +1,3 @@
-
 terraform {
   required_providers {
     kubernetes = {
@@ -17,7 +16,6 @@ terraform {
     }
   }
 }
-# Providers
 
 provider "kubernetes" {
   experiments {
