@@ -78,10 +78,3 @@
     dest: /usr/local/bin/crictl
     state: link
 
-# - name: Copy Traefik config
-#   copy:
-#     src: 'traefik-config.yaml'
-#     dest: '/var/lib/rancher/k3s/server/manifests/traefik-config.yaml'
-#     owner: root
-#     group: root
-#     mode: 0600

@@ -36,11 +36,11 @@
     state: present
   notify: enable ntp
 
-# - name: Install networkmanager
-#   package:
-#     name: network-manager
-#     state: present
-#   notify: enable NetworkManager
+- name: Install networkmanager
+  package:
+    name: network-manager
+    state: present
+  notify: enable NetworkManager
 
 # DNS
 - name: Set hostname

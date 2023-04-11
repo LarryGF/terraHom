@@ -1,0 +1,448 @@
+# Default values for Traefik
+image:
+  registry: docker.io
+  repository: traefik
+  # defaults to appVersion
+  tag: ""
+  pullPolicy: IfNotPresent
+
+
+hub:
+  enabled: false
+deployment:
+  enabled: true
+  kind: Deployment
+  replicas: 1
+  terminationGracePeriodSeconds: 60
+  minReadySeconds: 0
+  # Additional deployment annotations (e.g. for jaeger-operator sidecar injection)
+  annotations: {}
+  # Additional deployment labels (e.g. for filtering deployment by custom labels)
+  labels: {}
+  # Additional pod annotations (e.g. for mesh injection or prometheus scraping)
+  podAnnotations: {}
+  # Additional Pod labels (e.g. for filtering Pod by custom labels)
+  podLabels: {}
+  # Additional containers (e.g. for metric offloading sidecars)
+  additionalContainers: []
+  additionalVolumes: []
+  initContainers: []
+  shareProcessNamespace: false
+
+  imagePullSecrets: []
+  lifecycle: {}
+
+podDisruptionBudget:
+  enabled: false
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+
+experimental:
+  v3:
+    enabled: false
+  plugins:
+    enabled: true
+  kubernetesGateway:
+    enabled: false
+    gateway:
+      enabled: true
+    annotations:
+      cert-manager.io/issuer: letsencrypt
+
+ingressRoute:
+  dashboard:
+    enabled: true
+    # Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
+    annotations: {}
+    # Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
+    labels: {}
+    # The router match rule used for the dashboard ingressRoute
+    matchRule: PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+    # Specify the allowed entrypoints to use for the dashboard ingress route, (e.g. traefik, web, websecure).
+    # By default, it's using traefik entrypoint, which is not exposed.
+    # /!\ Do not expose your dashboard without any protection over the internet /!\
+    entryPoints: ["traefik"]
+    # Additional ingressRoute middlewares (e.g. for authentication)
+    middlewares: []
+    # TLS options (e.g. secret containing certificate)
+    tls: {}
+
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
+readinessProbe:
+  failureThreshold: 1
+  initialDelaySeconds: 2
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 2
+
+livenessProbe:
+  failureThreshold: 3
+  initialDelaySeconds: 2
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 2
+
+providers:
+  kubernetesCRD:
+    enabled: true
+    allowCrossNamespace: false
+    allowExternalNameServices: false
+    allowEmptyServices: false
+    namespaces: []
+      # - "default"
+
+  kubernetesIngress:
+    enabled: true
+    allowExternalNameServices: false
+    allowEmptyServices: false
+    namespaces: []
+      # - "default"
+    # IP used for Kubernetes Ingress endpoints
+    publishedService:
+      enabled: false
+
+volumes: []
+
+additionalVolumeMounts: []
+
+logs:
+  ## Traefik logs concern everything that happens to Traefik itself (startup, configuration, events, shutdown, and so on).
+  general:
+    level: ${log_level}
+  access:
+    enabled: ${access_log_enabled}
+    filters: {}
+      # statuscodes: "200,300-302"
+      # retryattempts: true
+      # minduration: 10ms
+    ## Fields
+    ## https://docs.traefik.io/observability/access-logs/#limiting-the-fieldsincluding-headers
+    fields:
+      general:
+        defaultmode: keep
+        names: {}
+          ## Examples:
+          # ClientUsername: drop
+      headers:
+        defaultmode: drop
+        names: {}
+          ## Examples:
+          # User-Agent: redact
+          # Authorization: drop
+          # Content-Type: keep
+
+metrics:
+  prometheus:
+    entryPoint: metrics
+
+tracing: {}
+
+globalArguments:
+  - "--global.checknewversion"
+  - "--global.sendanonymoususage"
+
+#
+# Configure Traefik static configuration
+# Additional arguments to be passed at Traefik's binary
+# All available options available on https://docs.traefik.io/reference/static-configuration/cli/
+## Use curly braces to pass values: `helm install --set="additionalArguments={--providers.kubernetesingress.ingressclass=traefik-internal,--log.level=DEBUG}"`
+additionalArguments: []
+#  - "--providers.kubernetesingress.ingressclass=traefik-internal"
+#  - "--log.level=DEBUG"
+
+# Environment variables to be passed to Traefik's binary
+env: []
+# - name: SOME_VAR
+#   value: some-var-value
+# - name: SOME_VAR_FROM_CONFIG_MAP
+#   valueFrom:
+#     configMapRef:
+#       name: configmap-name
+#       key: config-key
+# - name: SOME_SECRET
+#   valueFrom:
+#     secretKeyRef:
+#       name: secret-name
+#       key: secret-key
+
+envFrom: []
+# - configMapRef:
+#     name: config-map-name
+# - secretRef:
+#     name: secret-name
+
+# Configure ports
+ports:
+  traefik:
+    port: 9000
+    # Use hostPort if set.
+    # hostPort: 9000
+    #
+    # Use hostIP if set. If not set, Kubernetes will default to 0.0.0.0, which
+    # means it's listening on all your interfaces and all your IPs. You may want
+    # to set this value if you need traefik to listen on specific interface
+    # only.
+    # hostIP: 192.168.100.10
+
+    # Override the liveness/readiness port. This is useful to integrate traefik
+    # with an external Load Balancer that performs healthchecks.
+    # Default: ports.traefik.port
+    # healthchecksPort: 9000
+
+    # Override the liveness/readiness scheme. Useful for getting ping to
+    # respond on websecure entryPoint.
+    # healthchecksScheme: HTTPS
+
+    # Defines whether the port is exposed if service.type is LoadBalancer or
+    # NodePort.
+    #
+    # You SHOULD NOT expose the traefik port on production deployments.
+    # If you want to access it from outside of your cluster,
+    # use `kubectl port-forward` or create a secure ingress
+    expose: false
+    # The exposed port for this service
+    exposedPort: 9000
+    # The port protocol (TCP/UDP)
+    protocol: TCP
+  web:
+    ## Enable this entrypoint as a default entrypoint. When a service doesn't explicity set an entrypoint it will only use this entrypoint.
+    # asDefault: true
+    port: 8000
+    # hostPort: 8000
+    expose: true
+    exposedPort: 80
+    # The port protocol (TCP/UDP)
+    protocol: TCP
+    # Use nodeport if set. This is useful if you have configured Traefik in a
+    # LoadBalancer.
+    # nodePort: 32080
+    # Port Redirections
+    # Added in 2.2, you can make permanent redirects via entrypoints.
+    # https://docs.traefik.io/routing/entrypoints/#redirection
+    # redirectTo: websecure
+    #
+    # Trust forwarded  headers information (X-Forwarded-*).
+    # forwardedHeaders:
+    #   trustedIPs: []
+    #   insecure: false
+    #
+    # Enable the Proxy Protocol header parsing for the entry point
+    # proxyProtocol:
+    #   trustedIPs: []
+    #   insecure: false
+  websecure:
+    ## Enable this entrypoint as a default entrypoint. When a service doesn't explicity set an entrypoint it will only use this entrypoint.
+    # asDefault: true
+    port: 8443
+    # hostPort: 8443
+    expose: true
+    exposedPort: 443
+    ## The port protocol (TCP/UDP)
+    protocol: TCP
+    # nodePort: 32443
+    #
+    ## Enable HTTP/3 on the entrypoint
+    ## Enabling it will also enable http3 experimental feature
+    ## https://doc.traefik.io/traefik/routing/entrypoints/#http3
+    ## There are known limitations when trying to listen on same ports for
+    ## TCP & UDP (Http3). There is a workaround in this chart using dual Service.
+    ## https://github.com/kubernetes/kubernetes/issues/47249#issuecomment-587960741
+    http3:
+      enabled: false
+    # advertisedPort: 4443
+    #
+    ## Trust forwarded  headers information (X-Forwarded-*).
+    #forwardedHeaders:
+    #  trustedIPs: []
+    #  insecure: false
+    #
+    ## Enable the Proxy Protocol header parsing for the entry point
+    #proxyProtocol:
+    #  trustedIPs: []
+    #  insecure: false
+    #
+    ## Set TLS at the entrypoint
+    ## https://doc.traefik.io/traefik/routing/entrypoints/#tls
+    tls:
+      enabled: true
+      # this is the name of a TLSOption definition
+      options: ""
+      certResolver: ""
+      domains: []
+      # - main: example.com
+      #   sans:
+      #     - foo.example.com
+      #     - bar.example.com
+    #
+    # One can apply Middlewares on an entrypoint
+    # https://doc.traefik.io/traefik/middlewares/overview/
+    # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
+    # /!\ It introduces here a link between your static configuration and your dynamic configuration /!\
+    # It follows the provider naming convention: https://doc.traefik.io/traefik/providers/overview/#provider-namespace
+    # middlewares:
+    #   - namespace-name1@kubernetescrd
+    #   - namespace-name2@kubernetescrd
+    middlewares: 
+      - internal-services-error-pages@kubernetescrd
+      - internal-services-whitelist@kubernetescrd
+  metrics:
+    # When using hostNetwork, use another port to avoid conflict with node exporter:
+    # https://github.com/prometheus/prometheus/wiki/Default-port-allocations
+    port: 9100
+    # hostPort: 9100
+    # Defines whether the port is exposed if service.type is LoadBalancer or
+    # NodePort.
+    #
+    # You may not want to expose the metrics port on production deployments.
+    # If you want to access it from outside of your cluster,
+    # use `kubectl port-forward` or create a secure ingress
+    expose: false
+    # The exposed port for this service
+    exposedPort: 9100
+    # The port protocol (TCP/UDP)
+    protocol: TCP
+
+# TLS Options are created as TLSOption CRDs
+# https://doc.traefik.io/traefik/https/tls/#tls-options
+# When using `labelSelector`, you'll need to set labels on tlsOption accordingly.
+# Example:
+# tlsOptions:
+#   default:
+#     labels: {}
+#     sniStrict: true
+#     preferServerCipherSuites: true
+#   customOptions:
+#     labels: {}
+#     curvePreferences:
+#       - CurveP521
+#       - CurveP384
+tlsOptions: {}
+
+# TLS Store are created as TLSStore CRDs. This is useful if you want to set a default certificate
+# https://doc.traefik.io/traefik/https/tls/#default-certificate
+# Example:
+# tlsStore:
+#   default:
+#     defaultCertificate:
+#       secretName: tls-cert
+tlsStore: {}
+
+# Options for the main traefik service, where the entrypoints traffic comes
+# from.
+service:
+  enabled: true
+  ## Single service is using `MixedProtocolLBService` feature gate.
+  ## When set to false, it will create two Service, one for TCP and one for UDP.
+  single: true
+  type: LoadBalancer
+  # Additional annotations applied to both TCP and UDP services (e.g. for cloud provider specific config)
+  annotations: {}
+  # Additional annotations for TCP service only
+  annotationsTCP: {}
+  # Additional annotations for UDP service only
+  annotationsUDP: {}
+  # Additional service labels (e.g. for filtering Service by custom labels)
+  labels: {}
+  # Additional entries here will be added to the service spec.
+  # Cannot contain type, selector or ports entries.
+  spec: 
+    externalTrafficPolicy: Local
+    # loadBalancerIP: "1.2.3.4"
+    # clusterIP: "2.3.4.5"
+  loadBalancerSourceRanges: []
+    # - 192.168.0.1/32
+    # - 172.16.0.0/16
+  externalIPs: []
+    # - 1.2.3.4
+  ## One of SingleStack, PreferDualStack, or RequireDualStack.
+  # ipFamilyPolicy: SingleStack
+  ## List of IP families (e.g. IPv4 and/or IPv6).
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/dual-stack/#services
+  # ipFamilies:
+  #   - IPv4
+  #   - IPv6
+  ##
+  ## An additionnal and optional internal Service.
+  ## Same parameters as external Service
+  # internal:
+  #   type: ClusterIP
+  #   # labels: {}
+  #   # annotations: {}
+  #   # spec: {}
+  #   # loadBalancerSourceRanges: []
+  #   # externalIPs: []
+  #   # ipFamilies: [ "IPv4","IPv6" ]
+
+## Create HorizontalPodAutoscaler object.
+##
+autoscaling:
+  enabled: false
+
+persistence:
+  enabled: false
+  name: data
+#  existingClaim: ""
+  accessMode: ReadWriteOnce
+  size: 128Mi
+  # storageClass: ""
+  # volumeName: ""
+  path: /data
+  annotations: {}
+  # subPath: "" # only mount a subpath of the Volume into the pod
+
+certResolvers: {}
+
+hostNetwork: false
+
+rbac:
+  enabled: true
+  namespaced: false
+
+# Enable to create a PodSecurityPolicy and assign it to the Service Account via RoleBinding or ClusterRoleBinding
+podSecurityPolicy:
+  enabled: false
+
+# The service account the pods will use to interact with the Kubernetes API
+serviceAccount:
+  # If set, an existing service account is used
+  # If not set, a service account is created automatically using the fullname template
+  name: ""
+
+# Additional serviceAccount annotations (e.g. for oidc authentication)
+serviceAccountAnnotations: {}
+
+resources: {}
+affinity: {}
+nodeSelector: {}
+tolerations: []
+topologySpreadConstraints: []
+priorityClassName: ""
+
+securityContext:
+  capabilities:
+    drop: [ALL]
+  readOnlyRootFilesystem: true
+
+podSecurityContext:
+#  fsGroup: 65532
+  fsGroupChangePolicy: "OnRootMismatch"
+  runAsGroup: 65532
+  runAsNonRoot: true
+  runAsUser: 65532
+
+#
+# Extra objects to deploy (value evaluated as a template)
+#
+# In some cases, it can avoid the need for additional, extended or adhoc deployments.
+# See #595 for more details and traefik/tests/values/extra.yaml for example.
+extraObjects: []
+
+global:
+  systemDefaultRegistry: ""
