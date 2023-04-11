@@ -1,0 +1,103 @@
+additionalTrustedCAs: false
+
+antiAffinity: preferred
+topologyKey: kubernetes.io/hostname
+
+auditLog:
+  destination: sidecar
+  hostPath: /var/log/rancher/audit/
+  level: 0
+  maxAge: 1
+  maxBackup: 1
+  maxSize: 100
+
+addLocal: "true"
+
+busyboxImage: busybox
+
+debug: true
+
+restrictedAdmin: false
+
+# Extra environment variables passed to the rancher pods.
+# extraEnv:
+# - name: CATTLE_TLS_MIN_VERSION
+#   value: "1.0"
+
+hostname: rancher.${domain}.duckdns.org
+
+imagePullSecrets: []
+# - name: secretName
+
+### ingress ###
+# Readme for details and instruction on adding tls secrets.
+ingress:
+  enabled: true
+  includeDefaultExtraAnnotations: true
+  extraAnnotations: {}
+    # traefik.ingress.kubernetes.io/router.middlewares: "internal-services-error-pages@kubernetescrd,default-whitelist@kubernetescrd"
+
+
+  # configurationSnippet - Add additional Nginx configuration. This example statically sets a header on the ingress.
+  # configurationSnippet: |
+  #   more_set_input_headers "X-Forwarded-Host: {{ .Values.hostname }}";
+
+  tls:
+    # options: rancher, letsEncrypt, secret
+    source: letsEncrypt
+    secretName: tls-rancher-ingress
+
+### LetsEncrypt config ###
+# ProTip: The production environment only allows you to register a name 5 times a week.
+#         Use staging until you have your config right.
+letsEncrypt:
+  email: ${email}
+  environment: production
+  ingress:
+    # options: traefik, nginx
+    class: "traefik"
+# If you are using certs signed by a private CA set to 'true' and set the 'tls-ca'
+# in the 'rancher-system' namespace. See the README.md for details
+privateCA: false
+
+# http[s] proxy server passed into rancher server.
+# proxy: http://<username>@<password>:<url>:<port>
+
+# comma separated list of domains or ip addresses that will not use the proxy
+noProxy: 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.svc,.cluster.local
+
+rancherImage: rancher/rancher
+replicas: 1
+tls: ingress
+
+systemDefaultRegistry: ""
+
+
+# Rancher custom logos persistence
+customLogos:
+  enabled: false
+  volumeSubpaths:
+    emberUi: "ember"
+    vueUi: "vue"
+  volumeKind: persistentVolumeClaim
+  ## Use an existing volume. Custom logos should be copied to the volume by the user
+  # volumeName: custom-logos
+  ## Just for volumeKind: persistentVolumeClaim
+  ## To disables dynamic provisioning, set storageClass: "" or storageClass: "-"
+  # storageClass: "-"
+  accessMode: ReadWriteOnce
+  size: 1Gi
+
+postDelete:
+  enabled: true
+  image:
+    repository: rancher/shell
+    tag: v0.1.10
+  namespaceList:
+    - cattle-fleet-system
+    - cattle-system
+    - rancher-operator-system
+  timeout: 120
+  ignoreTimeoutError: false
+
+bootstrapPassword: "P@$$w0rd"

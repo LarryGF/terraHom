@@ -28,7 +28,7 @@ ingress:
   main:
     enabled: true
     annotations:
-      traefik.ingress.kubernetes.io/router.middlewares: internal-services-error-pages@kubernetescrd,default-whitelist@kubernetescrd
+      # traefik.ingress.kubernetes.io/router.middlewares: internal-services-error-pages@kubernetescrd,internal-services-whitelist@kubernetescrd
       cert-manager.io/cluster-issuer: letsencrypt
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
 

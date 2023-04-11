@@ -3,3 +3,7 @@
         answer: 192.168.4.55
       - domain: adguard.pi-k3s-home.duckdns.org
         answer: 192.168.4.55
+      - domain: longhorn.pi-k3s-home.duckdns.org
+        answer: 192.168.4.55
+      - domain: rancher.pi-k3s-home.duckdns.org
+        answer: 192.168.4.55
