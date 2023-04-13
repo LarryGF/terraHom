@@ -13,8 +13,24 @@ variable "source_range" {
   description = "Source range to restrict traffic to internal services"
 }
 
+variable "log_level" {
+  type        = string
+  description = "Traefik Log Level"
+  default = "DEBUG"
+}
 
+variable "access_log_enabled" {
+  type        = string
+  description = "Enable access logs for Traefik"
+  default = true
+}
 
+## DuckDNS
+
+variable "duckdns_token" {
+  type        = string
+  description = "DuckDNS token to use"
+}
 
 ## Global
 

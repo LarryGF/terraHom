@@ -1,0 +1,4 @@
+# This needs to be properly indented otherwise terraform will put it without indentations 
+      - domain: "*.pi-k3s-home.duckdns.org"
+        answer: 192.168.4.55
+      
