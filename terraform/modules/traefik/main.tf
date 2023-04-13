@@ -1,13 +1,3 @@
-resource "kubernetes_namespace" "internal-services" {
-  metadata {
-    annotations = {
-      name = "Internal Services"
-    }
-    name = var.namespace
-  }
-}
-
-
 resource "kubectl_manifest" "middlewares" {
   for_each = local.middleware_files
 
@@ -36,5 +26,25 @@ resource "helm_release" "error-pages" {
     )
   ]
   
-  depends_on = [kubernetes_namespace.internal-services]
+}
+
+
+resource "helm_release" "traefik" {
+  name            = "traefik"
+  chart           = "traefik"
+  repository      = "https://traefik.github.io/charts"
+  namespace       = "kube-system"
+  cleanup_on_fail = true
+  wait            = true
+  wait_for_jobs   = true
+  timeout         = 1200
+  values = [
+    templatefile(
+      "${path.module}/helm/traefik-values.yaml",
+      {
+        "log_level"          = var.log_level
+        "access_log_enabled" = var.access_log_enabled
+      }
+    )
+  ]
 }

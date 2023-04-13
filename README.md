@@ -6,14 +6,16 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
 
 - Flash Debian GNU/Linux 11 (bullseye) arm64 to the Raspberry Pi
 - Connect the Raspberry Pi to your network
-- Setup passwordless SSH access to the Pi.
+- Setup passwordless SSH access to the Pi (you will need an SSH keypair for this).
 
     ```shell
     ssh-copy-id pi@<NODE_IP>
     ```
 
 - Create an account on duckdns.org
-  - Create your subdomain on duckdns.org, save your subdomain and your token
+- Create your subdomain on duckdns.org, save your subdomain and your token
+- Point your subdomain to your external IP address (this won't work if your public IP address is NATed by your ISP)
+  - If your public IP is being NATed consider upgrading to a fixed IP address or modifying the values to deploy with celf signed certificates
   
 ## Deployment
 
@@ -21,10 +23,10 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
 
     ```yaml
       ---
-      k3s_version: v1.21.0+k3s1
+      k3s_version: v1.24.11+k3s1
       systemd_dir: /etc/systemd/system
       master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
-      extra_server_args: ""
+      extra_server_args: "--disable=traefik"
       extra_agent_args: ""
       timezone: 'Your timezone'
       allowed_ssh_networks:
