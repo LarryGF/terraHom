@@ -67,13 +67,14 @@
     immediate: yes
     permanent: yes
 
-# - name: Add DNS port to public zone
-#   firewalld:
-#     zone: public
-#     service: dns
-#     state: enabled
-#     immediate: yes
-#     permanent: yes
+- name: Add DNS port to public zone
+  firewalld:
+    zone: public
+    service: dns
+    state: enabled
+    immediate: yes
+    permanent: yes
+
 
 - name: Create kubernetes_pods zone
   firewalld:

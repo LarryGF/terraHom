@@ -7,8 +7,6 @@
     enabled: no
     masked: yes
 
-
-
 - name: Disable SWAP
   command: /sbin/swapoff -a
   when:
