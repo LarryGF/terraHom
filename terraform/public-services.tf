@@ -8,15 +8,14 @@ module "heimdall" {
     ]
 }
 
-# module "home-assistant" {
-#     source = "./modules/home-assistant"
+module "home-assistant" {
+    source = "./modules/home-assistant"
     
-#     duckdns_domain = var.duckdns_domain
-#     timezone       = var.timezone
+    duckdns_domain = var.duckdns_domain
+    timezone       = var.timezone
 
-#     depends_on = [
-#       kubernetes_namespace.internal-services,
-#       module.storage
+    depends_on = [
+      kubernetes_namespace.public-services,
 
-#     ]
-# }
+    ]
+}
