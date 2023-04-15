@@ -13,10 +13,10 @@ resource "kubectl_manifest" "middlewares" {
 }
 
 resource "helm_release" "error-pages" {
-  name       = "error-pages"
-  chart      = "error-pages"
-  repository = "https://k8s-at-home.com/charts"
-  namespace  = var.namespace
+  name         = "error-pages"
+  chart        = "error-pages"
+  repository   = "https://k8s-at-home.com/charts"
+  namespace    = var.namespace
   reuse_values = true
 
   values = [
@@ -27,27 +27,30 @@ resource "helm_release" "error-pages" {
       }
     )
   ]
-  
+
 }
 
 
 resource "helm_release" "traefik" {
-  name            = "traefik"
-  chart           = "traefik"
-  repository      = "https://traefik.github.io/charts"
-  namespace       = "kube-system"
+  name       = "traefik"
+  chart      = "traefik"
+  repository = "https://traefik.github.io/charts"
+  namespace  = "kube-system"
+
   cleanup_on_fail = true
   wait            = true
   wait_for_jobs   = true
   timeout         = 600
-  reuse_values = true
+  reuse_values    = true
 
   values = [
     templatefile(
       "${path.module}/helm/traefik-values.yaml",
       {
-        "log_level"          = var.log_level
-        "access_log_enabled" = var.access_log_enabled
+        log_level          = var.log_level
+        access_log_enabled = var.access_log_enabled
+        master_hostname    = var.master_hostname
+
       }
     )
   ]

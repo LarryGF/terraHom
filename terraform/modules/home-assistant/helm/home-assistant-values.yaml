@@ -34,7 +34,7 @@ persistence:
   #   mountPath: /dev/ttyUSB0
 
 nodeSelector:
-  kubernetes.io/hostname: k3s
+  kubernetes.io/hostname: ${master_hostname}
 
 securityContext:
   privileged: true

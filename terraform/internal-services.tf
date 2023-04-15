@@ -1,28 +1,28 @@
 module "duckdns" {
-    count = contains(local.modules_to_run, "duckdns") ? 1 : 0
+  count = contains(local.modules_to_run, "duckdns") ? 1 : 0
 
-    source = "./modules/duckdns"
-    
-    duckdns_domain = var.duckdns_domain
-    duckdns_token  = var.duckdns_token
-    timezone       = var.timezone
+  source = "./modules/duckdns"
 
-    depends_on = [
-      kubernetes_namespace.internal-services
-    ]
+  duckdns_domain  = var.duckdns_domain
+  duckdns_token   = var.duckdns_token
+  timezone        = var.timezone
+  master_hostname = var.master_hostname
+  depends_on = [
+    kubernetes_namespace.internal-services
+  ]
 }
 
 module "adguard" {
-    count = contains(local.modules_to_run, "adguard") ? 1 : 0
+  count = contains(local.modules_to_run, "adguard") ? 1 : 0
 
-    source = "./modules/adguard"
-    
-    duckdns_domain = var.duckdns_domain
-    timezone       = var.timezone
+  source = "./modules/adguard"
 
-    depends_on = [
-      kubernetes_namespace.internal-services
+  duckdns_domain  = var.duckdns_domain
+  timezone        = var.timezone
+  master_hostname = var.master_hostname
+  depends_on = [
+    kubernetes_namespace.internal-services
 
-    ]
+  ]
 }
 

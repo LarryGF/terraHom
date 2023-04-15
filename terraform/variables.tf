@@ -57,6 +57,11 @@ variable "duckdns_domain" {
   description = "DuckDNS domain to use"
 }
 
+variable "master_hostname" {
+  type        = string
+  description = "Hostname for the master node"
+  
+}
 ## Operational
 variable "modules_to_run" {
   type = list(string)

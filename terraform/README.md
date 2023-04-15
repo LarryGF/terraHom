@@ -23,6 +23,7 @@
 | <a name="module_cert-manager"></a> [cert-manager](#module\_cert-manager) | ./modules/cert-manager | n/a |
 | <a name="module_duckdns"></a> [duckdns](#module\_duckdns) | ./modules/duckdns | n/a |
 | <a name="module_heimdall"></a> [heimdall](#module\_heimdall) | ./modules/heimdall | n/a |
+| <a name="module_home-assistant"></a> [home-assistant](#module\_home-assistant) | ./modules/home-assistant | n/a |
 | <a name="module_jackett"></a> [jackett](#module\_jackett) | ./modules/jackett | n/a |
 | <a name="module_radarr"></a> [radarr](#module\_radarr) | ./modules/radarr | n/a |
 | <a name="module_rancher"></a> [rancher](#module\_rancher) | ./modules/rancher | n/a |
@@ -50,12 +51,11 @@
 | <a name="input_letsencrypt_email"></a> [letsencrypt\_email](#input\_letsencrypt\_email) | Email to use for Let's Encrypt certificates | `string` | n/a | yes |
 | <a name="input_letsencrypt_server"></a> [letsencrypt\_server](#input\_letsencrypt\_server) | Let's Encrypt server to use | `string` | `"https://acme-v02.api.letsencrypt.org/directory"` | no |
 | <a name="input_log_level"></a> [log\_level](#input\_log\_level) | Traefik Log Level | `string` | `"DEBUG"` | no |
+| <a name="input_modules_to_run"></a> [modules\_to\_run](#input\_modules\_to\_run) | The modules that will get deployed in each run, each consecutive run should include all previous modules | `list(string)` | <pre>[<br>  "adguard",<br>  "bazarr",<br>  "cert-manager",<br>  "duckdns",<br>  "heimdall",<br>  "jackett",<br>  "radarr",<br>  "rancher",<br>  "sonarr",<br>  "storage",<br>  "traefik"<br>]</pre> | no |
 | <a name="input_source_range"></a> [source\_range](#input\_source\_range) | Source range to restrict traffic to internal services | `string` | n/a | yes |
 | <a name="input_timezone"></a> [timezone](#input\_timezone) | Timezone in this format: https://www.php.net/manual/en/timezones.php | `string` | n/a | yes |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_cert-manager-status"></a> [cert-manager-status](#output\_cert-manager-status) | n/a |
+No outputs.
 <!-- END_TF_DOCS -->

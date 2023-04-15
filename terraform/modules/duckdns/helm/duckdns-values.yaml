@@ -53,7 +53,8 @@ resources: {}
   #  cpu: 100m
   #  memory: 128Mi
 
-nodeSelector: {}
+nodeSelector: 
+  kubernetes.io/hostname: ${master_hostname}
 
 tolerations: []
   # A list of tolerations to be applied to the Deployment.
