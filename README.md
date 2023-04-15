@@ -80,13 +80,10 @@ There's a resource that every time you run `terraform apply` it will create a ba
 
 ## Troubleshooting
 
-Error: INSTALLATION FAILED: create: failed to create: Internal error occurred: failed calling webhook "rancher.cattle.io": Post "https://rancher-webhook.cattle-system.svc:443/v1/webhook/mutation?timeout=10s": service "rancher-webhook" not found
-kubectl delete -n cattle-system MutatingWebhookConfiguration rancher.cattle.io
+### Terraform failed to create the resources during automated install
 
-## Doing an upgrade and username and password not working
-
-kubectl -n cattle-system exec $(kubectl -n cattle-system get pods -l app=rancher | grep '1/1' | head -1 | awk '{ print $1 }') -- reset-password
-kubectl  -n cattle-system exec $(kubectl -n cattle-system get pods -l app=rancher | grep '1/1' | head -1 | awk '{ print $1 }') -- ensure-default-admin
+It's most likely that you have missing or wrong variables. Look at the output of the command, maybe you missed a module 😉.
+If you're sure that you have all the correct variables, try to run the command again, it might be a temporary issue, this is still a work in progress and there might be race conditions that I haven't found yet.
 
 ### Manual install (deprecated)
 
