@@ -32,6 +32,14 @@ variable "duckdns_token" {
   description = "DuckDNS token to use"
 }
 
+## Longhorn
+
+variable "default_data_path" {
+  type        = string
+  description = "Default Data Path"
+  default = "/storage01"
+}
+
 ## Global
 
 variable "timezone" {

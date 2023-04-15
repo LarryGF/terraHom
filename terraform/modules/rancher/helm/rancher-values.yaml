@@ -15,7 +15,7 @@ addLocal: "true"
 
 busyboxImage: busybox
 
-debug: true
+debug: false
 
 restrictedAdmin: false
 
@@ -34,7 +34,9 @@ imagePullSecrets: []
 ingress:
   enabled: true
   includeDefaultExtraAnnotations: true
-  extraAnnotations: {}
+  extraAnnotations: 
+    cert-manager.io/cluster-issuer: letsencrypt
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
     # traefik.ingress.kubernetes.io/router.middlewares: "internal-services-error-pages@kubernetescrd,default-whitelist@kubernetescrd"
 
 
@@ -50,12 +52,12 @@ ingress:
 ### LetsEncrypt config ###
 # ProTip: The production environment only allows you to register a name 5 times a week.
 #         Use staging until you have your config right.
-letsEncrypt:
-  email: ${email}
-  environment: production
-  ingress:
-    # options: traefik, nginx
-    class: "traefik"
+# letsEncrypt:
+#   email: ${email}
+#   environment: staging
+#   ingress:
+#     # options: traefik, nginx
+#     class: "traefik"
 # If you are using certs signed by a private CA set to 'true' and set the 'tls-ca'
 # in the 'rancher-system' namespace. See the README.md for details
 privateCA: false
