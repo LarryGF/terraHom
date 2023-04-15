@@ -24,3 +24,9 @@ variable "access_log_enabled" {
   description = "Enable access logs for Traefik"
   default = true
 }
+
+variable "master_hostname" {
+  type        = string
+  description = "Hostname for the master node"
+  
+}

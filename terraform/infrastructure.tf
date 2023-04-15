@@ -2,15 +2,15 @@ resource "null_resource" "backup" {
   triggers = {
     always_run = "${timestamp()}"
   }
-  
+
   provisioner "local-exec" {
     command = "mkdir -p .backups && test -f terraform.tfstate.backup && cp terraform.tfstate.backup .backups/$(date +%Y.%m.%d.%H.%M).terraform.tfstate.backup"
   }
-  
+
 }
 
 module "cert-manager" {
-  count = contains(local.modules_to_run, "cert-manager") ? 1 : 0
+  count              = contains(local.modules_to_run, "cert-manager") ? 1 : 0
   source             = "./modules/cert-manager"
   letsencrypt_email  = var.letsencrypt_email
   letsencrypt_server = var.letsencrypt_server
@@ -27,8 +27,9 @@ module "traefik" {
   timezone           = var.timezone
   namespace          = "internal-services"
   log_level          = "WARNING"
+  master_hostname    = var.master_hostname
   access_log_enabled = true
-  depends_on         = [module.cert-manager,kubernetes_namespace.internal-services]
+  depends_on         = [module.cert-manager, kubernetes_namespace.internal-services]
 }
 
 module "rancher" {
@@ -42,11 +43,13 @@ module "rancher" {
   ]
 }
 
-# module "longhorn" {
-#   source            = "./modules/longhorn"
-#   duckdns_domain    = var.duckdns_domain
-#     default_data_path = "/storage01"
-#   depends_on = [
-#     module.traefik
-#   ]
-# }
+module "longhorn" {
+  count = contains(local.modules_to_run, "longhorn") ? 1 : 0
+
+  source            = "./modules/longhorn"
+  duckdns_domain    = var.duckdns_domain
+    default_data_path = "/mnt"
+  depends_on = [
+    module.traefik
+  ]
+}

@@ -420,7 +420,8 @@ serviceAccountAnnotations: {}
 
 resources: {}
 affinity: {}
-nodeSelector: {}
+nodeSelector: 
+  kubernetes.io/hostname: ${master_hostname}
 tolerations: []
 topologySpreadConstraints: []
 priorityClassName: ""

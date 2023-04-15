@@ -7,18 +7,20 @@ resource "helm_release" "home-assistant" {
   wait            = true
   wait_for_jobs   = true
   timeout         = 600
-  reuse_values = true
+  reuse_values    = true
   set {
-      name = "env.TZ"
-      value = var.timezone 
-    }
+    name  = "env.TZ"
+    value = var.timezone
+  }
   values = [
     templatefile(
       "${path.module}/helm/home-assistant-values.yaml",
       {
         duckdns_domain  = var.duckdns_domain
+        master_hostname = var.master_hostname
+
       }
     )
   ]
-  
+
 }
