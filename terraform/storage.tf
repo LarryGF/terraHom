@@ -1,4 +1,6 @@
 module "storage" {
+  count = contains(local.modules_to_run, "storage") ? 1 : 0
+  
   source = "./modules/storage"
   depends_on = [
     module.rancher

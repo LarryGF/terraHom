@@ -56,3 +56,22 @@ variable "duckdns_domain" {
   type        = string
   description = "DuckDNS domain to use"
 }
+
+## Operational
+variable "modules_to_run" {
+  type = list(string)
+  description = "The modules that will get deployed in each run, each consecutive run should include all previous modules"
+  default = [
+    "adguard",
+    "bazarr",
+    "cert-manager",
+    "duckdns",
+    "heimdall",
+    "jackett",
+    "radarr",
+    "rancher",
+    "sonarr",
+    "storage",
+    "traefik",
+    ]
+}

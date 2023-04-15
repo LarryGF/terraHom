@@ -10,6 +10,7 @@ resource "null_resource" "backup" {
 }
 
 module "cert-manager" {
+  count = contains(local.modules_to_run, "cert-manager") ? 1 : 0
   source             = "./modules/cert-manager"
   letsencrypt_email  = var.letsencrypt_email
   letsencrypt_server = var.letsencrypt_server
@@ -19,16 +20,20 @@ module "cert-manager" {
 }
 
 module "traefik" {
+  count = contains(local.modules_to_run, "traefik") ? 1 : 0
+
   source             = "./modules/traefik"
   source_range       = var.source_range
   timezone           = var.timezone
   namespace          = "internal-services"
-  log_level          = "DEBUG"
+  log_level          = "WARNING"
   access_log_enabled = true
   depends_on         = [module.cert-manager,kubernetes_namespace.internal-services]
 }
 
 module "rancher" {
+  count = contains(local.modules_to_run, "rancher") ? 1 : 0
+
   source            = "./modules/rancher"
   letsencrypt_email = var.letsencrypt_email
   duckdns_domain    = var.duckdns_domain
