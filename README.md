@@ -72,7 +72,11 @@ Alternatively you can deploy everything manually, but you will need to do it in 
 
 ### Ansible
 
-- From the root 
+- From the root folder
+
+## Terraform State Backups
+
+There's a resource that every time you run `terraform apply` it will create a backup of the state file in the `./terraform/.backup` folder. It will be stored in the format `YYYY.MM.DD.HH.MM.terraform.tfstate.backup`. In case you run into any errors you can restore the state file from the backup by just copying it to the `./terraform` folder and renaming it to `terraform.tfstate`.
 
 ## Troubleshooting
 

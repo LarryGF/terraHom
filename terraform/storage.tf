@@ -29,5 +29,11 @@ module "storage" {
       storage   = "200Mi",
       type      = "config"
     },
+    ha = {
+      name      = "ha",
+      namespace = "public-services",
+      storage   = "1Gi",
+      type      = "config"
+    },
   }
 }
