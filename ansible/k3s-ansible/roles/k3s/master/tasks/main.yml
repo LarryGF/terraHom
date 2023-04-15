@@ -1,5 +1,4 @@
 ---
-
 - name: Copy K3s service file
   register: k3s_service
   template:
@@ -77,4 +76,3 @@
     src: /usr/local/bin/k3s
     dest: /usr/local/bin/crictl
     state: link
-

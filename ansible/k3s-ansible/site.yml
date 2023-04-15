@@ -1,5 +1,4 @@
 ---
-
 - name: Basic configuration
   hosts: all
   become: yes
@@ -17,7 +16,7 @@
     - harden
     
 - name: Kubernetes installation prerequisites
-  hosts: k3s
+  hosts: all
   gather_facts: yes
   become: yes
   roles:
@@ -34,14 +33,16 @@
     - role: k3s/master
   tags:
     - kubernetes
+    - master
 
-- name: Kubernetes nodes installation
-  hosts: node
+- name: Kubernetes agent installation
+  hosts: agent
   become: yes
   roles:
     - role: k3s/node
   tags:
     - kubernetes
+    - agent
 
 - name: Kubernetes config sync to host
   hosts: master

@@ -7,17 +7,17 @@
     mode: 0600
   notify: Reload SSH
 
-- name: Ensure firewalld is  installed
+- name: Ensure firewalld is not installed
   package:
     name: firewalld
-    state: present
+    state: absent
 
-- name: Disable firewalld
-  systemd:
-    name: firewalld
-    state: stopped
-    enabled: no
-    masked: yes
+# - name: Disable firewalld
+#   systemd:
+#     name: firewalld
+#     state: stopped
+#     enabled: no
+#     masked: yes
 
 # - name: Add SSH port to public zone
 #   firewalld:
