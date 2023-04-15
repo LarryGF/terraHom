@@ -1,6 +1,6 @@
 ---
 
-- hosts: k3s
+- hosts: all
   gather_facts: yes
   become: yes
   roles:

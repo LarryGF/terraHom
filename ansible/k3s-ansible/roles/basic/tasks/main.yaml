@@ -1,5 +1,6 @@
 ---
 # Disable SWAP
+
 - name: Disable Raspbian SWAP service
   systemd:
     name: dphys-swapfile
@@ -43,17 +44,15 @@
 # DNS
 - name: Set hostname
   hostname:
-    name: "{{ group_names[0] }}"
+    name: "{{ inventory_hostname }}"
 
 - name: Update the /etc/hosts file with node name
   lineinfile:
     path: "/etc/hosts"
     regexp: "^127.0.1.1.*"
-    line: "127.0.1.1\t{{ group_names[0] }}"
+    line: "127.0.1.1\t{{ inventory_hostname }}"
     state: present
     backup: yes
-
-
 
 - name: Stop and disable systemd-resolved
   systemd:
@@ -64,17 +63,17 @@
 
 - name: Stop NetworkManager from modifying resolv.conf
   lineinfile:
-    path: '/etc/NetworkManager/NetworkManager.conf'
+    path: "/etc/NetworkManager/NetworkManager.conf"
     state: present
-    line: 'dns=none'
-    regexp: '^dns=.*'
+    line: "dns=none"
+    regexp: "^dns=.*"
     insertafter: '^\[main\]'
   notify: restart networkmanager
 
 - name: Configure Cloudflare DNS
   copy:
-    src: 'resolv.conf'
-    dest: '/etc/resolv.conf'
+    src: "resolv.conf"
+    dest: "/etc/resolv.conf"
     owner: root
     group: root
     mode: 0644
@@ -106,3 +105,4 @@
       - util-linux
       - nfs-common
     state: present
+
