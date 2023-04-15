@@ -1,12 +1,3 @@
-resource "kubernetes_namespace" "internal-services" {
-  metadata {
-    annotations = {
-      name = "Internal Services"
-    }
-    name = "internal-services"
-  }
-}
-
 module "duckdns" {
     source = "./modules/duckdns"
     
@@ -30,3 +21,4 @@ module "adguard" {
 
     ]
 }
+

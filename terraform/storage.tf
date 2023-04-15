@@ -1,75 +1,33 @@
-resource "kubernetes_persistent_volume_claim" "sonarr-config" {
+module "storage" {
+  source = "./modules/storage"
+  depends_on = [
+    module.rancher
+  ]
+  persistent_volume_claims = {
 
-  metadata {
-    name      = "sonarr-config"
-    namespace = "public-services"
-
-  }
-  spec {
-    access_modes       = ["ReadWriteOnce"]
-    storage_class_name = local.sc_name
-
-    resources {
-      requests = {
-        storage = "500Mi"
-      }
-    }
-  }
-}
-
-resource "kubernetes_persistent_volume_claim" "radarr-config" {
-
-  metadata {
-    name      = "radarr-config"
-    namespace = "public-services"
-
-  }
-  spec {
-    access_modes       = ["ReadWriteOnce"]
-    storage_class_name = local.sc_name
-
-    resources {
-      requests = {
-        storage = "500Mi"
-      }
-    }
-  }
-}
-
-resource "kubernetes_persistent_volume_claim" "jackett-config" {
-
-  metadata {
-    name      = "jackett-config"
-    namespace = "public-services"
-
-  }
-  spec {
-    access_modes       = ["ReadWriteOnce"]
-    storage_class_name = local.sc_name
-
-    resources {
-      requests = {
-        storage = "200Mi"
-      }
-    }
-  }
-}
-
-resource "kubernetes_persistent_volume_claim" "heimdall-config" {
-
-  metadata {
-    name      = "heimdall-config"
-    namespace = "public-services"
-
-  }
-  spec {
-    access_modes       = ["ReadWriteOnce"]
-    storage_class_name = local.sc_name
-
-    resources {
-      requests = {
-        storage = "200Mi"
-      }
-    }
+    sonarr = {
+      name      = "sonarr",
+      namespace = "public-services",
+      storage   = "500Mi",
+      type      = "config"
+    },
+    radarr = {
+      name      = "radarr",
+      namespace = "public-services",
+      storage   = "500Mi",
+      type      = "config"
+    },
+    jackett = {
+      name      = "jackett",
+      namespace = "public-services",
+      storage   = "200Mi",
+      type      = "config"
+    },
+    heimdall = {
+      name      = "heimdall",
+      namespace = "public-services",
+      storage   = "200Mi",
+      type      = "config"
+    },
   }
 }

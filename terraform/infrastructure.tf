@@ -1,7 +1,21 @@
+resource "null_resource" "backup" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  
+  provisioner "local-exec" {
+    command = "mkdir -p .backups && test -f terraform.tfstate.backup && cp terraform.tfstate.backup .backups/$(date +%Y.%m.%d.%H.%M).terraform.tfstate.backup"
+  }
+  
+}
+
 module "cert-manager" {
   source             = "./modules/cert-manager"
   letsencrypt_email  = var.letsencrypt_email
   letsencrypt_server = var.letsencrypt_server
+  depends_on = [
+    null_resource.backup
+  ]
 }
 
 module "traefik" {
@@ -26,6 +40,7 @@ module "rancher" {
 # module "longhorn" {
 #   source            = "./modules/longhorn"
 #   duckdns_domain    = var.duckdns_domain
+#     default_data_path = "/storage01"
 #   depends_on = [
 #     module.traefik
 #   ]

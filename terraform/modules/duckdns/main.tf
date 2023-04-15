@@ -3,6 +3,7 @@ resource "helm_release" "duckdns" {
   chart      = "duckdns-go"
   repository = "https://ebrianne.github.io/helm-charts"
   namespace  = "internal-services"
+  reuse_values = true
 
   values = [templatefile("${path.module}/helm/duckdns-values.yaml",
     {
@@ -11,7 +12,6 @@ resource "helm_release" "duckdns" {
       timezone = var.timezone
   })]
 
-  depends_on      = []
   cleanup_on_fail = true
   wait            = true
   wait_for_jobs   = true

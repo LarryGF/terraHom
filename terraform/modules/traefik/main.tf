@@ -17,6 +17,8 @@ resource "helm_release" "error-pages" {
   chart      = "error-pages"
   repository = "https://k8s-at-home.com/charts"
   namespace  = var.namespace
+  reuse_values = true
+
   values = [
     templatefile(
       "${path.module}/helm/error-pages-values.yaml",
@@ -37,7 +39,9 @@ resource "helm_release" "traefik" {
   cleanup_on_fail = true
   wait            = true
   wait_for_jobs   = true
-  timeout         = 1200
+  timeout         = 600
+  reuse_values = true
+
   values = [
     templatefile(
       "${path.module}/helm/traefik-values.yaml",

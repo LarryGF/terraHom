@@ -1,33 +1,24 @@
-resource "helm_release" "heimdall" {
-  name       = "heimdall"
-  chart      = "heimdall"
+resource "helm_release" "bazarr" {
+  name       = "bazarr"
+  chart      = "bazarr"
   repository = "https://k8s-at-home.com/charts/"
   namespace  = "public-services"
   reuse_values = true
   timeout          = 600
+
   set {
     name = "env.TZ"
     value = var.timezone 
   }
   values = [
     templatefile(
-      "${path.module}/helm/heimdall-values.yaml",
+      "${path.module}/helm/bazarr-values.yaml",
       {
         duckdns_domain  = var.duckdns_domain
       }
     )
   ]
   
-}
-
-terraform {
-  required_providers {
-    
-    kubectl = {
-      source  = "gavinbunney/kubectl"
-      version = ">= 1.7.0"
-    }
-  }
 }
 
 variable "duckdns_domain" {

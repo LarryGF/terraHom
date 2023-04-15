@@ -1,12 +1,3 @@
-resource "kubernetes_namespace" "cattle-system" {
-  metadata {
-    annotations = {
-      name = "Rancher System"
-    }
-    name = "cattle-system"
-  }
-}
-
 resource "helm_release" "rancher" {
   name             = "rancher-latest"
   chart            = "rancher"
@@ -17,6 +8,8 @@ resource "helm_release" "rancher" {
   wait_for_jobs    = true
   timeout          = 1200
   create_namespace = true
+  reuse_values = true
+
   values = [
     templatefile(
       "${path.module}/helm/rancher-values.yaml",
@@ -26,5 +19,4 @@ resource "helm_release" "rancher" {
       }
     )
   ]
-  depends_on = [kubernetes_namespace.cattle-system]
 }
