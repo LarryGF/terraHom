@@ -17,7 +17,7 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
 - Point your subdomain to your external IP address (this won't work if your public IP address is NATed by your ISP)
   - If your public IP is being NATed consider upgrading to a fixed IP address or modifying the values to deploy with celf signed certificates
   
-## Deployment
+## Automated Deployment
 
 - Create `ansible/k3s-ansible/inventory/deploy/group_vars/all.yml with the following:
 
@@ -34,13 +34,30 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
           - network2
     ```
 
+- Create `ansible/k3s-ansible/inventory/deploy/hosts.ini with the following:
+  
+    ```ini
+      [master]
+        master_ip
+      [node]
+        worker_node_ip
+
+      [k3s:children]
+      master
+      node
+    ```
+  
+  - You can always delete or comment (`; *`)depending on your setup 
+
 - Create `terraform/terraform.tfvars` under the directory with the missing vars with the following:
 
   ```hcl
       letsencrypt_email="Your email"
+      letsencrypt_server="Letsencrypt validation server, use staging at first"
       timezone = "Your timezone"
       duckdns_token = "Your token"
-      duckdns_domains = "Your domains"
+      duckdns_domains = "Your domain"
+      source_range = "Allowed source range"
   ```
 
 - Run:
@@ -49,7 +66,13 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
     bash deploy.sh
     ```
 
-- Alternatively,
+## Manual Deployment (not recommended)
+
+Alternatively you can deploy everything manually, but you will need to do it in the following order:
+
+### Ansible
+
+- From the root 
 
 ## Troubleshooting
 

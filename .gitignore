@@ -2,3 +2,6 @@
 *.tfvars
 *.lock.hcl
 terraform/.terraform/*
+.backups
+.terraform
+*plan*
