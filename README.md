@@ -1,6 +1,6 @@
 # Pi-k8s
 
-Automated setup to install _k3s_ and some services on your Raspberry Pi
+\*Mostly\* Automated setup to install _k3s_ and some services on your Raspberry Pi.
 
 ## Pre-deployment
 
@@ -23,7 +23,7 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
 
 ### Storage
 
-This is only necessary if you want to use longhorn, mount the partitions that you want longhorn to use. Longhorn by default will look for a disk mounted under `/mnt/disk01`. ___I don't recommend using longhorn for single node___ , at least I haven't been able to make it work properly with just one node (also I don't think it will be of more use in that particular scenario).
+This is only necessary if you want to use longhorn, mount the partitions that you want longhorn to use. Longhorn by default will look for a disk mounted under `/mnt/disk01`. ___I don't recommend using longhorn for single node deployments___  (at least I haven't been able to make it work properly with just one node, also I don't think it will be of more use in that particular scenario).
   
 ## Automated Deployment
 
@@ -131,7 +131,10 @@ If you're destroying the resources and it's taking too long, it's most likely th
 
 ## Extending the deployment
 
-### Storage
+### Storage Module
 
 It looks a little messy, but the `storage` module is designed to be as modular as possible, it relies on two pieces of information:
 
+## TODO
+
+- Detect if longhorn is being used to set `depends_on` for the modules that require pvcs
