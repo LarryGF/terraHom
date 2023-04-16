@@ -48,7 +48,7 @@ module "longhorn" {
 
   source            = "./modules/longhorn"
   duckdns_domain    = var.duckdns_domain
-    default_data_path = "/mnt"
+    default_data_path = "/mnt/disk01"
   depends_on = [
     module.traefik
   ]

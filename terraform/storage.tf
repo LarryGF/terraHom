@@ -1,12 +1,5 @@
-module "storage" {
-  count = contains(local.modules_to_run, "storage") ? 1 : 0
-  
-  source = "./modules/storage"
-  depends_on = [
-    module.rancher
-  ]
-  persistent_volume_claims = {
-
+locals {
+  storage_definitions = {
     sonarr = {
       name      = "sonarr",
       namespace = "public-services",
@@ -38,4 +31,17 @@ module "storage" {
       type      = "config"
     },
   }
+
+  persistent_volume_claims = {    
+    for key, value in local.storage_definitions :  key => value if contains(local.modules_to_run, key) 
+  }
+}
+module "storage" {
+  source = "./modules/storage"
+  depends_on = [
+    module.rancher
+  ]
+  persistent_volume_claims = local.persistent_volume_claims
+  modules_to_run = local.modules_to_run
+
 }
