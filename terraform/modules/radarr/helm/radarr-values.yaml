@@ -32,6 +32,6 @@ persistence:
   config:
     enabled: true
     existingClaim: radarr-config
-  # downloads:
-  #   enabled: true
-  #   existingClaim: media
+  downloads:
+    enabled: true
+    existingClaim: media

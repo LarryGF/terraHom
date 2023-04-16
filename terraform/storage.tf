@@ -35,6 +35,11 @@ locals {
   persistent_volume_claims = {    
     for key, value in local.storage_definitions :  key => value if contains(local.modules_to_run, key) 
   }
+
+  service_keys = keys(local.storage_definitions)
+
+  deploy_media = length([for service in local.modules_to_run : contains(local.service_keys, service)]) == 0 ? false : true
+
 }
 module "storage" {
   source = "./modules/storage"
@@ -43,5 +48,7 @@ module "storage" {
   ]
   persistent_volume_claims = local.persistent_volume_claims
   modules_to_run = local.modules_to_run
+  media_storage_size = var.media_storage_size
+  deploy_media = local.deploy_media
 
 }
