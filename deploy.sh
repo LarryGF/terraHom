@@ -9,5 +9,7 @@ rm -f *.tfstate* && \
 terraform init && \
 terraform plan -out plan -var 'modules_to_run=["adguard","cert-manager","duckdns","rancher","traefik"]' &&\
 terraform apply -auto-approve && \
+terraform plan -out plan -var 'modules_to_run=["adguard","cert-manager","duckdns","rancher","traefik","longhorn"]' &&\
+terraform apply -auto-approve && \
 terraform plan -out plan &&\
 terraform apply -auto-approve

@@ -18,8 +18,7 @@ resource "kubernetes_persistent_volume_claim" "pvcs" {
 }
 
 locals {
-  # sc_name         = "longhorn"
-  sc_name        = "local-path"
+  sc_name         = contains(var.modules_to_run, "longhorn") ? "longhorn" : "local-path"
 
 }
 
@@ -31,4 +30,9 @@ variable "persistent_volume_claims" {
     type=string
   }))
   description = "PVCs to be created"
+}
+
+variable "modules_to_run" {
+  type = list(string)
+  description = "The modules that will get deployed in each run, each consecutive run should include all previous modules"
 }

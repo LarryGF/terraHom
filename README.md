@@ -4,6 +4,8 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
 
 ## Pre-deployment
 
+### Basic Raspberry Pi setup
+
 - Flash Debian GNU/Linux 11 (bullseye) arm64 to the Raspberry Pi
 - Connect the Raspberry Pi to your network
 - Setup passwordless SSH access to the Pi (you will need an SSH keypair for this).
@@ -12,10 +14,16 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
     ssh-copy-id pi@<NODE_IP>
     ```
 
+### Domain setup
+
 - Create an account on duckdns.org
 - Create your subdomain on duckdns.org, save your subdomain and your token
 - Point your subdomain to your external IP address (this won't work if your public IP address is NATed by your ISP)
   - If your public IP is being NATed consider upgrading to a fixed IP address or modifying the values to deploy with celf signed certificates
+
+### Storage
+
+This is only necessary if you want to use longhorn, mount the partitions that you want longhorn to use. Longhorn by default will look for a disk mounted under `/mnt/disk01`. ___I don't recommend using longhorn for single node___ , at least I haven't been able to make it work properly with just one node (also I don't think it will be of more use in that particular scenario).
   
 ## Automated Deployment
 
@@ -38,16 +46,17 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
   
     ```ini
       [master]
-        master_ip
-      [node]
-        worker_node_ip
+      kvothe ansible_host=ip1
+
+      [agent]
+      sim ansible_host=ip2
 
       [k3s:children]
       master
-      node
+      agent
     ```
   
-  - You can always delete or comment (`; *`)depending on your setup 
+  - You can always delete or comment (`; *`)depending on your setup
 
 - Create `terraform/terraform.tfvars` under the directory with the missing vars with the following:
 
@@ -58,6 +67,21 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
       duckdns_token = "Your token"
       duckdns_domains = "Your domain"
       source_range = "Allowed source range"
+      modules_to_run = [
+        "adguard",
+        "bazarr",
+        "cert-manager",
+        "duckdns",
+        "heimdall",
+        "jackett",
+        "radarr",
+        "rancher",
+        "sonarr",
+        "storage",
+        "traefik",
+        "home-assistant",
+        "longhorn"
+        ]
   ```
 
 - Run:
@@ -68,7 +92,15 @@ Automated setup to install _k3s_ and some services on your Raspberry Pi
 
 ## Manual Deployment (not recommended)
 
-Alternatively you can deploy everything manually, but you will need to do it in the following order:
+Alternatively you can deploy everything manually, but you will need to do it in the following order (this is the order that the automated deployment script runs the commands, you can always check it for reference):
+
+___This does not mean that you won't have to create the variable files, otherwise you will have to pass them as arguments to the commands___
+
+- Execute the ansible playbook that will make sure that all requirements in the node(s) are met:
+
+    ```shell
+    ansible-playbook ./ansible/k3s-ansible/site.yml -i ./ansible/k3s-ansible/inventory/deploy/hosts.ini -u $user 
+    ```
 
 ### Ansible
 
@@ -85,23 +117,21 @@ There's a resource that every time you run `terraform apply` it will create a ba
 It's most likely that you have missing or wrong variables. Look at the output of the command, maybe you missed a module 😉.
 If you're sure that you have all the correct variables, try to run the command again, it might be a temporary issue, this is still a work in progress and there might be race conditions that I haven't found yet.
 
-### Manual install (deprecated)
+### Temporary failure in name resolution
 
-<https://rancher.com/docs/os/v1.x/en/installation/server/raspberry-pi/>
-<https://github.com/rancher/os/releases/tag/v1.5.5>
+Check the `/etc/resolv.conf` file in the hosts, it should have the following:
 
-helm repo add rancher-latest <https://releases.rancher.com/server-charts/latest>
+  ```shell
+    nameserver 1.1.1.1
+  ```
 
-kubectl create namespace cattle-system
+### Resources taking too long to destroy
 
-helm repo add jetstack <https://charts.jetstack.io>
+If you're destroying the resources and it's taking too long, it's most likely that you have a resource that is not being destroyed properly because it depends on another resource. If `Rancher` was installed successfully you can go to your Rancher url and delete the resources from there (bear in mind that if not done after that terraform has marked them for termination it might produce inconsistencies in the state file). It's usually safe to destroy pods because all of them are either part of a `DaemonSet` or `Deployment` and they will be recreated automatically and terraform will be able to update the state to match
 
-helm repo update
+## Extending the deployment
 
-helm install cert-manager jetstack/cert-manager \
-  --namespace cert-manager \
-  --create-namespace \
-  --set installCRDs=true
+### Storage
 
-helm install rancher rancher-latest/rancher -n cattle-system -f helm/rancher-values.yaml --create-namespace
-kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{.data.bootstrapPassword|base64decode}}{{"\n"}}'
+It looks a little messy, but the `storage` module is designed to be as modular as possible, it relies on two pieces of information:
+
