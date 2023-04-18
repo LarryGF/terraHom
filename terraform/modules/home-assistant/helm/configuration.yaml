@@ -1,7 +1,6 @@
 
 # Loads default set of integrations. Do not remove.
 default_config:
-# larry was here
 
 # Load frontend themes from the themes folder
 frontend:
@@ -14,3 +13,7 @@ tts:
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies: 0.0.0.0/0

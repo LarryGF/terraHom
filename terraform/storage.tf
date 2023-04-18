@@ -30,7 +30,7 @@ locals {
       storage   = "200Mi",
       type      = "config"
     },
-    ha = {
+    home-assistant = {
       name      = "ha",
       namespace = "public-services",
       storage   = "1Gi",

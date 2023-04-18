@@ -4,6 +4,23 @@ image:
   repository: lscr.io/linuxserver/homeassistant
   tag: 2023.4.4
 
+initContainers:
+  copy-configmap:
+    image: busybox
+    command:
+    - "sh"
+    - "-c"
+    - |
+      cp /ha-config/configuration.yaml /config/configuration.yaml
+    volumeMounts:
+    - name: config
+      mountPath: /config
+    - name: config-custom
+      mountPath: /ha-config
+    
+    securityContext:
+      runAsUser: 0
+
 ingress:
   main:
     ingressClassName: traefik
@@ -27,7 +44,7 @@ persistence:
   config:
     enabled: true
     existingClaim: ha-config
-  ha-config:
+  config-custom:
     enabled: true
     type: configMap
     name: config-file
