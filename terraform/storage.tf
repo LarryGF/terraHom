@@ -18,6 +18,12 @@ locals {
       storage   = "200Mi",
       type      = "config"
     },
+    rtorrent = {
+      name      = "rtorrent",
+      namespace = "public-services",
+      storage   = "200Mi",
+      type      = "config"
+    },
     heimdall = {
       name      = "heimdall",
       namespace = "public-services",

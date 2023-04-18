@@ -13,3 +13,4 @@ variable "master_hostname" {
   description = "Hostname for the master node"
   
 }
+
