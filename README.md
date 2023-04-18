@@ -102,13 +102,23 @@ ___This does not mean that you won't have to create the variable files, otherwis
     ansible-playbook ./ansible/k3s-ansible/site.yml -i ./ansible/k3s-ansible/inventory/deploy/hosts.ini -u $user 
     ```
 
+- Install the necessary CRDs for `traefik` and `cert-manager`:
+
+    ```shell
+    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.crds.yaml
+    kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.9/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
+    ```
+
+
 ### Ansible
 
 - From the root folder
 
 ### Longhorn
 
-https://staging--longhornio.netlify.app/docs/0.8.1/deploy/install/#installation-requirements
+If you are going to use longhorn verify that the below requirements are met before deploying:
+
+- https://staging--longhornio.netlify.app/docs/0.8.1/deploy/install/#installation-requirements
 
 ## Terraform State Backups
 
@@ -129,15 +139,45 @@ Check the `/etc/resolv.conf` file in the hosts, it should have the following:
     nameserver 1.1.1.1
   ```
 
+### Cannot re-use a name that is still in use
+
+This might happen when a `terraform apply` gets cancelled mid-deployment, and the state didn't register the resources as destroyed. Usually this means that your kubernetes deployment/daemonset/pvc etc is still there, and either it was created succesfully, or is stuck in an error. If you have Rancher running you can go to your dashboard and delete all resources associated with that deployment, or, if for some reason, Rancher is down, you can delete those resources using [kubectl](#kubectl)
+
 ### Resources taking too long to destroy
 
-If you're destroying the resources and it's taking too long, it's most likely that you have a resource that is not being destroyed properly because it depends on another resource. If `Rancher` was installed successfully you can go to your Rancher url and delete the resources from there (bear in mind that if not done after that terraform has marked them for termination it might produce inconsistencies in the state file). It's usually safe to destroy pods because all of them are either part of a `DaemonSet` or `Deployment` and they will be recreated automatically and terraform will be able to update the state to match
+If you're destroying the resources and it's taking too long, it's most likely that you have a resource that is not being destroyed properly because it depends on another resource. If `Rancher` was installed successfully you can go to your Rancher url and delete the resources from there (bear in mind that if not done after that terraform has marked them for termination it might produce inconsistencies in the state file). It's usually safe to destroy pods because all of them are either part of a `DaemonSet` or `Deployment` and they will be recreated automatically and terraform will be able to update the state to match.
+
+As long as you didn't cancel the terraform deployment mid execution, there is still the chance to fix the error by  destroying it. Let's assume you were deploying a module that depended on a PersistentVolumeClaim, since all the PVCs are created by the `storage` module:
+
+```shell
+  terraform destroy -target module.storage -auto-approve
+```
+
+or, for just one resource:
+
+```shell
+  terraform destroy -target module.storage.kubernetes_persistent_volume_claim.pvcs["name-of-resource"] -auto-approve
+```
+
+There is also the possibility that something else is dangling and it's not so easy to track down and something (a `namespace` mainly, is waiting for a condition that probably will never be met). In that case you can do the following (this should only be used as a last resort, because it will delete just the conflicting resource without caring for its dependencies):
+
+```shell
+
+```
+
+## General knowledge
+
+### Kubectl
 
 ## Extending the deployment
 
 ### Storage Module
 
-It looks a little messy, but the `storage` module is designed to be as modular as possible, it relies on two pieces of information:
+It looks a little messy, but the `storage` module is designed to be as modular as possible. The idea is for you to be able to create all the required storage resources for your deployment in a single definition and aims to do all the configuration bits as automatically as possible, inferring most of the parameters from the variables you provide.
+
+#### Adding a new PersistentVolumeClaim
+
+
 
 ## TODO
 
