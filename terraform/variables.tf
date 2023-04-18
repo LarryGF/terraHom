@@ -67,6 +67,12 @@ variable "master_hostname" {
   description = "Hostname for the master node"
   
 }
+
+variable "vpn_config" {
+  type        = string
+  description = "Wireguard base64 encoded config"
+  
+}
 ## Operational
 variable "modules_to_run" {
   type = list(string)
