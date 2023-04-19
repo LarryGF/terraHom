@@ -24,27 +24,9 @@ resource "helm_release" "home-assistant" {
   ]
   depends_on = [
     kubernetes_config_map.homeassistant-config,
-    # kubernetes_persistent_volume_claim.ha
   ]
 }
 
-# resource "kubernetes_persistent_volume_claim" "ha" {
-#   metadata {
-#     name      = "ha-config"
-#     namespace = "public-services"
-
-#   }
-#   spec {
-#     access_modes       = ["ReadWriteOnce"]
-#     storage_class_name = module.global_config.global_locals.sc_name
-
-#     resources {
-#       requests = {
-#         storage = "1Gi"
-#       }
-#     }
-#   }
-# }
 resource "kubernetes_config_map" "homeassistant-config" {
   metadata {
     name = "config-file"
