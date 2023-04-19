@@ -60,38 +60,33 @@ nodeSelector:
 securityContext:
   privileged: true
 
-# addons: 
-#   codeserver:
-#     image:
-#       repository: lscr.io/linuxserver/code-server
-#     enabled: true
-#     ingress:
-#       main:
-#         ingressClassName: traefik
-#         annotations:
-#           cert-manager.io/cluster-issuer: letsencrypt
-#           traefik.ingress.kubernetes.io/router.entrypoints: websecure,web
-#         enabled: true
-#         hosts:
-#           - host: "code.ha.${duckdns_domain}.duckdns.org"
-#             paths:
-#             - path: /
-#         tls:
-#           - hosts:
-#               - "code.ha.${duckdns_domain}.duckdns.org"
-#             secretName: tls-ha-ingress
-    
-#     args:
-#     - --auth
-#     - none
-#     - --user-data-dir
-#     - "/config/.vscode"
-    
-#     git:
-#       deployKeyBase64: ""
+addons:
+  codeserver:
+    image:
+      repository: codercom/code-server
+      tag: 4.11.0
+    enabled: true
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/issuer: letsencrypt
+      hosts:
+      - host: code.ha.${duckdns_domain}.duckdns.org
+        paths:
+          - path: /
+      tls:
+      - secretName: tls-code-ha-ingress
+        hosts:
+          - code.ha.${duckdns_domain}.duckdns.org
 
-#     workingDir: "/config"
+    args:
+    - --auth
+    - none
+    - --user-data-dir
+    - "/config/.vscode"
+    
+    workingDir: "/config"
 
-#     volumeMounts:
-#     - name: config
-#       mountPath: /config
+    volumeMounts:
+    - name: config
+      mountPath: /config

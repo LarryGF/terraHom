@@ -141,28 +141,39 @@ Check the `/etc/resolv.conf` file in the hosts, it should have the following:
 
 ### Cannot re-use a name that is still in use
 
-This might happen when a `terraform apply` gets cancelled mid-deployment, and the state didn't register the resources as destroyed. Usually this means that your kubernetes deployment/daemonset/pvc etc is still there, and either it was created succesfully, or is stuck in an error. If you have Rancher running you can go to your dashboard and delete all resources associated with that deployment, or, if for some reason, Rancher is down, you can delete those resources using [kubectl](#kubectl)
+This might happen when a `terraform apply` gets cancelled mid-deployment, and the state didn't register the resources as destroyed. Usually this means that your kubernetes deployment/daemonset/pvc etc is still there, and either it was created succesfully, or is stuck in an error.
+
+This mostly occurs with `helm_relesases` and in this particular scenario it can be one of two problems:
+
+1. The state didn't register the resource and you have pods/services running: If you have Rancher running you can go to your dashboard and delete all resources associated with that deployment, or, if for some reason, Rancher is down, you can delete those resources using [kubectl](#kubectl).
+
+2. The terraform `Helm` provider saves the releases by default on a Kubernetes secret on the format `sh.helm.release.v1.<release_name>.v<release_version>`, and sometimes Terraform fails to delete that secret (when forcefully cancelling the deployment, basically) and therefore thinks resources are there even when nothing is present; so, if you know the release name and version you can delete it using [kubectl](#kubectl) or from Rancher.
 
 ### Resources taking too long to destroy
 
+___It is advised that you don't cancel the terraform deployment mid execution, this will prevent most of the really nasty errors___
 If you're destroying the resources and it's taking too long, it's most likely that you have a resource that is not being destroyed properly because it depends on another resource. If `Rancher` was installed successfully you can go to your Rancher url and delete the resources from there (bear in mind that if not done after that terraform has marked them for termination it might produce inconsistencies in the state file). It's usually safe to destroy pods because all of them are either part of a `DaemonSet` or `Deployment` and they will be recreated automatically and terraform will be able to update the state to match.
 
-As long as you didn't cancel the terraform deployment mid execution, there is still the chance to fix the error by  destroying it. Let's assume you were deploying a module that depended on a PersistentVolumeClaim, since all the PVCs are created by the `storage` module:
+As long as you didn't cancel the terraform deployment mid execution, there is still the chance to fix the error by  destroying it. Let's assume you were deploying a module that depended on a PersistentVolumeClaim, since all the PVCs are created by the `storage` module, if you want to do this manually you can do the following:
 
 ```shell
   terraform destroy -target module.storage -auto-approve
 ```
 
-or, for just one resource:
+But, it would be recommended if you left the provisioning to the modules themselves, so, if you want to remove something, just remove the service name from the `modules_to_run` variable and run `terraform apply` again. This will set the desired count of the associated resources (the modules themselves as well as the storage associated) to 0, and terraform will destroy them.s
+
+### General Terraform errors
+
+If you're getting terraform errors you might want to set the `TF_LOG` variable to increase the verbosity of the output. You can do this by running:
 
 ```shell
-  terraform destroy -target module.storage.kubernetes_persistent_volume_claim.pvcs["name-of-resource"] -auto-approve
+  export TF_LOG=DEBUG
 ```
 
-There is also the possibility that something else is dangling and it's not so easy to track down and something (a `namespace` mainly, is waiting for a condition that probably will never be met). In that case you can do the following (this should only be used as a last resort, because it will delete just the conflicting resource without caring for its dependencies):
+after that you can remove it by running:
 
 ```shell
-
+  unset TF_LOG
 ```
 
 ## General knowledge

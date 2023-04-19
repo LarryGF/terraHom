@@ -21,7 +21,8 @@ ingress:
 initContainers:
   update-volume-permission:
     image: busybox
-    command: ["sh", "-c", "chown -R 568:568 /config"]
+    command: ["sh", "-c", "chmod -R 777 /config"]
+
     volumeMounts:
     - name: config
       mountPath: /config
@@ -32,6 +33,3 @@ persistence:
   config:
     enabled: true
     existingClaim: jackett-config
-  # downloads:
-  #   enabled: true
-  #   existingClaim: media
