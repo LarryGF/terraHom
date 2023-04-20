@@ -1,7 +1,6 @@
 ---
 - name: Basic configuration
   hosts: all
-  # become: yes
   roles:
     - role: basic
   tags:
@@ -9,7 +8,6 @@
 
 - name: Harden server
   hosts: all
-  # become: yes
   roles:
     - role: harden
   tags:
@@ -18,7 +16,6 @@
 - name: Kubernetes installation prerequisites
   hosts: all
   gather_facts: yes
-  # become: yes
   roles:
     - role: prereq
     - role: download
@@ -28,7 +25,6 @@
 
 - name: Kubernetes master installation 
   hosts: master
-  # become: yes
   roles:
     - role: k3s/master
   tags:
@@ -37,7 +33,6 @@
 
 - name: Kubernetes agent installation
   hosts: agent
-  # become: yes
   roles:
     - role: k3s/node
   tags:

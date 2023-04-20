@@ -211,6 +211,10 @@ after that you can remove it by running:
   unset TF_LOG
 ```
 
+### Mark as tainted
+
+terraform taint 'module.storage.kubernetes_persistent_volume_claim.pvcs["home-assistant"]'
+
 ## General knowledge
 
 ### Kubectl
@@ -221,6 +225,9 @@ after that you can remove it by running:
 
 It looks a little messy, but the `storage` module is designed to be as modular as possible. The idea is for you to be able to create all the required storage resources for your deployment in a single definition and aims to do all the configuration bits as automatically as possible, inferring most of the parameters from the variables you provide.
 
+
+
+
 #### Adding a new PersistentVolumeClaim
 
 
@@ -228,8 +235,6 @@ It looks a little messy, but the `storage` module is designed to be as modular a
 
 ### Longhorn
 
-https://longhorn.io/docs/1.4.1/deploy/uninstall/#uninstalling-longhorn-from-the-rancher-ui
+https://longhorn.io/docs/1.4.1/deploy/uninstall
 
 ## TODO
-
-- Detect if longhorn is being used to set `depends_on` for the modules that require pvcs
