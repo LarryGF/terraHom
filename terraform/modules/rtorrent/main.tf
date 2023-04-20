@@ -19,27 +19,9 @@ resource "helm_release" "rtorrent" {
   ]
   depends_on = [
     kubernetes_secret.vpnconfig,
-    # kubernetes_persistent_volume_claim.rtorrent
   ]
 }
 
-# resource "kubernetes_persistent_volume_claim" "rtorrent" {
-#   metadata {
-#     name      = "rtorrent-config"
-#     namespace = "public-services"
-
-#   }
-#   spec {
-#     access_modes       = ["ReadWriteOnce"]
-#     storage_class_name = module.global_config.global_locals.sc_name
-
-#     resources {
-#       requests = {
-#         storage = "200Mi"
-#       }
-#     }
-#   }
-# }
 
 # VPN configuration
 resource "kubernetes_secret" "vpnconfig" {

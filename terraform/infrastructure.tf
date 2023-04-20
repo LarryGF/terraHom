@@ -32,23 +32,24 @@ module "traefik" {
   depends_on         = [module.cert-manager, kubernetes_namespace.internal-services]
 }
 
-module "rancher" {
-  count = contains(local.modules_to_run, "rancher") ? 1 : 0
+# module "rancher" {
+#   count = contains(local.modules_to_run, "rancher") ? 1 : 0
 
-  source            = "./modules/rancher"
-  letsencrypt_email = var.letsencrypt_email
-  duckdns_domain    = var.duckdns_domain
-  depends_on = [
-    module.traefik
-  ]
-}
+#   source            = "./modules/rancher"
+#   letsencrypt_email = var.letsencrypt_email
+#   duckdns_domain    = var.duckdns_domain
+#   depends_on = [
+#     module.traefik
+#   ]
+# }
 
 module "longhorn" {
   count = contains(local.modules_to_run, "longhorn") ? 1 : 0
 
   source            = "./modules/longhorn"
   duckdns_domain    = var.duckdns_domain
-    default_data_path = "/mnt/disk01"
+  nfs_backupstore   = var.nfs_backupstore
+  default_data_path = "/mnt/external-disk/storage"
   depends_on = [
     module.traefik
   ]
