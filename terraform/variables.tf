@@ -45,6 +45,12 @@ variable "media_storage_size" {
   description = "Size of the media PVC"
 }
 
+variable "nfs_backupstore" {
+  type        = string
+  description = "Default NFS for backups"
+}
+
+
 ## Global
 
 variable "timezone" {
@@ -73,6 +79,12 @@ variable "vpn_config" {
   description = "Wireguard base64 encoded config"
   
 }
+
+variable "nfs_server" {
+  type = string
+  description = "IP address of NFS server"
+}
+
 ## Operational
 variable "modules_to_run" {
   type = list(string)

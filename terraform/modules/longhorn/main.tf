@@ -6,7 +6,7 @@ resource "helm_release" "longhorn" {
   create_namespace = "true"
   reuse_values = true
 
-  version = "1.3.2"
+  version = "1.4.1"
   values = [
     templatefile(
       "${path.module}/helm/longhorn-values.yaml",
@@ -16,6 +16,11 @@ resource "helm_release" "longhorn" {
       }
     )
   ]
+
+  set {
+    name = "defaultSettings.backupTarget"
+    value = var.nfs_backupstore
+  }
   
 }
 
@@ -37,4 +42,10 @@ variable "duckdns_domain" {
 variable "default_data_path" {
   type        = string
   description = "Default Data Path"
+}
+
+
+variable "nfs_backupstore" {
+  type        = string
+  description = "Default NFS for backups"
 }

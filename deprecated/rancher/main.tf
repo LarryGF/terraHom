@@ -9,6 +9,7 @@ resource "helm_release" "rancher" {
   timeout          = 1200
   create_namespace = true
   reuse_values = true
+  version = "2.7.2"
 
   values = [
     templatefile(

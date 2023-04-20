@@ -1,0 +1,35 @@
+# prometheus.yaml
+
+alertmanager:
+  enabled: true
+  image:
+    tag: v0.23.0
+
+  ingress:
+    enabled: true
+    hosts: 
+    - alertmanager.house
+    paths:
+      - path: /
+
+  persistentVolume:
+    enabled: false
+
+server:
+  name: server
+  image:
+    tag: v2.31.1
+
+  ingress:
+    enabled: true
+    hosts: 
+    - prometheus.house
+    paths:
+      - path: /
+    
+  persistentVolume:
+    enabled: false
+  #   existingClaim: prometheus-server
+
+pushgateway:
+  enabled: false

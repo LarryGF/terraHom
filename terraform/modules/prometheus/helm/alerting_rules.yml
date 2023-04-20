@@ -1,0 +1,138 @@
+## Alerting rules
+serverFiles:
+  alerting_rules.yml:
+    groups:
+    
+    # Prometheus self-monitoring 
+    - name: Prometheus
+      rules:
+      - alert: PrometheusJobMissing
+        expr: absent(up{job="prometheus"})
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Prometheus job missing (instance {{ $labels.instance }})'
+          description: |
+            A Prometheus job has disappeared
+            VALUE = {{ $value }}
+            LABELS: {{ $labels }}
+      - alert: PrometheusTargetMissing
+        expr: up == 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Prometheus target missing (instance {{ $labels.instance }})'
+          description: |
+            A Prometheus target has disappeared. An exporter might be crashed.
+            VALUE = {{ $value }}
+            LABELS: {{ $labels }}
+      - alert: PrometheusTooManyRestarts
+        expr: changes(process_start_time_seconds{job=~"prometheus|pushgateway|alertmanager"}[15m]) > 2
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Prometheus too many restarts (instance {{ $labels.instance }})'
+          description: |
+            Prometheus has restarted more than twice in the last 15 minutes. It might be crashlooping.
+            VALUE = {{ $value }}
+            LABELS: {{ $labels }}
+    
+    # Host and hardware
+    - name: Infraestructure
+      rules:
+      - alert: HostOutOfMemory
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Host out of memory (instance {{ $labels.instance }})'
+          description: |
+            Node memory is filling up (< 10% left)
+            VALUE = {{ $value }}
+            LABELS: {{ $labels }}'
+      - alert: HostUnusualDiskReadRate
+        expr: sum by (instance) (rate(node_disk_read_bytes_total[2m])) / 1024 / 1024 > 50
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Host unusual disk read rate (instance {{ $labels.instance }})'
+          description: |
+            Disk is probably reading too much data (> 50 MB/s)
+            VALUE = {{ $value }}
+            LABELS: {{ $labels }}'
+      - alert: HostUnusualDiskWriteRate
+        expr: sum by (instance) (rate(node_disk_written_bytes_total[2m])) / 1024 / 1024 > 50
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Host unusual disk write rate (instance {{ $labels.instance }})'
+          description: |
+            Disk is probably writing too much data (> 50 MB/s)
+            VALUE = {{ $value }}
+            LABELS: {{ $labels }}'
+      - alert: HostOutOfDiskSpace
+        expr: (node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 10 and ON (instance, device, mountpoint) node_filesystem_readonly == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Host out of disk space (instance {{ $labels.instance }})'
+          description: 'Disk is almost full (< 10% left)  VALUE = {{ $value }}  LABELS: {{ $labels }}'
+    
+    # Docker containers
+    - name: cAdvisor
+      rules:
+      - alert: ContainerKilled
+        expr: time() - container_last_seen > 60
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Container killed (instance {{ $labels.instance }})'
+          description: |
+            A container has disappeared
+            VALUE = {{ $value }}
+            LABELS: {{ $labels }}
+      - alert: ContainerHighThrottleRate
+        expr: rate(container_cpu_cfs_throttled_seconds_total[3m]) > 1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Container high throttle rate (instance {{ $labels.instance }})'
+          description: |
+            Container is being throttled
+            VALUE = {{ $value }}
+            LABELS: {{ $labels }}
+    
+    # Kube State Metrics
+    - name: Kubernetes Metrics
+      rules:
+      - alert: KubernetesNodeReady
+        expr: kube_node_status_condition{condition="Ready",status="true"} == 0
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Kubernetes Node ready (instance {{ $labels.instance }})'
+          description: 'Node {{ $labels.node }} has been unready for a long time \n VALUE = {{ $value }} \n LABELS: {{ $labels }}'
+
+    # Blocky
+    - name: Blocky
+      rules:
+      - alert: BlockyDisabled
+        annotations:
+          description: Blocky's ad blocking has been disabled for 15min.
+            Please re-enable protection.
+          summary: Blocky is disabled.
+        expr: |
+          blocky_blocking_enabled == 0
+        for: 15m
+        labels:
+          severity: critical

@@ -1,0 +1,90 @@
+---
+- name: Install nfs-kernel-server
+  package:
+    name: nfs-kernel-server
+    state: present
+
+- name: Create directory to mount disk
+  file:
+    state: directory
+    path: /mnt/external-disk
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Mount external disk
+  ansible.posix.mount:
+    path: /mnt/external-disk
+    src: "/dev/{{ nfs_drive_partition }}"
+    fstype: ext4
+    state: mounted
+
+- name: Create directory for Longhorn storage
+  file:
+    state: directory
+    path: /mnt/external-disk/storage
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Create folder for PVs and backups
+  file:
+    state: directory
+    path: "/mnt/external-disk/{{ item }}"
+  with_items:
+    - nfs/backups
+    - nfs/pvs
+    - nfs/pvs/media
+    # - nfs/pvs/ha-config
+    # - nfs/pvs/jackett-config
+    # - nfs/pvs/ombi-config
+    # - nfs/pvs/plex-config
+    # - nfs/pvs/qbittorrent-config
+    # - nfs/pvs/radarr-config
+    # - nfs/pvs/sonarr-config
+
+# - name: Configure permissions of PVs folders.
+#   file:
+#     path: "/mnt/external-disk/nfs/{{ item }}"
+#     owner: "568"
+#     group: "568"
+#   with_items:
+#     - jackett-config
+#     - qbittorrent-config
+#     - radarr-config
+#     - sonarr-config
+
+- name: Create NFS export 
+  copy:
+    src: exports
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart NFS Server
+
+- name: Set terraform variables for storage server
+  become: no
+  block:
+    - name: Set nfs_server variable
+      local_action:
+        module: lineinfile
+        dest: "../terraform/terraform.tfvars"
+        regexp: '^nfs_server = .*'
+        line: "nfs_server = \"{{ ansible_default_ipv4.address }}\""
+
+    - name: Set backup store for longhorn
+      local_action:
+        module: lineinfile
+        dest: "../terraform/terraform.tfvars"
+        regexp: '^nfs_backupstore = .*'
+        line: "nfs_backupstore = \"nfs://{{ ansible_default_ipv4.address }}:/mnt/external-disk/nfs/backups\""
+
+- name: Add label to storage node
+  become: no
+  local_action:
+    module: command kubectl --kubeconfig ~/.kube/config label nodes {{ inventory_hostname }} node.longhorn.io/create-default-disk=true --overwrite
+
+# - name: Remove 'default' flag for local-path storage class
+#   local_action:
+#     module: command kubectl --kubeconfig ./tmp/k3s.yaml patch storageclass local-path -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'

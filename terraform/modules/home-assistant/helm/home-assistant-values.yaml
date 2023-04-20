@@ -21,6 +21,20 @@ initContainers:
     securityContext:
       runAsUser: 0
 
+  # install-hasc:
+  #   image: bash
+  #   command:
+  #   - "bash"
+  #   - "-c"
+  #   - |
+  #     cd /config && ls && wget -O - https://get.hacs.xyz | bash -
+  #   volumeMounts:
+  #   - name: config
+  #     mountPath: /config
+
+  #   securityContext:
+  #     runAsUser: 0
+
 ingress:
   main:
     ingressClassName: traefik

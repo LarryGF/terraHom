@@ -1,17 +1,47 @@
 # Pi-k8s
 
-\*Mostly\* Automated setup to install _k3s_ and some services on your Raspberry Pi.
+\*Mostly\* Automated setup to install _k3s_ and aitional services on your Raspberry Pi.
 
 ## Pre-deployment
 
-### Basic Raspberry Pi setup
+### Basic node setup
 
-- Flash Debian GNU/Linux 11 (bullseye) arm64 to the Raspberry Pi
+These are the steps that you need to follow in your kubernetes nodes (and your host machine) before being able to movve forward with the process.
+
+### Nodes
+
+- Flash Debian GNU/Linux 11 (bullseye) arm64 to the Raspberry Pi 
+  - Not mandatory, but it would be desired to have an OS as similar to this as possible in your hosts
 - Connect the Raspberry Pi to your network
+- Set up passwordless [SSH](#local)
+- Add your user to the `sudo` group:
+
+  ```shell
+    # as root
+    usermod -aG sudo {your username}
+  ```
+
+- Allow memebers of the sudo group to run any command without a password:
+
+  ```shell
+    # as root
+    visudo
+  ```
+
+  - Add the following line to the file (or edit the existing one):
+
+    ```shell
+      %sudo ALL=(ALL) NOPASSWD:ALL
+    ```
+
+  - Alternatively you can just edit /etc/sudoers
+
+### Local
+
 - Setup passwordless SSH access to the Pi (you will need an SSH keypair for this).
 
     ```shell
-    ssh-copy-id pi@<NODE_IP>
+    ssh-copy-id {your username}@<NODE_IP>
     ```
 
 ### Domain setup
@@ -162,6 +192,11 @@ As long as you didn't cancel the terraform deployment mid execution, there is st
 
 But, it would be recommended if you left the provisioning to the modules themselves, so, if you want to remove something, just remove the service name from the `modules_to_run` variable and run `terraform apply` again. This will set the desired count of the associated resources (the modules themselves as well as the storage associated) to 0, and terraform will destroy them.s
 
+### Resource stuck on Terminating
+
+kubectl get namespace public-services -o json | jq '.metadata.finalizers'
+kubectl patch namespace public-services -p '{"metadata":{"finalizers": []}}' --type=merge
+
 ### General Terraform errors
 
 If you're getting terraform errors you might want to set the `TF_LOG` variable to increase the verbosity of the output. You can do this by running:
@@ -189,6 +224,11 @@ It looks a little messy, but the `storage` module is designed to be as modular a
 #### Adding a new PersistentVolumeClaim
 
 
+## Uninstalling
+
+### Longhorn
+
+https://longhorn.io/docs/1.4.1/deploy/uninstall/#uninstalling-longhorn-from-the-rancher-ui
 
 ## TODO
 

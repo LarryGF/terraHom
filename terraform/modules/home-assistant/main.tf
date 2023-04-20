@@ -36,3 +36,41 @@ resource "kubernetes_config_map" "homeassistant-config" {
     "configuration.yaml" = "${file("${path.module}/helm/configuration.yaml")}"
   }
 }
+
+resource "kubernetes_job" "install-ha-plugins" {
+  metadata {
+    name = "install-ha-plugins"
+    namespace  = "public-services"
+
+  }
+  spec {
+    template {
+      metadata {}
+      spec {
+        volume {
+          name = "ha-config"
+          persistent_volume_claim {
+            claim_name = "ha-config"
+          }
+        }
+
+        container {
+          name    = "install-ha-plugins"
+          image   = "bash"
+          command = ["bash", "-c", "cd /config && wget -O - https://get.hacs.xyz | bash -"]
+          volume_mount {
+            name       = "ha-config"
+            mount_path = "/config"
+          }
+        }
+        restart_policy = "Never"
+      }
+    }
+    backoff_limit = 1
+  }
+  wait_for_completion = false
+
+  depends_on = [
+    helm_release.home-assistant,
+  ]
+}

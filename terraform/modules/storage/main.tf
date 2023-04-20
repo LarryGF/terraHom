@@ -6,8 +6,8 @@ resource "kubernetes_persistent_volume_claim" "pvcs" {
 
   }
   spec {
-    access_modes       = ["ReadWriteOnce"]
-    storage_class_name = local.sc_name
+    access_modes       = try(each.value.access_mode, ["ReadWriteOnce"])
+    storage_class_name = var.sc_name
 
     resources {
       requests = {
@@ -26,7 +26,7 @@ resource "kubernetes_persistent_volume_claim" "media" {
   }
   spec {
     access_modes       = ["ReadWriteMany"]
-    storage_class_name = local.sc_name
+    storage_class_name = var.sc_name
 
     resources {
       requests = {
@@ -34,10 +34,6 @@ resource "kubernetes_persistent_volume_claim" "media" {
       }
     }
   }
-}
-
-locals {
-  sc_name         = contains(var.modules_to_run, "longhorn") ? "longhorn" : "local-path"
 }
 
 variable "persistent_volume_claims" {
@@ -63,4 +59,10 @@ variable "media_storage_size" {
 variable "deploy_media" {
   type = bool
   description = "Determines if the media PVC should be created"
+}
+
+variable "sc_name" {
+  type = string
+  description = "Storage class name"
+  
 }
