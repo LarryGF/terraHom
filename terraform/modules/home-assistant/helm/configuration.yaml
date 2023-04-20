@@ -10,9 +10,9 @@ frontend:
 tts:
   - platform: google_translate
 
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
+# automation: !include automations.yaml
+# script: !include scripts.yaml
+# scene: !include scenes.yaml
 
 http:
   use_x_forwarded_for: true

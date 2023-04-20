@@ -20,6 +20,7 @@ module "home-assistant" {
   master_hostname = var.master_hostname
   depends_on = [
     kubernetes_namespace.public-services,
-
+    module.storage
+    
   ]
 }

@@ -35,24 +35,7 @@
     - nfs/backups
     - nfs/pvs
     - nfs/pvs/media
-    # - nfs/pvs/ha-config
-    # - nfs/pvs/jackett-config
-    # - nfs/pvs/ombi-config
-    # - nfs/pvs/plex-config
-    # - nfs/pvs/qbittorrent-config
-    # - nfs/pvs/radarr-config
-    # - nfs/pvs/sonarr-config
-
-# - name: Configure permissions of PVs folders.
-#   file:
-#     path: "/mnt/external-disk/nfs/{{ item }}"
-#     owner: "568"
-#     group: "568"
-#   with_items:
-#     - jackett-config
-#     - qbittorrent-config
-#     - radarr-config
-#     - sonarr-config
+  
 
 - name: Create NFS export 
   copy:
@@ -62,6 +45,9 @@
     group: root
     mode: '0644'
   notify: Restart NFS Server
+
+- name: Make exports available
+  command:  exportfs -rv
 
 - name: Set terraform variables for storage server
   become: no
