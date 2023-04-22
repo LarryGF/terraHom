@@ -47,6 +47,13 @@ locals {
       type        = "config",
       access_mode = ["ReadWriteMany"]
     },
+    grafana = {
+      name        = "grafana",
+      namespace   = "internal-services",
+      storage     = "1Gi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+    },
   }
 
 

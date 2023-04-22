@@ -20,16 +20,6 @@ resource "helm_release" "heimdall" {
   
 }
 
-terraform {
-  required_providers {
-    
-    kubectl = {
-      source  = "gavinbunney/kubectl"
-      version = ">= 1.7.0"
-    }
-  }
-}
-
 variable "duckdns_domain" {
   type        = string
   description = "DuckDNS domain to use"
