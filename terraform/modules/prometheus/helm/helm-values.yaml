@@ -1,32 +1,45 @@
 # prometheus.yaml
+nodeSelector:
+  kubernetes.io/hostname: ${master_hostname}
 
 alertmanager:
   enabled: true
-  image:
-    tag: v0.23.0
+  # image:
+  #   tag: v0.23.0
 
   ingress:
     enabled: true
-    hosts: 
-    - alertmanager.house
-    paths:
-      - path: /
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hosts:
+      - host: "alertmanager.${duckdns_domain}.duckdns.org"
+        paths:
+        - path: /
+          pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - "alertmanager.${duckdns_domain}.duckdns.org"
+        secretName: tls-alertmanager-ingress
 
   persistentVolume:
     enabled: false
 
 server:
   name: server
-  image:
-    tag: v2.31.1
-
   ingress:
     enabled: true
-    hosts: 
-    - prometheus.house
-    paths:
-      - path: /
-    
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    hosts:
+      - "prometheus.${duckdns_domain}.duckdns.org"    
+    path: /
+    tls:
+      - hosts:
+          - "prometheus.${duckdns_domain}.duckdns.org"
+        secretName: tls-prometheus-ingress
+
   persistentVolume:
     enabled: false
   #   existingClaim: prometheus-server
