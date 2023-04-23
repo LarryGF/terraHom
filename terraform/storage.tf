@@ -24,6 +24,30 @@ locals {
       access_mode = ["ReadWriteOnce"]
 
     },
+    ombi = {
+      name        = "ombi",
+      namespace   = "public-services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+
+    },
+    plex = {
+      name        = "plex",
+      namespace   = "public-services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+
+    },
+    whisparr = {
+      name        = "whisparr",
+      namespace   = "public-services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+
+    },
     rtorrent = {
       name        = "rtorrent",
       namespace   = "public-services",

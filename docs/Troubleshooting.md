@@ -1,0 +1,119 @@
+# Troubleshooting
+
+## Table of contents
+
+- [Troubleshooting](#troubleshooting)
+  - [Table of contents](#table-of-contents)
+  - [General](#general)
+    - [Temporary failure in name resolution](#temporary-failure-in-name-resolution)
+  - [Terraform](#terraform)
+    - [Terraform failed to create the resources during automated install](#terraform-failed-to-create-the-resources-during-automated-install)
+    - [General Terraform errors](#general-terraform-errors)
+    - [Mark as tainted](#mark-as-tainted)
+  - [Kubernetes/Helm](#kuberneteshelm)
+    - [Cannot re-use a name that is still in use](#cannot-re-use-a-name-that-is-still-in-use)
+    - [Resources taking too long to destroy](#resources-taking-too-long-to-destroy)
+    - [Resource stuck on Terminating](#resource-stuck-on-terminating)
+    - [exec /sbin/tini: exec format error](#exec-sbintini-exec-format-error)
+  - [Services](#services)
+    - [Plex not authorized user](#plex-not-authorized-user)
+
+## General
+
+### Temporary failure in name resolution
+
+Check the `/etc/resolv.conf` file in the hosts, it should have the following:
+
+  ```shell
+    nameserver 1.1.1.1
+  ```
+
+## Terraform
+
+### Terraform failed to create the resources during automated install
+
+It's most likely that you have missing or wrong variables. Look at the output of the command, maybe you missed a module 😉.
+If you're sure that you have all the correct variables, try to run the command again, it might be a temporary issue, this is still a work in progress and there might be race conditions that I haven't found yet.
+
+### General Terraform errors
+
+If you're getting terraform errors you might want to set the `TF_LOG` variable to increase the verbosity of the output. You can do this by running:
+
+```shell
+  export TF_LOG=DEBUG
+```
+
+after that you can remove it by running:
+
+```shell
+  unset TF_LOG
+```
+
+### Mark as tainted
+
+terraform taint 'module.storage.kubernetes_persistent_volume_claim.pvcs["home-assistant"]'
+
+## Kubernetes/Helm
+
+### Cannot re-use a name that is still in use
+
+This might happen when a `terraform apply` gets cancelled mid-deployment, and the state didn't register the resources as destroyed. Usually this means that your kubernetes deployment/daemonset/pvc etc is still there, and either it was created succesfully, or is stuck in an error.
+
+This mostly occurs with `helm_releases` and to fix this you have to:
+
+1. The state didn't register the resource and you have pods/services running: If you have Rancher running you can go to your dashboard and delete all resources associated with that deployment, or, if for some reason, Rancher is down, you can delete those resources using [kubectl](#kubectl), probably it will work just by deleting the `Deployment`.
+
+2. The terraform `Helm` provider saves the releases by default on a Kubernetes secret on the format `sh.helm.release.v1.<release_name>.v<release_version>`, and sometimes Terraform fails to delete that secret (when forcefully cancelling the deployment, basically) and therefore thinks resources are there even when nothing is present; so, if you know the release name and version you can delete it using [kubectl](#kubectl) or from Rancher.
+
+### Resources taking too long to destroy
+
+___It is advised that you don't cancel the terraform deployment mid execution, this will prevent most of the really nasty errors___
+If you're destroying the resources and it's taking too long, it's most likely that you have a resource that is not being destroyed properly because it depends on another resource. If `Rancher` was installed successfully you can go to your Rancher url and delete the resources from there (bear in mind that if not done after that terraform has marked them for termination it might produce inconsistencies in the state file). It's usually safe to destroy pods because all of them are either part of a `DaemonSet` or `Deployment` and they will be recreated automatically and terraform will be able to update the state to match.
+
+As long as you didn't cancel the terraform deployment mid execution, there is still the chance to fix the error by  destroying it. Let's assume you were deploying a module that depended on a PersistentVolumeClaim, since all the PVCs are created by the `storage` module, if you want to do this manually you can do the following:
+
+```shell
+  terraform destroy -target module.storage -auto-approve
+```
+
+But, it would be recommended if you left the provisioning to the modules themselves, so, if you want to remove something, just remove the service name from the `modules_to_run` variable and run `terraform apply` again. This will set the desired count of the associated resources (the modules themselves as well as the storage associated) to 0, and terraform will destroy them.s
+
+### Resource stuck on Terminating
+
+kubectl get namespace public-services -o json | jq '.metadata.finalizers'
+kubectl patch namespace public-services -p '{"metadata":{"finalizers": []}}' --type=merge
+
+### exec /sbin/tini: exec format error
+
+This probably means that the image you're trying to run is not compatible with the architecture of the node. There can be a variety of factors, but if you have a multi-architecture cluster this is the most likely scenario. In order to fix this you can try some of these steps:
+
+- Verify if the image supports multiple architectures
+- If the image does not support multiple architectures, you can always force the deployment to run in a node with the desire architecture::
+  
+```helm
+  nodeSelector:
+  kubernetes.io/arch : {arm64 or amd64 depending on your needs}
+```
+
+- Annother possible scenario is that the image does support multiple architectures, but you redeployed and the cluster decided it needed to run in a different node, and that node doesn't support the architecture of the previous node's image. In this case you can temporarily modify  the `*-values.yaml` to force the image to be pulled again:
+
+```helm
+  image:
+    tag: latest
+    pullPolicy: Always
+```
+
+## Services
+
+### Plex not authorized user
+
+If you receive an error: `Not authorized You do not have access to this server` this means that you have to claim the server because Plex recognizes you as an external user (your source IP is in a different range than the Plex server), in order to solve this you can:
+
+- Pass your local subnet IP range in the form: `192.0.0.0/255.255.255.0,192.0.1.0/255.255.255.0` to the `allowed_networks` variable in `terraform.tfvars`
+- Claim the server manually by going to the Plex server url and logging in with your Plex account, youhave to do this from the same network as the Plex server, in order to do that you can do a port-forwarding to the Plex server pod:
+
+```shell
+  kubectl port-forward -n public-services {your plex pod name} {your local port}:32400
+```
+
+and then visiting httt://localhost:{your local port} in your browser.

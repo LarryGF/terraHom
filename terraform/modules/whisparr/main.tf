@@ -1,22 +1,24 @@
-resource "helm_release" "heimdall" {
-  name       = "heimdall"
-  chart      = "heimdall"
+resource "helm_release" "whisparr" {
+  name       = "whisparr"
+  chart      = "radarr"
   repository = "https://k8s-at-home.com/charts/"
   namespace  = "public-services"
   reuse_values = true
   timeout          = 300
+
   set {
     name = "env.TZ"
     value = var.timezone 
   }
   values = [
     templatefile(
-      "${path.module}/helm/heimdall-values.yaml",
+      "${path.module}/helm/whisparr-values.yaml",
       {
         duckdns_domain  = var.duckdns_domain
       }
     )
   ]
+  
   
 }
 

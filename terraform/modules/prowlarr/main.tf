@@ -4,7 +4,7 @@ resource "helm_release" "prowlarr" {
   repository = "https://k8s-at-home.com/charts/"
   namespace  = "public-services"
   reuse_values = true
-  timeout          = 600
+  timeout          = 300
 
   set {
     name = "env.TZ"
