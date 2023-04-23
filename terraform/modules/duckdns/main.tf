@@ -17,7 +17,7 @@ resource "helm_release" "duckdns" {
   cleanup_on_fail = true
   wait            = true
   wait_for_jobs   = true
-  timeout         = 600
+  timeout         = 300
 }
 
 variable "duckdns_domain" {

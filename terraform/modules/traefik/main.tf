@@ -40,7 +40,7 @@ resource "helm_release" "traefik" {
   cleanup_on_fail = true
   wait            = true
   wait_for_jobs   = true
-  timeout         = 600
+  timeout         = 300
   reuse_values    = true
 
   values = [

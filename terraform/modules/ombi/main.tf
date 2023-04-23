@@ -1,17 +1,18 @@
-resource "helm_release" "heimdall" {
-  name       = "heimdall"
-  chart      = "heimdall"
+resource "helm_release" "ombi" {
+  name       = "ombi"
+  chart      = "ombi"
   repository = "https://k8s-at-home.com/charts/"
   namespace  = "public-services"
   reuse_values = true
   timeout          = 300
+
   set {
     name = "env.TZ"
     value = var.timezone 
   }
   values = [
     templatefile(
-      "${path.module}/helm/heimdall-values.yaml",
+      "${path.module}/helm/ombi-values.yaml",
       {
         duckdns_domain  = var.duckdns_domain
       }

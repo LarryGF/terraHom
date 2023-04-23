@@ -2,6 +2,28 @@
 
 \*Mostly\* Automated setup to install _k3s_ and additional services on your home cluster.
 
+## Table of Contents
+
+- [Pi-k8s](#pi-k8s)
+  - [Table of Contents](#table-of-contents)
+  - [Terminology](#terminology)
+  - [Pre-deployment](#pre-deployment)
+    - [Basic node setup](#basic-node-setup)
+      - [Nodes](#nodes)
+    - [Storage](#storage)
+    - [VPN Setup](#vpn-setup)
+    - [Terraform State Backups](#terraform-state-backups)
+  - [Automated Deployment](#automated-deployment)
+  - [Manual Deployment (not recommended)](#manual-deployment-not-recommended)
+    - [Ansible](#ansible)
+    - [Longhorn](#longhorn)
+  - [General knowledge](#general-knowledge)
+    - [Kubectl](#kubectl)
+  - [Uninstalling](#uninstalling)
+    - [Uninstall Longhorn](#uninstall-longhorn)
+  - [Adult Content](#adult-content)
+  - [TODO](#todo)
+
 ## Terminology
 
 - Control Node: This is your local computer, you will be running most of the actions from here
@@ -16,7 +38,7 @@
 
 These steps need to be executed in order and before moving on with the process, since they will make it possible to run the automations.
 
-### Nodes
+#### Nodes
 
 - Flash Debian GNU/Linux 11 (bullseye) on the nodes (depending on your node's CPU you might need to flash an `amd64`  or `arm64` image)
 - Connect the node to your network (steps might vary depending on the OS)
@@ -83,6 +105,25 @@ This is only necessary if you want to use longhorn. ___I don't recommend using l
 - Attach an external hard drive or create and format a partition on your `storage` node(s) and take note of that partition's name
   - The playbooks will only use __one__ partition name for all `storage` nodes, so bear that in mind
 
+### VPN Setup
+
+Some modules (`rtorrent` for now), have a Wireguard VPN addon, in order for this to work you need to pass it the Wireguard config. The wireguard config will be stored as a Kubernetes secret and mounted in the container, you need to pass the contents of the config file as a `base64` encoded string, you can get this string by running:
+
+```bash
+cat wireguard.config | base64
+```
+
+and then adding to your `terraform.tfvars`:
+
+```hcl
+# With your own encoded string, of course
+vpn_config = "SSdtIHNvIGdsYWQgeW91IHRvb2sgdGhlIHRpbWUgdG8gZGVjb2RlIHRoaXMK"
+```
+
+### Terraform State Backups
+
+There's a resource that every time you run `terraform apply` it will create a backup of the state file in the `./terraform/.backup` folder. It will be stored in the format `YYYY.MM.DD.HH.MM.terraform.tfstate.backup`. In case you run into any errors you can restore the state file from the backup by just copying it to the `./terraform` folder and renaming it to `terraform.tfstate`.
+
 ## Automated Deployment
 
 - Create `ansible/inventory/deploy/group_vars/all.yml` with the following:
@@ -106,17 +147,17 @@ This is only necessary if you want to use longhorn. ___I don't recommend using l
     ```ini
     [master]
     {master hostname} ansible_host= {master ip}
-  
+    
     [agent]
     {agent hostname} ansible_host= {agent ip}
-  
+    
     [k3s:children]
     master
     agent
     
-  [storage:children]
-  master
-  ```
+    [storage:children]
+    master
+    ```
   
   - You can always delete or comment (`; *`) depending on your setup
   
@@ -124,9 +165,9 @@ This is only necessary if you want to use longhorn. ___I don't recommend using l
 
 - Run:
 
-    ```shell
-    bash deploy.sh
-    ```
+  ```shell
+  bash deploy.sh
+  ```
 
 ## Manual Deployment (not recommended)
 
@@ -157,107 +198,18 @@ If you are going to use longhorn verify that the below requirements are met befo
 
 - <https://staging--longhornio.netlify.app/docs/0.8.1/deploy/install/#installation-requirements>
 
-## Terraform State Backups
-
-There's a resource that every time you run `terraform apply` it will create a backup of the state file in the `./terraform/.backup` folder. It will be stored in the format `YYYY.MM.DD.HH.MM.terraform.tfstate.backup`. In case you run into any errors you can restore the state file from the backup by just copying it to the `./terraform` folder and renaming it to `terraform.tfstate`.
-
-## Troubleshooting
-
-### Terraform failed to create the resources during automated install
-
-It's most likely that you have missing or wrong variables. Look at the output of the command, maybe you missed a module 😉.
-If you're sure that you have all the correct variables, try to run the command again, it might be a temporary issue, this is still a work in progress and there might be race conditions that I haven't found yet.
-
-### Temporary failure in name resolution
-
-Check the `/etc/resolv.conf` file in the hosts, it should have the following:
-
-  ```shell
-    nameserver 1.1.1.1
-  ```
-
-### Cannot re-use a name that is still in use
-
-This might happen when a `terraform apply` gets cancelled mid-deployment, and the state didn't register the resources as destroyed. Usually this means that your kubernetes deployment/daemonset/pvc etc is still there, and either it was created succesfully, or is stuck in an error.
-
-This mostly occurs with `helm_releases` and in this particular scenario it can be one of two problems:
-
-1. The state didn't register the resource and you have pods/services running: If you have Rancher running you can go to your dashboard and delete all resources associated with that deployment, or, if for some reason, Rancher is down, you can delete those resources using [kubectl](#kubectl).
-
-2. The terraform `Helm` provider saves the releases by default on a Kubernetes secret on the format `sh.helm.release.v1.<release_name>.v<release_version>`, and sometimes Terraform fails to delete that secret (when forcefully cancelling the deployment, basically) and therefore thinks resources are there even when nothing is present; so, if you know the release name and version you can delete it using [kubectl](#kubectl) or from Rancher.
-
-### Resources taking too long to destroy
-
-___It is advised that you don't cancel the terraform deployment mid execution, this will prevent most of the really nasty errors___
-If you're destroying the resources and it's taking too long, it's most likely that you have a resource that is not being destroyed properly because it depends on another resource. If `Rancher` was installed successfully you can go to your Rancher url and delete the resources from there (bear in mind that if not done after that terraform has marked them for termination it might produce inconsistencies in the state file). It's usually safe to destroy pods because all of them are either part of a `DaemonSet` or `Deployment` and they will be recreated automatically and terraform will be able to update the state to match.
-
-As long as you didn't cancel the terraform deployment mid execution, there is still the chance to fix the error by  destroying it. Let's assume you were deploying a module that depended on a PersistentVolumeClaim, since all the PVCs are created by the `storage` module, if you want to do this manually you can do the following:
-
-```shell
-  terraform destroy -target module.storage -auto-approve
-```
-
-But, it would be recommended if you left the provisioning to the modules themselves, so, if you want to remove something, just remove the service name from the `modules_to_run` variable and run `terraform apply` again. This will set the desired count of the associated resources (the modules themselves as well as the storage associated) to 0, and terraform will destroy them.s
-
-### Resource stuck on Terminating
-
-kubectl get namespace public-services -o json | jq '.metadata.finalizers'
-kubectl patch namespace public-services -p '{"metadata":{"finalizers": []}}' --type=merge
-
-### General Terraform errors
-
-If you're getting terraform errors you might want to set the `TF_LOG` variable to increase the verbosity of the output. You can do this by running:
-
-```shell
-  export TF_LOG=DEBUG
-```
-
-after that you can remove it by running:
-
-```shell
-  unset TF_LOG
-```
-
-### Mark as tainted
-
-terraform taint 'module.storage.kubernetes_persistent_volume_claim.pvcs["home-assistant"]'
-
-### exec /sbin/tini: exec format error
-
-This probably means that the image you're trying to run is not compatible with the architecture of the node. There can be a variety of factors, but if you have a multi-architecture cluster this is the most likely scenario. In order to fix this you can try some of these steps:
-
-- Verify if the image supports multiple architectures
-- If the image does not support multiple architectures, you can always force the deployment to run in a node with the desire architecture::
-  
-```helm
-  nodeSelector:
-  kubernetes.io/arch : {arm64 or amd64 depending on your needs}
-```
-
-- Annother possible scenario is that the image does support multiple architectures, but you redeployed and the cluster decided it needed to run in a different node, and that node doesn't support the architecture of the previous node's image. In this case you can temporarily modify  the `*-values.yaml` to force the image to be pulled again:
-
-```helm
-  image:
-    tag: latest
-    pullPolicy: Always
-```
-
 ## General knowledge
 
 ### Kubectl
-
-## Extending the deployment
-
-### Storage Module
-
-It looks a little messy, but the `storage` module is designed to be as modular as possible. The idea is for you to be able to create all the required storage resources for your deployment in a single definition and aims to do all the configuration bits as automatically as possible, inferring most of the parameters from the variables you provide.
-
-#### Adding a new PersistentVolumeClaim
 
 ## Uninstalling
 
 ### Uninstall Longhorn
 
 <https://longhorn.io/docs/1.4.1/deploy/uninstall>
+
+## Adult Content
+
+Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), this won't be enabled by default and not be part of the `modules_to_run` variable, if you want to be able to download adult cotent, you will have to add that manually.
 
 ## TODO
