@@ -5,13 +5,10 @@ resource "helm_release" "grafana" {
   chart      = "grafana"
   repository = "https://grafana.github.io/helm-charts"
   namespace  = "internal-services"
-
-    values = [templatefile("${path.module}/helm/grafana-values.yaml",
-    {
-      domains         = var.duckdns_domain
-      timezone        = var.timezone
+  values = [
+    templatefile("${path.module}/helm/grafana-values.yaml", {
+      duckdns_domain  = var.duckdns_domain,
       master_hostname = var.master_hostname
-
   })]
 }
 

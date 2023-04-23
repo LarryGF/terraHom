@@ -1,5 +1,5 @@
 image:
-  tag: latest@sha256:598630e61d8b177e2045f0c1048829770adb828bbfd2a04ec6c56ad2a435cfe1
+  tag: latest
 
 initContainers:
   update-volume-permission:
@@ -12,8 +12,9 @@ initContainers:
       runAsUser: 0
 
 nodeSelector:
-  kubernetes.io/arch : arm64
-
+  # kubernetes.io/arch : arm64
+  kubernetes.io/arch : amd64
+  
 ingress:
   main:
     ingressClassName: traefik
@@ -38,6 +39,11 @@ persistence:
   downloads:
     enabled: true
     existingClaim: media
+
+  shared:
+    enabled: true
+    type: emptyDir
+    mountPath: /shared
 
 config: |
   session.use_lock.set = no
@@ -108,3 +114,11 @@ addons:
     # -- Reference an existing secret that contains the VPN configuration file
     # The chart expects it to be present under the `vpnConfigfile` key.
     configFileSecret: vpnconfig
+    scripts:
+      up: |-
+        #!/bin/bash
+        echo "connected" > /shared/vpnstatus
+
+      down: |-
+        #!/bin/bash
+        echo "disconnected" > /shared/vpnstatus

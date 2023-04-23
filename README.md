@@ -1,19 +1,33 @@
 # Pi-k8s
 
-\*Mostly\* Automated setup to install _k3s_ and aitional services on your Raspberry Pi.
+\*Mostly\* Automated setup to install _k3s_ and additional services on your home cluster.
+
+## Terminology
+
+- Control Node: This is your local computer, you will be running most of the actions from here
+- Managed Nodes: These will be your Kubernetes cluster nodes, here is where your services will be deployed
+- Master node(s): Your Kubernetes cluster control plane , this is where the management functions for your cluster take place
+- Agent node(s): These are worker nodes, they will be running most of the services
+- Storage node(s): These can be `master` or `agent` nodes, but this is where your storage will be
 
 ## Pre-deployment
 
 ### Basic node setup
 
-These are the steps that you need to follow in your kubernetes nodes (and your host machine) before being able to movve forward with the process.
+These steps need to be executed in order and before moving on with the process, since they will make it possible to run the automations.
 
 ### Nodes
 
-- Flash Debian GNU/Linux 11 (bullseye) arm64 to the Raspberry Pi 
-  - Not mandatory, but it would be desired to have an OS as similar to this as possible in your hosts
-- Connect the Raspberry Pi to your network
-- Set up passwordless [SSH](#local)
+- Flash Debian GNU/Linux 11 (bullseye) on the nodes (depending on your node's CPU you might need to flash an `amd64`  or `arm64` image)
+- Connect the node to your network (steps might vary depending on the OS)
+- Set up password-less [SSH](https://www.cyberciti.biz/faq/how-to-set-up-ssh-keys-on-linux-unix/) (this step is one from your `Control node`)
+
+  ```shell
+  ssh-copy-id {your username}@<NODE_IP>
+  ```
+  
+  - It is strongly recommended that you use the same username in your `Control node` an your `Managed nodes` [ansible playbooks](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_intro.html) will also make changes on your local filesystem and we want to avoid unnecessary privilege escalation
+  
 - Add your user to the `sudo` group:
 
   ```shell
@@ -36,83 +50,77 @@ These are the steps that you need to follow in your kubernetes nodes (and your h
 
   - Alternatively you can just edit /etc/sudoers
 
-### Local
+- Create your free public domain (this is necessary if you want to use valid [SSL certificates](https://www.kaspersky.com/resource-center/definitions/what-is-a-ssl-certificate))
 
-- Setup passwordless SSH access to the Pi (you will need an SSH keypair for this).
+  - Create an account on duckdns.org
 
-    ```shell
-    ssh-copy-id {your username}@<NODE_IP>
-    ```
+  - Create your subdomain on duckdns.org, save your subdomain and your token
 
-### Domain setup
-
-- Create an account on duckdns.org
-- Create your subdomain on duckdns.org, save your subdomain and your token
-- Point your subdomain to your external IP address (this won't work if your public IP address is NATed by your ISP)
-  - If your public IP is being NATed consider upgrading to a fixed IP address or modifying the values to deploy with celf signed certificates
-
+- Point your subdomain to your public IP address (this won't work if your public IP address is _NATed_ by your ISP)
+  
+  - This can be achieved by [Port Forwarding](https://nordvpn.com/blog/port-forwarding/) ports `80` and/or `443` in your edge router to your `Master node`'s IP address
+  
+  - If your public IP is being _NATed_ consider upgrading to a fixed IP address or modifying the values to deploy with self-signed certificates
+  
+    - A simple way to find out if this is the case is to forward a random port (let's say: `8080`) to your `Control node`
+  
+    - Find out your public IP (you can just go to [whatsmyip](https://www.whatsmyip.org/) for this)
+  
+    - Run a simple web service on that port in your `control node`:
+  
+      ```shell
+      python -m http.server 8080
+      ```
+  
+    - And then, on your browser, go to `http://{your public ip}:8080`, if it errors out, and you're certain you did everything correctly, chances are your public IP is being `CG-NATed`by your ISP an you will have to take it up with them
+  
+      ___Probably you can bypass this by generating your certificates separately, and then importing them, but I haven't tested this___
+  
 ### Storage
 
-This is only necessary if you want to use longhorn, mount the partitions that you want longhorn to use. Longhorn by default will look for a disk mounted under `/mnt/disk01`. ___I don't recommend using longhorn for single node deployments___  (at least I haven't been able to make it work properly with just one node, also I don't think it will be of more use in that particular scenario).
-  
+This is only necessary if you want to use longhorn. ___I don't recommend using longhorn for single node deployments___  (at least I haven't been able to make it work properly with just one node, also I don't think it will be of more use in that particular scenario).
+
+- Attach an external hard drive or create and format a partition on your `storage` node(s) and take note of that partition's name
+  - The playbooks will only use __one__ partition name for all `storage` nodes, so bear that in mind
+
 ## Automated Deployment
 
-- Create `ansible/k3s-ansible/inventory/deploy/group_vars/all.yml with the following:
+- Create `ansible/inventory/deploy/group_vars/all.yml` with the following:
 
     ```yaml
       ---
-      k3s_version: v1.24.11+k3s1
+      k3s_version: v1.26.3+k3s1
       systemd_dir: /etc/systemd/system
       master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
       extra_server_args: "--disable=traefik"
       extra_agent_args: ""
       timezone: 'Your timezone'
+      nfs_drive_partition: 'your previously selected partition'
       allowed_ssh_networks:
           - network1
           - network2
     ```
 
-- Create `ansible/k3s-ansible/inventory/deploy/hosts.ini with the following:
+- Create `ansible/k3s-ansible/inventory/deploy/hosts.ini` with the following:
   
     ```ini
-      [master]
-      kvothe ansible_host=ip1
-
-      [agent]
-      sim ansible_host=ip2
-
-      [k3s:children]
-      master
-      agent
-    ```
+    [master]
+    {master hostname} ansible_host= {master ip}
   
-  - You can always delete or comment (`; *`)depending on your setup
-
-- Create `terraform/terraform.tfvars` under the directory with the missing vars with the following:
-
-  ```hcl
-      letsencrypt_email="Your email"
-      letsencrypt_server="Letsencrypt validation server, use staging at first"
-      timezone = "Your timezone"
-      duckdns_token = "Your token"
-      duckdns_domains = "Your domain"
-      source_range = "Allowed source range"
-      modules_to_run = [
-        "adguard",
-        "bazarr",
-        "cert-manager",
-        "duckdns",
-        "heimdall",
-        "jackett",
-        "radarr",
-        "rancher",
-        "sonarr",
-        "storage",
-        "traefik",
-        "home-assistant",
-        "longhorn"
-        ]
+    [agent]
+    {agent hostname} ansible_host= {agent ip}
+  
+    [k3s:children]
+    master
+    agent
+    
+  [storage:children]
+  master
   ```
+  
+  - You can always delete or comment (`; *`) depending on your setup
+  
+- Create `terraform/terraform.tfvars` under the directory with the missing vars with the following:
 
 - Run:
 
@@ -139,7 +147,6 @@ ___This does not mean that you won't have to create the variable files, otherwis
     kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.9/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
     ```
 
-
 ### Ansible
 
 - From the root folder
@@ -148,7 +155,7 @@ ___This does not mean that you won't have to create the variable files, otherwis
 
 If you are going to use longhorn verify that the below requirements are met before deploying:
 
-- https://staging--longhornio.netlify.app/docs/0.8.1/deploy/install/#installation-requirements
+- <https://staging--longhornio.netlify.app/docs/0.8.1/deploy/install/#installation-requirements>
 
 ## Terraform State Backups
 
@@ -173,7 +180,7 @@ Check the `/etc/resolv.conf` file in the hosts, it should have the following:
 
 This might happen when a `terraform apply` gets cancelled mid-deployment, and the state didn't register the resources as destroyed. Usually this means that your kubernetes deployment/daemonset/pvc etc is still there, and either it was created succesfully, or is stuck in an error.
 
-This mostly occurs with `helm_relesases` and in this particular scenario it can be one of two problems:
+This mostly occurs with `helm_releases` and in this particular scenario it can be one of two problems:
 
 1. The state didn't register the resource and you have pods/services running: If you have Rancher running you can go to your dashboard and delete all resources associated with that deployment, or, if for some reason, Rancher is down, you can delete those resources using [kubectl](#kubectl).
 
@@ -215,6 +222,26 @@ after that you can remove it by running:
 
 terraform taint 'module.storage.kubernetes_persistent_volume_claim.pvcs["home-assistant"]'
 
+### exec /sbin/tini: exec format error
+
+This probably means that the image you're trying to run is not compatible with the architecture of the node. There can be a variety of factors, but if you have a multi-architecture cluster this is the most likely scenario. In order to fix this you can try some of these steps:
+
+- Verify if the image supports multiple architectures
+- If the image does not support multiple architectures, you can always force the deployment to run in a node with the desire architecture::
+  
+```helm
+  nodeSelector:
+  kubernetes.io/arch : {arm64 or amd64 depending on your needs}
+```
+
+- Annother possible scenario is that the image does support multiple architectures, but you redeployed and the cluster decided it needed to run in a different node, and that node doesn't support the architecture of the previous node's image. In this case you can temporarily modify  the `*-values.yaml` to force the image to be pulled again:
+
+```helm
+  image:
+    tag: latest
+    pullPolicy: Always
+```
+
 ## General knowledge
 
 ### Kubectl
@@ -225,16 +252,12 @@ terraform taint 'module.storage.kubernetes_persistent_volume_claim.pvcs["home-as
 
 It looks a little messy, but the `storage` module is designed to be as modular as possible. The idea is for you to be able to create all the required storage resources for your deployment in a single definition and aims to do all the configuration bits as automatically as possible, inferring most of the parameters from the variables you provide.
 
-
-
-
 #### Adding a new PersistentVolumeClaim
-
 
 ## Uninstalling
 
-### Longhorn
+### Uninstall Longhorn
 
-https://longhorn.io/docs/1.4.1/deploy/uninstall
+<https://longhorn.io/docs/1.4.1/deploy/uninstall>
 
 ## TODO
