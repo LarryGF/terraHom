@@ -33,7 +33,7 @@ These are the steps you need to follow after you've finished the infrastructure 
 
 - Add your desired indexers
 
-  - Go to [the apps](#sonarr/radarr) and get their API keys by going to Settings -> General -> Security
+  - Go to the apps (#sonarr/radarr) and get their API keys by going to Settings -> General -> Security
 
 - Go to Settings -> Apps and add your deployed apps:
 
