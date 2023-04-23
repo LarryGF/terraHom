@@ -17,6 +17,8 @@
   - [Manual Deployment (not recommended)](#manual-deployment-not-recommended)
     - [Ansible](#ansible)
     - [Longhorn](#longhorn)
+  - [Troubleshooting](#troubleshooting)
+  - [Expanding the repo](#expanding-the-repo)
   - [General knowledge](#general-knowledge)
     - [Kubectl](#kubectl)
   - [Uninstalling](#uninstalling)
@@ -197,6 +199,14 @@ ___This does not mean that you won't have to create the variable files, otherwis
 If you are going to use longhorn verify that the below requirements are met before deploying:
 
 - <https://staging--longhornio.netlify.app/docs/0.8.1/deploy/install/#installation-requirements>
+
+## Troubleshooting
+
+Read the [Troubleshooting](./docs/Troubleshooting.md) file to find solutions to common problems.
+
+## Expanding the repo
+
+Read the [Expanding](./docs/Expanding.md) file to find a more in-depth explanation on how things work and how to add your own services and functionalities.
 
 ## General knowledge
 
