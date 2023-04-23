@@ -1,0 +1,3 @@
+[submodule "scripts/NordVPN-Wireguard"]
+	path = scripts/NordVPN-Wireguard
+	url = https://github.com/sfiorini/NordVPN-Wireguard.git

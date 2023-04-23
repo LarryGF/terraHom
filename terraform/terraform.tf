@@ -31,9 +31,7 @@ provider "helm" {
   kubernetes {
     config_path = local.k3s_config_file
   }
-  experiments {
-    manifest = true
-  }
+
 }
 
 provider "kubectl" {

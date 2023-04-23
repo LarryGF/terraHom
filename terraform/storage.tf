@@ -16,8 +16,8 @@ locals {
       access_mode = ["ReadWriteOnce"]
 
     },
-    jackett = {
-      name        = "jackett",
+    prowlarr = {
+      name        = "prowlarr",
       namespace   = "public-services",
       storage     = "200Mi",
       type        = "config",

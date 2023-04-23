@@ -5,4 +5,5 @@ terraform/.terraform/*
 .backups
 .terraform
 *plan*
+*.conf
 *.config

@@ -69,7 +69,9 @@ persistence:
   #   mountPath: /dev/ttyUSB0
 
 nodeSelector:
-  kubernetes.io/hostname: ${master_hostname}
+  # kubernetes.io/hostname: ${master_hostname}
+  kubernetes.io/arch : amd64
+
 
 securityContext:
   privileged: true

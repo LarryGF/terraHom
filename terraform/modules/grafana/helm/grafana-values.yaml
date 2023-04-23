@@ -1,0 +1,58 @@
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  hosts:
+    - "grafana.${duckdns_domain}.duckdns.org"    
+  path: /
+  tls:
+    - hosts:
+        - "grafana.${duckdns_domain}.duckdns.org"
+      secretName: tls-grafana-ingress
+
+plugins:
+  - grafana-piechart-panel
+
+datasources:
+ datasources.yaml:
+   apiVersion: 1
+   datasources:
+   - name: Prometheus
+     type: prometheus
+     url: http://prometheus-server
+     access: proxy
+     isDefault: true
+
+dashboardProviders:
+ dashboardproviders.yaml:
+   apiVersion: 1
+   providers:
+   - name: 'default'
+     orgId: 1
+     folder: ''
+     type: file
+     disableDeletion: false
+     editable: true
+     options:
+       path: /var/lib/grafana/dashboards/default
+
+dashboards: 
+  default:
+    node-exporter-full:
+      gnetId: 1860
+      revision: 24
+      datasource: Prometheus
+  
+
+grafana.ini:
+  auth.anonymous:
+    enabled: true
+    org_name: Main Org.
+    org_role: Admin
+  panels:
+    disable_sanitize_html: true
+
+persistence:
+  enabled: true
+  existingClaim: grafana-config

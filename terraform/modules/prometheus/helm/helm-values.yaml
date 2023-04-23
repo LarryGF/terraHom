@@ -1,7 +1,7 @@
 # prometheus.yaml
 nodeSelector:
-  kubernetes.io/hostname: ${master_hostname}
-
+  # kubernetes.io/hostname: ${master_hostname}
+  kubernetes.io/arch : amd64
 alertmanager:
   enabled: true
   # image:
