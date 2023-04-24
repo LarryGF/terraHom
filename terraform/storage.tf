@@ -47,6 +47,13 @@ locals {
       type        = "config",
       access_mode = ["ReadWriteOnce"]
 
+    },homer = {
+      name        = "homer",
+      namespace   = "public-services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+
     },
     # gow = {
     #   name        = "gow",
