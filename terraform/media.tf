@@ -54,6 +54,28 @@ module "whisparr" {
   ]
 }
 
+module "jellyseerr" {
+  count = contains(local.modules_to_run, "jellyseerr") ? 1 : 0
+
+  source         = "./modules/jellyseerr"
+  duckdns_domain = var.duckdns_domain
+  timezone       = var.timezone
+  depends_on = [
+    kubernetes_namespace.public-services
+  ]
+}
+
+module "jellyfin" {
+  count = contains(local.modules_to_run, "jellyfin") ? 1 : 0
+
+  source         = "./modules/jellyfin"
+  duckdns_domain = var.duckdns_domain
+  timezone       = var.timezone
+  depends_on = [
+    kubernetes_namespace.public-services
+  ]
+}
+
 # module "jackett" {
 #   count = contains(local.modules_to_run, "jackett") ? 1 : 0
 

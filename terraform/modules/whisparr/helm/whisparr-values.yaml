@@ -2,6 +2,10 @@ image:
   repository: ghcr.io/hotio/whisparr
   tag: nightly
 
+env:
+  PGID: 1001
+  PUID: 1001
+  
 service:
   main:
     ports:

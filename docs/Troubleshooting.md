@@ -78,6 +78,28 @@ As long as you didn't cancel the terraform deployment mid execution, there is st
 
 But, it would be recommended if you left the provisioning to the modules themselves, so, if you want to remove something, just remove the service name from the `modules_to_run` variable and run `terraform apply` again. This will set the desired count of the associated resources (the modules themselves as well as the storage associated) to 0, and terraform will destroy them.s
 
+Another possibility, in the particular case of PVCs , is that `loghorn` is trying to delete a vvolume that's being used by a pod or a set of pods, in this case, the safest option is just to scale down the Kubernetes deployment, if it's just a pod you can do that manually by running:
+
+```shell
+  kubectl scale deployment -n {namespace} {deployment} --replicas=0
+```
+
+In case that it's being used by multiple pods, you can use the `scale_down` script in the `scripts` folder like this:
+
+```shell
+  ./scripts/scale_down.sh "-n {namespace}" {desired number of replicas}
+```
+
+so, for instance, let's say you want to recreate the `media` pvc, but it's being used by several pods, you would do:
+  
+  ```shell
+    ./scripts/scale_down.sh "-n public-services" 0
+    # Wait for the serices to be scaled down and the deployment to be updated
+    ./scripts/scale_down.sh "-n public-services" 1
+    # Restore the deployment to the desired number of replicas
+
+  ```
+
 ### Resource stuck on Terminating
 
 kubectl get namespace public-services -o json | jq '.metadata.finalizers'

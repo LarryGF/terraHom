@@ -32,6 +32,22 @@ locals {
       access_mode = ["ReadWriteOnce"]
 
     },
+    jellyseerr = {
+      name        = "jellyseerr",
+      namespace   = "public-services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+
+    },
+    jellyfin = {
+      name        = "jellyfin",
+      namespace   = "public-services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+
+    },
     plex = {
       name        = "plex",
       namespace   = "public-services",

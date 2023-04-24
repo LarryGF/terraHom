@@ -1,10 +1,10 @@
-resource "helm_release" "radarr" {
-  name       = "radarr"
-  chart      = "radarr"
+resource "helm_release" "jellyfin" {
+  name       = "jellyfin"
+  chart      = "jellyfin"
   repository = "https://k8s-at-home.com/charts/"
   namespace  = "public-services"
   reuse_values = true
-  timeout          = 300
+  timeout          = 600
 
   set {
     name = "env.TZ"
@@ -12,7 +12,7 @@ resource "helm_release" "radarr" {
   }
   values = [
     templatefile(
-      "${path.module}/helm/radarr-values.yaml",
+      "${path.module}/helm/jellyfin-values.yaml",
       {
         duckdns_domain  = var.duckdns_domain
       }
