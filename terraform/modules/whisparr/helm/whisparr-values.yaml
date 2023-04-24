@@ -52,11 +52,13 @@ probes:
 initContainers:
   update-volume-permission:
     image: busybox
-    command: ["sh", "-c", "chmod -R 777 /config"]
+    command: ["sh", "-c", "chmod -R 777 /config && mkdir -p /downloads/whisparr && chown -R 1001:1001 /downloads/whisparr"]
 
     volumeMounts:
     - name: config
       mountPath: /config
+    - name: downloads
+      mountPath: /downloads
     securityContext:
       runAsUser: 0
 

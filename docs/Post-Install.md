@@ -13,6 +13,9 @@ These are the steps you need to follow after you've finished the infrastructure 
   - [Plex/Ombi](#plexombi)
   - [orvpn wireguar](#orvpn-wireguar)
   - [Home assistant](#home-assistant)
+  - [Mylar](#mylar)
+  - [Jellyfin](#jellyfin)
+    - [Plugins](#plugins)
 
 ## Rtorrent-Flood
 
@@ -86,3 +89,13 @@ Check everything (it’s optional) and click Submit.
 You will see a code. Note it down or copy it and click on the URL displayed.
 Sign in to your GitHub profile and paste or type the code. Click Continue.
 Click the Authorize HACS button.
+
+## Mylar
+
+set comics foler and comicvine api key
+
+## Jellyfin
+
+### Plugins
+
+https://github.com/nicknsy/jellyscrub
