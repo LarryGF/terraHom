@@ -24,3 +24,50 @@ module "home-assistant" {
     
   ]
 }
+
+# https://filebrowser.org/
+module "filebrowser" {
+  count = contains(local.modules_to_run, "filebrowser") ? 1 : 0
+
+  source         = "./modules/filebrowser"
+  duckdns_domain = var.duckdns_domain
+  timezone       = var.timezone
+  depends_on = [
+    kubernetes_namespace.public-services
+  ]
+}
+
+# https://github.com/mylar3/mylar3
+module "mylar" {
+  count = contains(local.modules_to_run, "mylar") ? 1 : 0
+
+  source         = "./modules/mylar"
+  duckdns_domain = var.duckdns_domain
+  timezone       = var.timezone
+  depends_on = [
+    kubernetes_namespace.public-services
+  ]
+}
+
+module "readarr" {
+  count = contains(local.modules_to_run, "readarr") ? 1 : 0
+
+  source         = "./modules/readarr"
+  duckdns_domain = var.duckdns_domain
+  timezone       = var.timezone
+  depends_on = [
+    kubernetes_namespace.public-services
+  ]
+}
+# https://games-on-whales.github.io/gow/overview.html 
+## TODO - this is broken, needs to pass GPU
+# module "gow" {
+#   count = contains(local.modules_to_run, "gow") ? 1 : 0
+
+#   source         = "./modules/gow"
+#   duckdns_domain = var.duckdns_domain
+#   timezone       = var.timezone
+#   depends_on = [
+#     kubernetes_namespace.public-services
+#   ]
+# }

@@ -1,6 +1,6 @@
 image:
-  repository: lscr.io/linuxserver/sonarr
-  tag: 3.0.10
+  repository: lscr.io/linuxserver/mylar3
+  tag: latest
 
 env:
   PGID: 1001
@@ -14,18 +14,18 @@ ingress:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
     enabled: true
     hosts:
-      - host: "sonarr.${duckdns_domain}.duckdns.org"
+      - host: "mylar.${duckdns_domain}.duckdns.org"
         paths:
         - path: /
     tls:
       - hosts:
-          - "sonarr.${duckdns_domain}.duckdns.org"
-        secretName: tls-sonarr-ingress
+          - "mylar.${duckdns_domain}.duckdns.org"
+        secretName: tls-mylar-ingress
 
 initContainers:
   update-volume-permission:
     image: busybox
-    command: ["sh", "-c", "chmod -R 777 /config && mkdir -p /downloads/sonarr && chown -R 1001:1001 /downloads/sonarr"]
+    command: ["sh", "-c", "chmod -R 777 /config && mkdir -p /downloads/mylar/comics /downloads/mylar/downloads" ]
 
     volumeMounts:
     - name: config
@@ -38,7 +38,7 @@ initContainers:
 persistence:
   config:
     enabled: true
-    existingClaim: sonarr-config
+    existingClaim: mylar-config
   downloads:
     enabled: true
     existingClaim: media

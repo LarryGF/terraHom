@@ -24,14 +24,46 @@ locals {
       access_mode = ["ReadWriteOnce"]
 
     },
-    ombi = {
-      name        = "ombi",
+    filebrowser = {
+      name        = "filebrowser",
       namespace   = "public-services",
       storage     = "200Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
 
     },
+    mylar = {
+      name        = "mylar",
+      namespace   = "public-services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+
+    },
+    readarr = {
+      name        = "readarr",
+      namespace   = "public-services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+
+    },
+    # gow = {
+    #   name        = "gow",
+    #   namespace   = "public-services",
+    #   storage     = "1Gi",
+    #   type        = "data",
+    #   access_mode = ["ReadWriteOnce"]
+
+    # },
+    # ombi = {
+    #   name        = "ombi",
+    #   namespace   = "public-services",
+    #   storage     = "200Mi",
+    #   type        = "config",
+    #   access_mode = ["ReadWriteOnce"]
+
+    # },
     jellyseerr = {
       name        = "jellyseerr",
       namespace   = "public-services",
@@ -48,14 +80,14 @@ locals {
       access_mode = ["ReadWriteOnce"]
 
     },
-    plex = {
-      name        = "plex",
-      namespace   = "public-services",
-      storage     = "200Mi",
-      type        = "config",
-      access_mode = ["ReadWriteOnce"]
+    # plex = {
+    #   name        = "plex",
+    #   namespace   = "public-services",
+    #   storage     = "200Mi",
+    #   type        = "config",
+    #   access_mode = ["ReadWriteOnce"]
 
-    },
+    # },
     whisparr = {
       name        = "whisparr",
       namespace   = "public-services",

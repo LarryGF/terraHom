@@ -1,6 +1,6 @@
 image:
-  repository: lscr.io/linuxserver/sonarr
-  tag: 3.0.10
+  repository: lscr.io/linuxserver/readarr
+  tag: develop
 
 env:
   PGID: 1001
@@ -14,31 +14,31 @@ ingress:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
     enabled: true
     hosts:
-      - host: "sonarr.${duckdns_domain}.duckdns.org"
+      - host: "readarr.${duckdns_domain}.duckdns.org"
         paths:
         - path: /
     tls:
       - hosts:
-          - "sonarr.${duckdns_domain}.duckdns.org"
-        secretName: tls-sonarr-ingress
+          - "readarr.${duckdns_domain}.duckdns.org"
+        secretName: tls-readarr-ingress
 
 initContainers:
   update-volume-permission:
     image: busybox
-    command: ["sh", "-c", "chmod -R 777 /config && mkdir -p /downloads/sonarr && chown -R 1001:1001 /downloads/sonarr"]
+    command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/readarr && chown -R 1001:1001 /downloads/readarr"]
 
     volumeMounts:
     - name: config
       mountPath: /config
-    - name: downloads
-      mountPath: /downloads
+    - name: downloads 
+      mountPath: /downloads 
     securityContext:
       runAsUser: 0
 
 persistence:
   config:
     enabled: true
-    existingClaim: sonarr-config
+    existingClaim: readarr-config
   downloads:
     enabled: true
     existingClaim: media

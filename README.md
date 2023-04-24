@@ -223,3 +223,6 @@ Read the [Expanding](./docs/Expanding.md) file to find a more in-depth explanati
 Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), this won't be enabled by default and not be part of the `modules_to_run` variable, if you want to be able to download adult cotent, you will have to add that manually.
 
 ## TODO
+- Mylar
+- autoscan to jellyfin https://github.com/Cloudbox/autoscan
+  -kavita
