@@ -10,6 +10,19 @@ module "heimdall" {
   ]
 }
 
+module "homer" {
+  count = contains(local.modules_to_run, "homer") ? 1 : 0
+
+  source         = "./modules/homer"
+  duckdns_domain = var.duckdns_domain
+  timezone       = var.timezone
+  modules_to_run = local.modules_to_run
+  depends_on = [
+    kubernetes_namespace.public-services,
+
+  ]
+}
+
 module "home-assistant" {
   count = contains(local.modules_to_run, "home-assistant") ? 1 : 0
 
