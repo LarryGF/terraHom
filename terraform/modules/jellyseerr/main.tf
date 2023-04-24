@@ -1,10 +1,11 @@
-resource "helm_release" "radarr" {
-  name       = "radarr"
-  chart      = "radarr"
-  repository = "https://k8s-at-home.com/charts/"
+# https://github.com/Fallenbagel/jellyseerr
+resource "helm_release" "jellyseerr" {
+  name       = "jellyseerr"
+  chart      = "jellyseerr"
+  repository = "https://loeken.github.io/helm-charts"
   namespace  = "public-services"
   reuse_values = true
-  timeout          = 300
+  timeout          = 200
 
   set {
     name = "env.TZ"
@@ -12,7 +13,7 @@ resource "helm_release" "radarr" {
   }
   values = [
     templatefile(
-      "${path.module}/helm/radarr-values.yaml",
+      "${path.module}/helm/jellyseerr-values.yaml",
       {
         duckdns_domain  = var.duckdns_domain
       }

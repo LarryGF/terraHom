@@ -2,6 +2,10 @@ image:
   repository: lscr.io/linuxserver/radarr
   tag: 4.3.2.6857-ls167
 
+env:
+  PGID: 1001
+  PUID: 1001
+  
 ingress:
   main:
     ingressClassName: traefik

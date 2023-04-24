@@ -1,11 +1,7 @@
 image:
-  repository: lscr.io/linuxserver/sonarr
-  tag: 3.0.10
+  repository: lscr.io/linuxserver/jellyfin
+  tag: latest
 
-env:
-  PGID: 1001
-  PUID: 1001
-  
 ingress:
   main:
     ingressClassName: traefik
@@ -14,13 +10,13 @@ ingress:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
     enabled: true
     hosts:
-      - host: "sonarr.${duckdns_domain}.duckdns.org"
+      - host: "jellyfin.${duckdns_domain}.duckdns.org"
         paths:
         - path: /
     tls:
       - hosts:
-          - "sonarr.${duckdns_domain}.duckdns.org"
-        secretName: tls-sonarr-ingress
+          - "jellyfin.${duckdns_domain}.duckdns.org"
+        secretName: tls-jellyfin-ingress
 
 initContainers:
   update-volume-permission:
@@ -36,7 +32,7 @@ initContainers:
 persistence:
   config:
     enabled: true
-    existingClaim: sonarr-config
+    existingClaim: jellyfin-config
   downloads:
     enabled: true
     existingClaim: media
