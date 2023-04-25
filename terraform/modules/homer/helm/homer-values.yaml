@@ -21,12 +21,16 @@ env:
 
 initContainers:
   update-volume-permission:
-    image: busybox
-    command: ["sh", "-c", "chown -R 1001:1001 /config "]
+    image: bitnami/git
+    command: [
+      "bash", 
+      "/homer-setup/setup.sh"]
 
     volumeMounts:
     - name: custom
       mountPath: /config
+    - name: homer-setup
+      mountPath: /homer-setup
     securityContext:
       runAsUser: 0
 
@@ -71,6 +75,10 @@ persistence:
     enabled: true
     mountPath: /www/assets
     existingClaim: homer-config
+  homer-setup:
+    enabled: true
+    type: configMap
+    name: homer-setup
 
 configmap:
   config:

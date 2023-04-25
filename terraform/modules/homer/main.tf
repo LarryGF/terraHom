@@ -14,11 +14,21 @@ resource "helm_release" "homer" {
       "${path.module}/helm/homer-values.yaml",
       {
         duckdns_domain  = var.duckdns_domain
-        config = indent(8,file("${path.module}/helm/homer-config.yaml"))
+        config = indent(8,local.file)
       }
     )
   ]
   
+}
+
+resource "kubernetes_config_map" "homer_setup" {
+  metadata {
+    name = "homer-setup"
+    namespace  = "public-services"
+  }
+  data = {
+    "setup.sh" = "${file("${path.module}/helm/setup.sh")}"
+  }
 }
 
 variable "duckdns_domain" {
