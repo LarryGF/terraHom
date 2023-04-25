@@ -226,3 +226,6 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - Mylar
 - add autoscan to jellyfin https://github.com/Cloudbox/autoscan
 - kavita
+- Prometheus gui
+- Improve grafana
+- Add loki

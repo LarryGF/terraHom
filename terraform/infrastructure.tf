@@ -10,7 +10,6 @@ resource "null_resource" "backup" {
 }
 
 module "cert-manager" {
-  count              = contains(local.modules_to_run, "cert-manager") ? 1 : 0
   source             = "./modules/cert-manager"
   letsencrypt_email  = var.letsencrypt_email
   letsencrypt_server = var.letsencrypt_server
@@ -20,7 +19,6 @@ module "cert-manager" {
 }
 
 module "traefik" {
-  count = contains(local.modules_to_run, "traefik") ? 1 : 0
 
   source             = "./modules/traefik"
   source_range       = var.source_range
