@@ -5,18 +5,18 @@ locals {
     "subtitle" : "Once you go black you never go back",
     "logo" : "logo.png",
     "header" : true,
-    "footer" : "<span><img src=\"assets/gray0_ctp_on_line.png\" alt=\"footer\" style=\"display: block;margin-left: auto;margin-right: auto;\"></span>",
+    "footer" : "<span><img src=\"assets/gray0_ctp_on_line.png\" alt=\"footer\" style=\"display: block;height:20px;margin-left: auto;margin-right: auto;\"></span>",
     "columns" : "4",
     "connectivityCheck" : true,
     "theme" : "default",
     "stylesheet" : [
-      "assets/catppuccin-macchiato.css",
+      "assets/catppuccin-mocha.css",
       "assets/catppuccin-latte.css"
     ],
     "defaults" : {
-      "layout" : "columns",
+      "layout" : "list",
       "colorTheme" : "dark"
-    },
+    }
 
   }
   message = {
