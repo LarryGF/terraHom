@@ -224,5 +224,5 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 
 ## TODO
 - Mylar
-- autoscan to jellyfin https://github.com/Cloudbox/autoscan
-  -kavita
+- add autoscan to jellyfin https://github.com/Cloudbox/autoscan
+- kavita

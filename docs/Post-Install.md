@@ -93,6 +93,7 @@ Click the Authorize HACS button.
 ## Mylar
 
 set comics foler and comicvine api key
+enable api key for prowlarr
 
 ## Jellyfin
 
