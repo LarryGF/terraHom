@@ -1,7 +1,5 @@
 locals {
-  category_mappings = {
 
-  }
   common = {
     "title" : "Homer",
     "subtitle" : "Once you go black you never go back",
@@ -50,39 +48,4 @@ locals {
       }
     ]
   }
-  rest = {
-    "services" : [
-      {
-        "name" : "//GitHub",
-        "icon" : "fas fa-github",
-        "items" : [
-          {
-            "name" : "Homer Theme",
-            "logo" : "assets/tools/walkx.png",
-            "subtitle" : "The official Homer Theme github!",
-            "tag" : "github",
-            "tagstyle" : "is-primary",
-            "url" : "https://github.com/WalkxCode/Homer-Theme",
-            "target" : "_blank"
-          }
-        ]
-      },
-      {
-        "name" : "//Reddit",
-        "icon" : "fas fa-reddit",
-        "items" : [
-          {
-            "name" : "The original reddit post!",
-            "logo" : "assets/tools/reddit.png",
-            "subtitle" : "Yes... this is Homer.",
-            "tag" : "reddit",
-            "tagstyle" : "is-info",
-            "url" : "https://www.reddit.com/r/selfhosted/comments/q9e82c/yes_this_is_homer_yes_i_spent_2_hours_customizing/",
-            "target" : "_blank"
-          }
-        ]
-      }
-    ]
-  }
-  file = yamlencode(merge([local.common, local.rest, local.message, local.links]...))
 }

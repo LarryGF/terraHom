@@ -1,3 +1,9 @@
+module "generator_submodule" {
+  source = "./generator_submodule"
+  duckdns_domain  = var.duckdns_domain
+  modules_to_run = var.modules_to_run
+}
+
 resource "helm_release" "homer" {
   name       = "homer"
   chart      = "homer"
@@ -14,7 +20,7 @@ resource "helm_release" "homer" {
       "${path.module}/helm/homer-values.yaml",
       {
         duckdns_domain  = var.duckdns_domain
-        config = indent(8,local.file)
+        config = indent(8,module.generator_submodule.config_cotent)
       }
     )
   ]
