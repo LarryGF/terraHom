@@ -16,6 +16,7 @@ These are the steps you need to follow after you've finished the infrastructure 
   - [Mylar](#mylar)
   - [Jellyfin](#jellyfin)
     - [Plugins](#plugins)
+  - [Duplicati](#duplicati)
 
 ## Rtorrent-Flood
 
@@ -100,3 +101,47 @@ enable api key for prowlarr
 ### Plugins
 
 https://github.com/nicknsy/jellyscrub
+
+## Duplicati
+
+I chose to go with OneDrive as a backup solution, since it's free and it's easy to setup, also, if you have 2FA enabled in Mega it won't work, and it's not worth the risk to disable it. Haven't tried other solutions but this one works fine.
+
+- Follow [these steps](https://forum.Duplicati.com/t/setting-up-onedrive-personal/588)
+- If you click on `Test connection` and doesn't work, don't stress about it, it's probably a Duplicati thing, this doesn't necessarily means it won't work
+- Once you've finished your configuration, run it and verify everything is working
+- To speed the process up, export that manual config and download it somewhere handy, you will have a `json` file somewhat similar to this:
+  
+  ```shell
+    ...
+    "CreatedByVersion": "2.0.6.3",
+    "Schedule": {
+      "ID": 1,
+      "Tags": [
+        "ID=3"
+      ],
+      "Repeat": "1D",
+      "Rule": "AllowedWeekDays=Monday,Sunday",
+      "AllowedDays": [
+        "mon",
+        "sun"
+      ]
+    },
+    "Backup": {
+      "ID": "3",
+      "Name": "Sonarr",
+      "Description": "",
+      ...
+      "TargetURL": "onedrivev2:///Duplicati/sonarr/(...)",
+    "Sources": [
+      "/config/sonarr/"
+    ],
+    ...
+    "DisplayNames": {
+    "/config/sonarr/": "sonarr"
+  }
+    } 
+  ```
+
+- Since the only thing that should be different is the base path and the destination path, you can just quickly edit that same file and keep reuploading it to Duplicati until you have all your services backed up
+- All of the config folders for your services are mounted under `/config` in Duplicati by default
+- Of course, you can alway be lazy and backup the entire /config folder, Duplicati config included, but you will loose graularity and control (although you might want to backup it etirely anyways in case Duplicati itself goes down)
