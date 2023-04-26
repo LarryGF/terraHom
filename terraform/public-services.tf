@@ -85,8 +85,8 @@ module "readarr" {
 #   ]
 # }
 
-module "rtorrent" {
-  count = contains(local.modules_to_run, "rtorrent") ? 1 : 0
+module "flood" {
+  count = contains(local.modules_to_run, "flood") ? 1 : 0
   vpn_config = var.vpn_config
   namespace = "public-services"
   source         = "./modules/rtorrent"

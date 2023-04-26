@@ -103,7 +103,7 @@ locals {
       access_mode = ["ReadWriteOnce"]
 
     },
-    rtorrent = {
+    flood = {
       name        = "rtorrent",
       namespace   = "public-services",
       storage     = "200Mi",
