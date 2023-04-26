@@ -23,11 +23,11 @@ module "traefik" {
   source             = "./modules/traefik"
   source_range       = var.source_range
   timezone           = var.timezone
-  namespace          = "internal-services"
+  namespace          = "services"
   log_level          = "WARNING"
   master_hostname    = var.master_hostname
   access_log_enabled = true
-  depends_on         = [module.cert-manager, kubernetes_namespace.internal-services]
+  depends_on         = [module.cert-manager, kubernetes_namespace.services]
 }
 
 # module "rancher" {

@@ -2,7 +2,7 @@ locals {
   storage_definitions = {
     sonarr = {
       name        = "sonarr",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "500Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -10,7 +10,7 @@ locals {
     },
     radarr = {
       name        = "radarr",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "500Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -18,7 +18,7 @@ locals {
     },
     prowlarr = {
       name        = "prowlarr",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "200Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -26,7 +26,7 @@ locals {
     },
     filebrowser = {
       name        = "filebrowser",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "200Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -34,7 +34,7 @@ locals {
     },
     mylar = {
       name        = "mylar",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "200Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -42,14 +42,7 @@ locals {
     },
     readarr = {
       name        = "readarr",
-      namespace   = "public-services",
-      storage     = "200Mi",
-      type        = "config",
-      access_mode = ["ReadWriteOnce"]
-
-    },homer = {
-      name        = "homer",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "200Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -57,7 +50,7 @@ locals {
     },
     # gow = {
     #   name        = "gow",
-    #   namespace   = "public-services",
+    #   namespace   = "services",
     #   storage     = "1Gi",
     #   type        = "data",
     #   access_mode = ["ReadWriteOnce"]
@@ -65,7 +58,7 @@ locals {
     # },
     # ombi = {
     #   name        = "ombi",
-    #   namespace   = "public-services",
+    #   namespace   = "services",
     #   storage     = "200Mi",
     #   type        = "config",
     #   access_mode = ["ReadWriteOnce"]
@@ -73,7 +66,7 @@ locals {
     # },
     jellyseerr = {
       name        = "jellyseerr",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "200Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -81,7 +74,7 @@ locals {
     },
     jellyfin = {
       name        = "jellyfin",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "200Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -89,7 +82,7 @@ locals {
     },
     # plex = {
     #   name        = "plex",
-    #   namespace   = "public-services",
+    #   namespace   = "services",
     #   storage     = "200Mi",
     #   type        = "config",
     #   access_mode = ["ReadWriteOnce"]
@@ -97,7 +90,7 @@ locals {
     # },
     whisparr = {
       name        = "whisparr",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "200Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -105,7 +98,7 @@ locals {
     },
     flood = {
       name        = "rtorrent",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "200Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -113,7 +106,23 @@ locals {
     },
     heimdall = {
       name        = "heimdall",
-      namespace   = "public-services",
+      namespace   = "services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+
+    },
+    duplicati = {
+      name        = "duplicati",
+      namespace   = "services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
+
+    },
+    homer = {
+      name        = "homer",
+      namespace   = "services",
       storage     = "200Mi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]
@@ -121,14 +130,14 @@ locals {
     },
     home-assistant = {
       name        = "ha",
-      namespace   = "public-services",
+      namespace   = "services",
       storage     = "1Gi",
       type        = "config",
       access_mode = ["ReadWriteMany"]
     },
     grafana = {
       name        = "grafana",
-      namespace   = "internal-services",
+      namespace   = "services",
       storage     = "1Gi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]

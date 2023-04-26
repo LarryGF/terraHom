@@ -2,7 +2,7 @@ resource "helm_release" "radarr" {
   name       = "radarr"
   chart      = "radarr"
   repository = "https://k8s-at-home.com/charts/"
-  namespace  = "public-services"
+  namespace  = "services"
   reuse_values = true
   timeout          = 300
 

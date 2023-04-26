@@ -7,7 +7,7 @@ module "prometheus" {
   timezone        = var.timezone
   master_hostname = var.master_hostname
   depends_on = [
-    kubernetes_namespace.internal-services
+    kubernetes_namespace.monitoring
 
   ]
 }
@@ -21,7 +21,7 @@ module "grafana" {
   timezone        = var.timezone
   master_hostname = var.master_hostname
   depends_on = [
-    kubernetes_namespace.internal-services
+    kubernetes_namespace.monitoring
 
   ]
 }

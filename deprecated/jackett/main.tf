@@ -2,7 +2,7 @@ resource "helm_release" "jackett" {
   name       = "jackett"
   chart      = "jackett"
   repository = "https://k8s-at-home.com/charts/"
-  namespace  = "public-services"
+  namespace  = "services"
   reuse_values = true
   timeout          = 300
 

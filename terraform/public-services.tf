@@ -5,7 +5,7 @@ module "heimdall" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services,
+    kubernetes_namespace.services,
 
   ]
 }
@@ -18,7 +18,7 @@ module "homer" {
   timezone       = var.timezone
   modules_to_run = local.modules_to_run
   depends_on = [
-    kubernetes_namespace.public-services,
+    kubernetes_namespace.services,
 
   ]
 }
@@ -32,7 +32,7 @@ module "home-assistant" {
   timezone        = var.timezone
   master_hostname = var.master_hostname
   depends_on = [
-    kubernetes_namespace.public-services,
+    kubernetes_namespace.services,
     module.storage
     
   ]
@@ -46,7 +46,7 @@ module "filebrowser" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }
 
@@ -58,7 +58,7 @@ module "mylar" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }
 
@@ -69,7 +69,7 @@ module "readarr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }
 # https://games-on-whales.github.io/gow/overview.html 
@@ -81,18 +81,18 @@ module "readarr" {
 #   duckdns_domain = var.duckdns_domain
 #   timezone       = var.timezone
 #   depends_on = [
-#     kubernetes_namespace.public-services
+#     kubernetes_namespace.services
 #   ]
 # }
 
 module "flood" {
   count = contains(local.modules_to_run, "flood") ? 1 : 0
   vpn_config = var.vpn_config
-  namespace = "public-services"
+  namespace = "services"
   source         = "./modules/rtorrent"
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }

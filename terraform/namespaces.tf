@@ -1,20 +1,21 @@
-resource "kubernetes_namespace" "internal-services" {
+resource "kubernetes_namespace" "services" {
   metadata {
     annotations = {
-      name = "Internal Services"
+      name = "Services"
     }
-    name = "internal-services"
+    name = "services"
   }
 }
 
-resource "kubernetes_namespace" "public-services" {
+resource "kubernetes_namespace" "monitoring" {
   metadata {
     annotations = {
-      name = "Public Services"
+      name = "Monitoring"
     }
-    name = "public-services"
+    name = "monitoring"
   }
 }
+
 
 resource "kubernetes_namespace" "cert-manager" {
   metadata {

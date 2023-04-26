@@ -3,7 +3,7 @@ resource "helm_release" "gow" {
   name       = "games-on-whales"
   chart      = "games-on-whales"
   repository = "https://geek-cookbook.github.io/charts/"
-  namespace  = "public-services"
+  namespace  = "services"
   reuse_values = true
   timeout          = 300
 

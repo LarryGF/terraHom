@@ -7,7 +7,7 @@ module "duckdns" {
   timezone        = var.timezone
   master_hostname = var.master_hostname
   depends_on = [
-    kubernetes_namespace.internal-services
+    kubernetes_namespace.services
   ]
 }
 
@@ -20,8 +20,27 @@ module "adguardhome" {
   timezone        = var.timezone
   master_hostname = var.master_hostname
   depends_on = [
-    kubernetes_namespace.internal-services
+    kubernetes_namespace.services
 
   ]
 }
 
+module "duplicati" {
+  count = contains(local.modules_to_run, "duplicati") ? 1 : 0
+
+  source = "./modules/duplicati"
+  pvcs = module.storage.pvcs
+  duckdns_domain  = var.duckdns_domain
+  timezone        = var.timezone
+  master_hostname = var.master_hostname
+
+  depends_on = [
+    kubernetes_namespace.services,
+    module.storage
+
+  ]
+}
+
+output "volumes" {
+  value = module.duplicati[0].mounts
+}

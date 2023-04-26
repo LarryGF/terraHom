@@ -18,6 +18,7 @@ service_to_categories = {
     "flood": "public-services",
     "duckdns": "internal-services",
     "adguardhome": "internal-services",
+    "duplicati": "internal-services",
     "longhorn": "internal-services",
     "heimdall": "public-services",
     "qbittorrent": "public-services",
