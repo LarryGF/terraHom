@@ -3,7 +3,7 @@ resource "helm_release" "jellyseerr" {
   name       = "jellyseerr"
   chart      = "jellyseerr"
   repository = "https://loeken.github.io/helm-charts"
-  namespace  = "public-services"
+  namespace  = "services"
   reuse_values = true
   timeout          = 200
 

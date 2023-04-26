@@ -11,10 +11,13 @@
     - [General Terraform errors](#general-terraform-errors)
     - [Mark as tainted](#mark-as-tainted)
   - [Kubernetes/Helm](#kuberneteshelm)
+    - [Labels](#labels)
     - [Cannot re-use a name that is still in use](#cannot-re-use-a-name-that-is-still-in-use)
     - [Resources taking too long to destroy](#resources-taking-too-long-to-destroy)
     - [Resource stuck on Terminating](#resource-stuck-on-terminating)
     - [exec /sbin/tini: exec format error](#exec-sbintini-exec-format-error)
+  - [Longhorn](#longhorn)
+    - [Node down because of Disk pressure](#node-down-because-of-disk-pressure)
   - [Services](#services)
     - [Plex not authorized user](#plex-not-authorized-user)
 
@@ -55,6 +58,23 @@ terraform taint 'module.storage.kubernetes_persistent_volume_claim.pvcs["home-as
 
 ## Kubernetes/Helm
 
+### Labels
+
+While ading/removing labels or annnotations (this includes `nodeSelector`) you might want to keep in mind that, even if you delete something there, as long as you're ot replacing it, Terraform might not pick up the change and just add both of them together, for example:
+
+```yaml
+# let's say you originally have this
+nodeSelector:
+  kubernetes.io/hostname: my_hostname
+
+# you run it, and it works fine, but then you want to change it to something else, so you do this:
+nodeSelector:
+  # kubernetes.io/hostname: my_hostname
+  kubernetes.io/arch: amd64
+```
+
+That last value will cause the deployment to fail, because Terraform won't recognize the previous selector as `deleted`,  it's just a change in the `values.yaml` to it, an `helm` won't remember it was there to begin with, so it won't delete it either. To fix this you can just delete the deployment and helm secret and run it again
+
 ### Cannot re-use a name that is still in use
 
 This might happen when a `terraform apply` gets cancelled mid-deployment, and the state didn't register the resources as destroyed. Usually this means that your kubernetes deployment/daemonset/pvc etc is still there, and either it was created succesfully, or is stuck in an error.
@@ -93,17 +113,17 @@ In case that it's being used by multiple pods, you can use the `scale_down` scri
 so, for instance, let's say you want to recreate the `media` pvc, but it's being used by several pods, you would do:
 
   ```shell
-    ./scripts/scale_down.sh "-n public-services" 0
+    ./scripts/scale_down.sh "-n services" 0
     # Wait for the serices to be scaled down and the deployment to be updated
-    ./scripts/scale_down.sh "-n public-services" 1
+    ./scripts/scale_down.sh "-n services" 1
     # Restore the deployment to the desired number of replicas
 
   ```
 
 ### Resource stuck on Terminating
 
-kubectl get namespace public-services -o json | jq '.metadata.finalizers'
-kubectl patch namespace public-services -p '{"metadata":{"finalizers": []}}' --type=merge
+kubectl get namespace services -o json | jq '.metadata.finalizers'
+kubectl patch namespace services -p '{"metadata":{"finalizers": []}}' --type=merge
 
 ### exec /sbin/tini: exec format error
 
@@ -148,7 +168,7 @@ If you receive an error: `Not authorized You do not have access to this server` 
 - Claim the server manually by going to the Plex server url and logging in with your Plex account, youhave to do this from the same network as the Plex server, in order to do that you can do a port-forwarding to the Plex server pod:
 
 ```shell
-  kubectl port-forward -n public-services {your plex pod name} {your local port}:32400
+  kubectl port-forward -n services {your plex pod name} {your local port}:32400
 ```
 
 and then visiting httt://localhost:{your local port} in your browser.

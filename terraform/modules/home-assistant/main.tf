@@ -3,7 +3,7 @@ resource "helm_release" "home-assistant" {
   name            = "home-assistant"
   chart           = "home-assistant"
   repository      = "https://geek-cookbook.github.io/charts"
-  namespace       = "public-services"
+  namespace       = "services"
   cleanup_on_fail = true
   wait            = true
   wait_for_jobs   = true
@@ -30,7 +30,7 @@ resource "helm_release" "home-assistant" {
 resource "kubernetes_config_map" "homeassistant-config" {
   metadata {
     name = "config-file"
-    namespace  = "public-services"
+    namespace  = "services"
   }
   data = {
     "configuration.yaml" = "${file("${path.module}/helm/configuration.yaml")}"
@@ -40,7 +40,7 @@ resource "kubernetes_config_map" "homeassistant-config" {
 resource "kubernetes_job" "install-ha-plugins" {
   metadata {
     name = "install-ha-plugins"
-    namespace  = "public-services"
+    namespace  = "services"
 
   }
   spec {

@@ -2,7 +2,7 @@ resource "helm_release" "duckdns" {
   name         = "duckdns-go"
   chart        = "duckdns-go"
   repository   = "https://ebrianne.github.io/helm-charts"
-  namespace    = "internal-services"
+  namespace    = "services"
   reuse_values = true
 
   values = [templatefile("${path.module}/helm/duckdns-values.yaml",

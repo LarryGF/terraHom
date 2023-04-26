@@ -3,7 +3,7 @@ resource "helm_release" "adguard-home" {
   name       = "adguard"
   chart      = "adguard-home"
   repository = "https://k8s-at-home.com/charts/"
-  namespace  = "internal-services"
+  namespace  = "services"
   reuse_values = true
 
   set {

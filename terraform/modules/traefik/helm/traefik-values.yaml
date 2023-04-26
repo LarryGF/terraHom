@@ -173,9 +173,9 @@ ports:
       #     - bar.example.com
     #
     middlewares: 
-      - internal-services-redirect-https@kubernetescrd
-      - internal-services-error-pages@kubernetescrd
-      - internal-services-whitelist@kubernetescrd
+      - services-redirect-https@kubernetescrd
+      - services-error-pages@kubernetescrd
+      - services-whitelist@kubernetescrd
   metrics:
     port: 9100
     # hostPort: 9100

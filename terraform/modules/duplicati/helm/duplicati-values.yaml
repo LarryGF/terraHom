@@ -1,0 +1,45 @@
+
+image:
+  repository: ghcr.io/linuxserver/duplicati
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env:
+  PUID: "1001"
+  PGID: "1001"
+
+initContainers:
+  update-volume-permission:
+    image: busybox
+    command: ["sh", "-c", "chown -R 1001:1001 /config"]
+
+    volumeMounts:
+    - name: config
+      mountPath: /config
+    securityContext:
+      runAsUser: 0
+
+nodeSelector:
+  # kubernetes.io/hostname: ${master_hostname}
+  kubernetes.io/arch: amd64
+
+ingress:
+  main:
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    enabled: true
+    hosts:
+      - host: "duplicati.${duckdns_domain}.duckdns.org"
+        paths:
+        - path: /
+    tls:
+      - hosts:
+          - "duplicati.${duckdns_domain}.duckdns.org"
+        secretName: tls-duplicati-ingress
+
+# persistence:
+#   config:
+#     enabled: true
+#     existingClaim: duplicati-config

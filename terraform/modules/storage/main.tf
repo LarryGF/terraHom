@@ -21,7 +21,7 @@ resource "kubernetes_persistent_volume_claim" "media" {
   count = var.deploy_media ? 1 : 0
   metadata {
     name      = "media"
-    namespace = "public-services"
+    namespace = "services"
 
   }
   spec {
@@ -67,4 +67,8 @@ variable "sc_name" {
   type        = string
   description = "Storage class name"
 
+}
+
+output "pvcs" {
+  value = var.persistent_volume_claims
 }

@@ -2,7 +2,7 @@ resource "helm_release" "prowlarr" {
   name       = "prowlarr"
   chart      = "prowlarr"
   repository = "https://k8s-at-home.com/charts/"
-  namespace  = "public-services"
+  namespace  = "services"
   reuse_values = true
   timeout          = 300
 

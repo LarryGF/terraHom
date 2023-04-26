@@ -8,7 +8,7 @@ resource "helm_release" "homer" {
   name       = "homer"
   chart      = "homer"
   repository = "https://k8s-at-home.com/charts/"
-  namespace  = "public-services"
+  namespace  = "services"
   reuse_values = true
   timeout          = 300
   set {
@@ -30,7 +30,7 @@ resource "helm_release" "homer" {
 resource "kubernetes_config_map" "homer_setup" {
   metadata {
     name = "homer-setup"
-    namespace  = "public-services"
+    namespace  = "services"
   }
   data = {
     "setup.sh" = "${file("${path.module}/helm/setup.sh")}"

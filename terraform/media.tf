@@ -5,7 +5,7 @@ module "sonarr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }
 
@@ -16,7 +16,7 @@ module "radarr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }
 
@@ -27,7 +27,7 @@ module "radarr" {
 #   duckdns_domain = var.duckdns_domain
 #   timezone       = var.timezone
 #   depends_on = [
-#     kubernetes_namespace.public-services
+#     kubernetes_namespace.services
 #   ]
 # }
 
@@ -39,7 +39,7 @@ module "radarr" {
 #   timezone       = var.timezone
 #   allowed_networks = var.allowed_networks
 #   depends_on = [
-#     kubernetes_namespace.public-services
+#     kubernetes_namespace.services
 #   ]
 # }
 
@@ -50,7 +50,7 @@ module "whisparr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }
 
@@ -61,7 +61,7 @@ module "jellyseerr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }
 
@@ -72,7 +72,7 @@ module "jellyfin" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }
 
@@ -83,7 +83,7 @@ module "jellyfin" {
 #   duckdns_domain = var.duckdns_domain
 #   timezone       = var.timezone
 #   depends_on = [
-#     kubernetes_namespace.public-services
+#     kubernetes_namespace.services
 #   ]
 # }
 
@@ -94,7 +94,7 @@ module "bazarr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }
 
@@ -105,6 +105,6 @@ module "prowlarr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.public-services
+    kubernetes_namespace.services
   ]
 }

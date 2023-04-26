@@ -11,27 +11,32 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.19.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.20.0 |
 | <a name="provider_null"></a> [null](#provider\_null) | 3.2.1 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_adguard"></a> [adguard](#module\_adguard) | ./modules/adguard | n/a |
+| <a name="module_adguardhome"></a> [adguardhome](#module\_adguardhome) | ./modules/adguard | n/a |
 | <a name="module_bazarr"></a> [bazarr](#module\_bazarr) | ./modules/bazarr | n/a |
 | <a name="module_cert-manager"></a> [cert-manager](#module\_cert-manager) | ./modules/cert-manager | n/a |
 | <a name="module_duckdns"></a> [duckdns](#module\_duckdns) | ./modules/duckdns | n/a |
+| <a name="module_duplicati"></a> [duplicati](#module\_duplicati) | ./modules/duplicati | n/a |
+| <a name="module_filebrowser"></a> [filebrowser](#module\_filebrowser) | ./modules/filebrowser | n/a |
+| <a name="module_flood"></a> [flood](#module\_flood) | ./modules/rtorrent | n/a |
 | <a name="module_grafana"></a> [grafana](#module\_grafana) | ./modules/grafana | n/a |
 | <a name="module_heimdall"></a> [heimdall](#module\_heimdall) | ./modules/heimdall | n/a |
 | <a name="module_home-assistant"></a> [home-assistant](#module\_home-assistant) | ./modules/home-assistant | n/a |
+| <a name="module_homer"></a> [homer](#module\_homer) | ./modules/homer | n/a |
+| <a name="module_jellyfin"></a> [jellyfin](#module\_jellyfin) | ./modules/jellyfin | n/a |
+| <a name="module_jellyseerr"></a> [jellyseerr](#module\_jellyseerr) | ./modules/jellyseerr | n/a |
 | <a name="module_longhorn"></a> [longhorn](#module\_longhorn) | ./modules/longhorn | n/a |
-| <a name="module_ombi"></a> [ombi](#module\_ombi) | ./modules/ombi | n/a |
-| <a name="module_plex"></a> [plex](#module\_plex) | ./modules/plex | n/a |
+| <a name="module_mylar"></a> [mylar](#module\_mylar) | ./modules/mylar | n/a |
 | <a name="module_prometheus"></a> [prometheus](#module\_prometheus) | ./modules/prometheus | n/a |
 | <a name="module_prowlarr"></a> [prowlarr](#module\_prowlarr) | ./modules/prowlarr | n/a |
 | <a name="module_radarr"></a> [radarr](#module\_radarr) | ./modules/radarr | n/a |
-| <a name="module_rtorrent"></a> [rtorrent](#module\_rtorrent) | ./modules/rtorrent | n/a |
+| <a name="module_readarr"></a> [readarr](#module\_readarr) | ./modules/readarr | n/a |
 | <a name="module_sonarr"></a> [sonarr](#module\_sonarr) | ./modules/sonarr | n/a |
 | <a name="module_storage"></a> [storage](#module\_storage) | ./modules/storage | n/a |
 | <a name="module_traefik"></a> [traefik](#module\_traefik) | ./modules/traefik | n/a |
@@ -42,8 +47,8 @@
 | Name | Type |
 |------|------|
 | [kubernetes_namespace.cert-manager](https://registry.terraform.io/providers/kubernetes/latest/docs/resources/namespace) | resource |
-| [kubernetes_namespace.internal-services](https://registry.terraform.io/providers/kubernetes/latest/docs/resources/namespace) | resource |
-| [kubernetes_namespace.public-services](https://registry.terraform.io/providers/kubernetes/latest/docs/resources/namespace) | resource |
+| [kubernetes_namespace.monitoring](https://registry.terraform.io/providers/kubernetes/latest/docs/resources/namespace) | resource |
+| [kubernetes_namespace.services](https://registry.terraform.io/providers/kubernetes/latest/docs/resources/namespace) | resource |
 | [null_resource.backup](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 
 ## Inputs
@@ -69,5 +74,7 @@
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_volumes"></a> [volumes](#output\_volumes) | n/a |
 <!-- END_TF_DOCS -->
