@@ -91,7 +91,7 @@ In case that it's being used by multiple pods, you can use the `scale_down` scri
 ```
 
 so, for instance, let's say you want to recreate the `media` pvc, but it's being used by several pods, you would do:
-  
+
   ```shell
     ./scripts/scale_down.sh "-n public-services" 0
     # Wait for the serices to be scaled down and the deployment to be updated
@@ -124,6 +124,19 @@ This probably means that the image you're trying to run is not compatible with t
     tag: latest
     pullPolicy: Always
 ```
+
+
+
+## Longhorn
+
+### Node down because of Disk pressure
+
+This is likely to happen when one of your volumes is full beyond a certain threshold, `kubelet` will start rescheduling pods around and will, most likely, cause a bunch of pods to be stuck on `Termiating`, `Error` or `Init` depending on when you find out about this. If this happens:
+
+- Follow the steps [here](https://longhorn.io/docs/1.4.1/advanced-resources/data-recovery/export-from-replica/) to make available the block device in the node
+- Mount it as `rw` on a local folder
+- Delete enough files so that the space is below the tresshold
+- Restart the node
 
 ## Services
 
