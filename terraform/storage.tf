@@ -5,7 +5,7 @@ locals {
       namespace   = "services",
       storage     = "500Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     radarr = {
@@ -13,7 +13,7 @@ locals {
       namespace   = "services",
       storage     = "500Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     prowlarr = {
@@ -21,7 +21,15 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
+
+    },
+    sabnzbd = {
+      name        = "sabnzbd",
+      namespace   = "services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteMany"]
 
     },
     filebrowser = {
@@ -29,7 +37,7 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     mylar = {
@@ -37,7 +45,7 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     readarr = {
@@ -45,7 +53,7 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     # gow = {
@@ -69,7 +77,7 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     jellyfin = {
@@ -77,7 +85,7 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     # plex = {
@@ -93,7 +101,7 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     flood = {
@@ -101,7 +109,7 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     heimdall = {
@@ -109,7 +117,7 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     duplicati = {
@@ -117,7 +125,7 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     homer = {
@@ -125,7 +133,7 @@ locals {
       namespace   = "services",
       storage     = "200Mi",
       type        = "config",
-      access_mode = ["ReadWriteOnce"]
+      access_mode = ["ReadWriteMany"]
 
     },
     home-assistant = {
@@ -137,7 +145,7 @@ locals {
     },
     grafana = {
       name        = "grafana",
-      namespace   = "services",
+      namespace   = "monitoring",
       storage     = "1Gi",
       type        = "config",
       access_mode = ["ReadWriteOnce"]

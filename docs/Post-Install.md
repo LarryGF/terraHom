@@ -16,6 +16,7 @@ These are the steps you need to follow after you've finished the infrastructure 
   - [Mylar](#mylar)
   - [Jellyfin](#jellyfin)
     - [Plugins](#plugins)
+  - [Jellyseerr](#jellyseerr)
   - [Duplicati](#duplicati)
 
 ## Rtorrent-Flood
@@ -35,13 +36,14 @@ These are the steps you need to follow after you've finished the infrastructure 
 
 - Go to `https://prowlar.{your> domain}.duckdns.org`
 
+- I don't recommend you set up auth for this, it might lock you out of the app, and it's not worth the hassle
 - Add your desired indexers
 
   - Go to the apps (#sonarr/radarr) and get their API keys by going to Settings -> General -> Security
 
 - Go to Settings -> Apps and add your deployed apps:
 
-  - For all apps `Prowlar server` will be: `http://prowlar:9696`
+  - For all apps `Prowlar server` will be: `http://prowlarr:9696`
 
     - For all apps the `App server` will be the name of the app, and you should get the port from the table below table:
 
@@ -101,6 +103,16 @@ enable api key for prowlarr
 ### Plugins
 
 https://github.com/nicknsy/jellyscrub
+
+## Jellyseerr
+
+- You need to select `Use your Jellyfin account`
+- Then, for the url: `http://jellyfin:8096`
+- Use your previously created Jellyfin account
+- Add `Radarr` and `Sonarr` in the same way as you did with [Prowlarr](#prowlarr)
+- Make sure to `test` first so you have access to the quality profiles
+- Set the root folder
+- Don't forget to mark them as default
 
 ## Duplicati
 

@@ -4,7 +4,7 @@ resource "helm_release" "grafana" {
   name       = "grafana"
   chart      = "grafana"
   repository = "https://grafana.github.io/helm-charts"
-  namespace  = "services"
+  namespace  = "monitoring"
   values = [
     templatefile("${path.module}/helm/grafana-values.yaml", {
       duckdns_domain  = var.duckdns_domain,

@@ -23,13 +23,13 @@ ingress:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
     enabled: true
     hosts:
-      - host: "rtorrent.${duckdns_domain}.duckdns.org"
+      - host: "flood.${duckdns_domain}.duckdns.org"
         paths:
         - path: /
     tls:
       - hosts:
-          - "rtorrent.${duckdns_domain}.duckdns.org"
-        secretName: tls-rtorrent-ingress
+          - "flood.${duckdns_domain}.duckdns.org"
+        secretName: tls-flood-ingress
 
 persistence:
   config:

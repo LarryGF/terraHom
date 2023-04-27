@@ -96,3 +96,13 @@ module "flood" {
     kubernetes_namespace.services
   ]
 }
+
+module "sabnzbd" {
+  count = contains(local.modules_to_run, "sabnzbd") ? 1 : 0
+  source         = "./modules/sabnzbd"
+  duckdns_domain = var.duckdns_domain
+  timezone       = var.timezone
+  depends_on = [
+    kubernetes_namespace.services
+  ]
+}

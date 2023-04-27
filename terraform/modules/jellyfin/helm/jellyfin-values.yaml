@@ -2,6 +2,13 @@ image:
   repository: lscr.io/linuxserver/jellyfin
   tag: latest
 
+env:
+  PGID: 1001
+  PUID: 1001
+
+nodeSelector:
+  kubernetes.io/hostname: ${master_hostname}
+
 ingress:
   main:
     ingressClassName: traefik
@@ -28,6 +35,9 @@ initContainers:
       mountPath: /config
     securityContext:
       runAsUser: 0
+
+hostNetwork: true
+dnsPolicy: ClusterFirstWithHostNet
 
 persistence:
   config:

@@ -5,7 +5,7 @@ locals {
       "enabled" : true,
       "mountPath" : "/config/${key}",
       "existingClaim" : "${value["name"]}-${value["type"]}"
-    } if key != "duplicati"
+    } if key != "duplicati" && value["namespace"] == "services"
 
   }
 
@@ -19,8 +19,4 @@ locals {
   persistence = yamlencode({
     "persistence" : local.final_mounts
   })
-}
-
-output "mounts" {
-  value = local.persistence
 }
