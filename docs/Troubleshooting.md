@@ -16,10 +16,12 @@
     - [Resources taking too long to destroy](#resources-taking-too-long-to-destroy)
     - [Resource stuck on Terminating](#resource-stuck-on-terminating)
     - [exec /sbin/tini: exec format error](#exec-sbintini-exec-format-error)
+    - [Delete/get resources from only a specific node](#deleteget-resources-from-only-a-specific-node)
   - [Longhorn](#longhorn)
     - [Node down because of Disk pressure](#node-down-because-of-disk-pressure)
   - [Services](#services)
     - [Plex not authorized user](#plex-not-authorized-user)
+  - [Restoring duplicati](#restoring-duplicati)
 
 ## General
 
@@ -145,7 +147,12 @@ This probably means that the image you're trying to run is not compatible with t
     pullPolicy: Always
 ```
 
+### Delete/get resources from only a specific node
 
+```shell
+  kubectl get pods -o wide --all-namespaces --field-selector spec.nodeName={node_name}
+  kubectl delete pods --all-namespaces --field-selector spec.nodeName={node_name}
+```
 
 ## Longhorn
 
@@ -172,3 +179,5 @@ If you receive an error: `Not authorized You do not have access to this server` 
 ```
 
 and then visiting httt://localhost:{your local port} in your browser.
+
+## Restoring duplicati 

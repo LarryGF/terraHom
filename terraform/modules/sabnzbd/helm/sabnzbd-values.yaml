@@ -1,5 +1,5 @@
 image:
-  repository: lscr.io/linuxserver/prowlarr
+  repository: lscr.io/linuxserver/sabnzbd
   tag: latest
 
 env:
@@ -14,26 +14,31 @@ ingress:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
     enabled: true
     hosts:
-      - host: "prowlarr.${duckdns_domain}.duckdns.org"
+      - host: "sabnzbd.${duckdns_domain}.duckdns.org"
         paths:
         - path: /
     tls:
       - hosts:
-          - "prowlarr.${duckdns_domain}.duckdns.org"
-        secretName: tls-prowlarr-ingress
+          - "sabnzbd.${duckdns_domain}.duckdns.org"
+        secretName: tls-sabnzbd-ingress
 
 initContainers:
   update-volume-permission:
     image: busybox
-    command: ["sh", "-c", "chmod -R 777 /config"]
+    command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/sabnzbd && chown -R 1001:1001 /downloads/sabnzbd"]
 
     volumeMounts:
     - name: config
       mountPath: /config
+    - name: downloads 
+      mountPath: /downloads 
     securityContext:
       runAsUser: 0
 
 persistence:
   config:
     enabled: true
-    existingClaim: prowlarr-config
+    existingClaim: sabnzbd-config
+  downloads:
+    enabled: true
+    existingClaim: media

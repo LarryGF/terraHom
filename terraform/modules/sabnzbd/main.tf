@@ -1,11 +1,10 @@
-# https://github.com/Fallenbagel/jellyseerr
-resource "helm_release" "jellyseerr" {
-  name       = "jellyseerr"
-  chart      = "jellyseerr"
-  repository = "https://loeken.github.io/helm-charts"
+resource "helm_release" "sabnzbd" {
+  name       = "sabnzbd"
+  chart      = "sabnzbd"
+  repository = "https://k8s-at-home.com/charts/"
   namespace  = "services"
   reuse_values = true
-  timeout          = 200
+  timeout          = 300
 
   set {
     name = "env.TZ"
@@ -13,10 +12,9 @@ resource "helm_release" "jellyseerr" {
   }
   values = [
     templatefile(
-      "${path.module}/helm/jellyseerr-values.yaml",
+      "${path.module}/helm/sabnzbd-values.yaml",
       {
         duckdns_domain  = var.duckdns_domain
-
       }
     )
   ]

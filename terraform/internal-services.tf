@@ -40,7 +40,3 @@ module "duplicati" {
 
   ]
 }
-
-output "volumes" {
-  value = module.duplicati[0].mounts
-}
