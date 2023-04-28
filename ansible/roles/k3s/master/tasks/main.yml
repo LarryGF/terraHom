@@ -1,14 +1,29 @@
 ---
-- name: Copy K3s service file
+- name: Register cluster init
+  run_once: true
+  set_fact:
+    cluster_init: --cluster-init
+
+- name: Copy K3s service file Primary Master
   register: k3s_service
+  run_once: true
   template:
-    src: "k3s.service.j2"
+    src: "primary.k3s.service.j2"
     dest: "{{ systemd_dir }}/k3s.service"
     owner: root
     group: root
     mode: 0644
 
-- name: Enable and check K3s service
+- name: Register Primary master server
+  run_once: true
+  set_fact:
+    primary_master: "https://{{ ansible_default_ipv4.address }}:6443"
+  
+- debug:
+    var: primary_master
+
+- name: Enable and check K3s service on Primary Master
+  when: inventory_hostname == groups['master'][0]
   systemd:
     name: k3s
     daemon_reload: yes
@@ -16,33 +31,60 @@
     enabled: yes
 
 - name: Wait for node-token
+  run_once: true
   wait_for:
     path: "{{ k3s_server_location }}/server/node-token"
 
 - name: Register node-token file access mode
+  run_once: true
   stat:
     path: "{{ k3s_server_location }}/server/node-token"
   register: p
 
 - name: Change file access node-token
+  run_once: true
   file:
     path: "{{ k3s_server_location }}/server/node-token"
     mode: "g+rx,o+rx"
 
 - name: Read node-token from master
+  run_once: true
   slurp:
     path: "{{ k3s_server_location }}/server/node-token"
   register: node_token
 
 - name: Store Master node-token
+  run_once: true
   set_fact:
     token: "{{ node_token.content | b64decode | regex_replace('\n', '') }}"
 
 - name: Restore node-token file access
+  run_once: true
   file:
     path: "{{ k3s_server_location }}/server/node-token"
     mode: "{{ p.stat.mode }}"
 
+- name: Copy K3s service file Secondary Master
+  register: k3s_service
+  when: inventory_hostname != groups['master'][0]
+  template:
+    src: "secondary.k3s.service.j2"
+    dest: "{{ systemd_dir }}/k3s.service"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable and check K3s service on Secondary Masters
+  when: inventory_hostname != groups['master'][0]
+  systemd:
+    name: k3s
+    daemon_reload: yes
+    state: started
+    enabled: yes
+
+- debug:
+    var: ansible_user
+    
 - name: Create directory .kube
   file:
     path: ~{{ ansible_user }}/.kube
@@ -76,3 +118,28 @@
     src: /usr/local/bin/k3s
     dest: /usr/local/bin/crictl
     state: link
+
+- name: Removing cluster init
+  run_once: true
+  ansible.utils.update_fact:
+    updates:
+      - path: cluster_init
+        value: null
+
+- name: Update K3s service file Primary Master
+  register: k3s_service
+  run_once: true
+  template:
+    src: "primary.k3s.service.j2"
+    dest: "{{ systemd_dir }}/k3s.service"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Restart K3s service on Primary Master
+  when: inventory_hostname == groups['master'][0]
+  systemd:
+    name: k3s
+    daemon_reload: yes
+    state: started
+    enabled: yes
