@@ -35,6 +35,8 @@ service_to_categories = {
     "jellyfin": "media",
     "test": "empty",
     "grafana": "monitoring",
+    "prometheus": "monitoring",
+    "loki": "monitoring",
 }
 
 icon_map = {
@@ -63,8 +65,11 @@ if MODULES_TO_RUN and COMMON_CONFIG and MESSAGE:
 
     for module in modules:
         print(f"Processing module {module}")
-
+        
         key = service_to_categories.get(module)
+        if module == "prometheus":
+            module = "alertmanager"
+
         if key:
             services[key]["items"].append({
                 
