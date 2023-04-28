@@ -1,29 +1,42 @@
 ---
 - name: Basic configuration
   hosts: all
+  become: true
   roles:
     - role: basic
   tags:
     - basic
 
 - name: Harden server
+  become: true
   hosts: all
   roles:
     - role: harden
   tags:
     - harden
-    
+
 - name: Kubernetes installation prerequisites
   hosts: all
+  become: true
   gather_facts: yes
   roles:
     - role: prereq
-    - role: download
     - role: raspberrypi
   tags:
-    - kubernetes
+    - prereq
 
-- name: Kubernetes master installation 
+- name: Kubernetes installation prerequisites
+  hosts: all
+  become: true
+  gather_facts: yes
+  roles:
+    - role: download
+  tags:
+    - download
+    - kubernetes
+    
+- name: Kubernetes master installation
+  become: true
   hosts: master
   roles:
     - role: k3s/master
@@ -45,11 +58,11 @@
     - role: sync
   tags:
     - kubernetes
-
-- name: Configure storage nodes
-  hosts: storage
-  become: yes
-  roles:
-  - storage
-  tags:
-    - storage
+# - name: Configure storage nodes
+#   hosts: storage
+#   become: yes
+#   roles:
+#   - storage
+#   tags:
+#     - kubernetes
+#     - storage

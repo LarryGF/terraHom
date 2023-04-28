@@ -41,6 +41,8 @@
     state: present
   notify: enable NetworkManager
 
+- debug:
+    var: inventory_hostname
 # DNS
 - name: Set hostname
   hostname:
