@@ -4,7 +4,7 @@ resource "helm_release" "mylar" {
   repository = "https://k8s-at-home.com/charts/"
   namespace  = "services"
   reuse_values = true
-  timeout          = 300
+  timeout          = 180
 
   set {
     name = "env.TZ"
@@ -19,7 +19,31 @@ resource "helm_release" "mylar" {
     )
   ]
   
-  
+  depends_on = [ kubernetes_persistent_volume_claim.mylar ]
+}
+
+resource "kubernetes_persistent_volume_claim" "mylar" {
+  metadata {
+    name      = "mylar-config"
+    namespace = "services"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteMany"]
+    storage_class_name = var.sc_name
+
+    resources {
+      requests = {
+        storage = "200Mi"
+      }
+    }
+  }
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage class name"
+
 }
 
 variable "duckdns_domain" {

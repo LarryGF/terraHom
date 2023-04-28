@@ -4,7 +4,7 @@ resource "helm_release" "duplicati" {
   repository   = "https://k8s-at-home.com/charts/"
   namespace    = "services"
   reuse_values = true
-  timeout      = 300
+  timeout      = 180
 
   set {
     name  = "env.TZ"

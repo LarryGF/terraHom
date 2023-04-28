@@ -7,7 +7,7 @@ resource "helm_release" "home-assistant" {
   cleanup_on_fail = true
   wait            = true
   wait_for_jobs   = true
-  timeout         = 300
+  timeout         = 180
   reuse_values    = true
   set {
     name  = "env.TZ"
@@ -25,6 +25,30 @@ resource "helm_release" "home-assistant" {
   depends_on = [
     kubernetes_config_map.homeassistant-config,
   ]
+}
+
+resource "kubernetes_persistent_volume_claim" "home-assistant" {
+  metadata {
+    name      = "home-assistant-config"
+    namespace = "services"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteMany"]
+    storage_class_name = var.sc_name
+
+    resources {
+      requests = {
+        storage = "1Gi"
+      }
+    }
+  }
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage class name"
+
 }
 
 resource "kubernetes_config_map" "homeassistant-config" {

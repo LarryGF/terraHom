@@ -19,7 +19,31 @@ resource "helm_release" "radarr" {
     )
   ]
   
-  
+  depends_on = [ kubernetes_persistent_volume_claim.radarr ]
+}
+
+resource "kubernetes_persistent_volume_claim" "radarr" {
+  metadata {
+    name      = "radarr-config"
+    namespace = "services"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteMany"]
+    storage_class_name = var.sc_name
+
+    resources {
+      requests = {
+        storage = "200Mi"
+      }
+    }
+  }
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage class name"
+
 }
 
 variable "duckdns_domain" {

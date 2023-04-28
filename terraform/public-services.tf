@@ -21,6 +21,7 @@ module "homer" {
     kubernetes_namespace.services,
 
   ]
+  sc_name = local.sc_name
 }
 
 module "home-assistant" {
@@ -34,8 +35,9 @@ module "home-assistant" {
   depends_on = [
     kubernetes_namespace.services,
     module.storage
-    
+
   ]
+  sc_name = local.sc_name
 }
 
 # https://filebrowser.org/
@@ -48,6 +50,7 @@ module "filebrowser" {
   depends_on = [
     kubernetes_namespace.services
   ]
+  sc_name = local.sc_name
 }
 
 # https://github.com/mylar3/mylar3
@@ -60,6 +63,7 @@ module "mylar" {
   depends_on = [
     kubernetes_namespace.services
   ]
+  sc_name = local.sc_name
 }
 
 module "readarr" {
@@ -71,6 +75,7 @@ module "readarr" {
   depends_on = [
     kubernetes_namespace.services
   ]
+  sc_name = local.sc_name
 }
 # https://games-on-whales.github.io/gow/overview.html 
 ## TODO - this is broken, needs to pass GPU
@@ -86,23 +91,25 @@ module "readarr" {
 # }
 
 module "flood" {
-  count = contains(local.modules_to_run, "flood") ? 1 : 0
-  vpn_config = var.vpn_config
-  namespace = "services"
+  count          = contains(local.modules_to_run, "flood") ? 1 : 0
+  vpn_config     = var.vpn_config
+  namespace      = "services"
   source         = "./modules/rtorrent"
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
     kubernetes_namespace.services
   ]
+  sc_name = local.sc_name
 }
 
 module "sabnzbd" {
-  count = contains(local.modules_to_run, "sabnzbd") ? 1 : 0
+  count          = contains(local.modules_to_run, "sabnzbd") ? 1 : 0
   source         = "./modules/sabnzbd"
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
     kubernetes_namespace.services
   ]
+  sc_name = local.sc_name
 }
