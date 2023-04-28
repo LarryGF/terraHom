@@ -4,7 +4,7 @@ resource "helm_release" "prowlarr" {
   repository = "https://k8s-at-home.com/charts/"
   namespace  = "services"
   reuse_values = true
-  timeout          = 300
+  timeout          = 180
 
   set {
     name = "env.TZ"
@@ -19,6 +19,30 @@ resource "helm_release" "prowlarr" {
     )
   ]
   
+  depends_on = [ kubernetes_persistent_volume_claim.prowlarr ]
+}
+resource "kubernetes_persistent_volume_claim" "prowlarr" {
+  metadata {
+    name      = "prowlarr-config"
+    namespace = "services"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteMany"]
+    storage_class_name = var.sc_name
+
+    resources {
+      requests = {
+        storage = "300Mi"
+      }
+    }
+  }
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage class name"
+
 }
 
 variable "duckdns_domain" {

@@ -10,6 +10,31 @@ resource "helm_release" "grafana" {
       duckdns_domain  = var.duckdns_domain,
       master_hostname = var.master_hostname
   })]
+  depends_on = [ kubernetes_persistent_volume_claim.grafana ]
+}
+
+resource "kubernetes_persistent_volume_claim" "grafana" {
+  metadata {
+    name      = "grafana-config"
+    namespace = "monitoring"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteOnce"]
+    storage_class_name = var.sc_name
+
+    resources {
+      requests = {
+        storage = "1Gi"
+      }
+    }
+  }
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage class name"
+
 }
 
 

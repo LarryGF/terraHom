@@ -4,7 +4,7 @@ resource "helm_release" "filebrowser" {
   repository = "https://k8s-at-home.com/charts/"
   namespace  = "services"
   reuse_values = true
-  timeout          = 300
+  timeout          = 180
 
   set {
     name = "env.TZ"
@@ -19,7 +19,30 @@ resource "helm_release" "filebrowser" {
     )
   ]
   
-  
+  depends_on = [ kubernetes_persistent_volume_claim.filebrowser ]
+}
+resource "kubernetes_persistent_volume_claim" "filebrowser" {
+  metadata {
+    name      = "filebrowser-config"
+    namespace = "services"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteMany"]
+    storage_class_name = var.sc_name
+
+    resources {
+      requests = {
+        storage = "200Mi"
+      }
+    }
+  }
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage class name"
+
 }
 
 variable "duckdns_domain" {

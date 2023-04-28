@@ -56,22 +56,22 @@ locals {
       access_mode = ["ReadWriteMany"]
 
     },
-    # gow = {
-    #   name        = "gow",
-    #   namespace   = "services",
-    #   storage     = "1Gi",
-    #   type        = "data",
-    #   access_mode = ["ReadWriteOnce"]
+    gow = {
+      name        = "gow",
+      namespace   = "services",
+      storage     = "1Gi",
+      type        = "data",
+      access_mode = ["ReadWriteOnce"]
 
-    # },
-    # ombi = {
-    #   name        = "ombi",
-    #   namespace   = "services",
-    #   storage     = "200Mi",
-    #   type        = "config",
-    #   access_mode = ["ReadWriteOnce"]
+    },
+    ombi = {
+      name        = "ombi",
+      namespace   = "services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
 
-    # },
+    },
     jellyseerr = {
       name        = "jellyseerr",
       namespace   = "services",
@@ -88,14 +88,14 @@ locals {
       access_mode = ["ReadWriteMany"]
 
     },
-    # plex = {
-    #   name        = "plex",
-    #   namespace   = "services",
-    #   storage     = "200Mi",
-    #   type        = "config",
-    #   access_mode = ["ReadWriteOnce"]
+    plex = {
+      name        = "plex",
+      namespace   = "services",
+      storage     = "200Mi",
+      type        = "config",
+      access_mode = ["ReadWriteOnce"]
 
-    # },
+    },
     whisparr = {
       name        = "whisparr",
       namespace   = "services",
@@ -162,5 +162,24 @@ module "storage" {
   media_storage_size       = var.media_storage_size
   deploy_media             = local.deploy_media
   sc_name                  = local.sc_name
+  depends_on               = [local.storage_depends_on]
+}
 
+resource "kubernetes_persistent_volume_claim" "media" {
+  count = local.deploy_media ? 1 : 0
+  metadata {
+    name      = "media"
+    namespace = "services"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteMany"]
+    storage_class_name = local.sc_name
+
+    resources {
+      requests = {
+        storage = var.media_storage_size
+      }
+    }
+  }
 }

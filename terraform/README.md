@@ -26,17 +26,19 @@
 | <a name="module_filebrowser"></a> [filebrowser](#module\_filebrowser) | ./modules/filebrowser | n/a |
 | <a name="module_flood"></a> [flood](#module\_flood) | ./modules/rtorrent | n/a |
 | <a name="module_grafana"></a> [grafana](#module\_grafana) | ./modules/grafana | n/a |
-| <a name="module_heimdall"></a> [heimdall](#module\_heimdall) | ./modules/heimdall | n/a |
 | <a name="module_home-assistant"></a> [home-assistant](#module\_home-assistant) | ./modules/home-assistant | n/a |
 | <a name="module_homer"></a> [homer](#module\_homer) | ./modules/homer | n/a |
 | <a name="module_jellyfin"></a> [jellyfin](#module\_jellyfin) | ./modules/jellyfin | n/a |
 | <a name="module_jellyseerr"></a> [jellyseerr](#module\_jellyseerr) | ./modules/jellyseerr | n/a |
+| <a name="module_loki"></a> [loki](#module\_loki) | ./modules/loki | n/a |
 | <a name="module_longhorn"></a> [longhorn](#module\_longhorn) | ./modules/longhorn | n/a |
 | <a name="module_mylar"></a> [mylar](#module\_mylar) | ./modules/mylar | n/a |
 | <a name="module_prometheus"></a> [prometheus](#module\_prometheus) | ./modules/prometheus | n/a |
+| <a name="module_promtail"></a> [promtail](#module\_promtail) | ./modules/promtail | n/a |
 | <a name="module_prowlarr"></a> [prowlarr](#module\_prowlarr) | ./modules/prowlarr | n/a |
 | <a name="module_radarr"></a> [radarr](#module\_radarr) | ./modules/radarr | n/a |
 | <a name="module_readarr"></a> [readarr](#module\_readarr) | ./modules/readarr | n/a |
+| <a name="module_sabnzbd"></a> [sabnzbd](#module\_sabnzbd) | ./modules/sabnzbd | n/a |
 | <a name="module_sonarr"></a> [sonarr](#module\_sonarr) | ./modules/sonarr | n/a |
 | <a name="module_storage"></a> [storage](#module\_storage) | ./modules/storage | n/a |
 | <a name="module_traefik"></a> [traefik](#module\_traefik) | ./modules/traefik | n/a |
@@ -74,7 +76,5 @@
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_volumes"></a> [volumes](#output\_volumes) | n/a |
+No outputs.
 <!-- END_TF_DOCS -->

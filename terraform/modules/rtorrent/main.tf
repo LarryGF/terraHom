@@ -4,7 +4,7 @@ resource "helm_release" "rtorrent" {
   repository = "https://k8s-at-home.com/charts/"
   namespace  = var.namespace
   reuse_values = true
-  timeout          = 300
+  timeout          = 180
   set {
     name = "env.TZ"
     value = var.timezone 
@@ -19,7 +19,31 @@ resource "helm_release" "rtorrent" {
   ]
   depends_on = [
     kubernetes_secret.vpnconfig,
+    kubernetes_persistent_volume_claim.rtorrent
   ]
+}
+resource "kubernetes_persistent_volume_claim" "rtorrent" {
+  metadata {
+    name      = "rtorrent-config"
+    namespace = "services"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteMany"]
+    storage_class_name = var.sc_name
+
+    resources {
+      requests = {
+        storage = "200Mi"
+      }
+    }
+  }
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage class name"
+
 }
 
 

@@ -6,7 +6,6 @@ locals {
       "mountPath" : "/config/${key}",
       "existingClaim" : "${value["name"]}-${value["type"]}"
     } if key != "duplicati" && value["namespace"] == "services"
-
   }
 
   final_mounts = merge({

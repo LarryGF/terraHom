@@ -1,4 +1,7 @@
 resource "helm_release" "longhorn" {
+  lifecycle {
+    prevent_destroy = true
+  }
   name            = "longhorn"
   chart           = "longhorn"
   repository      = "https://charts.longhorn.io"

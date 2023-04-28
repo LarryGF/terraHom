@@ -1,40 +1,23 @@
-resource "kubernetes_persistent_volume_claim" "pvcs" {
-  for_each = var.persistent_volume_claims
-  metadata {
-    name      = "${each.value.name}-${each.value.type}"
-    namespace = each.value.namespace
+# resource "kubernetes_persistent_volume_claim" "pvcs" {
+#   for_each = var.persistent_volume_claims
+#   metadata {
+#     name      = "${each.value.name}-${each.value.type}"
+#     namespace = each.value.namespace
 
-  }
-  spec {
-    access_modes       = lookup(each.value, "access_mode", ["ReadWriteOnce"])
-    storage_class_name = var.sc_name
+#   }
+#   spec {
+#     access_modes       = lookup(each.value, "access_mode", ["ReadWriteOnce"])
+#     storage_class_name = var.sc_name
 
-    resources {
-      requests = {
-        storage = each.value.storage
-      }
-    }
-  }
-}
+#     resources {
+#       requests = {
+#         storage = each.value.storage
+#       }
+#     }
+#   }
+# }
 
-resource "kubernetes_persistent_volume_claim" "media" {
-  count = var.deploy_media ? 1 : 0
-  metadata {
-    name      = "media"
-    namespace = "services"
 
-  }
-  spec {
-    access_modes       = ["ReadWriteMany"]
-    storage_class_name = var.sc_name
-
-    resources {
-      requests = {
-        storage = var.media_storage_size
-      }
-    }
-  }
-}
 
 variable "persistent_volume_claims" {
   type = map(object(
@@ -72,3 +55,11 @@ variable "sc_name" {
 output "pvcs" {
   value = var.persistent_volume_claims
 }
+
+# output "media" {
+#   value = kubernetes_persistent_volume_claim.media
+# }
+
+# output "pvclaims" {
+#   value = kubernetes_persistent_volume_claim.pvcs
+# }
