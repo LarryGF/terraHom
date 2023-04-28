@@ -228,4 +228,6 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - kavita
 - Prometheus gui
 - Improve grafana
-- Add loki
+- Add loki documentation
+- Add loki, alertmanager, etc to Homer
+- 

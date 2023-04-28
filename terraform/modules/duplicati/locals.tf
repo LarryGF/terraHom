@@ -15,8 +15,15 @@ locals {
       "mountPath" : "/config",
       "existingClaim" : "duplicati-config"
     }
-  },local.mounts)
+  }, local.mounts)
+
   persistence = yamlencode({
     "persistence" : local.final_mounts
   })
+
+  vscode_mounts = [
+    for key, value in local.final_mounts : { "name" : key, "mountPath" : value["mountPath"] }
+  ]
+
+  vscode_volume_mounts = yamlencode(local.vscode_mounts)
 }

@@ -43,3 +43,33 @@ ingress:
 #   config:
 #     enabled: true
 #     existingClaim: duplicati-config
+
+addons:
+  codeserver:
+    image:
+      repository: codercom/code-server
+      tag: 4.11.0
+    enabled: true
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/issuer: letsencrypt
+      hosts:
+      - host: code.duplicati.${duckdns_domain}.duckdns.org
+        paths:
+          - path: /
+      tls:
+      - secretName: tls-code-duplicati-ingress
+        hosts:
+          - code.duplicati.${duckdns_domain}.duckdns.org
+
+    args:
+    - --auth
+    - none
+    - --user-data-dir
+    - "/config/.vscode"
+    
+    workingDir: "/config"
+    
+    volumeMounts: 
+      ${volume_mounts}
