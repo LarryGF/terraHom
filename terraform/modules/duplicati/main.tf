@@ -16,10 +16,12 @@ resource "helm_release" "duplicati" {
       {
         duckdns_domain  = var.duckdns_domain
         master_hostname = var.master_hostname
+        volume_mounts   = indent(6, local.vscode_volume_mounts)
+
 
       }
     ),
-    local.persistence
+    local.persistence,
   ]
 
 }
@@ -43,5 +45,5 @@ variable "master_hostname" {
 variable "pvcs" {
   type        = map(any)
   description = "Map of PVCs to mount"
-  
+
 }

@@ -1,14 +1,14 @@
-module "heimdall" {
-  count = contains(local.modules_to_run, "heimdall") ? 1 : 0
+# module "heimdall" {
+#   count = contains(local.modules_to_run, "heimdall") ? 1 : 0
 
-  source         = "./modules/heimdall"
-  duckdns_domain = var.duckdns_domain
-  timezone       = var.timezone
-  depends_on = [
-    kubernetes_namespace.services,
+#   source         = "./modules/heimdall"
+#   duckdns_domain = var.duckdns_domain
+#   timezone       = var.timezone
+#   depends_on = [
+#     kubernetes_namespace.services,
 
-  ]
-}
+#   ]
+# }
 
 module "homer" {
   count = contains(local.modules_to_run, "homer") ? 1 : 0
