@@ -62,3 +62,8 @@ variable "master_hostname" {
   description = "Hostname for the master node"
   
 }
+
+output "pvc" {
+  value = kubernetes_persistent_volume_claim.jellyfin
+  
+}

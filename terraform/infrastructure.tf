@@ -30,16 +30,7 @@ module "traefik" {
   depends_on         = [module.cert-manager, kubernetes_namespace.services]
 }
 
-# module "rancher" {
-#   count = contains(local.modules_to_run, "rancher") ? 1 : 0
 
-#   source            = "./modules/rancher"
-#   letsencrypt_email = var.letsencrypt_email
-#   duckdns_domain    = var.duckdns_domain
-#   depends_on = [
-#     module.traefik
-#   ]
-# }
 
 module "longhorn" {
   count = contains(local.modules_to_run, "longhorn") ? 1 : 0

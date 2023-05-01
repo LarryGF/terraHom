@@ -18,7 +18,31 @@ resource "helm_release" "ombi" {
       }
     )
   ]
-  
+  depends_on = [ kubernetes_persistent_volume_claim.ombi ]
+}
+
+resource "kubernetes_persistent_volume_claim" "ombi" {
+  metadata {
+    name      = "ombi-config"
+    namespace = "services"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteMany"]
+    storage_class_name = var.sc_name
+
+    resources {
+      requests = {
+        storage = "200Mi"
+      }
+    }
+  }
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage class name"
+
 }
 
 variable "duckdns_domain" {

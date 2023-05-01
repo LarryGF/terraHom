@@ -4,7 +4,7 @@ resource "helm_release" "duplicati" {
   repository   = "https://k8s-at-home.com/charts/"
   namespace    = "services"
   reuse_values = true
-  timeout      = 180
+  timeout      = 500
 
   set {
     name  = "env.TZ"
@@ -26,6 +26,24 @@ resource "helm_release" "duplicati" {
 
 }
 
+resource "kubernetes_persistent_volume_claim" "duplicati" {
+  metadata {
+    name      = "duplicati-config"
+    namespace = "services"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteMany"]
+    storage_class_name = var.sc_name
+
+    resources {
+      requests = {
+        storage = "200Mi"
+      }
+    }
+  }
+}
+
 variable "duckdns_domain" {
   type        = string
   description = "DuckDNS domain to use"
@@ -45,5 +63,11 @@ variable "master_hostname" {
 variable "pvcs" {
   type        = map(any)
   description = "Map of PVCs to mount"
+
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage class name"
 
 }

@@ -9,9 +9,11 @@
   - [Terminology](#terminology)
   - [Pre-deployment](#pre-deployment)
     - [Basic node setup](#basic-node-setup)
-      - [Nodes](#nodes)
+      - [Control Node](#control-node)
+      - [Manage Nodes](#manage-nodes)
     - [Storage](#storage)
     - [VPN Setup](#vpn-setup)
+      - [Obtaining the VPN config](#obtaining-the-vpn-config)
     - [Terraform State Backups](#terraform-state-backups)
   - [Automated Deployment](#automated-deployment)
   - [Manual Deployment (not recommended)](#manual-deployment-not-recommended)
@@ -40,7 +42,13 @@
 
 These steps need to be executed in order and before moving on with the process, since they will make it possible to run the automations.
 
-#### Nodes
+#### Control Node
+
+- Install [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (this is only necessary if you want to use the playbooks)
+- Install [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+- Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+
+#### Manage Nodes
 
 - Flash Debian GNU/Linux 11 (bullseye) on the nodes (depending on your node's CPU you might need to flash an `amd64`  or `arm64` image)
 - Connect the node to your network (steps might vary depending on the OS)
@@ -121,6 +129,12 @@ and then adding to your `terraform.tfvars`:
 # With your own encoded string, of course
 vpn_config = "SSdtIHNvIGdsYWQgeW91IHRvb2sgdGhlIHRpbWUgdG8gZGVjb2RlIHRoaXMK"
 ```
+
+#### Obtaining the VPN config
+
+Your VPN provider should have a config file available for you to use, it should be a simple Google Search away. If you don't have one already you can use [Proton VPN](https://protonvpn.com/https://protonvpn.com/) that offers a free plan and lets you easily download the Wireguard [config file](https://protonvpn.com/support/wireguard-configurations/).
+
+If you are like me and are stuck with NordVPN for the foreseeable future, you would have realized already that there's no easy way to get the config file. That's why this repo has a `submodule` under `scripts/NordVPN-Wireguard` that will let you generate the config file yourself. You can find the instructions on how to use it in the [README](./scripts/NordVPN-Wireguard/README.md).
 
 ### Terraform State Backups
 
@@ -230,4 +244,4 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - Improve grafana
 - Add loki documentation
 - Add loki, alertmanager, etc to Homer
-- 
+- Fix duplicati

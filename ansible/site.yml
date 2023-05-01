@@ -34,7 +34,7 @@
   tags:
     - download
     - kubernetes
-    
+
 - name: Kubernetes master installation
   become: true
   hosts: master
@@ -45,6 +45,7 @@
     - master
 
 - name: Kubernetes agent installation
+  become: true
   hosts: agent
   roles:
     - role: k3s/node
@@ -58,11 +59,11 @@
     - role: sync
   tags:
     - kubernetes
-# - name: Configure storage nodes
-#   hosts: storage
-#   become: yes
-#   roles:
-#   - storage
-#   tags:
-#     - kubernetes
-#     - storage
+- name: Configure storage nodes
+  hosts: storage[0]
+  become: yes
+  roles:
+  - storage
+  tags:
+    - kubernetes
+    - storage

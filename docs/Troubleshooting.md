@@ -19,6 +19,7 @@
     - [Delete/get resources from only a specific node](#deleteget-resources-from-only-a-specific-node)
   - [Longhorn](#longhorn)
     - [Node down because of Disk pressure](#node-down-because-of-disk-pressure)
+    - [Unable to attach or mount volumes timed out waiting for the condition](#unable-to-attach-or-mount-volumes-timed-out-waiting-for-the-condition)
   - [Services](#services)
     - [Plex not authorized user](#plex-not-authorized-user)
   - [Restoring duplicati](#restoring-duplicati)
@@ -164,6 +165,22 @@ This is likely to happen when one of your volumes is full beyond a certain thres
 - Mount it as `rw` on a local folder
 - Delete enough files so that the space is below the tresshold
 - Restart the node
+
+### Unable to attach or mount volumes timed out waiting for the condition
+
+Longhorn has an option to `salvage` a volume, if the volume appears as `Faulted`, in the Longhorn UI, you can select the options, then click on `salvage` and it might solve the issue. If it doesn't, you can try the following:
+
+If that didn't work, it is probably the fault of your `iscid` service, you can check the status of the service by running:
+
+```shell
+  systemctl status iscsid
+```
+
+worst case scenario reload it in each node:
+
+```shell
+  systemctl restart iscsid
+```
 
 ## Services
 
