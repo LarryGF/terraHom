@@ -32,15 +32,16 @@ module "duplicati" {
   duckdns_domain  = var.duckdns_domain
   timezone        = var.timezone
   master_hostname = var.master_hostname
-
+  sc_name         = local.sc_name
   depends_on = [
     kubernetes_namespace.services,
-    module.storage,
-    module.mylar,
-    module.radarr,
-    module.sonarr,
-    module.jellyfin,
-    module.jellyseerr,
-    module.prowlarr
+    module.mylar.pvc,
+    module.radarr.pvc,
+    module.sonarr.pvc,
+    module.jellyfin.pvc,
+    module.jellyseerr.pvc,
+    module.prowlarr.pvc,
+    module.whisparr.pvc,
+    module.sabnzbd.pvc,
   ]
 }

@@ -1,0 +1,131 @@
+---
+# Homepage configuration
+# See https://fontawesome.com/v5/search for icons options
+
+title: "Demo dashboard"
+subtitle: "Homer"
+logo: "logo.png"
+# icon: "fas fa-skull-crossbones" # Optional icon
+
+header: true
+footer: '<p>Created with <span class="has-text-danger">❤️</span> with <a href="https://bulma.io/">Bulma</a>, <a href="https://vuejs.org/">Vue.js</a> & <a href="https://fontawesome.com/">font awesome</a> // Fork me on <a href="https://github.com/bastienwirtz/homer"><i class="fab fa-github-alt"></i></a></p>' # set false if you want to hide it.
+
+# Optional theme customization
+theme: default
+colors:
+  light:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#f5f5f5"
+    card-background: "#ffffff"
+    text: "#363636"
+    text-header: "#ffffff"
+    text-title: "#303030"
+    text-subtitle: "#424242"
+    card-shadow: rgba(0, 0, 0, 0.1)
+    link: "#3273dc"
+    link-hover: "#363636"
+  dark:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#131313"
+    card-background: "#2b2b2b"
+    text: "#eaeaea"
+    text-header: "#ffffff"
+    text-title: "#fafafa"
+    text-subtitle: "#f5f5f5"
+    card-shadow: rgba(0, 0, 0, 0.4)
+    link: "#3273dc"
+    link-hover: "#ffdd57"
+
+# Optional message
+message:
+  style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
+  title: "👋 Welcome !"
+  content: "This demo page shows an overview of Homer possibilities. Feel free to click anywhere!<br /> Find more information on <a href='https://github.com/bastienwirtz/homer'>github.com/bastienwirtz/homer</a>"
+
+# Optional navbar
+# links: [] # Allows for navbar (dark mode, layout, and search) without any links
+links:
+  - name: "Contribute"
+    icon: "fab fa-github"
+    url: "https://github.com/bastienwirtz/homer"
+    target: "_blank" # optional html a tag target attribute
+  - name: "Documentation"
+    icon: "fas fa-book"
+    url: "https://github.com/bastienwirtz/homer/blob/main/README.md#table-of-contents"
+  # this will link to a second homer page that will load config from additional-page.yml and keep default config values as in config.yml file
+  # see url field and assets/additional-page.yml.dist used in this example:
+  - name: "another page!"
+    icon: "fas fa-file-alt"
+    url: "#additional-page" 
+
+# Services
+# First level array represent a group.
+# Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
+services:
+  - name: "My apps"
+    icon: "fas fa-cloud"
+    items:
+      - name: "Pi-hole"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/pihole.png"
+        url: "https://pi-hole.net/"
+        endpoint: "https://homer-demo-content.netlify.app/pihole"
+        type: "PiHole"
+      - name: "Proxmox - Node1"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/proxmox.png"
+        type: "Proxmox"
+        tag: "sys"
+        url: "https://www.proxmox.com/en/"
+        endpoint: "https://homer-demo-content.netlify.app/proxmox"
+        node: "node1"
+        warning_value: 50
+        danger_value: 80
+        api_token: "xxxxxxxxxxxx"
+      - name: "An awesome app"
+        logo: "assets/tools/sample.png"
+        subtitle: "Bookmark example"
+        tag: "app"
+        keywords: "self hosted reddit"
+        url: "https://www.reddit.com/r/selfhosted/"
+  - name: "Tools"
+    icon: "fa-solid fa-screwdriver-wrench"
+    items:
+      - name: "Octoprint"
+        logo: "https://cdn-icons-png.flaticon.com/512/3112/3112529.png"
+        apikey: "xxxxxxxxxxxx"
+        endpoint: "https://homer-demo-content.netlify.app/octoprint"
+        type: "OctoPrint"
+      - name: "Example item"
+        logo: "assets/tools/sample.png"
+        subtitle: "This another example"
+        tag: "app"
+        keywords: "demo"
+        url: "#"
+        target: "_blank" 
+      - name: "Weather"
+        location: "Lyon"
+        apikey: "xxxxxxxxxxxx" # insert your own API key here. Request one from https://openweathermap.org/api.
+        units: "metric"
+        endpoint: "https://homer-demo-content.netlify.app/openweather/weather"
+        type: "OpenWeather"
+  - name: "interesting links"
+    icon: "fas fa-solid fa-arrow-up-right-from-square"
+    items:
+      - name: "Buy me a coffee !"
+        subtitle: "If you want to support me, buy me a coffee "
+        logo: "https://www.buymeacoffee.com/assets/img/guidelines/logo-mark-1.svg"
+        url: "https://www.buymeacoffee.com/bastien"
+      - name: "r/selfhosted"
+        icon: "fa-brands fa-reddit-alien"
+        subtitle: "Bookmark example"
+        tag: "reddit"
+        url: "https://www.reddit.com/r/selfhosted/"
+        target: "_blank" 
+      - name: "Awesome selfhosted"
+        icon: "fa-brands fa-github-alt"
+        subtitle: "Another application"
+        tag: "awesome-list"
+        url: "https://github.com/awesome-selfhosted/awesome-selfhosted"

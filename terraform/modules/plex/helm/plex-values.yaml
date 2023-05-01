@@ -20,6 +20,9 @@ ingress:
           - "plex.${duckdns_domain}.duckdns.org"
         secretName: tls-plex-ingress
 
+hostNetwork: true
+dnsPolicy: ClusterFirstWithHostNet
+
 initContainers:
   update-volume-permission:
     image: busybox

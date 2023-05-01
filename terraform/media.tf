@@ -20,28 +20,6 @@ module "radarr" {
   ]
 }
 
-# module "ombi" {
-#   count = contains(local.modules_to_run, "ombi") ? 1 : 0
-# sc_name = local.sc_name
-#   source         = "./modules/ombi"
-#   duckdns_domain = var.duckdns_domain
-#   timezone       = var.timezone
-#   depends_on = [
-#     kubernetes_namespace.services
-#   ]
-# }
-
-# module "plex" {
-#   count = contains(local.modules_to_run, "plex") ? 1 : 0
-# sc_name = local.sc_name
-#   source         = "./modules/plex"
-#   duckdns_domain = var.duckdns_domain
-#   timezone       = var.timezone
-#   allowed_networks = var.allowed_networks
-#   depends_on = [
-#     kubernetes_namespace.services
-#   ]
-# }
 
 module "whisparr" {
   count          = contains(local.modules_to_run, "whisparr") ? 1 : 0
@@ -84,16 +62,35 @@ module "jellyfin" {
   ]
 }
 
-# module "jackett" {
-#   count = contains(local.modules_to_run, "jackett") ? 1 : 0
-# sc_name = local.sc_name
-#   source         = "./modules/jackett"
-#   duckdns_domain = var.duckdns_domain
-#   timezone       = var.timezone
-#   depends_on = [
-#     kubernetes_namespace.services
-#   ]
-# }
+module "plex" {
+  count           = contains(local.modules_to_run, "plex") ? 1 : 0
+  sc_name         = local.sc_name
+  source          = "./modules/plex"
+  duckdns_domain  = var.duckdns_domain
+  timezone        = var.timezone
+  allowed_networks = var.allowed_networks
+  depends_on = [
+    kubernetes_namespace.services,
+    kubernetes_persistent_volume_claim.media,
+
+
+
+  ]
+}
+
+module "ombi" {
+  count          = contains(local.modules_to_run, "ombi") ? 1 : 0
+  source         = "./modules/ombi"
+  duckdns_domain = var.duckdns_domain
+  timezone       = var.timezone
+  sc_name = local.sc_name
+  depends_on = [
+    kubernetes_namespace.services,
+    kubernetes_persistent_volume_claim.media,
+
+
+  ]
+}
 
 module "bazarr" {
   count          = contains(local.modules_to_run, "bazarr") ? 1 : 0

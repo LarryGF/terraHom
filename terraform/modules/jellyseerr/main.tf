@@ -56,3 +56,8 @@ variable "timezone" {
   type        = string
   description = "Timezone in this format: https://www.php.net/manual/en/timezones.php"
 }
+
+output "pvc" {
+  value = kubernetes_persistent_volume_claim.jellyseerr
+  
+}
