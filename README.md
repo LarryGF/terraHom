@@ -16,6 +16,7 @@
       - [Obtaining the VPN config](#obtaining-the-vpn-config)
     - [Terraform State Backups](#terraform-state-backups)
   - [Automated Deployment](#automated-deployment)
+  - [ArgoCD](#argocd)
   - [Manual Deployment (not recommended)](#manual-deployment-not-recommended)
     - [Ansible](#ansible)
     - [Longhorn](#longhorn)
@@ -184,6 +185,15 @@ There's a resource that every time you run `terraform apply` it will create a ba
   ```shell
   bash deploy.sh
   ```
+
+## ArgoCD
+
+- Get admin user by running:
+
+```shell
+kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' -n argocd | base64 -d
+
+```
 
 ## Manual Deployment (not recommended)
 
