@@ -56,6 +56,17 @@ variable "allowed_networks" {
   description = "Allowed local networks with lonng netmask: 192.168.1.0/255.255.255.0"
 }
 
+## ArgoCD
+variable "gh_username" {
+  type        = string
+  description = "GH username to access default repo"
+}
+
+variable "gh_token" {
+  type        = string
+  description = "GH access token to access default repo"
+}
+
 ## Global
 
 variable "timezone" {
