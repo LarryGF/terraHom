@@ -16,7 +16,14 @@ resource "kubernetes_namespace" "monitoring" {
   }
 }
 
-
+resource "kubernetes_namespace" "gitops" {
+  metadata {
+    annotations = {
+      name = "GitOps"
+    }
+    name = "gitops"
+  }
+}
 resource "kubernetes_namespace" "cert-manager" {
   metadata {
     annotations = {
