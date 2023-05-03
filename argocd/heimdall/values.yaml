@@ -18,17 +18,6 @@ ingress:
           - "heimdall.${duckdns_domain}.duckdns.org"
         secretName: tls-heimdall-ingress
 
-initContainers:
-  update-volume-permission:
-    image: busybox
-    command: ["sh", "-c", "chmod -R 777 /config"]
-
-    volumeMounts:
-    - name: config
-      mountPath: /config
-    securityContext:
-      runAsUser: 0
-
 persistence:
   config:
     enabled: true
