@@ -78,19 +78,6 @@ module "plex" {
   ]
 }
 
-module "ombi" {
-  count          = contains(local.modules_to_run, "ombi") ? 1 : 0
-  source         = "./modules/ombi"
-  duckdns_domain = var.duckdns_domain
-  timezone       = var.timezone
-  sc_name = local.sc_name
-  depends_on = [
-    kubernetes_namespace.services,
-    kubernetes_persistent_volume_claim.media,
-
-
-  ]
-}
 
 module "bazarr" {
   count          = contains(local.modules_to_run, "bazarr") ? 1 : 0

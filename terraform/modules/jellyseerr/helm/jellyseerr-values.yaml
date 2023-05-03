@@ -28,6 +28,11 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Jellyseerr"
+      gethomepage.dev/description: "https://grafana.com/docs/"
+      gethomepage.dev/group: "Media"
+      gethomepage.dev/icon: "jellyseerr.png"
     enabled: true
     hosts:
       - host: "jellyseerr.${duckdns_domain}.duckdns.org"
