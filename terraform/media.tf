@@ -46,21 +46,7 @@ module "jellyseerr" {
   ]
 }
 
-module "jellyfin" {
-  count           = contains(local.modules_to_run, "jellyfin") ? 1 : 0
-  sc_name         = local.sc_name
-  source          = "./modules/jellyfin"
-  duckdns_domain  = var.duckdns_domain
-  timezone        = var.timezone
-  master_hostname = var.master_hostname
-  depends_on = [
-    kubernetes_namespace.services,
-    kubernetes_persistent_volume_claim.media,
 
-
-
-  ]
-}
 
 module "plex" {
   count           = contains(local.modules_to_run, "plex") ? 1 : 0

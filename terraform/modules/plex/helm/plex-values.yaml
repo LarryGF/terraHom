@@ -4,6 +4,8 @@ image:
 
 env:
   ALLOWED_NETWORKS: ${allowed_networks}
+  PGID: 1001
+  PUID: 1001
 ingress:
   main:
     ingressClassName: traefik
@@ -15,6 +17,7 @@ ingress:
       gethomepage.dev/description: "Plex combines free movies & TV with your favorite streaming services and personal media"
       gethomepage.dev/group: "Media"
       gethomepage.dev/icon: "plex.png"
+      gethomepage.dev/href: "https://plex.${duckdns_domain}.duckdns.org/web/index.html"
     enabled: true
     hosts:
       - host: "plex.${duckdns_domain}.duckdns.org"

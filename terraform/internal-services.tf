@@ -38,7 +38,6 @@ module "duplicati" {
     module.mylar.pvc,
     module.radarr.pvc,
     module.sonarr.pvc,
-    module.jellyfin.pvc,
     module.jellyseerr.pvc,
     module.prowlarr.pvc,
     module.whisparr.pvc,
