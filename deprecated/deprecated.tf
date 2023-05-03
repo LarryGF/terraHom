@@ -83,3 +83,17 @@
 
 #   ]
 # }
+
+# module "homer" {
+#   count = contains(local.modules_to_run, "homer") ? 1 : 0
+
+#   source         = "./modules/homer"
+#   duckdns_domain = var.duckdns_domain
+#   timezone       = var.timezone
+#   modules_to_run = local.modules_to_run
+#   depends_on = [
+#     kubernetes_namespace.services,
+
+#   ]
+#   sc_name = local.sc_name
+# }

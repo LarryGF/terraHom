@@ -8,6 +8,11 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Bazarr"
+      gethomepage.dev/description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles"
+      gethomepage.dev/group: "Aggregators"
+      gethomepage.dev/icon: "bazarr.png"
     enabled: true
     hosts:
       - host: "bazarr.${duckdns_domain}.duckdns.org"
