@@ -7,7 +7,8 @@ module "duckdns" {
   timezone        = var.timezone
   master_hostname = var.master_hostname
   depends_on = [
-    kubernetes_namespace.services
+    kubernetes_namespace.services,
+    module.traefik
   ]
 }
 
@@ -18,7 +19,9 @@ module "adguardhome" {
   duckdns_domain  = var.duckdns_domain
   timezone        = var.timezone
   master_hostname = var.master_hostname
+  master_ip       = var.master_ip
   depends_on = [
-    kubernetes_namespace.services
+    kubernetes_namespace.services,
+    module.traefik
   ]
 }

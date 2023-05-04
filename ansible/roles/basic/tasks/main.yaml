@@ -35,6 +35,11 @@
     state: present
   notify: enable ntp
 
+- name: Install Procps
+  package:
+    name: procps
+    state: present
+
 - name: Install networkmanager
   package:
     name: network-manager

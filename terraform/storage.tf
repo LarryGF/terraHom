@@ -165,21 +165,21 @@ module "storage" {
   # depends_on               = [local.storage_depends_on]
 }
 
-resource "kubernetes_persistent_volume_claim" "media" {
-  count = local.deploy_media ? 1 : 0
-  metadata {
-    name      = "media"
-    namespace = "services"
+# resource "kubernetes_persistent_volume_claim" "media" {
+#   count = local.deploy_media ? 1 : 0
+#   metadata {
+#     name      = "media"
+#     namespace = "services"
 
-  }
-  spec {
-    access_modes       = ["ReadWriteMany"]
-    storage_class_name = local.sc_name
+#   }
+#   spec {
+#     access_modes       = ["ReadWriteMany"]
+#     storage_class_name = local.sc_name
 
-    resources {
-      requests = {
-        storage = var.media_storage_size
-      }
-    }
-  }
-}
+#     resources {
+#       requests = {
+#         storage = var.media_storage_size
+#       }
+#     }
+#   }
+# }

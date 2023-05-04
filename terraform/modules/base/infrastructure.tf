@@ -13,6 +13,7 @@ module "cert-manager" {
   source             = "./submodules/cert-manager"
   letsencrypt_email  = var.letsencrypt_email
   letsencrypt_server = var.letsencrypt_server
+  master_hostname    = var.master_hostname
   depends_on = [
     null_resource.backup
   ]
@@ -40,7 +41,8 @@ module "longhorn" {
   nfs_backupstore   = var.nfs_backupstore
   default_data_path = "/mnt/external-disk/storage"
   depends_on = [
-    module.traefik
+    module.traefik,
+    
   ]
 }
 
@@ -51,7 +53,9 @@ module "argo-cd" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.gitops
+    kubernetes_namespace.gitops,
+    module.traefik
+
   ]
 }
 
@@ -62,6 +66,7 @@ module "homepage" {
   timezone       = var.timezone
   depends_on = [
     kubernetes_namespace.services,
+    module.traefik
 
   ]
 }
@@ -77,4 +82,6 @@ resource "kubernetes_secret" "vpnconfig" {
   binary_data = {
     vpnConfigfile = var.vpn_config
   }
+
+  depends_on = [ kubernetes_namespace.services ]
 }

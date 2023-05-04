@@ -151,9 +151,10 @@ ports:
   web:
     port: 8000
     # hostPort: 8000
-    expose: true
+    expose: false
     exposedPort: 80
     protocol: TCP
+    redirectTo: websecure
   websecure:
     port: 8443
     expose: true
