@@ -9,3 +9,8 @@ variable "letsencrypt_server" {
   default = "https://acme-v02.api.letsencrypt.org/directory"
 }
 
+variable "master_hostname" {
+  type        = string
+  description = "Hostname for the master node"
+
+}

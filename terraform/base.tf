@@ -16,6 +16,7 @@ module "base" {
   letsencrypt_email = var.letsencrypt_email
   duckdns_domain    = var.duckdns_domain
   master_hostname   = var.master_hostname
+  master_ip         = var.master_ip
   vpn_config        = var.vpn_config
   nfs_server        = var.nfs_server
   modules_to_run    = var.modules_to_run

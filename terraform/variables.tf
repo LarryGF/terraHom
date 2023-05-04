@@ -92,6 +92,12 @@ variable "master_hostname" {
 
 }
 
+variable "master_ip" {
+  type        = string
+  description = "IP for the master node"
+
+}
+
 variable "vpn_config" {
   type        = string
   description = "Wireguard base64 encoded config"

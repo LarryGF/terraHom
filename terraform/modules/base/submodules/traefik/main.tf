@@ -9,7 +9,7 @@ resource "kubectl_manifest" "middlewares" {
     }
   )
 
-  depends_on = [helm_release.error-pages]
+  # depends_on = [helm_release.error-pages]
 }
 
 resource "helm_release" "error-pages" {
@@ -17,16 +17,22 @@ resource "helm_release" "error-pages" {
   chart        = "error-pages"
   repository   = "https://k8s-at-home.com/charts"
   namespace    = var.namespace
-  reuse_values = true
-
-  values = [
-    templatefile(
-      "${path.module}/helm/error-pages-values.yaml",
-      {
-        timezone = var.timezone
-      }
-    )
-  ]
+  set {
+    name  = "image.tag"
+    value = "latest"
+  }
+  set {
+    name  = "env.TEMPLATE_NAME"
+    value = "ghost"
+  }
+  # values = [
+  #   templatefile(
+  #     "${path.module}/helm/error-pages-values.yaml",
+  #     {
+  #       timezone = var.timezone
+  #     }
+  #   )
+  # ]
 
 }
 

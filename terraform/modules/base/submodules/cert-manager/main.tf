@@ -6,7 +6,23 @@ resource "helm_release" "cert-manager" {
   reuse_values = true
   set {
     name  = "installCRDs"
-    value = "false"
+    value = "true"
+  }
+  set {
+    name = "nodeSelector.kubernetes\\.io/hostname"
+    value = var.master_hostname
+  }
+  set {
+    name = "webhook.nodeSelector.kubernetes\\.io/hostname"
+    value = var.master_hostname
+  }
+  set {
+    name = "cainjector.nodeSelector.kubernetes\\.io/hostname"
+    value = var.master_hostname
+  }
+  set {
+    name = "startupapicheck.nodeSelector.kubernetes\\.io/hostname"
+    value = var.master_hostname
   }
 }
 

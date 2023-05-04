@@ -25,6 +25,14 @@
     ( ansible_facts.lsb.id|default("") == "Raspbian" or
       ansible_facts.lsb.description|default("") is match("[Rr]aspbian.*") )
 
+- name: Set detected_distribution to Debian
+  set_fact:
+    detected_distribution: Debian
+  when: >
+    raspberry_pi is undefined |default(false) and
+    ( ansible_facts.lsb.id|default("") == "Debian" or
+      ansible_facts.lsb.description|default("") is match("[Dd]ebian.*") )
+
 - name: Set detected_distribution to Raspbian (ARM64 on Debian Bullseye)
   set_fact:
     detected_distribution: Raspbian
@@ -49,3 +57,14 @@
     - "prereq/default.yml"
   when:
     - raspberry_pi|default(false)
+
+- name: execute OS related tasks on the Debian Server
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - "prereq/{{ detected_distribution }}-{{ detected_distribution_major_version }}.yml"
+    - "prereq/{{ detected_distribution }}.yml"
+    - "prereq/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "prereq/{{ ansible_distribution }}.yml"
+    - "prereq/default.yml"
+  when:
+    - raspberry_pi is undefined |default(false)

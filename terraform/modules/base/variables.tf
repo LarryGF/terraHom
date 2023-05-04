@@ -91,6 +91,11 @@ variable "master_hostname" {
   description = "Hostname for the master node"
 
 }
+variable "master_ip" {
+  type        = string
+  description = "IP for the master node"
+
+}
 
 variable "vpn_config" {
   type        = string

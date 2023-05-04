@@ -1,13 +1,6 @@
 image:
-  # -- image repository
   repository: ghcr.io/tarampampam/error-pages
-  # -- image tag
-  tag: 2.6.0
-  # -- image pull policy
-  pullPolicy: IfNotPresent
 
-# -- environment variables. See the [error-pages documentation](https://github.com/tarampampam/error-pages/wiki/HTTP-server) for more info.
-# @default -- See below
 env:
   # -- Set the container timezone
   TZ: ${timezone}
