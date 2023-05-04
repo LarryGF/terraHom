@@ -18,7 +18,7 @@ resource "helm_release" "rtorrent" {
     )
   ]
   depends_on = [
-    kubernetes_secret.vpnconfig,
+    # kubernetes_secret.vpnconfig,
     kubernetes_persistent_volume_claim.rtorrent
   ]
 }
@@ -47,19 +47,6 @@ variable "sc_name" {
 }
 
 
-# VPN configuration
-resource "kubernetes_secret" "vpnconfig" {
-
-  metadata {
-    name = "vpnconfig"
-    namespace  = var.namespace
-
-  }
-
-  binary_data = {
-    vpnConfigfile = var.vpn_config
-  }
-}
 
 terraform {
   required_providers {
@@ -81,11 +68,11 @@ variable "timezone" {
   description = "Timezone in this format: https://www.php.net/manual/en/timezones.php"
 }
 
-variable "vpn_config" {
-  type = string
-  description = "VPN Configuration (base 64)"
-  sensitive = true
-}
+# variable "vpn_config" {
+#   type = string
+#   description = "VPN Configuration (base 64)"
+#   sensitive = true
+# }
 
 variable "namespace" {
   type        = string

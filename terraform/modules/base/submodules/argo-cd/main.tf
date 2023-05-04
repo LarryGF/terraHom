@@ -13,13 +13,17 @@ resource "helm_release" "argo-cd" {
 
   values = [templatefile("${path.module}/helm/argo-cd-values.yaml", {
     duckdns_domain = var.duckdns_domain,
-    gh_username    = var.gh_username,
-    gh_token       = var.gh_token,
-
+   
   })]
 
-  
+}
 
+data "kubernetes_secret" "argo-cd-password" {
+  metadata {
+    name      = "argocd-initial-admin-secret"
+    namespace = "gitops"
+  }
+  depends_on = [helm_release.argo-cd]
 }
 
 variable "duckdns_domain" {
@@ -32,12 +36,8 @@ variable "timezone" {
   description = "Timezone in this format: https://www.php.net/manual/en/timezones.php"
 }
 
-variable "gh_username" {
-  type        = string
-  description = "GH username to access default repo"
-}
 
-variable "gh_token" {
-  type        = string
-  description = "GH access token to access default repo"
+
+output "password" {
+  value = data.kubernetes_secret.argo-cd-password
 }

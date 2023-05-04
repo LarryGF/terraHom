@@ -13,5 +13,5 @@ locals {
 
   sc_name = contains(var.modules_to_run, "longhorn") ? "longhorn" : "local-path"
 
-  storage_depends_on = contains(var.modules_to_run, "longhorn") ? module.longhorn : null
+  # storage_depends_on = contains(var.modules_to_run, "longhorn") ? module.longhorn : null
 }

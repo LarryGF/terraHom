@@ -1,14 +1,3 @@
-module "homepage" {
-
-  source         = "./modules/homepage"
-  duckdns_domain = var.duckdns_domain
-  timezone       = var.timezone
-  depends_on = [
-    kubernetes_namespace.services,
-
-  ]
-}
-
 module "home-assistant" {
   count = contains(local.modules_to_run, "home-assistant") ? 1 : 0
 
@@ -18,7 +7,7 @@ module "home-assistant" {
   timezone        = var.timezone
   master_hostname = var.master_hostname
   depends_on = [
-    kubernetes_namespace.services,
+    
     module.storage
 
   ]
@@ -33,7 +22,7 @@ module "filebrowser" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services
+    
   ]
   sc_name = local.sc_name
 }
@@ -46,7 +35,7 @@ module "mylar" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services
+    
   ]
   sc_name = local.sc_name
 }
@@ -58,20 +47,20 @@ module "readarr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services
+    
   ]
   sc_name = local.sc_name
 }
 
 module "flood" {
   count          = contains(local.modules_to_run, "flood") ? 1 : 0
-  vpn_config     = var.vpn_config
+  # vpn_config     = var.vpn_config
   namespace      = "services"
   source         = "./modules/rtorrent"
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services
+    
   ]
   sc_name = local.sc_name
 }
@@ -82,7 +71,7 @@ module "sabnzbd" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services
+    
   ]
   sc_name = local.sc_name
 }

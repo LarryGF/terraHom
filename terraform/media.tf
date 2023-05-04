@@ -5,7 +5,7 @@ module "sonarr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services
+    
   ]
 }
 
@@ -16,7 +16,7 @@ module "radarr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services
+    
   ]
 }
 
@@ -28,7 +28,7 @@ module "whisparr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services
+    
   ]
 }
 
@@ -39,7 +39,7 @@ module "jellyseerr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services,
+    
     kubernetes_persistent_volume_claim.media,
 
 
@@ -56,7 +56,7 @@ module "plex" {
   timezone        = var.timezone
   allowed_networks = var.allowed_networks
   depends_on = [
-    kubernetes_namespace.services,
+    
     kubernetes_persistent_volume_claim.media,
 
 
@@ -71,7 +71,7 @@ module "bazarr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services,
+    
     kubernetes_persistent_volume_claim.media,
 
 
@@ -85,7 +85,7 @@ module "prowlarr" {
   duckdns_domain = var.duckdns_domain
   timezone       = var.timezone
   depends_on = [
-    kubernetes_namespace.services,
+    
     kubernetes_persistent_volume_claim.media,
   ]
 }

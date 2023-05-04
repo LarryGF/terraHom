@@ -162,7 +162,7 @@ module "storage" {
   media_storage_size       = var.media_storage_size
   deploy_media             = local.deploy_media
   sc_name                  = local.sc_name
-  depends_on               = [local.storage_depends_on]
+  # depends_on               = [local.storage_depends_on]
 }
 
 resource "kubernetes_persistent_volume_claim" "media" {

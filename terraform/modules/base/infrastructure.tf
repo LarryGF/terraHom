@@ -10,7 +10,7 @@ resource "null_resource" "backup" {
 }
 
 module "cert-manager" {
-  source             = "./modules/cert-manager"
+  source             = "./submodules/cert-manager"
   letsencrypt_email  = var.letsencrypt_email
   letsencrypt_server = var.letsencrypt_server
   depends_on = [
@@ -20,7 +20,7 @@ module "cert-manager" {
 
 module "traefik" {
 
-  source             = "./modules/traefik"
+  source             = "./submodules/traefik"
   source_range       = var.source_range
   timezone           = var.timezone
   namespace          = "services"
@@ -35,11 +35,46 @@ module "traefik" {
 module "longhorn" {
   count = contains(local.modules_to_run, "longhorn") ? 1 : 0
 
-  source            = "./modules/longhorn"
+  source            = "./submodules/longhorn"
   duckdns_domain    = var.duckdns_domain
   nfs_backupstore   = var.nfs_backupstore
   default_data_path = "/mnt/external-disk/storage"
   depends_on = [
     module.traefik
   ]
+}
+
+module "argo-cd" {
+
+  source = "./submodules/argo-cd"
+
+  duckdns_domain = var.duckdns_domain
+  timezone       = var.timezone
+  depends_on = [
+    kubernetes_namespace.gitops
+  ]
+}
+
+module "homepage" {
+
+  source         = "./submodules/homepage"
+  duckdns_domain = var.duckdns_domain
+  timezone       = var.timezone
+  depends_on = [
+    kubernetes_namespace.services,
+
+  ]
+}
+# VPN configuration
+resource "kubernetes_secret" "vpnconfig" {
+
+  metadata {
+    name      = "vpnconfig"
+    namespace = "services"
+
+  }
+
+  binary_data = {
+    vpnConfigfile = var.vpn_config
+  }
 }
