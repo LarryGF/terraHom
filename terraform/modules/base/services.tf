@@ -8,7 +8,6 @@ module "duckdns" {
   master_hostname = var.master_hostname
   depends_on = [
     kubernetes_namespace.services,
-    module.traefik
   ]
 }
 
@@ -22,6 +21,5 @@ module "adguardhome" {
   master_ip       = var.master_ip
   depends_on = [
     kubernetes_namespace.services,
-    module.traefik
   ]
 }

@@ -41,7 +41,7 @@ module "longhorn" {
   nfs_backupstore   = var.nfs_backupstore
   default_data_path = "/mnt/external-disk/storage"
   depends_on = [
-    module.traefik,
+    module.cert-manager,
     
   ]
 }
@@ -54,7 +54,6 @@ module "argo-cd" {
   timezone       = var.timezone
   depends_on = [
     kubernetes_namespace.gitops,
-    module.traefik
 
   ]
 }
@@ -66,7 +65,6 @@ module "homepage" {
   timezone       = var.timezone
   depends_on = [
     kubernetes_namespace.services,
-    module.traefik
 
   ]
 }
