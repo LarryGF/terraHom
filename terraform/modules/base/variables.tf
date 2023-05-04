@@ -108,22 +108,6 @@ variable "modules_to_run" {
   type        = list(string)
   description = "The modules that will get deployed in each run, each consecutive run should include all previous modules"
   default = [
-    "adguard",
-    "bazarr",
-    "cert-manager",
-    "duckdns",
-    "heimdall",
-    "jackett",
-    "radarr",
-    "rancher",
-    "sonarr",
-    "storage",
-    "traefik",
+    "longhorn"
   ]
-}
-
-## Plex
-variable "allowed_networks" {
-  type        = string
-  description = "Allowed local networks with lonng netmask: 192.168.1.0/255.255.255.0"
 }
