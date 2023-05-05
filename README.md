@@ -151,7 +151,6 @@ There's a resource that every time you run `terraform apply` it will create a ba
       systemd_dir: /etc/systemd/system
       master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
       extra_server_args: "--disable=traefik"
-      extra_agent_args: ""
       timezone: 'Your timezone'
       nfs_drive_partition: 'your previously selected partition'
       allowed_ssh_networks:
@@ -191,7 +190,7 @@ There's a resource that every time you run `terraform apply` it will create a ba
 - Get admin user by running:
 
 ```shell
-kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' -n argocd | base64 -d
+kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' -n gitops | base64 -d
 
 ```
 

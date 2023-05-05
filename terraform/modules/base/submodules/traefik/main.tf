@@ -42,12 +42,11 @@ resource "helm_release" "traefik" {
   chart      = "traefik"
   repository = "https://traefik.github.io/charts"
   namespace  = "kube-system"
-  version = "21.1.0"
+  version = "23.0.1"
   cleanup_on_fail = true
   wait            = true
   wait_for_jobs   = true
   timeout         = 180
-  reuse_values    = true
 
   values = [
     templatefile(

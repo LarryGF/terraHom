@@ -9,7 +9,6 @@ image:
 
 hub:
   enabled: false
-
 deployment:
   enabled: true
   kind: Deployment
@@ -146,17 +145,15 @@ envFrom: []
 ports:
   traefik:
     port: 9000
-    expose: true
+    expose: false
     exposedPort: 9000
     protocol: TCP
-
   web:
     port: 8000
     # hostPort: 8000
-    expose: false
+    expose: true
     exposedPort: 80
     protocol: TCP
-    redirectTo: websecure
   websecure:
     port: 8443
     expose: true
@@ -271,3 +268,6 @@ podSecurityContext:
   runAsUser: 65532
 
 extraObjects: []
+
+global:
+  systemDefaultRegistry: ""

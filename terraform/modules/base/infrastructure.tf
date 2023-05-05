@@ -1,13 +1,13 @@
-resource "null_resource" "backup" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
+# resource "null_resource" "backup" {
+#   triggers = {
+#     always_run = "${timestamp()}"
+#   }
 
-  provisioner "local-exec" {
-    command = "mkdir -p .backups && test -f terraform.tfstate.backup && cp terraform.tfstate.backup .backups/$(date +%Y.%m.%d.%H.%M).terraform.tfstate.backup"
-  }
+#   provisioner "local-exec" {
+#     command = "mkdir -p .backups && test -f terraform.tfstate.backup && cp terraform.tfstate.backup .backups/$(date +%Y.%m.%d.%H.%M).terraform.tfstate.backup"
+#   }
 
-}
+# }
 
 module "cert-manager" {
   source             = "./submodules/cert-manager"
@@ -15,7 +15,7 @@ module "cert-manager" {
   letsencrypt_server = var.letsencrypt_server
   master_hostname    = var.master_hostname
   depends_on = [
-    null_resource.backup
+    # null_resource.backup
   ]
 }
 
