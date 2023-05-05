@@ -12,7 +12,7 @@ ingress:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Longhorn"
-    gethomepage.dev/description: "https://grafana.com/docs/"
+    gethomepage.dev/description: ""
     gethomepage.dev/group: "Storage"
     gethomepage.dev/icon: "longhorn.png"
 
