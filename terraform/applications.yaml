@@ -23,6 +23,7 @@ prometheus:
         - ReadWriteOnce
   override:
     duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
 
 promtail:
   name: promtail
