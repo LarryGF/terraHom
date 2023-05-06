@@ -1,0 +1,5 @@
+loki:
+  backend:
+  replicas: 1
+  nodeSelector:
+    kubernetes.io/hostname: ${master_hostname}

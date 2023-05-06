@@ -1,0 +1,41 @@
+duplicati:
+  ingress:
+    main:
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Duplicati"
+        gethomepage.dev/description: "https://duplicati.readthedocs.io/en/latest/"
+        gethomepage.dev/group: "Storage"
+        gethomepage.dev/icon: "duplicati.png"
+      enabled: true
+      hosts:
+        - host: "duplicati.${duckdns_domain}.duckdns.org"
+          paths:
+          - path: /
+      tls:
+        - hosts:
+            - "duplicati.${duckdns_domain}.duckdns.org"
+          secretName: tls-duplicati-ingress
+  persistence:
+    ${volume_mounts}
+
+
+  addons:
+    codeserver:
+      ingress:
+        enabled: true
+        annotations:
+          cert-manager.io/issuer: letsencrypt
+        hosts:
+        - host: code.duplicati.${duckdns_domain}.duckdns.org
+          paths:
+            - path: /
+        tls:
+        - secretName: tls-code-duplicati-ingress
+          hosts:
+            - code.duplicati.${duckdns_domain}.duckdns.org
+      volumeMounts: 
+        ${volume_mounts}
