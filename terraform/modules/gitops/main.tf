@@ -41,18 +41,18 @@ resource "argocd_project" "gitops" {
       namespace = "monitoring"
     }
 
-    cluster_resource_blacklist {
+    # cluster_resource_blacklist {
+    #   group = "*"
+    #   kind  = "*"
+    # }
+    cluster_resource_whitelist {
       group = "*"
       kind  = "*"
     }
-    cluster_resource_whitelist {
-      group = "rbac.authorization.k8s.io"
-      kind  = "ClusterRoleBinding"
-    }
-    cluster_resource_whitelist {
-      group = "rbac.authorization.k8s.io"
-      kind  = "ClusterRole"
-    }
+    # cluster_resource_whitelist {
+    #   group = "rbac.authorization.k8s.io"
+    #   kind  = "ClusterRole"
+    # }
 
     namespace_resource_whitelist {
       group = "*"
@@ -73,4 +73,8 @@ resource "argocd_project" "gitops" {
       ]
     }
   }
+}
+
+output "project" {
+  value = argocd_project.gitops.id
 }

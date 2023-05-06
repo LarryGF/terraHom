@@ -7,8 +7,28 @@ module "gitops" {
 }
 
 module "argocd_application" {
-
+  for_each = local.applications
   source = "./modules/argocd_application"
+  gh_base_repo   = var.gh_base_repo
+  sc_name = local.sc_name
+  override_values = each.value.override
+  name = each.value.name
+  namespace = each.value.namespace
+  storage_definitions = each.value.volumes
+  deploy = each.value.deploy
+  project = module.gitops.project
   
 }
 
+locals {
+  applications = yamldecode(templatefile("applications.yaml",
+  {
+    duckdns_domain  = var.duckdns_domain
+    master_hostname = var.master_hostname
+  }
+  ))
+}
+
+output "test" {
+ value = local.applications
+}
