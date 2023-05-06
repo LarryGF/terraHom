@@ -1,8 +1,6 @@
 loki:
   loki:
     # Configures the readiness probe for all of the Loki pods
-    ingester:
-      autoforget-unhealthy: true
     readinessProbe:
       httpGet:
         path: /ready
@@ -38,6 +36,7 @@ loki:
 
       {{- with .Values.loki.ingester }}
       ingester:
+        "autoforget_unhealthy": true
         {{- tpl (. | toYaml) $ | nindent 4 }}
       {{- end }}
 
