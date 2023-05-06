@@ -1,0 +1,57 @@
+filebrowser:
+  image:
+    tag: latest
+
+  env:
+    PGID: 1001
+    PUID: 1001
+
+  config: |
+    {
+      "port": 80,
+      "baseURL": "",
+      "address": "",
+      "log": "stdout",
+      "database": "/config/database.db",
+      "root": "/downloads"
+    }
+
+  ingress:
+    main:
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "File Browser"
+        gethomepage.dev/description: "https://grafana.com/docs/"
+        gethomepage.dev/group: "Storage"
+        gethomepage.dev/icon: "filebrowser.png"
+      enabled: true
+      hosts:
+        - host: "filebrowser.${duckdns_domain}.duckdns.org"
+          paths:
+          - path: /
+      tls:
+        - hosts:
+            - "filebrowser.${duckdns_domain}.duckdns.org"
+          secretName: tls-filebrowser-ingress
+
+  initContainers:
+    update-volume-permission:
+      image: busybox
+      command: ["sh", "-c", "chmod -R 777 /config"]
+
+      volumeMounts:
+      - name: config
+        mountPath: /config
+      securityContext:
+        runAsUser: 0
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: filebrowser-config
+    downloads:
+      enabled: true
+      existingClaim: media

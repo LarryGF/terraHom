@@ -74,3 +74,29 @@ prowlarr:
         - ReadWriteMany
   override:
     duckdns_domain: ${duckdns_domain}
+
+filebrowser:
+  name: filebrowser
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      name: filebrowser-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    duckdns_domain: ${duckdns_domain}
+
+flood:
+  name: flood
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      name: flood-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    duckdns_domain: ${duckdns_domain}
