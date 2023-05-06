@@ -63,7 +63,7 @@ These are the steps you need to follow after you've finished the infrastructure 
 - Go to Settings -> Media Management: set root folder to /downloads, that's where the `media`shared volume will be mounted
 - Go to Settings -> Download Clients: Add a new `Flood` downloader:
   - Name: Flood
-  - Host: `rtorrent-rtorrent-flood`
+  - Host: `flood-rtorrent-flood`
   - Port: `3000`
   - Set username and password from [Flood](#rtorrent-flood) step
 
