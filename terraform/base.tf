@@ -19,5 +19,6 @@ module "base" {
   master_ip         = var.master_ip
   vpn_config        = var.vpn_config
   nfs_server        = var.nfs_server
-  modules_to_run    = var.modules_to_run
+
+  use_longhorn = var.use_longhorn
 }

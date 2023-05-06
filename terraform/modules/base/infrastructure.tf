@@ -1,22 +1,9 @@
-# resource "null_resource" "backup" {
-#   triggers = {
-#     always_run = "${timestamp()}"
-#   }
-
-#   provisioner "local-exec" {
-#     command = "mkdir -p .backups && test -f terraform.tfstate.backup && cp terraform.tfstate.backup .backups/$(date +%Y.%m.%d.%H.%M).terraform.tfstate.backup"
-#   }
-
-# }
 
 module "cert-manager" {
   source             = "./submodules/cert-manager"
   letsencrypt_email  = var.letsencrypt_email
   letsencrypt_server = var.letsencrypt_server
   master_hostname    = var.master_hostname
-  depends_on = [
-    # null_resource.backup
-  ]
 }
 
 module "traefik" {
@@ -34,7 +21,7 @@ module "traefik" {
 
 
 module "longhorn" {
-  count = contains(local.modules_to_run, "longhorn") ? 1 : 0
+  count = var.use_longhorn ? 1 : 0
 
   source            = "./submodules/longhorn"
   duckdns_domain    = var.duckdns_domain
