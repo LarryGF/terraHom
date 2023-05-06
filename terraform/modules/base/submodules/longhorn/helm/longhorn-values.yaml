@@ -1,0 +1,30 @@
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  host: "longhorn.${domain}.duckdns.org"
+  tls: true
+  secureBackends: false
+  tlsSecret: tls-longhorn-ingress
+  path: /
+
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Longhorn"
+    gethomepage.dev/description: ""
+    gethomepage.dev/group: "Storage"
+    gethomepage.dev/icon: "longhorn.png"
+
+  #  kubernetes.io/ingress.class: nginx
+  #  kubernetes.io/tls-acme: true
+
+persistence:
+  defaultClass: true
+  defaultClassReplicaCount: 1
+  
+defaultSettings:
+  defaultLonghornStaticStorageClass: longhorn
+  createDefaultDiskLabeledNodes: true
+  defaultReplicaCount: 1
+  defaultDataPath: ${default_data_path}

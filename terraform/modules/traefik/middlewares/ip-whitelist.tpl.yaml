@@ -1,8 +1,0 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: whitelist
-  namespace: ${namespace}
-spec:
-  ipWhiteList:
-    sourceRange: ${jsonencode(source_range)}

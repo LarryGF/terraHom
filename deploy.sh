@@ -23,7 +23,7 @@ kubectl wait -n kube-system deployment/metrics-server --for=condition=available 
 kubectl wait -n kube-system pods -l k8s-app=metrics-server --for=condition=ready --timeout=5m
 
 printf "Installing CRDs\n"
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.crds.yaml
+# kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.crds.yaml
 kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.9/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
 terraform-docs markdown table --output-file README.md --output-mode inject terraform
 rm -f terraform/*.tfstate* && \

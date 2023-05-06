@@ -1,0 +1,4 @@
+promtail:
+  
+  nodeSelector:
+    kubernetes.io/hostname: ${master_hostname}

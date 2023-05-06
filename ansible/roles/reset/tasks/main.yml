@@ -36,6 +36,8 @@
     - /etc/rancher/k3s
     - /var/lib/kubelet
     - /var/lib/rancher/k3s
+    - /var/lib/cni
+    - /var/lib/longhorn
 
 - name: daemon_reload
   systemd:

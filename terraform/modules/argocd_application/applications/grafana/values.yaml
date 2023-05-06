@@ -1,0 +1,18 @@
+grafana:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Grafana"
+      gethomepage.dev/description: "Grafana is the open source analytics & monitoring solution for every database"
+      gethomepage.dev/group: "Monitoring"
+      gethomepage.dev/icon: "grafana.png"
+    hosts:
+      - "grafana.${duckdns_domain}.duckdns.org"    
+    path: /
+    tls:
+      - hosts:
+          - "grafana.${duckdns_domain}.duckdns.org"
+        secretName: tls-grafana-ingress

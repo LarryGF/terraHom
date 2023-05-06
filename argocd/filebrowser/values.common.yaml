@@ -1,0 +1,37 @@
+filebrowser:
+  image:
+    tag: latest
+
+  env:
+    PGID: 1001
+    PUID: 1001
+
+  config: |
+    {
+      "port": 80,
+      "baseURL": "",
+      "address": "",
+      "log": "stdout",
+      "database": "/config/database.db",
+      "root": "/downloads"
+    }
+
+  
+  initContainers:
+    update-volume-permission:
+      image: busybox
+      command: ["sh", "-c", "chmod -R 777 /config"]
+
+      volumeMounts:
+      - name: config
+        mountPath: /config
+      securityContext:
+        runAsUser: 0
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: filebrowser-config
+    downloads:
+      enabled: true
+      existingClaim: media
