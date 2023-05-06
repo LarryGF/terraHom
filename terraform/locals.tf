@@ -12,11 +12,11 @@ locals {
   ))
 
   duplicati_mounts = { for app in local.applications :
-    app.deploy && app.namespace == "services" && app.volumes.config.name => {
+     app.name => {
       enabled = true,
-      mountPath = "/config/${replace(app.volumes.config.name, "-config", "")}",
+      mountPath = "/config/${app.name}",
       existingClaim = app.volumes.config.name
-    }
+    } if app.deploy && app.namespace == "services" && contains(keys(app.volumes),"config")
   }
 }
 

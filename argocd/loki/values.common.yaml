@@ -35,6 +35,9 @@ loki:
     # https://grafana.com/docs/loki/latest/configuration/#use-environment-variables-in-the-configuration
   backend:
     replicas: 1
+    nodeSelector:
+      kubernetes.io/hostname: ${master_hostname}
+
   # Configuration for the gateway
   gateway:
     # -- Specifies whether the gateway should be enabled
