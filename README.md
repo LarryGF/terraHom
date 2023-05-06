@@ -254,3 +254,4 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - Add loki documentation
 - Fix duplicati
 - Add custom health check to argocd (or patch traefik)
+- Write local to fetch all values files in argo application values

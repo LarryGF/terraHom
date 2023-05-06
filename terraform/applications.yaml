@@ -10,6 +10,15 @@ grafana:
         - ReadWriteOnce
   override:
     duckdns_domain: ${duckdns_domain}
+
+promtail:
+  name: promtail
+  namespace: monitoring
+  deploy: true
+  volumes: []
+  override:
+    duckdns_domain: ${duckdns_domain}
+
 plex:
   name: plex
   namespace: services
@@ -95,6 +104,45 @@ flood:
   volumes:
     config:
       name: flood-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    duckdns_domain: ${duckdns_domain}
+  
+whisparr:
+  name: whisparr
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      name: whisparr-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    duckdns_domain: ${duckdns_domain}
+
+readarr:
+  name: readarr
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      name: readarr-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    duckdns_domain: ${duckdns_domain}
+
+mylar:
+  name: mylar
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      name: mylar-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
