@@ -16,11 +16,6 @@ prometheus:
   namespace: monitoring
   deploy: true
   volumes: {}
-    # config:
-    #   name: prometheus-config
-    #   size: 1Gi
-    #   access_modes:
-    #     - ReadWriteOnce
   override:
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
@@ -29,13 +24,8 @@ prometheus:
 loki:
   name: loki
   namespace: monitoring
-  deploy: true
+  deploy: false
   volumes: {}
-    # config:
-    #   name: loki-config
-    #   size: 1Gi
-    #   access_modes:
-    #     - ReadWriteOnce
   override:
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
