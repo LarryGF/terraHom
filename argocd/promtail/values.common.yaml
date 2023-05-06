@@ -75,10 +75,6 @@ promtail:
         - ALL
     allowPrivilegeEscalation: false
 
-
-  # nodeSelector:
-  #   kubernetes.io/hostname: ${master_hostname}
-
   # -- Affinity configuration for pods
   affinity: {}
 

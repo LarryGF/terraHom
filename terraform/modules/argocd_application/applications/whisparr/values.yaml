@@ -1,18 +1,4 @@
 radarr:
-  image:
-    repository: ghcr.io/hotio/whisparr
-    tag: nightly
-
-  env:
-    PGID: 1001
-    PUID: 1001
-    
-  service:
-    main:
-      ports:
-        http:
-          port: 6969
-          
   ingress:
     main:
       ingressClassName: traefik
@@ -33,45 +19,3 @@ radarr:
         - hosts:
             - "whisparr.${duckdns_domain}.duckdns.org"
           secretName: tls-whisparr-ingress
-
-  probes:
-    liveness:
-      enabled: true
-      ## Set this to true if you wish to specify your own livenessProbe
-      custom: true
-      ## The spec field contains the values for the default livenessProbe.
-      ## If you selected custom: true, this field holds the definition of the livenessProbe.
-      spec:
-        exec:
-          command:
-          - /usr/bin/env
-          - bash
-          - -c
-          - curl --fail localhost:6969/api/v3/system/status?apiKey=`IFS=\> && while
-            read -d \< E C; do if [[ $E = "ApiKey" ]]; then echo $C; fi; done < /config/config.xml`
-        failureThreshold: 5
-        initialDelaySeconds: 60
-        periodSeconds: 10
-        successThreshold: 1
-        timeoutSeconds: 10
-
-  initContainers:
-    update-volume-permission:
-      image: busybox
-      command: ["sh", "-c", "chmod -R 777 /config && mkdir -p /downloads/whisparr && chown -R 1001:1001 /downloads/whisparr"]
-
-      volumeMounts:
-      - name: config
-        mountPath: /config
-      - name: downloads
-        mountPath: /downloads
-      securityContext:
-        runAsUser: 0
-
-  persistence:
-    config:
-      enabled: true
-      existingClaim: whisparr-config
-    downloads:
-      enabled: true
-      existingClaim: media

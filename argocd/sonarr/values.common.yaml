@@ -1,0 +1,30 @@
+sonarr:
+  image:
+    repository: lscr.io/linuxserver/sonarr
+    tag: 3.0.10
+
+  env:
+    PGID: 1001
+    PUID: 1001
+    
+
+  initContainers:
+    update-volume-permission:
+      image: busybox
+      command: ["sh", "-c", "chmod -R 777 /config && mkdir -p /downloads/sonarr && chown -R 1001:1001 /downloads/sonarr"]
+
+      volumeMounts:
+      - name: config
+        mountPath: /config
+      - name: downloads
+        mountPath: /downloads
+      securityContext:
+        runAsUser: 0
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: sonarr-config
+    downloads:
+      enabled: true
+      existingClaim: media
