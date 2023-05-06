@@ -1,0 +1,12 @@
+grafana:
+  name: grafana
+  namespace: monitoring
+  deploy: true
+  volumes:
+    config:
+      name: grafana-config
+      size: 1Gi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    duckdns_domain: ${duckdns_domain}
