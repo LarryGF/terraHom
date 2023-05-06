@@ -24,7 +24,7 @@ prometheus:
 loki:
   name: loki
   namespace: monitoring
-  deploy: false
+  deploy: true
   volumes: {}
   override:
     duckdns_domain: ${duckdns_domain}
