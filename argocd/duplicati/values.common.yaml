@@ -13,9 +13,9 @@ duplicati:
       image: busybox
       command: ["sh", "-c", "chown -R 1001:1001 /config"]
 
-      volumeMounts:
-      - name: config
-        mountPath: /config
+      # volumeMounts:
+      # - name: config
+      #   mountPath: /config
       securityContext:
         runAsUser: 0
 

@@ -196,11 +196,3 @@ mylar:
   override:
     duckdns_domain: ${duckdns_domain}
 
-duplicati:
-  name: duplicati
-  namespace: services
-  deploy: true
-  volumes: {}
-  override:
-    duckdns_domain: ${duckdns_domain}
-    volume_mounts: ${volume_mounts}
