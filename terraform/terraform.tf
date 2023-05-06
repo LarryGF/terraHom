@@ -39,6 +39,7 @@ provider "helm" {
 }
 
 provider "kubectl" {
+  
 }
 
 provider "argocd" {
