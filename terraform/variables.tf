@@ -50,10 +50,23 @@ variable "nfs_backupstore" {
   description = "Default NFS for backups"
 }
 
-## Plex
-variable "allowed_networks" {
+
+
+## ArgoCD
+variable "gh_username" {
   type        = string
-  description = "Allowed local networks with lonng netmask: 192.168.1.0/255.255.255.0"
+  description = "GH username to access default repo"
+}
+
+variable "gh_token" {
+  type        = string
+  description = "GH access token to access default repo"
+}
+
+variable "gh_base_repo" {
+  type        = string
+  description = "Standard repo to use for ArgoCD"
+  default = "https://github.com/LarryGF/pi-k8s.git"
 }
 
 ## Global
@@ -76,6 +89,12 @@ variable "duckdns_domain" {
 variable "master_hostname" {
   type        = string
   description = "Hostname for the master node"
+
+}
+
+variable "master_ip" {
+  type        = string
+  description = "IP for the master node"
 
 }
 
@@ -107,4 +126,10 @@ variable "modules_to_run" {
     "storage",
     "traefik",
   ]
+}
+
+## Plex
+variable "allowed_networks" {
+  type        = string
+  description = "Allowed local networks with lonng netmask: 192.168.1.0/255.255.255.0"
 }

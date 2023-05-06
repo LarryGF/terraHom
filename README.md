@@ -16,6 +16,7 @@
       - [Obtaining the VPN config](#obtaining-the-vpn-config)
     - [Terraform State Backups](#terraform-state-backups)
   - [Automated Deployment](#automated-deployment)
+  - [ArgoCD](#argocd)
   - [Manual Deployment (not recommended)](#manual-deployment-not-recommended)
     - [Ansible](#ansible)
     - [Longhorn](#longhorn)
@@ -150,7 +151,6 @@ There's a resource that every time you run `terraform apply` it will create a ba
       systemd_dir: /etc/systemd/system
       master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
       extra_server_args: "--disable=traefik"
-      extra_agent_args: ""
       timezone: 'Your timezone'
       nfs_drive_partition: 'your previously selected partition'
       allowed_ssh_networks:
@@ -185,6 +185,15 @@ There's a resource that every time you run `terraform apply` it will create a ba
   bash deploy.sh
   ```
 
+## ArgoCD
+
+- Get admin user by running:
+
+```shell
+kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' -n gitops | base64 -d
+
+```
+- terraform taint "module.argocd_application[\"promtail\"].argocd_application.application[0]"
 ## Manual Deployment (not recommended)
 
 Alternatively you can deploy everything manually, but you will need to do it in the following order (this is the order that the automated deployment script runs the commands, you can always check it for reference):
@@ -240,8 +249,6 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - Mylar
 - add autoscan to jellyfin https://github.com/Cloudbox/autoscan
 - kavita
-- Prometheus gui
 - Improve grafana
 - Add loki documentation
-- Add loki, alertmanager, etc to Homer
 - Fix duplicati

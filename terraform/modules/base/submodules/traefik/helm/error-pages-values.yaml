@@ -1,0 +1,28 @@
+image:
+  repository: ghcr.io/tarampampam/error-pages
+
+env:
+  # -- Set the container timezone
+  TZ: ${timezone}
+  # -- Set the template
+  TEMPLATE_NAME: ghost
+  # -- Enable details on error pages
+  SHOW_DETAILS: "false"
+
+service:
+  main:
+    ports:
+      http:
+        port: 8080
+
+ingress:
+  # -- Enable and configure ingress settings for the chart under this key.
+  # @default -- See values.yaml
+  main:
+    enabled: false
+
+# -- Configure persistence settings for the chart under this key.
+# @default -- See values.yaml
+persistence:
+  config:
+    enabled: false

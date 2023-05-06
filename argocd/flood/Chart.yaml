@@ -1,0 +1,7 @@
+apiVersion: v2
+name: flood-umbrella
+version: 0.0.0
+dependencies:
+  - name: rtorrent-flood
+    repository: https://k8s-at-home.com/charts/
+    version: 9.4.2

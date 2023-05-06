@@ -1,0 +1,7 @@
+apiVersion: v2
+name: filebrowser-umbrella
+version: 0.0.0
+dependencies:
+  - name: filebrowser
+    repository: https://k8s-at-home.com/charts/
+    version: 1.4.2

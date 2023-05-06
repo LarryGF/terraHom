@@ -1,0 +1,126 @@
+
+image:
+  repository: ghcr.io/benphelps/homepage
+  # tag: v0.6.0
+  tag: main
+
+# Enable RBAC. RBAC is necessary to use Kubernetes integration
+enableRbac: true
+
+serviceAccount:
+  # Specify a different service account name
+  name: homepage
+  # Create service account. Needed when RBAC is enabled.
+  create: true
+
+service:
+  main:
+    ports:
+      http:
+        port: 3000
+
+controller:
+  strategy: RollingUpdate
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+
+ingress:
+  main:
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    enabled: true
+    hosts:
+      - host: "home.${duckdns_domain}.duckdns.org"
+        paths:
+        - path: /
+    tls:
+      - hosts:
+          - "home.${duckdns_domain}.duckdns.org"
+        secretName: tls-home-ingress
+
+
+# All the config files for Homepage can be specified under their relevant config block.
+config:
+  # To use an existing ConfigMap uncomment this line and specify the name
+  # useExistingConfigMap: existing-homepage-configmap
+  settings:
+    title: "Home Dashboard"
+    headerStyle: clean
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: true
+    hideVersion: true
+    theme: dark
+    layout:
+      Media:
+        icon: mdi-movie-play
+        style: row
+        columns: 3
+      Downloaders:
+        icon: mdi-cloud-download 
+        style: row
+        columns: 3
+      Storage:
+        icon: mdi-nas
+        style: row
+        columns: 3
+      Template Aggregators:
+        icon: mdi-briefcase-plus
+        style: row
+        columns: 3
+      Monitoring:
+        icon: mdi-safety-goggles
+        style: row
+        columns: 3
+      
+      
+
+  bookmarks:
+    - Developer:
+        - Github:
+            - abbr: GH
+              href: https://github.com/
+
+  services: []
+
+  widgets:
+    - resources:
+        # change backend to 'kubernetes' to use Kubernetes integration. Requires RBAC.
+        backend: resources
+        expanded: true
+        cpu: true
+        memory: true
+    - search:
+        provider: duckduckgo
+        target: _blank
+    ## Uncomment to enable Kubernetes integration
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+          label: "cluster"
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+    # - longhorn:
+    #     expanded: true
+    #     total: true
+    #     labels: true
+    #     nodes: true
+
+  kubernetes:
+    # change mode to 'cluster' to use RBAC service account
+    mode: cluster
+
+persistence:
+  logs:
+    enabled: true
+    type: emptyDir
+    mountPath: /app/config/logs
