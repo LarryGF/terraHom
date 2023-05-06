@@ -10,13 +10,6 @@ resource "argocd_repository" "default-repo" {
   type = "git"
 }
 
-output "output1" {
-  value = argocd_repository.default-repo
-}
-output "output2" {
-  value = argocd_project.gitops
-}
-
 resource "argocd_project" "gitops" {
   metadata {
     name      = "gitops"
