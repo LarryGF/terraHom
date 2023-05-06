@@ -16,7 +16,7 @@ prowlarr:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Prowlarr"
         gethomepage.dev/description: "Prowlarr is an indexer manager/proxy for use with NZB and torrents"
-        gethomepage.dev/group: "Aggregators"
+        gethomepage.dev/group: "Template Aggregators"
         gethomepage.dev/icon: "prowlarr.png"
       enabled: true
       hosts:

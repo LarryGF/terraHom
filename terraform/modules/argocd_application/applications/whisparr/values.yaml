@@ -22,7 +22,7 @@ whisparr:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Whisparr"
         gethomepage.dev/description: "Whisparr is an adult movie collection manager for Usenet and BitTorrent users."
-        gethomepage.dev/group: "Aggregators"
+        gethomepage.dev/group: "Template Aggregators"
         gethomepage.dev/icon: "whisparr.png"
       enabled: true
       hosts:

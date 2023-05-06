@@ -67,7 +67,7 @@ config:
         icon: mdi-nas
         style: row
         columns: 3
-      Aggregators:
+      Template Aggregators:
         icon: mdi-briefcase-plus
         style: row
         columns: 3
