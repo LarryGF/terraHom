@@ -24,7 +24,7 @@ filebrowser:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "File Browser"
-        gethomepage.dev/description: "https://grafana.com/docs/"
+        gethomepage.dev/description: ""
         gethomepage.dev/group: "Storage"
         gethomepage.dev/icon: "filebrowser.png"
       enabled: true

@@ -252,5 +252,5 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - Prometheus gui
 - Improve grafana
 - Add loki documentation
-- Add loki, alertmanager, etc to Homer
 - Fix duplicati
+- Add custom health check to argocd (or patch traefik)

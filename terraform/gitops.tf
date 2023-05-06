@@ -29,7 +29,3 @@ locals {
   }
   ))
 }
-
-output "test" {
- value = local.applications
-}
