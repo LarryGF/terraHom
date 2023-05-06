@@ -1,0 +1,39 @@
+duplicati:
+  image:
+    repository: ghcr.io/linuxserver/duplicati
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  env:
+    PUID: "1001"
+    PGID: "1001"
+
+  initContainers:
+    update-volume-permission:
+      image: busybox
+      command: ["sh", "-c", "chown -R 1001:1001 /config"]
+
+      volumeMounts:
+      - name: config
+        mountPath: /config
+      securityContext:
+        runAsUser: 0
+
+  nodeSelector:
+    # kubernetes.io/hostname: ${master_hostname}
+    kubernetes.io/arch: amd64
+
+  addons:
+    codeserver:
+      image:
+        repository: codercom/code-server
+        tag: 4.11.0
+      enabled: true
+
+      args:
+      - --auth
+      - none
+      - --user-data-dir
+      - "/config/.vscode"
+      
+      workingDir: "/config"
