@@ -10,3 +10,24 @@ grafana:
         - ReadWriteOnce
   override:
     duckdns_domain: ${duckdns_domain}
+plex:
+  name: plex
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      name: plex-config
+      size: 200MiB
+      access_modes:
+        - ReadWriteMany
+  override:
+    duckdns_domain: ${duckdns_domain}
+    allowed_networks: ${allowed_networks} 
+media:
+  deploy: false
+  volumes:
+    media:
+      name: media
+      size: 300GiB
+      access_modes:
+        - ReadWriteMany
