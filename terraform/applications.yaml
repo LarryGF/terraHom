@@ -11,6 +11,19 @@ grafana:
   override:
     duckdns_domain: ${duckdns_domain}
 
+prometheus:
+  name: prometheus
+  namespace: monitoring
+  deploy: true
+  volumes:
+    config:
+      name: prometheus-config
+      size: 1Gi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    duckdns_domain: ${duckdns_domain}
+
 promtail:
   name: promtail
   namespace: monitoring
