@@ -113,6 +113,32 @@ filebrowser:
   override:
     duckdns_domain: ${duckdns_domain}
 
+sabnzbd:
+  name: sabnzbd
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      name: sabnzbd-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    duckdns_domain: ${duckdns_domain}
+
+bazarr:
+  name: bazarr
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      name: bazarr-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    duckdns_domain: ${duckdns_domain}
+
 flood:
   name: flood
   namespace: services

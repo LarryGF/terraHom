@@ -1,0 +1,7 @@
+apiVersion: v2
+name: sabnzbd-umbrella
+version: 0.0.0
+dependencies:
+  - name: sabnzbd
+    repository: https://k8s-at-home.com/charts/
+    version: 9.4.2
