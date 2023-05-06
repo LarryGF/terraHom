@@ -20,6 +20,10 @@ module "argocd_application" {
   
 }
 
+output "output" {
+  value = module.argocd_application["promtail"]
+}
+
 locals {
   applications = yamldecode(templatefile("applications.yaml",
   {

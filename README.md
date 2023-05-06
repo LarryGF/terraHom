@@ -193,7 +193,7 @@ There's a resource that every time you run `terraform apply` it will create a ba
 kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' -n gitops | base64 -d
 
 ```
-
+- terraform taint "module.argocd_application[\"promtail\"].argocd_application.application[0]"
 ## Manual Deployment (not recommended)
 
 Alternatively you can deploy everything manually, but you will need to do it in the following order (this is the order that the automated deployment script runs the commands, you can always check it for reference):

@@ -1,7 +1,4 @@
 plex:
-  image:
-    repository: lscr.io/linuxserver/plex
-    tag: latest
 
   env:
     ALLOWED_NETWORKS: ${allowed_networks}
@@ -28,25 +25,3 @@ plex:
         - hosts:
             - "plex.${duckdns_domain}.duckdns.org"
           secretName: tls-plex-ingress
-
-  hostNetwork: true
-  dnsPolicy: ClusterFirstWithHostNet
-
-  initContainers:
-    update-volume-permission:
-      image: busybox
-      command: ["sh", "-c", "chmod -R 777 /config"]
-
-      volumeMounts:
-      - name: config
-        mountPath: /config
-      securityContext:
-        runAsUser: 0
-
-  persistence:
-    config:
-      enabled: true
-      existingClaim: plex-config
-    downloads:
-      enabled: true
-      existingClaim: media

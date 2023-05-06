@@ -1,4 +1,3 @@
 locals {
-  values_files = fileset("../../../argocd/${var.name}","*.tpl.yaml")
-  
+  values_files = fileset("../argocd/${var.name}","*.common.yaml")
 }

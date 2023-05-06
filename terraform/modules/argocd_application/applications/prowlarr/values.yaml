@@ -1,12 +1,4 @@
 prowlarr:
-  image:
-    repository: lscr.io/linuxserver/prowlarr
-    tag: latest
-
-  env:
-    PGID: 1001
-    PUID: 1001
-    
   ingress:
     main:
       ingressClassName: traefik
@@ -27,19 +19,3 @@ prowlarr:
         - hosts:
             - "prowlarr.${duckdns_domain}.duckdns.org"
           secretName: tls-prowlarr-ingress
-
-  initContainers:
-    update-volume-permission:
-      image: busybox
-      command: ["sh", "-c", "chmod -R 777 /config"]
-
-      volumeMounts:
-      - name: config
-        mountPath: /config
-      securityContext:
-        runAsUser: 0
-
-  persistence:
-    config:
-      enabled: true
-      existingClaim: prowlarr-config
