@@ -1,4 +1,5 @@
 resource "argocd_application" "application" {
+  count = var.deploy ? 1:0
   metadata {
     name      = var.name
     namespace = "gitops"
