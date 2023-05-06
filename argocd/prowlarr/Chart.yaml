@@ -1,0 +1,7 @@
+apiVersion: v2
+name: prowlarr-umbrella
+version: 0.0.0
+dependencies:
+  - name: prowlarr
+    repository: https://k8s-at-home.com/charts/
+    version: 4.5.2
