@@ -1,15 +1,15 @@
-grafana:
-  name: grafana
-  namespace: monitoring
-  deploy: true
-  volumes:
-    config:
-      name: grafana-config
-      size: 1Gi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    duckdns_domain: ${duckdns_domain}
+# grafana:
+#   name: grafana
+#   namespace: monitoring
+#   deploy: true
+#   volumes:
+#     config:
+#       name: grafana-config
+#       size: 1Gi
+#       access_modes:
+#         - ReadWriteOnce
+#   override:
+#     duckdns_domain: ${duckdns_domain}
 
 promtail:
   name: promtail
@@ -20,132 +20,133 @@ promtail:
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
 
-plex:
-  name: plex
-  namespace: services
-  deploy: true
-  volumes:
-    config:
-      name: plex-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    duckdns_domain: ${duckdns_domain}
-    allowed_networks: ${allowed_networks} 
-media:
-  name: media
-  namespace: services
-  deploy: false
-  volumes:
-    media:
-      name: media
-      size: 300Gi
-      access_modes:
-        - ReadWriteMany
-  override:
-    duckdns_domain: ${duckdns_domain}
+# plex:
+#   name: plex
+#   namespace: services
+#   deploy: true
+#   volumes:
+#     config:
+#       name: plex-config
+#       size: 200Mi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     duckdns_domain: ${duckdns_domain}
+#     allowed_networks: ${allowed_networks} 
 
-radarr:
-  name: radarr
-  namespace: services
-  deploy: true
-  volumes:
-    config:
-      name: radarr-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    duckdns_domain: ${duckdns_domain}
+# media:
+#   name: media
+#   namespace: services
+#   deploy: false
+#   volumes:
+#     media:
+#       name: media
+#       size: 300Gi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     duckdns_domain: ${duckdns_domain}
 
-sonarr:
-  name: sonarr
-  namespace: services
-  deploy: true
-  volumes:
-    config:
-      name: sonarr-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    duckdns_domain: ${duckdns_domain}
+# radarr:
+#   name: radarr
+#   namespace: services
+#   deploy: true
+#   volumes:
+#     config:
+#       name: radarr-config
+#       size: 200Mi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     duckdns_domain: ${duckdns_domain}
 
-prowlarr:
-  name: prowlarr
-  namespace: services
-  deploy: true
-  volumes:
-    config:
-      name: prowlarr-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    duckdns_domain: ${duckdns_domain}
+# sonarr:
+#   name: sonarr
+#   namespace: services
+#   deploy: true
+#   volumes:
+#     config:
+#       name: sonarr-config
+#       size: 200Mi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     duckdns_domain: ${duckdns_domain}
 
-filebrowser:
-  name: filebrowser
-  namespace: services
-  deploy: true
-  volumes:
-    config:
-      name: filebrowser-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    duckdns_domain: ${duckdns_domain}
+# prowlarr:
+#   name: prowlarr
+#   namespace: services
+#   deploy: true
+#   volumes:
+#     config:
+#       name: prowlarr-config
+#       size: 200Mi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     duckdns_domain: ${duckdns_domain}
 
-flood:
-  name: flood
-  namespace: services
-  deploy: true
-  volumes:
-    config:
-      name: flood-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    duckdns_domain: ${duckdns_domain}
+# filebrowser:
+#   name: filebrowser
+#   namespace: services
+#   deploy: true
+#   volumes:
+#     config:
+#       name: filebrowser-config
+#       size: 200Mi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     duckdns_domain: ${duckdns_domain}
+
+# flood:
+#   name: flood
+#   namespace: services
+#   deploy: true
+#   volumes:
+#     config:
+#       name: flood-config
+#       size: 200Mi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     duckdns_domain: ${duckdns_domain}
   
-whisparr:
-  name: whisparr
-  namespace: services
-  deploy: true
-  volumes:
-    config:
-      name: whisparr-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    duckdns_domain: ${duckdns_domain}
+# whisparr:
+#   name: whisparr
+#   namespace: services
+#   deploy: true
+#   volumes:
+#     config:
+#       name: whisparr-config
+#       size: 200Mi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     duckdns_domain: ${duckdns_domain}
 
-readarr:
-  name: readarr
-  namespace: services
-  deploy: true
-  volumes:
-    config:
-      name: readarr-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    duckdns_domain: ${duckdns_domain}
+# readarr:
+#   name: readarr
+#   namespace: services
+#   deploy: true
+#   volumes:
+#     config:
+#       name: readarr-config
+#       size: 200Mi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     duckdns_domain: ${duckdns_domain}
 
-mylar:
-  name: mylar
-  namespace: services
-  deploy: true
-  volumes:
-    config:
-      name: mylar-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    duckdns_domain: ${duckdns_domain}
+# mylar:
+#   name: mylar
+#   namespace: services
+#   deploy: true
+#   volumes:
+#     config:
+#       name: mylar-config
+#       size: 200Mi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     duckdns_domain: ${duckdns_domain}
