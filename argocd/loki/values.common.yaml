@@ -336,9 +336,9 @@ loki:
   # Configuration for the backend pod(s)
   backend:
     # -- Number of replicas for the backend
-    replicas: 1
+    replicas: 2
     persistence:
-      enableStatefulSetAutoDeletePVC: false
+      enableStatefulSetAutoDeletePVC: true
 
   # Use either this ingress or the gateway, but not both at once.
   # If you enable this, make sure to disable the gateway.
