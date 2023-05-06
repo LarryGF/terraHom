@@ -1,4 +1,4 @@
-loki:  
+loki:
   loki:
     # Configures the readiness probe for all of the Loki pods
     readinessProbe:
@@ -182,25 +182,8 @@ loki:
 
   # -- Section for configuring optional Helm test
   test:
-    enabled: true
-    # -- Address of the prometheus server to query for the test
-    prometheusAddress: "http://prometheus:9090"
-    # -- Number of times to retry the test before failing
-    timeout: 1m
-    # -- Additional labels for the test pods
-    labels: {}
-    # -- Additional annotations for test pods
-    annotations: {}
-    # -- Image to use for loki canary
-    image:
-      # -- The Docker registry
-      registry: docker.io
-      # -- Docker image repository
-      repository: grafana/loki-helm-test
-      # -- Overrides the image tag whose default is the chart's appVersion
-      tag: null
-      # -- Docker image pull policy
-      pullPolicy: IfNotPresent
+    enabled: false
+
   # Monitoring section determines which monitoring features to enable
   monitoring:
     # Dashboards for monitoring Loki
@@ -273,63 +256,11 @@ loki:
     # It will create custom resources for GrafanaAgent, LogsInstance, and PodLogs to configure
     # scrape configs to scrape its own logs with the labels expected by the included dashboards.
     selfMonitoring:
-      enabled: true
-      # -- Tenant to use for self monitoring
-      tenant:
-        # -- Name of the tenant
-        name: "self-monitoring"
-        # -- Namespace to create additional tenant token secret in. Useful if your Grafana instance
-        # is in a separate namespace. Token will still be created in the canary namespace.
-        secretNamespace: "{{ .Release.Namespace }}"
-      # Grafana Agent configuration
-      grafanaAgent:
-        # -- Controls whether to install the Grafana Agent Operator and its CRDs.
-        # Note that helm will not install CRDs if this flag is enabled during an upgrade.
-        # In that case install the CRDs manually from https://github.com/grafana/agent/tree/main/production/operator/crds
-        installOperator: true
-        # -- Enable the config read api on port 8080 of the agent
-        enableConfigReadAPI: false
-      # PodLogs configuration
-      podLogs:
-        # -- PodLogs relabel configs to apply to samples before scraping
-        # https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#relabelconfig
-        relabelings: []
-      # LogsInstance configuration
-      logsInstance:
-        # -- LogsInstance annotations
-        annotations: {}
-        # -- Additional LogsInstance labels
-        labels: {}
-        # -- Additional clients for remote write
-        clients: null
+      enabled: false
     # The Loki canary pushes logs to and queries from this loki installation to test
     # that it's working correctly
     lokiCanary:
-      enabled: true
-      # -- Additional annotations for the `loki-canary` Daemonset
-      annotations: {}
-      # -- Additional CLI arguments for the `loki-canary' command
-      extraArgs: []
-      # -- Environment variables to add to the canary pods
-      extraEnv: []
-      # -- Environment variables from secrets or configmaps to add to the canary pods
-      extraEnvFrom: []
-      # -- Resource requests and limits for the canary
-      resources: {}
-      # -- Node selector for canary pods
-      nodeSelector: {}
-      # -- Tolerations for canary pods
-      tolerations: []
-      # -- Image to use for loki canary
-      image:
-        # -- The Docker registry
-        registry: docker.io
-        # -- Docker image repository
-        repository: grafana/loki-canary
-        # -- Overrides the image tag whose default is the chart's appVersion
-        tag: null
-        # -- Docker image pull policy
-        pullPolicy: IfNotPresent
+      enabled: false
   # Configuration for the write pod(s)
   write:
     # -- Number of replicas for the write
@@ -413,7 +344,6 @@ loki:
   # If you enable this, make sure to disable the gateway.
   # You'll need to supply authn configuration for your ingress controller.
 
-  
   # Configuration for the memberlist service
   memberlist:
     service:
