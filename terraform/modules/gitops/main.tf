@@ -9,6 +9,14 @@ resource "argocd_repository" "default-repo" {
   name = "pi-k8s"
   type = "git"
 }
+
+output "output1" {
+  value = argocd_repository.default-repo
+}
+output "output2" {
+  value = argocd_project.gitops
+}
+
 resource "argocd_project" "gitops" {
   metadata {
     name      = "gitops"
@@ -45,13 +53,13 @@ resource "argocd_project" "gitops" {
       group = "rbac.authorization.k8s.io"
       kind  = "ClusterRole"
     }
-    
+
     namespace_resource_whitelist {
       group = "*"
       kind  = "*"
     }
 
- role {
+    role {
       name = "gitopsAdmin"
       policies = [
         "p, proj:gitops:gitopsAdmin, applications, override, gitops/*, allow",
