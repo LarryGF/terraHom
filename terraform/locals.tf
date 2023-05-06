@@ -1,9 +1,7 @@
 locals {
   k3s_config_file = "~/.kube/config"
 
-  modules_to_run = var.modules_to_run
-
-  sc_name = contains(var.modules_to_run, "longhorn") ? "longhorn" : "local-path"
+  sc_name = var.use_longhorn ? "longhorn" : "local-path"
 
   applications = yamldecode(templatefile("applications.yaml",
     {

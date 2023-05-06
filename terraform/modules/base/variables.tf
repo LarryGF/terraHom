@@ -109,10 +109,14 @@ variable "nfs_server" {
 }
 
 ## Operational
-variable "modules_to_run" {
-  type        = list(string)
-  description = "The modules that will get deployed in each run, each consecutive run should include all previous modules"
-  default = [
-    "longhorn"
-  ]
+variable "use_longhorn" {
+  type        = bool
+  description = "Uses longhorn or local-path"
+  default = false
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage Class name"
+  default = "local-path"
 }
