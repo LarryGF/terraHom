@@ -9,20 +9,8 @@ loki:
       timeoutSeconds: 1
     image:
       tag: null
-    podAnnotations: {}
-    podLabels: {}
-    revisionHistoryLimit: 10
-    # -- The SecurityContext for Loki containers
-    containerSecurityContext:
-      readOnlyRootFilesystem: true
-      capabilities:
-        drop:
-          - ALL
-      allowPrivilegeEscalation: false
     # -- Should enableServiceLinks be enabled. Default to enable
     enableServiceLinks: true
-    # -- Specify an existing secret containing loki configuration. If non-empty, overrides `loki.config`
-    existingSecretForConfig: ""
     # -- Config file contents for Loki
     # @default -- See values.yaml
     config: |
@@ -155,7 +143,7 @@ loki:
         {{- tpl (. | toYaml) $ | nindent 4 }}
       {{- end }}
     # Should authentication be enabled
-    auth_enabled: true
+    auth_enabled: false
     # -- Tenants list to be created on nginx htpasswd file, with name and password keys
     tenants: []
     # -- Check https://grafana.com/docs/loki/latest/configuration/#server for more info on the server configuration.
@@ -221,8 +209,6 @@ loki:
       enabled: true
       # -- Alternative namespace to create dashboards ConfigMap in
       namespace: null
-      # -- Additional annotations for the dashboards ConfigMap
-      annotations: {}
       # -- Labels for the dashboards ConfigMap
       labels:
         grafana_dashboard: "1"
@@ -301,18 +287,10 @@ loki:
         # Note that helm will not install CRDs if this flag is enabled during an upgrade.
         # In that case install the CRDs manually from https://github.com/grafana/agent/tree/main/production/operator/crds
         installOperator: true
-        # -- Grafana Agent annotations
-        annotations: {}
-        # -- Additional Grafana Agent labels
-        labels: {}
         # -- Enable the config read api on port 8080 of the agent
         enableConfigReadAPI: false
       # PodLogs configuration
       podLogs:
-        # -- PodLogs annotations
-        annotations: {}
-        # -- Additional PodLogs labels
-        labels: {}
         # -- PodLogs relabel configs to apply to samples before scraping
         # https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#relabelconfig
         relabelings: []
@@ -356,6 +334,8 @@ loki:
   write:
     # -- Number of replicas for the write
     replicas: 2
+    persistence:
+      enableStatefulSetAutoDeletePVC: false
 
   # Configuration for the table-manager
   tableManager:
@@ -419,11 +399,15 @@ loki:
   read:
     # -- Number of replicas for the read
     replicas: 2
+    persistence:
+      enableStatefulSetAutoDeletePVC: false
 
   # Configuration for the backend pod(s)
   backend:
     # -- Number of replicas for the backend
     replicas: 2
+    persistence:
+      enableStatefulSetAutoDeletePVC: false
 
   # Use either this ingress or the gateway, but not both at once.
   # If you enable this, make sure to disable the gateway.
