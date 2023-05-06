@@ -11,7 +11,7 @@ duplicati:
   initContainers:
     update-volume-permission:
       image: busybox
-      command: ["sh", "-c", "chown -R 1001:1001 /config"]
+      command: ["sh", "-c", "mkdir -p /config && chown -R 1001:1001 /config"]
 
       # volumeMounts:
       # - name: config
