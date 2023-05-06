@@ -15,7 +15,7 @@ resource "argocd_application" "application" {
     source {
       repo_url        = "https://github.com/LarryGF/pi-k8s.git"
       path = "argocd/${var.name}"
-      target_revision = "argocd"
+      target_revision = "main"
 
       helm {
         
