@@ -25,6 +25,13 @@ configs:
   cm:
     # -- Create the argocd-cm configmap for [declarative setup]
     create: true
+    # Patch to make argo cd not mark traefik ingress as progressing
+    resource.customizations: |
+      networking.k8s.io/Ingress:
+        health.lua: |
+          hs = {}
+          hs.status = "Healthy"
+          return hs
     # -- Argo CD's externally facing base URL (optional). Required when configuring SSO
 
     # url: "https://argo.${duckdns_domain}.duckdns.org"
