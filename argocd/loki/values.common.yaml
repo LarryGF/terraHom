@@ -347,7 +347,7 @@ loki:
   # Configuration for the memberlist service
   memberlist:
     service:
-      publishNotReadyAddresses: true
+      publishNotReadyAddresses: false
 
   tracing:
     jaegerAgentHost: ""
