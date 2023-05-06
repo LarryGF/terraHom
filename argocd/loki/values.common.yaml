@@ -16,24 +16,12 @@ loki:
     persistence:
       # -- Size of persistent disk
       size: 10Gi
-      # -- Storage class to be used.
-      storageClass: longhorn
 
     # Enable environment variables in config file
     # https://grafana.com/docs/loki/latest/configuration/#use-environment-variables-in-the-configuration
-    extraArgs:
-      - '-config.expand-env=true'
-    extraEnv:
-      - name: MINIO_ACCESS_KEY_ID
-        valueFrom:
-          secretKeyRef:
-            name: loki-minio-secret
-            key: MINIO_ACCESS_KEY_ID
-      - name: MINIO_SECRET_ACCESS_KEY
-        valueFrom:
-          secretKeyRef:
-            name: loki-minio-secret
-            key: MINIO_SECRET_ACCESS_KEY
+    # extraArgs:
+    #   - '-config.expand-env=true'
+    # extraEnv:
 
   # Configuration for the read
   read:
@@ -42,24 +30,9 @@ loki:
     persistence:
       # -- Size of persistent disk
       size: 10Gi
-      # -- Storage class to be used.
-      storageClass: longhorn
 
     # Enable environment variables in config file
     # https://grafana.com/docs/loki/latest/configuration/#use-environment-variables-in-the-configuration
-    extraArgs:
-      - '-config.expand-env=true'
-    extraEnv:
-      - name: MINIO_ACCESS_KEY_ID
-        valueFrom:
-          secretKeyRef:
-            name: loki-minio-secret
-            key: MINIO_ACCESS_KEY_ID
-      - name: MINIO_SECRET_ACCESS_KEY
-        valueFrom:
-          secretKeyRef:
-            name: loki-minio-secret
-            key: MINIO_SECRET_ACCESS_KEY
 
   # Configuration for the gateway
   gateway:
