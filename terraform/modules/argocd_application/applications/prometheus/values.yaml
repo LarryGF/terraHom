@@ -1,53 +1,54 @@
-# prometheus.yaml
-nodeSelector:
-  # kubernetes.io/hostname: ${master_hostname}
-  kubernetes.io/arch : amd64
-alertmanager:
-  enabled: true
-  # image:
-  #   tag: v0.23.0
-
-  ingress:
+prometheus:
+  # prometheus.yaml
+  nodeSelector:
+    # kubernetes.io/hostname: ${master_hostname}
+    kubernetes.io/arch : amd64
+  alertmanager:
     enabled: true
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/name: "Alertmanager"
-      gethomepage.dev/description: "The Alertmanager handles alerts sent by client applications such as the Prometheus server"
-      gethomepage.dev/group: "Monitoring"
-      gethomepage.dev/icon: "alertmanager.png"
-    hosts:
-      - host: "alertmanager.${duckdns_domain}.duckdns.org"
-        paths:
-        - path: /
-          pathType: ImplementationSpecific
-    tls:
-      - hosts:
-          - "alertmanager.${duckdns_domain}.duckdns.org"
-        secretName: tls-alertmanager-ingress
+    # image:
+    #   tag: v0.23.0
 
-  persistentVolume:
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Alertmanager"
+        gethomepage.dev/description: "The Alertmanager handles alerts sent by client applications such as the Prometheus server"
+        gethomepage.dev/group: "Monitoring"
+        gethomepage.dev/icon: "alertmanager.png"
+      hosts:
+        - host: "alertmanager.${duckdns_domain}.duckdns.org"
+          paths:
+          - path: /
+            pathType: ImplementationSpecific
+      tls:
+        - hosts:
+            - "alertmanager.${duckdns_domain}.duckdns.org"
+          secretName: tls-alertmanager-ingress
+
+    persistentVolume:
+      enabled: false
+
+  server:
+    name: server
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      hosts:
+        - "prometheus.${duckdns_domain}.duckdns.org"    
+      path: /
+      tls:
+        - hosts:
+            - "prometheus.${duckdns_domain}.duckdns.org"
+          secretName: tls-prometheus-ingress
+
+    persistentVolume:
+      enabled: false
+    #   existingClaim: prometheus-server
+
+  pushgateway:
     enabled: false
-
-server:
-  name: server
-  ingress:
-    enabled: true
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    hosts:
-      - "prometheus.${duckdns_domain}.duckdns.org"    
-    path: /
-    tls:
-      - hosts:
-          - "prometheus.${duckdns_domain}.duckdns.org"
-        secretName: tls-prometheus-ingress
-
-  persistentVolume:
-    enabled: false
-  #   existingClaim: prometheus-server
-
-pushgateway:
-  enabled: false
