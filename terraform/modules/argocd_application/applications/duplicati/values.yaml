@@ -38,4 +38,4 @@ duplicati:
           hosts:
             - code.duplicati.${duckdns_domain}.duckdns.org
       volumeMounts: 
-        ${volume_mounts}
+        ${vscode_volume_mounts}

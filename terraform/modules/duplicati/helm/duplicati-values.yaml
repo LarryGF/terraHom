@@ -77,4 +77,4 @@ addons:
     workingDir: "/config"
     
     volumeMounts: 
-      ${volume_mounts}
+      ${vscode_volume_mounts}
