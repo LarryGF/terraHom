@@ -5,3 +5,10 @@ module "gitops" {
   gh_username     = var.gh_username
   gh_base_repo   = var.gh_base_repo
 }
+
+module "argocd_application" {
+
+  source = "./modules/argocd_application"
+  
+}
+
