@@ -20,12 +20,3 @@ module "argocd_application" {
   
 }
 
-locals {
-  applications = yamldecode(templatefile("applications.yaml",
-  {
-    duckdns_domain  = var.duckdns_domain
-    master_hostname = var.master_hostname
-    allowed_networks = var.allowed_networks
-  }
-  ))
-}
