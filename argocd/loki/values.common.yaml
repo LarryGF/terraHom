@@ -336,7 +336,7 @@ loki:
   # Configuration for the backend pod(s)
   backend:
     # -- Number of replicas for the backend
-    replicas: 2
+    replicas: 1
     persistence:
       enableStatefulSetAutoDeletePVC: false
 
