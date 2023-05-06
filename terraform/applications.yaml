@@ -15,9 +15,10 @@ promtail:
   name: promtail
   namespace: monitoring
   deploy: true
-  volumes: []
+  volumes: {}
   override:
     duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
 
 plex:
   name: plex

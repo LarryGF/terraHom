@@ -16,7 +16,7 @@ sonarr:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Sonarr"
         gethomepage.dev/description: "Sonarr is an internet PVR for Usenet and Torrents."
-        gethomepage.dev/group: "Aggregators"
+        gethomepage.dev/group: "Template Aggregators"
         gethomepage.dev/icon: "sonarr.png"
       enabled: true
       hosts:
