@@ -19,7 +19,7 @@ resource "argocd_application" "application" {
 
       helm {
         
-        # value_files = ["common-values.yml"]
+        value_files = local.values_files
         values = templatefile("${path.module}/applications/${var.name}/values.yaml",var.override_values)
       }
     }
