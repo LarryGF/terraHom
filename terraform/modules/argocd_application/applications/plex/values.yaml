@@ -4,6 +4,8 @@ plex:
     ALLOWED_NETWORKS: ${allowed_networks}
     PGID: 1001
     PUID: 1001
+    PLEX_CLAIM: ""
+    PLEX_PREFERENCE_1: "FriendlyName=plexHome"
   ingress:
     main:
       ingressClassName: traefik
