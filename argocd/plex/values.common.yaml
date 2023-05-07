@@ -25,3 +25,7 @@ plex:
     downloads:
       enabled: true
       existingClaim: media
+
+  nodeSelector:
+    # kubernetes.io/hostname: ${master_hostname}
+    kubernetes.io/arch: amd64

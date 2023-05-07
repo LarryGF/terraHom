@@ -13,7 +13,7 @@ resource "helm_release" "adguard-home" {
 
   values = [templatefile("${path.module}/helm/adguard-values.yaml", {
     duckdns_domain = var.duckdns_domain,
-    dns_rewrites   = templatefile("${path.module}/helm/dns-rewrites.yaml",{
+    dns_rewrites   = templatefile("${path.module}/helm/dns-rewrites.config.yaml",{
       master_ip = var.master_ip
     })
     master_hostname    = var.master_hostname

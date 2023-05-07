@@ -41,6 +41,3 @@ locals {
   }
 }
 
-output "duplicati" {
-  value = local.duplicati_definition
-}

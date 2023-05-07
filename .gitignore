@@ -6,4 +6,4 @@ terraform/.terraform/*
 .terraform
 *plan*
 *.conf
-*.config
+*.config*
