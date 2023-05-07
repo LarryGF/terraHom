@@ -14,7 +14,6 @@
     - [Storage](#storage)
     - [VPN Setup](#vpn-setup)
       - [Obtaining the VPN config](#obtaining-the-vpn-config)
-    - [Terraform State Backups](#terraform-state-backups)
   - [Automated Deployment](#automated-deployment)
   - [ArgoCD](#argocd)
   - [Manual Deployment (not recommended)](#manual-deployment-not-recommended)
@@ -136,10 +135,6 @@ vpn_config = "SSdtIHNvIGdsYWQgeW91IHRvb2sgdGhlIHRpbWUgdG8gZGVjb2RlIHRoaXMK"
 Your VPN provider should have a config file available for you to use, it should be a simple Google Search away. If you don't have one already you can use [Proton VPN](https://protonvpn.com/https://protonvpn.com/) that offers a free plan and lets you easily download the Wireguard [config file](https://protonvpn.com/support/wireguard-configurations/).
 
 If you are like me and are stuck with NordVPN for the foreseeable future, you would have realized already that there's no easy way to get the config file. That's why this repo has a `submodule` under `scripts/NordVPN-Wireguard` that will let you generate the config file yourself. You can find the instructions on how to use it in the [README](./scripts/NordVPN-Wireguard/README.md).
-
-### Terraform State Backups
-
-There's a resource that every time you run `terraform apply` it will create a backup of the state file in the `./terraform/.backup` folder. It will be stored in the format `YYYY.MM.DD.HH.MM.terraform.tfstate.backup`. In case you run into any errors you can restore the state file from the backup by just copying it to the `./terraform` folder and renaming it to `terraform.tfstate`.
 
 ## Automated Deployment
 
