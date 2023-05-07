@@ -53,6 +53,19 @@ plex:
     duckdns_domain: ${duckdns_domain}
     allowed_networks: ${allowed_networks} 
 
+jellyseerr:
+  name: jellyseerr
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      name: jellyseerr-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    duckdns_domain: ${duckdns_domain}
+
 media:
   name: media
   namespace: services
