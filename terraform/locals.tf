@@ -8,6 +8,7 @@ locals {
       duckdns_domain   = var.duckdns_domain
       master_hostname  = var.master_hostname
       allowed_networks = var.allowed_networks
+      timezone = var.timezone
 
     }
   ))

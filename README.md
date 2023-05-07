@@ -247,3 +247,4 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - Improve grafana
 - Add loki documentation
 - Fix duplicati
+- Investigate AWX

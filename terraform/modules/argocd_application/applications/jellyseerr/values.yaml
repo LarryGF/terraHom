@@ -1,27 +1,4 @@
 jellyseerr:
-  image:
-    # -- image repository
-    repository: fallenbagel/jellyseerr
-    # -- image tag
-    # @default -- chart.appVersion
-    tag: latest
-    # -- image pull policy
-    pullPolicy: IfNotPresent
-
-  # -- environment variables. See [image docs](https://jellyfin.org/docs/general/administration/configuration.html) for more details.
-  # @default -- See below
-  env:
-    # -- Set the container timezone
-    # GIT_COMMIT: main
-    LOG_LEVEL: debug
-
-  # -- Configures service settings for the chart.
-  # @default -- See values.yaml
-  service:
-    main:
-      ports:
-        http:
-          port: 5055
 
   ingress:
     main:
@@ -31,7 +8,7 @@ jellyseerr:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Jellyseerr"
-        gethomepage.dev/description: "https://grafana.com/docs/"
+        gethomepage.dev/description: "Free and open source software application for managing requests for your media library"
         gethomepage.dev/group: "Media"
         gethomepage.dev/icon: "jellyseerr.png"
       enabled: true
@@ -43,13 +20,3 @@ jellyseerr:
         - hosts:
             - "jellyseerr.${duckdns_domain}.duckdns.org"
           secretName: tls-jellyseerr-ingress
-
-  # -- Configure persistence settings for the chart under this key.
-  # @default -- See values.yaml
-  persistence:
-    config:
-      enabled: true
-      existingClaim: jellyseerr-config
-      mountPath: /app/config
-
-
