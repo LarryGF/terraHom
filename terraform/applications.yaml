@@ -4,11 +4,13 @@ grafana:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: grafana-config
       size: 1Gi
       access_modes:
         - ReadWriteOnce
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 prometheus:
@@ -17,6 +19,7 @@ prometheus:
   deploy: true
   volumes: {}
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
 
@@ -27,6 +30,7 @@ loki:
   deploy: false
   volumes: {}
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
 
@@ -36,6 +40,7 @@ promtail:
   deploy: true
   volumes: {}
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
 
@@ -45,11 +50,13 @@ plex:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: plex-config
-      size: 200Mi
+      size: 5Gi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     allowed_networks: ${allowed_networks} 
 
@@ -57,13 +64,15 @@ jellyseerr:
   name: jellyseerr
   namespace: services
   deploy: true
-  volumes:
+  volumes: 
     config:
+      enabled: true
       name: jellyseerr-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 media:
@@ -72,11 +81,13 @@ media:
   deploy: false
   volumes:
     media:
+      enabled: true
       name: media
       size: 300Gi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 radarr:
@@ -85,11 +96,13 @@ radarr:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: radarr-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 sonarr:
@@ -98,11 +111,13 @@ sonarr:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: sonarr-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 prowlarr:
@@ -111,11 +126,13 @@ prowlarr:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: prowlarr-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 filebrowser:
@@ -124,11 +141,13 @@ filebrowser:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: filebrowser-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 sabnzbd:
@@ -137,11 +156,13 @@ sabnzbd:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: sabnzbd-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 bazarr:
@@ -150,11 +171,13 @@ bazarr:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: bazarr-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 flood:
@@ -163,11 +186,13 @@ flood:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: flood-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
   
 whisparr:
@@ -176,11 +201,13 @@ whisparr:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: whisparr-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 readarr:
@@ -189,11 +216,13 @@ readarr:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: readarr-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
 mylar:
@@ -202,10 +231,12 @@ mylar:
   deploy: true
   volumes:
     config:
+      enabled: true
       name: mylar-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
   override:
+    timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 

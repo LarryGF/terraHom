@@ -3,6 +3,8 @@ plex:
     repository: lscr.io/linuxserver/plex
     tag: latest
 
+  env:
+    TZ: ${timezone}
 
   hostNetwork: true
   dnsPolicy: ClusterFirstWithHostNet

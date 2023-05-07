@@ -1,0 +1,30 @@
+  #
+  # IMPORTANT NOTE
+  #
+  # This chart inherits from our common library chart. You can check the default values/options here:
+  # https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+  #
+tautulli:
+  image:
+    # -- image repository
+    repository: lscr.io/linuxserver/tautulli
+    # -- image pull policy
+    pullPolicy: IfNotPresent
+
+  env:
+    TZ: ${timezone}
+
+  # -- Configures service settings for the chart.
+  # @default -- See values.yaml
+  service:
+    main:
+      ports:
+        http:
+          port: 8181
+
+  # -- Configure persistence settings for the chart under this key.
+  # @default -- See values.yaml
+  persistence:
+    config:
+      enabled: true
+      existingClaim: tautulli-config

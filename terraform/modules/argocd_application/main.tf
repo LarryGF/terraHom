@@ -48,7 +48,7 @@ resource "argocd_application" "application" {
 }
 
 resource "kubernetes_persistent_volume_claim" "application_storage" {
-  for_each = var.storage_definitions
+  for_each = local.storage_definitions
   metadata {
     name      = each.value.name
     namespace = var.namespace
