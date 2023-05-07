@@ -75,6 +75,21 @@ jellyseerr:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
+tautulli:
+  name: tautulli
+  namespace: services
+  deploy: true
+  volumes: 
+    config:
+      enabled: true
+      name: tautulli-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+
 media:
   name: media
   namespace: services
