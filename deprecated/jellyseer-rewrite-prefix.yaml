@@ -1,9 +1,0 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: replace-with-jellyseer
-  namespace: services
-spec:
-  replacePathRegex:
-    regex: ^/(?!web).*
-    replacement: /jellyseer/$1
