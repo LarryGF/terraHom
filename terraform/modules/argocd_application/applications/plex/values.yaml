@@ -6,6 +6,8 @@ plex:
     PUID: 1001
     PLEX_CLAIM: ""
     PLEX_PREFERENCE_1: "FriendlyName=plexHome"
+    TZ: ${timezone}
+
   ingress:
     main:
       ingressClassName: traefik
