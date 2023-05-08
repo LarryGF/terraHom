@@ -3,10 +3,7 @@ bazarr:
     repository: lscr.io/linuxserver/bazarr
     tag: 1.2.0
 
-  env:
-    PGID: 1001
-    PUID: 1001
-    TZ: ${timezone}
+  
     
   persistence:
     config:
