@@ -1,10 +1,7 @@
 plex:
   image:
-    repository: lscr.io/linuxserver/plex
+    repository: ghcr.io/hotio/plex
     tag: latest
-
-  env:
-    TZ: ${timezone}
 
   hostNetwork: true
   dnsPolicy: ClusterFirstWithHostNet
