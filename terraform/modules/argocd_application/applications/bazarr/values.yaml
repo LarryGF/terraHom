@@ -13,7 +13,7 @@ bazarr:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Bazarr"
         gethomepage.dev/description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles"
-        gethomepage.dev/group: "Aggregators"
+        gethomepage.dev/group: "Termplate Aggregators"
         gethomepage.dev/icon: "bazarr.png"
       enabled: true
       hosts:
