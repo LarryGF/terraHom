@@ -242,9 +242,6 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 
 ## TODO
 - Mylar
-- add autoscan to jellyfin https://github.com/Cloudbox/autoscan
 - kavita
 - Improve grafana
 - Add loki documentation
-- Fix duplicati
-- Investigate AWX
