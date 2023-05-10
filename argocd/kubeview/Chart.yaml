@@ -1,0 +1,7 @@
+apiVersion: v2
+name: kubeview-umbrella
+version: 0.0.0
+dependencies:
+  - name: kubeview
+    repository: https://benc-uk.github.io/kubeview/charts
+    version: 0.1.31
