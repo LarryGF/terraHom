@@ -54,7 +54,7 @@ plex:
       name: plex-config
       size: 5Gi
       access_modes:
-        - ReadWriteMany
+        - ReadWriteOnce
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
@@ -248,6 +248,22 @@ mylar:
     config:
       enabled: true
       name: mylar-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+
+
+kubeview:
+  name: kubeview
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      enabled: false
+      name: kubeview-config
       size: 200Mi
       access_modes:
         - ReadWriteMany
