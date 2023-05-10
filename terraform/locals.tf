@@ -31,7 +31,7 @@ locals {
     "duplicati" : {
       "name" : "duplicati",
       "namespace" : "services",
-      "deploy" : true,
+      "deploy" : false,
       "volumes" : {}
       "override" : {
         "duckdns_domain" : var.duckdns_domain,
