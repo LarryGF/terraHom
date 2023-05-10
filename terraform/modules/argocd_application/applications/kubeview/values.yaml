@@ -1,22 +1,21 @@
 kubeview:
   ingress:
-    main:
-      ingressClassName: traefik
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/name: "Kubeview"
-        gethomepage.dev/description: "Plex combines free movies & TV with your favorite streaming services and personal media"
-        gethomepage.dev/group: "Internal"
-        gethomepage.dev/icon: "kubernetes.png"
-        gethomepage.dev/href: "https://kubeview.${duckdns_domain}.duckdns.org/web/index.html"
-      enabled: true
-      hosts:
-        - host: "kubeview.${duckdns_domain}.duckdns.org"
-          paths:
-          - path: /
-      tls:
-        - hosts:
-            - "kubeview.${duckdns_domain}.duckdns.org"
-          secretName: tls-kubeview-ingress
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Kubeview"
+      gethomepage.dev/description: "Plex combines free movies & TV with your favorite streaming services and personal media"
+      gethomepage.dev/group: "Internal"
+      gethomepage.dev/icon: "kubernetes.png"
+      gethomepage.dev/href: "https://kubeview.${duckdns_domain}.duckdns.org/web/index.html"
+    enabled: true
+    hosts:
+      - host: "kubeview.${duckdns_domain}.duckdns.org"
+        paths:
+        - path: /
+    tls:
+      - hosts:
+          - "kubeview.${duckdns_domain}.duckdns.org"
+        secretName: tls-kubeview-ingress
