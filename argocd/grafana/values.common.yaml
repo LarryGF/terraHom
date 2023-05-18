@@ -3,42 +3,23 @@ grafana:
   plugins:
     - grafana-piechart-panel
 
-  datasources:
-    datasources.yaml:
-      apiVersion: 1
-      datasources:
-      - name: Prometheus
-        type: prometheus
-        url: http://prometheus-server
-        access: proxy
-        isDefault: true
-      - name: Alertmanager
-        type: alertmanager
-        url: http://prometheus-alertmanager:9093
-        access: proxy
-        jsonData:
-          implementation: prometheus
-          handleGrafanaManagedAlerts: false
-  dashboardProviders:
-    dashboardproviders.yaml:
-      apiVersion: 1
-      providers:
-      - name: 'default'
-        orgId: 1
-        folder: ''
-        type: file
-        disableDeletion: false
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/default
+  # datasources:
+  #   datasources.yaml:
+  #     apiVersion: 1
+  #     datasources:
+  #     - name: Prometheus
+  #       type: prometheus
+  #       url: http://prometheus-server
+  #       access: proxy
+  #       isDefault: true
+  #     - name: Alertmanager
+  #       type: alertmanager
+  #       url: http://prometheus-alertmanager:9093
+  #       access: proxy
+  #       jsonData:
+  #         implementation: prometheus
+  #         handleGrafanaManagedAlerts: false
 
-  dashboards: 
-    default:
-      node-exporter-full:
-        gnetId: 1860
-        revision: 24
-        datasource: Prometheus
-    
 
   grafana.ini:
     auth.anonymous:
