@@ -245,3 +245,9 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - kavita
 - Improve grafana
 - Add loki documentation
+- kubeview displays weird
+- Airlock Microgateway
+- linkerd
+- k8tz
+- k8s-scanner
+- https://artifacthub.io/packages/helm/geek-cookbook/samba
