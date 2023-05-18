@@ -1,0 +1,136 @@
+image:
+  # -- image repository
+  repository: spx01/blocky
+  # -- image tag
+  # @default -- chart.appVersion
+  tag:
+  # -- image pull policy
+
+# -- environment variables. See [image docs](https://0xerr0r.github.io/blocky/installation/#run-with-docker) for more details.
+# @default -- See below
+
+
+# -- Configures service settings for the chart.
+# @default -- See values.yaml
+service:
+  main:
+    enabled: true
+    ports:
+      http:
+        port: 4000
+  dns-tcp:
+    enabled: false
+    type: ClusterIP
+    externalTrafficPolicy: Local
+    ports:
+      dns-tcp:
+        enabled: true
+        port: 53
+        protocol: TCP
+        targetPort: 53
+  dns-udp:
+    enabled: false
+    type: ClusterIP
+    externalTrafficPolicy: Local
+    ports:
+      dns-udp:
+        enabled: true
+        port: 53
+        protocol: UDP
+        targetPort: 53
+
+metrics:
+  # -- Enable and configure a Prometheus serviceMonitor for the chart under this key.
+  # @default -- See values.yaml
+  enabled: false
+  serviceMonitor:
+    # -- Interval at which Prometheus should scrape metrics
+    interval: 30s
+    # -- Timeout after which the scrape is ended
+    scrapeTimeout: 10s
+    # -- Additional labels for the Kubernetes `ServiceMonitor` object
+    labels: {}
+    # -- The Kubernetes `Endpoints` label to use as the Prometheus job name
+    jobLabel: ""
+    # -- TargetLabels transfers labels from the Kubernetes `Service`` onto the created metrics.
+    targetLabels: []
+    # -- PodTargetLabels transfers labels on the Kubernetes `Pod`` onto the created metrics.
+    podTargetLabels: []
+  # -- Enable and configure Prometheus Rules for the chart under this key.
+  # @default -- See values.yaml
+  prometheusRule:
+    enabled: false
+    labels: {}
+    # -- Configure additionial rules for the chart under this key.
+    # @default -- See prometheusrules.yaml
+    rules: []
+      # - alert: BlockyDisabled
+      #   annotations:
+      #     description: Blocky's ad blocking has been disabled for 15min.
+      #       Please re-enable protection.
+      #     summary: Blocky is disabled.
+      #   expr: |
+      #     blocky_blocking_enabled == 0
+      #   for: 15m
+      #   labels:
+      #     severity: critical
+
+# -- Enable and configure redis subchart under this key.
+# Useful if you're running more than one replica of blocky dns.
+# For more options see [redis chart documentation](https://github.com/bitnami/charts/tree/master/bitnami/redis)
+# @default -- See values.yaml
+redis:
+  enabled: true
+  auth:
+    enabled: false
+
+# -- Full list of options https://github.com/0xERR0R/blocky/blob/v0.18/docs/config.yml
+# @default -- see URL to default config
+config: |
+  upstream:
+    externalResolvers:
+      - 1.1.1.1
+      - 1.0.0.1
+      - 2606:4700:4700::1111
+      - 2606:4700:4700::1001
+
+  customDNS:
+    mapping:
+      house: 10.0.7.11
+
+  blocking:
+    blackLists:
+      ads:
+        - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+        - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+        - https://mirror1.malwaredomains.com/files/justdomains
+        - http://sysctl.org/cameleon/hosts
+        - https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist
+        - https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
+        - https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+        - https://adaway.org/hosts.txt
+      special:
+        - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts
+    whiteLists:
+      ads:
+        - whitelist.txt
+    clientGroupsBlock:
+      default:
+        - ads
+        - special
+    blockType: nxDomain
+    refreshPeriod: 0
+
+  caching:
+    minTime: 5
+    maxTime: -1
+    prefetching: true
+
+  prometheus:
+    enable: true
+
+  port: 53
+  httpPort: 4000
+  bootstrapDns: tcp:1.1.1.1
+  logLevel: info
+  logFormat: text
