@@ -16,3 +16,50 @@ grafana:
       - hosts:
           - "grafana.${duckdns_domain}.duckdns.org"
         secretName: tls-grafana-ingress
+
+  # dashboardProviders:
+  #   dashboardproviders.yaml:
+  #     apiVersion: 1
+  #     providers:
+  #     - name: 'default'
+  #       orgId: 1
+  #       folder: ''
+  #       type: file
+  #       disableDeletion: false
+  #       editable: true
+  #       options:
+  #         path: /var/lib/grafana/dashboards/default
+  #   loki-1.yaml:
+  #     apiVersion: 1
+  #     providers:
+  #     - name: 'loki-1'
+  #       orgId: 1
+  #       folder: ''
+  #       type: file
+  #       disableDeletion: false
+  #       editable: true
+  #       options:
+  #         path: /var/lib/grafana/dashboards/loki-1
+  #   loki-2.yaml:
+  #     apiVersion: 1
+  #     providers:
+  #     - name: 'loki-2'
+  #       orgId: 1
+  #       folder: ''
+  #       type: file
+  #       disableDeletion: false
+  #       editable: true
+  #       options:
+  #         path: /var/lib/grafana/dashboards/loki-2
+
+  # dashboards: 
+  #   default:
+  #     node-exporter-full:
+  #       gnetId: 1860
+  #       revision: 24
+  #       datasource: Prometheus
+  #   loki-dashboards-1:
+  #     file: 
+  # dashboardsConfigMaps:
+  #   "loki-1": "loki-dashboards-1"
+  #   "loki-2": "loki-dashboards-2"
