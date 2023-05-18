@@ -78,10 +78,10 @@ jellyseerr:
 tautulli:
   name: tautulli
   namespace: services
-  deploy: true
+  deploy: false
   volumes: 
     config:
-      enabled: true
+      enabled: false
       name: tautulli-config
       size: 200Mi
       access_modes:
