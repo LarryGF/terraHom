@@ -33,7 +33,12 @@ loki:
 
     # Enable environment variables in config file
     # https://grafana.com/docs/loki/latest/configuration/#use-environment-variables-in-the-configuration
-
+  backend:
+    # Number of replicas for the read
+    persistence:
+      # -- Size of persistent disk
+      enableStatefulSetAutoDeletePVC: false
+      
   # Configuration for the gateway
   gateway:
     # -- Specifies whether the gateway should be enabled
