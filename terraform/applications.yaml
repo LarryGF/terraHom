@@ -16,7 +16,7 @@ grafana:
 prometheus:
   name: prometheus
   namespace: monitoring
-  deploy: false
+  deploy: true
   volumes: {}
   override:
     timezone: ${timezone}
