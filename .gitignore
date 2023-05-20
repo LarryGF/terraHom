@@ -7,3 +7,5 @@ terraform/.terraform/*
 *plan*
 *.conf
 *.config*
+Chart.lock
+charts
