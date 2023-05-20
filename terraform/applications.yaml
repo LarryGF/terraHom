@@ -27,7 +27,7 @@ prometheus:
 loki:
   name: loki
   namespace: monitoring
-  deploy: false
+  deploy: true
   volumes: {}
   override:
     timezone: ${timezone}
@@ -153,10 +153,10 @@ prowlarr:
 filebrowser:
   name: filebrowser
   namespace: services
-  deploy: false
+  deploy: true
   volumes:
     config:
-      enabled: false
+      enabled: true
       name: filebrowser-config
       size: 200Mi
       access_modes:
