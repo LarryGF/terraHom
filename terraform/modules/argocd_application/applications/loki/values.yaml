@@ -2,7 +2,9 @@ loki:
   backend:
     replicas: 1
     nodeSelector:
-      kubernetes.io/hostname: ${master_hostname}
+      # kubernetes.io/hostname: ${master_hostname}
+      kubernetes.io/arch : amd64
+
   gateway:
     ingress:
       enabled: true
