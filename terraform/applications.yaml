@@ -1,10 +1,10 @@
 grafana:
   name: grafana
   namespace: monitoring
-  deploy: true
+  deploy: false
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: grafana-config
       size: 1Gi
       access_modes:
@@ -16,7 +16,7 @@ grafana:
 prometheus:
   name: prometheus
   namespace: monitoring
-  deploy: true
+  deploy: false
   volumes: {}
   override:
     timezone: ${timezone}
@@ -27,7 +27,7 @@ prometheus:
 loki:
   name: loki
   namespace: monitoring
-  deploy: true
+  deploy: false
   volumes: {}
   override:
     timezone: ${timezone}
@@ -50,7 +50,7 @@ plex:
   deploy: true
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: plex-config
       size: 5Gi
       access_modes:
@@ -63,10 +63,10 @@ plex:
 jellyseerr:
   name: jellyseerr
   namespace: services
-  deploy: true
+  deploy: false
   volumes: 
     config:
-      enabled: true
+      enabled: false
       name: jellyseerr-config
       size: 200Mi
       access_modes:
@@ -111,7 +111,7 @@ radarr:
   deploy: true
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: radarr-config
       size: 200Mi
       access_modes:
@@ -126,7 +126,7 @@ sonarr:
   deploy: true
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: sonarr-config
       size: 200Mi
       access_modes:
@@ -141,7 +141,7 @@ prowlarr:
   deploy: true
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: prowlarr-config
       size: 200Mi
       access_modes:
@@ -153,10 +153,10 @@ prowlarr:
 filebrowser:
   name: filebrowser
   namespace: services
-  deploy: true
+  deploy: false
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: filebrowser-config
       size: 200Mi
       access_modes:
@@ -168,10 +168,10 @@ filebrowser:
 sabnzbd:
   name: sabnzbd
   namespace: services
-  deploy: true
+  deploy: false
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: sabnzbd-config
       size: 200Mi
       access_modes:
@@ -183,10 +183,10 @@ sabnzbd:
 bazarr:
   name: bazarr
   namespace: services
-  deploy: true
+  deploy: false
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: bazarr-config
       size: 200Mi
       access_modes:
@@ -201,7 +201,7 @@ flood:
   deploy: true
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: flood-config
       size: 200Mi
       access_modes:
@@ -213,10 +213,10 @@ flood:
 whisparr:
   name: whisparr
   namespace: services
-  deploy: true
+  deploy: false
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: whisparr-config
       size: 200Mi
       access_modes:
@@ -228,10 +228,10 @@ whisparr:
 readarr:
   name: readarr
   namespace: services
-  deploy: true
+  deploy: false
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: readarr-config
       size: 200Mi
       access_modes:
@@ -243,10 +243,10 @@ readarr:
 mylar:
   name: mylar
   namespace: services
-  deploy: true
+  deploy: false
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: mylar-config
       size: 200Mi
       access_modes:
@@ -259,7 +259,7 @@ mylar:
 kubeview:
   name: kubeview
   namespace: services
-  deploy: true
+  deploy: false
   volumes:
     config:
       enabled: false

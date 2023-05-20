@@ -18,6 +18,10 @@
     - [exec /sbin/tini: exec format error](#exec-sbintini-exec-format-error)
     - [Delete/get resources from only a specific node](#deleteget-resources-from-only-a-specific-node)
   - [Longhorn](#longhorn)
+    - [Restoring backup](#restoring-backup)
+      - [In Longhorn UI](#in-longhorn-ui)
+      - [In Terraform](#in-terraform)
+    - [Failure mounting NFS](#failure-mounting-nfs)
     - [Node down because of Disk pressure](#node-down-because-of-disk-pressure)
     - [Unable to attach or mount volumes timed out waiting for the condition](#unable-to-attach-or-mount-volumes-timed-out-waiting-for-the-condition)
   - [Services](#services)
@@ -156,6 +160,26 @@ This probably means that the image you're trying to run is not compatible with t
 ```
 
 ## Longhorn
+
+### Restoring backup
+
+In case you haven't wiped out your entire infrastructure, your longhorn backups will stay in place. The suggested procedure is:
+
+#### In Longhorn UI
+
+- Go to Backups
+- Select all backups
+- Restore with original PV name
+- Individually select each volume and select "Create PV/PVC"
+- This will have to be done for each volume in which the namespace is shown in yellow
+
+#### In Terraform
+
+- In `applications.yaml` mark each persistent volume claim for the restored backup as `enabled: false` so they don't get created
+
+### Failure mounting NFS
+
+If, for some reason something breaks in your environment and once everything is back up and running and you see an error indicating that Longhorn was not able to mount an NFS drive, you might want to restart the node(s) in which Longhorn is running.
 
 ### Node down because of Disk pressure
 
