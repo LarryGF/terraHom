@@ -9,7 +9,9 @@
     group: root
     mode: 0644
   vars:
-    cluster_init: "--cluster-init"
+    # using without cluster init even though for multimaster would be needed
+    cluster_init: null
+    # cluster_init: "--cluster-init"
 
 - name: Register Primary master server
   run_once: true
