@@ -30,3 +30,8 @@ variable "master_hostname" {
   description = "Hostname for the master node"
   
 }
+
+variable "duckdns_domain" {
+  type        = string
+  description = "DuckDNS domain to use"
+}

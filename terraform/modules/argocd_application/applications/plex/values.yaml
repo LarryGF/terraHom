@@ -4,7 +4,7 @@ plex:
     ALLOWED_NETWORKS: ${allowed_networks}
     PGID: 1001
     PUID: 1001
-    PLEX_CLAIM: ""
+    PLEX_CLAIM: ${plex_claim_token}
     PLEX_PREFERENCE_1: "FriendlyName=plexHome"
     TZ: ${timezone}
 
@@ -14,6 +14,7 @@ plex:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        # traefik.ingress.kubernetes.io/router.middlewares: services-whitelist-guests@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Plex"
         gethomepage.dev/description: "Plex combines free movies & TV with your favorite streaming services and personal media"

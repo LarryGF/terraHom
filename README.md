@@ -251,3 +251,5 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - k8tz
 - k8s-scanner
 - https://artifacthub.io/packages/helm/geek-cookbook/samba
+- kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
+- kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml

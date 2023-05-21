@@ -117,6 +117,12 @@ variable "allowed_networks" {
   description = "Allowed local networks with lonng netmask: 192.168.1.0/255.255.255.0"
 }
 
+variable "plex_claim_token" {
+  type        = string
+  description = "Plex claim token"
+  default = ""
+}
+
 variable "use_longhorn" {
   type        = bool
   description = "Uses longhorn or local-path"
