@@ -2,6 +2,7 @@ module "base" {
   source             = "./modules/base"
   letsencrypt_server = var.letsencrypt_server
   source_range       = var.source_range
+  source_range_ext       = var.source_range_ext
   log_level          = var.log_level
   access_log_enabled = var.access_log_enabled
   duckdns_token      = var.duckdns_token

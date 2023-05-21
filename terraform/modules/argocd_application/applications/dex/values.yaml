@@ -9,7 +9,12 @@ dex:
 
   # -- Application configuration.
   # See the [official documentation](https://dexidp.io/docs/).
-  config: {}
+  config: 
+    issuer: https://dex.${duckdns_domain}.duckdns.org
+    storage:
+        type: memory
+    enablePasswordDB: true
+
 
   # -- Additional storage [volumes](https://kubernetes.io/docs/concepts/storage/volumes/).
   # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1) for details.

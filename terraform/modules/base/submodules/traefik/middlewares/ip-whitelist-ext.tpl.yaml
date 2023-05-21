@@ -1,0 +1,8 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: whitelist-ext
+  namespace: ${namespace}
+spec:
+  ipWhiteList:
+    sourceRange: ${jsonencode(source_range_ext)}

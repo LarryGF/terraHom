@@ -3,6 +3,11 @@ variable "source_range" {
   description = "Source range to restrict traffic to internal services"
 }
 
+variable "source_range_ext" {
+  type        = string
+  description = "Source range to restrict traffic to internal services from the internet"
+}
+
 variable "namespace" {
   type        = string
   description = "Namespace in which to deploy the resources"

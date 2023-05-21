@@ -5,6 +5,7 @@ resource "kubectl_manifest" "middlewares" {
     "${path.module}/middlewares/${each.value}",
     {
       "source_range" = split(",", var.source_range)
+      "source_range_ext" = split(",", join(",",[var.source_range,var.source_range_ext]))
       "namespace"    = var.namespace
     }
   )
