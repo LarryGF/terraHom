@@ -7,6 +7,7 @@ spec:
   entryPoints:
     - web
     - websecure
+    - websecure-ext
   routes:
   - match: HostRegexp(`{any:.+}`)
     kind: Rule

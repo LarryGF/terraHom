@@ -26,7 +26,7 @@ prometheus:
 dex:
   name: dex
   namespace: services
-  deploy: true
+  deploy: false
   volumes: {}
   override:
     timezone: ${timezone}

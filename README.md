@@ -253,3 +253,5 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - https://artifacthub.io/packages/helm/geek-cookbook/samba
 - kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
 - kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
+- Dex not working
+- Explain plex external setup

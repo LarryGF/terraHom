@@ -10,6 +10,7 @@ module "traefik" {
 
   source             = "./submodules/traefik"
   source_range       = var.source_range
+  source_range_ext       = var.source_range_ext
   timezone           = var.timezone
   namespace          = "services"
   log_level          = "WARNING"

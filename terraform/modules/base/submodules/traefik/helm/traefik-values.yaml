@@ -181,6 +181,30 @@ ports:
       - services-redirect-https@kubernetescrd
       - services-error-pages@kubernetescrd
       - services-whitelist@kubernetescrd
+
+  websecure-ext:
+    port: 9443
+    expose: true
+    exposedPort: 9443
+    protocol: TCP
+    http3:
+      enabled: false
+    tls:
+      enabled: true
+      # this is the name of a TLSOption definition
+      options: ""
+      certResolver: ""
+      domains: []
+      # - main: example.com
+      #   sans:
+      #     - foo.example.com
+      #     - bar.example.com
+    #
+    middlewares: 
+      - services-redirect-https@kubernetescrd
+      - services-error-pages@kubernetescrd
+      - services-whitelist-ext@kubernetescrd
+
   
   metrics:
     port: 9100
