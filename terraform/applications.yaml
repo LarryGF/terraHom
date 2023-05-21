@@ -27,7 +27,7 @@ prometheus:
 loki:
   name: loki
   namespace: monitoring
-  deploy: true
+  deploy: false
   volumes: {}
   override:
     timezone: ${timezone}
@@ -59,6 +59,7 @@ plex:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     allowed_networks: ${allowed_networks} 
+    plex_claim_token: ${plex_claim_token} 
 
 jellyseerr:
   name: jellyseerr
@@ -156,7 +157,7 @@ filebrowser:
   deploy: true
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: filebrowser-config
       size: 200Mi
       access_modes:

@@ -55,6 +55,7 @@ resource "helm_release" "traefik" {
         log_level          = var.log_level
         access_log_enabled = var.access_log_enabled
         master_hostname    = var.master_hostname
+        duckdns_domain    = var.duckdns_domain
 
       }
     )

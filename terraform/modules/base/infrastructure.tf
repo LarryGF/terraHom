@@ -15,6 +15,8 @@ module "traefik" {
   log_level          = "WARNING"
   master_hostname    = var.master_hostname
   access_log_enabled = true
+  duckdns_domain    = var.duckdns_domain
+
   depends_on         = [module.cert-manager, kubernetes_namespace.services]
 }
 

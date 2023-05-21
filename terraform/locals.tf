@@ -9,7 +9,7 @@ locals {
       master_hostname  = var.master_hostname
       allowed_networks = var.allowed_networks
       timezone = var.timezone
-
+      plex_claim_token = var.plex_claim_token
     }
   ))
 

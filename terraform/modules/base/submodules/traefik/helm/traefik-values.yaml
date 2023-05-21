@@ -49,13 +49,17 @@ experimental:
 ingressRoute:
   dashboard:
     enabled: true
-    annotations: {}
-    labels: {}
-    matchRule: PathPrefix(`/dashboard`) || PathPrefix(`/api`)
-    entryPoints: ["traefik"]
-    middlewares: []
-    tls: {}
+    # Custom match rule with host domain
+    annotations:
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Traefik"
+        gethomepage.dev/description: "Traefik Dashboard"
+        gethomepage.dev/group: "Internal"
+        gethomepage.dev/icon: "traefik.png"
+        gethomepage.dev/href: "https://traefik.${duckdns_domain}.duckdns.org"
 
+    matchRule: Host(`traefik.${duckdns_domain}.duckdns.org`)
+    entryPoints: ["websecure"]
   
 
 updateStrategy:
@@ -176,6 +180,7 @@ ports:
       - services-redirect-https@kubernetescrd
       - services-error-pages@kubernetescrd
       - services-whitelist@kubernetescrd
+  
   metrics:
     port: 9100
     # hostPort: 9100
