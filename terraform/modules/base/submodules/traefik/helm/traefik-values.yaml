@@ -60,7 +60,8 @@ ingressRoute:
 
     matchRule: Host(`traefik.${duckdns_domain}.duckdns.org`)
     entryPoints: ["websecure"]
-  
+    tls:
+      secretName: tls-traefik-ingress
 
 updateStrategy:
   type: RollingUpdate
@@ -272,7 +273,19 @@ podSecurityContext:
   runAsNonRoot: true
   runAsUser: 65532
 
-extraObjects: []
+extraObjects:
+  - apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: traefik-dashboard
+      namespace: kube-system
+    spec:
+      dnsNames:
+        - traefik.${duckdns_domain}.duckdns.org
+      secretName: tls-traefik-ingress
+      issuerRef:
+        name: letsencrypt
+        kind: ClusterIssuer
 
 global:
   systemDefaultRegistry: ""
