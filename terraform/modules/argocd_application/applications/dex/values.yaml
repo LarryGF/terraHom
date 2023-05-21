@@ -1,0 +1,97 @@
+dex:
+  # -- A list of hosts and IPs that will be injected into the pod's hosts file if specified.
+  # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#hostname-and-name-resolution)
+  hostAliases: []
+
+  configSecret:
+    create: true
+    name: ""
+
+  # -- Application configuration.
+  # See the [official documentation](https://dexidp.io/docs/).
+  config: {}
+
+  # -- Additional storage [volumes](https://kubernetes.io/docs/concepts/storage/volumes/).
+  # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1) for details.
+  volumes: []
+
+  # -- Additional [volume mounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/).
+  # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1) for details.
+  volumeMounts: []
+
+  envFrom: []
+
+  env: {}
+
+  # -- Similar to env but with support for all possible configurations.
+  # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) for details.
+  envVars: []
+  # - name: SOME_ENV_VAR
+  #   value: value
+  # - name: SOME_ENV_VAR2
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: secret-name
+  #       key: secret-key
+  # - name: SOME_ENV_VAR3
+  #   valueFrom:
+  #     configMapKeyRef:
+  #       name: config-map-name
+  #       key: config-map-key
+
+
+
+  # -- Annotations to be added to pods.
+  podAnnotations: {}
+
+
+  ingress:
+    # -- Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/).
+    enabled: true
+
+    # -- Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class).
+    className: "traefik"
+
+    # -- Annotations to be added to the ingress.
+    annotations: 
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Dex"
+      gethomepage.dev/description: "Dex OIDC Provider"
+      gethomepage.dev/group: "Internal"
+      gethomepage.dev/icon: "dex.png"
+
+    # -- Ingress host configuration.
+    # @default -- See [values.yaml](values.yaml).
+    hosts:
+      - host: dex.${duckdns_domain}.duckdns.org
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+    # -- Ingress TLS configuration.
+    # @default -- See [values.yaml](values.yaml).
+    tls: 
+     - secretName: tls-dex-ingress
+       hosts:
+         - dex.${duckdns_domain}.duckdns.org
+
+  serviceMonitor:
+    # -- Enable Prometheus ServiceMonitor.
+    # See the [documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/design.md#servicemonitor) and the [API reference](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor) for details.
+    enabled: false
+
+    # -- Namespace where the ServiceMonitor resource should be deployed.
+    # @default -- Release namespace.
+    namespace: ""
+
+    # -- (duration) Prometheus scrape interval.
+    interval:
+
+    # -- (duration) Prometheus scrape timeout.
+    scrapeTimeout:
+
+    # -- Labels to be added to the ServiceMonitor.
+    labels: {}
+

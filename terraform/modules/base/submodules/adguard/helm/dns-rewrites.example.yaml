@@ -1,0 +1,4 @@
+# This needs to be properly indented otherwise terraform will put it without indentations 
+      - domain: "*.your.domain"
+        answer: ${master_ip}
+      

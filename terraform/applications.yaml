@@ -23,6 +23,16 @@ prometheus:
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
 
+dex:
+  name: dex
+  namespace: kube-system
+  deploy: true
+  volumes: {}
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+
 
 loki:
   name: loki

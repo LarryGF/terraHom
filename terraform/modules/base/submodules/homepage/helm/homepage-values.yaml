@@ -80,9 +80,9 @@ config:
 
   bookmarks:
     - Developer:
-        - Github:
-            - abbr: GH
-              href: https://github.com/
+        - Github Base Repo:
+            - abbr: Repo
+              href: https://github.com/LarryGF/pi-k8s
 
   services: []
 
@@ -94,7 +94,7 @@ config:
         cpu: true
         memory: true
     - search:
-        provider: duckduckgo
+        provider: google
         target: _blank
     ## Uncomment to enable Kubernetes integration
     - kubernetes:
