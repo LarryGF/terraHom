@@ -4,4 +4,7 @@ version: 0.0.0
 dependencies:
   - name: prometheus
     repository: https://prometheus-community.github.io/helm-charts
-    version: 22.1.0
+    version: 22.6.5
+  - name: prometheus-operator-crds
+    repository: https://prometheus-community.github.io/helm-charts
+    version: 4.0.2
