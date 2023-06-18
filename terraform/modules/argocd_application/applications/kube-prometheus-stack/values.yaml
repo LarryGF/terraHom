@@ -11,10 +11,9 @@ kube-prometheus-stack:
         gethomepage.dev/group: "Monitoring"
         gethomepage.dev/icon: "alertmanager.png"
       hosts:
-        - host: "alertmanager.${duckdns_domain}.duckdns.org"
-          paths:
-          - path: /
-            pathType: ImplementationSpecific
+        - "alertmanager.${duckdns_domain}.duckdns.org"
+      paths:
+        - "/"
       tls:
         - hosts:
             - "alertmanager.${duckdns_domain}.duckdns.org"
@@ -32,7 +31,8 @@ kube-prometheus-stack:
         gethomepage.dev/icon: "alertmanager.png"
       hosts:
         - "prometheus.${duckdns_domain}.duckdns.org"    
-      path: /
+      paths: 
+        - "/"
       tls:
         - hosts:
             - "prometheus.${duckdns_domain}.duckdns.org"

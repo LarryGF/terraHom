@@ -24,7 +24,7 @@ prometheus:
     master_hostname: ${master_hostname}
 
 kube-prometheus-stack:
-  name: prometheus
+  name: kube-prometheus-stack
   namespace: monitoring
   deploy: true
   volumes: {}
