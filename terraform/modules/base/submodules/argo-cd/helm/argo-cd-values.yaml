@@ -5,7 +5,7 @@ openshift:
 
 crds:
   install: true
-  keep: true
+  keep: false
 
 ## Globally shared configuration
 global:
@@ -40,7 +40,7 @@ configs:
     application.instanceLabelKey: argocd.argoproj.io/instance
     exec.enabled: true
     admin.enabled: true
-    timeout.reconciliation: 180s
+    timeout.reconciliation: 30s
     timeout.hard.reconciliation: 0s
 
     # Dex configuration
@@ -58,119 +58,20 @@ configs:
 
   params:
     otlp.address: ''
-    ## Server properties
-    # -- Run server without TLS
     server.insecure: true # set to insecure to prevent redirection loop
-    # -- Value for base href in index.html. Used if Argo CD is running behind reverse proxy under subpath different from /
     server.basehref: /
-    # -- Used if Argo CD is running behind reverse proxy under subpath different from /
     server.rootpath: ''
-    # -- Disable Argo CD RBAC for user authentication
     server.disable.auth: false
-    # -- Enable GZIP compression
     server.enable.gzip: false
-    # -- Set X-Frame-Options header in HTTP responses to value. To disable, set to "".
     server.x.frame.options: sameorigin
 
-  # ConfigMap for Config Management Plugins
-  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/
-  cmp:
-    # -- Create the argocd-cmp-cm configmap
-    create: false
 
-    # -- Annotations to be added to argocd-cmp-cm configmap
-    annotations: {}
-
-    # -- Plugin yaml files to be added to argocd-cmp-cm
-    plugins: {}
-      # --- First plugin
-      # my-plugin:
-      #   init:
-      #     command: [sh]
-      #     args: [-c, 'echo "Initializing..."']
-      #   generate:
-      #     command: [sh, -c]
-      #     args:
-      #       - |
-      #         echo "{\"kind\": \"ConfigMap\", \"apiVersion\": \"v1\", \"metadata\": { \"name\": \"$ARGOCD_APP_NAME\", \"namespace\": \"$ARGOCD_APP_NAMESPACE\", \"annotations\": {\"Foo\": \"$ARGOCD_ENV_FOO\", \"KubeVersion\": \"$KUBE_VERSION\", \"KubeApiVersion\": \"$KUBE_API_VERSIONS\",\"Bar\": \"baz\"}}}"
-      #   discover:
-      #     fileName: "./subdir/s*.yaml"
-      #     find:
-      #       glob: "**/Chart.yaml"
-      #       command: [sh, -c, find . -name env.yaml]
-
-      # --- Second plugin
-      # my-plugin2:
-      #   init:
-      #     command: [sh]
-      #     args: [-c, 'echo "Initializing..."']
-      #   generate:
-      #     command: [sh, -c]
-      #     args:
-      #       - |
-      #         echo "{\"kind\": \"ConfigMap\", \"apiVersion\": \"v1\", \"metadata\": { \"name\": \"$ARGOCD_APP_NAME\", \"namespace\": \"$ARGOCD_APP_NAMESPACE\", \"annotations\": {\"Foo\": \"$ARGOCD_ENV_FOO\", \"KubeVersion\": \"$KUBE_VERSION\", \"KubeApiVersion\": \"$KUBE_API_VERSIONS\",\"Bar\": \"baz\"}}}"
-      #   discover:
-      #     fileName: "./subdir/s*.yaml"
-      #     find:
-      #       glob: "**/Chart.yaml"
-      #       command: [sh, -c, find . -name env.yaml]
-
-
-  # -- Repository credentials to be used as Templates for other repos
-  ## Creates a secret for each key/value specified below to create repository credentials
-  credentialTemplates: {}
-    # github-enterprise-creds-1:
-    #   url: https://github.com/argoproj
-    #   githubAppID: 1
-    #   githubAppInstallationID: 2
-    #   githubAppEnterpriseBaseUrl: https://ghe.example.com/api/v3
-    #   githubAppPrivateKey: |
-    #     -----BEGIN OPENSSH PRIVATE KEY-----
-    #     ...
-    #     -----END OPENSSH PRIVATE KEY-----
-    # pi-k8s-creds:
-    #   url: https://github.com/LarryGF/pi-k8s.git
-    #   password: token
-    #   username: username
-    # ssh-creds:
-    #  url: git@github.com:argoproj-labs
-    #  sshPrivateKey: |
-    #    -----BEGIN OPENSSH PRIVATE KEY-----
-    #    ...
-    #    -----END OPENSSH PRIVATE KEY-----
-
-  # -- Repositories list to be used by applications
-  ## Creates a secret for each key/value specified below to create repositories
-  ## Note: the last example in the list would use a repository credential template, configured under "configs.repositoryCredentials".
-  repositories: {}
-    # istio-helm-repo:
-    #   url: https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts
-    #   name: istio.io
-    #   type: helm
-    # private-helm-repo:
-    #   url: https://my-private-chart-repo.internal
-    #   name: private-repo
-    #   type: helm
-    #   password: my-password
-    #   username: my-username
-    # pi-k8s:
-    #   url: https://github.com/LarryGF/pi-k8s.git
-    #   name: pi-k8s
-
-
-  # Argo CD sensitive data
-  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
   secret:
-    # -- Create the argocd-secret
     createSecret: true
-    # -- Labels to be added to argocd-secret
     labels: {}
-    # -- Annotations to be added to argocd-secret
     annotations: {}
-
     # -- Shared secret for authenticating GitHub webhook events
     githubSecret: ""
-
     # -- Bcrypt hashed admin password
     ## Argo expects the password in the secret to be bcrypt hashed. You can create this hash with
     ## `htpasswd -nbBC 10 "" $ARGO_PWD | tr -d ':\n' | sed 's/$2y/$2a/'`
@@ -266,16 +167,16 @@ dex:
   # -- Dex name
   name: dex-server
 
-## Redis
-redis:
-  # -- Enable redis
-  enabled: true
-  # -- Redis name
-  name: redis
-# Check the redis-ha chart for more properties
-redis-ha:
-  # -- Enables the Redis HA subchart and disables the custom Redis single node deployment
-  enabled: false
+# ## Redis
+# redis:
+#   # -- Enable redis
+#   enabled: true
+#   # -- Redis name
+#   name: redis
+# # Check the redis-ha chart for more properties
+# redis-ha:
+#   # -- Enables the Redis HA subchart and disables the custom Redis single node deployment
+#   enabled: false
 
 
 ## Server
