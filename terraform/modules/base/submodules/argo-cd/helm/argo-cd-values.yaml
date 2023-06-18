@@ -17,6 +17,7 @@ global:
     level: info
 
   nodeSelector: {}
+  env: []
 
 ## Argo Configs
 configs:
@@ -167,16 +168,17 @@ dex:
   # -- Dex name
   name: dex-server
 
-# ## Redis
-# redis:
-#   # -- Enable redis
-#   enabled: true
-#   # -- Redis name
-#   name: redis
-# # Check the redis-ha chart for more properties
-# redis-ha:
-#   # -- Enables the Redis HA subchart and disables the custom Redis single node deployment
-#   enabled: false
+## Redis
+redis:
+  # -- Enable redis
+  enabled: true
+  # -- Redis name
+  name: redis
+# Check the redis-ha chart for more properties
+  env: []
+redis-ha:
+  # -- Enables the Redis HA subchart and disables the custom Redis single node deployment
+  enabled: false
 
 
 ## Server
@@ -236,7 +238,7 @@ server:
       portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
-      enabled: true
+      enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
@@ -297,7 +299,8 @@ server:
 applicationSet:
   # -- Enable ApplicationSet controller
   enabled: true
-
+  certificate:
+    enabled: false
   # -- ApplicationSet controller name string
   name: applicationset-controller
 
