@@ -1,0 +1,792 @@
+kube-prometheus-stack:
+  nameOverride: ""
+  namespaceOverride: "monitoring"
+  fullnameOverride: "prometheus"
+  commonLabels: {}
+  defaultRules:
+    create: true
+    rules:
+      alertmanager: true
+      etcd: true
+      configReloaders: true
+      general: true
+      k8s: true
+      kubeApiserverAvailability: true
+      kubeApiserverBurnrate: true
+      kubeApiserverHistogram: true
+      kubeApiserverSlos: true
+      kubeControllerManager: true
+      kubelet: true
+      kubeProxy: true
+      kubePrometheusGeneral: true
+      kubePrometheusNodeRecording: true
+      kubernetesApps: true
+      kubernetesResources: true
+      kubernetesStorage: true
+      kubernetesSystem: true
+      kubeSchedulerAlerting: true
+      kubeSchedulerRecording: true
+      kubeStateMetrics: true
+      network: true
+      node: true
+      nodeExporterAlerting: true
+      nodeExporterRecording: true
+      prometheus: true
+      prometheusOperator: true
+
+    appNamespacesTarget: ".*"
+    labels: {}
+    annotations: {}
+    additionalRuleLabels: {}
+    additionalRuleAnnotations: {}
+
+    ## Prefix for runbook URLs. Use this to override the first part of the runbookURLs that is common to all rules.
+    runbookUrl: "https://runbooks.prometheus-operator.dev/runbooks"
+
+    ## Disabled PrometheusRule alerts
+    disabled: {}
+    # KubeAPIDown: true
+    # NodeRAIDDegraded: true
+
+  ## Provide custom recording or alerting rules to be deployed into the cluster.
+  ##
+  additionalPrometheusRulesMap: {}
+  #  rule-name:
+  #    groups:
+  #    - name: my_group
+  #      rules:
+  #      - record: my_record
+  #        expr: 100 * my_record
+
+  global:
+    rbac:
+      create: true
+
+      ## Create ClusterRoles that extend the existing view, edit and admin ClusterRoles to interact with prometheus-operator CRDs
+      ## Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/#aggregated-clusterroles
+      createAggregateClusterRoles: false
+      pspEnabled: false
+      pspAnnotations: {}
+    imageRegistry: ""
+
+  ## Configuration for alertmanager
+  ## ref: https://prometheus.io/docs/alerting/alertmanager/
+  ##
+  alertmanager:
+    enabled: true
+    annotations: {}
+    apiVersion: v2
+
+    ## Alertmanager configuration directives
+    ## ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
+    ##      https://prometheus.io/webtools/alerting/routing-tree-editor/
+    ##
+    config:
+      global:
+        resolve_timeout: 5m
+      inhibit_rules:
+        - source_matchers:
+            - 'severity = critical'
+          target_matchers:
+            - 'severity =~ warning|info'
+          equal:
+            - 'namespace'
+            - 'alertname'
+        - source_matchers:
+            - 'severity = warning'
+          target_matchers:
+            - 'severity = info'
+          equal:
+            - 'namespace'
+            - 'alertname'
+        - source_matchers:
+            - 'alertname = InfoInhibitor'
+          target_matchers:
+            - 'severity = info'
+          equal:
+            - 'namespace'
+      route:
+        group_by: ['namespace']
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 12h
+        receiver: 'null'
+        routes:
+        - receiver: 'null'
+          matchers:
+            - alertname =~ "InfoInhibitor|Watchdog"
+      receivers:
+      - name: 'null'
+      templates:
+      - '/etc/alertmanager/config/*.tmpl'
+
+    ## Alertmanager configuration directives (as string type, preferred over the config hash map)
+    ## stringConfig will be used only, if tplConfig is true
+    ## ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
+    ##      https://prometheus.io/webtools/alerting/routing-tree-editor/
+    ##
+    stringConfig: ""
+
+    ## Pass the Alertmanager configuration directives through Helm's templating
+    ## engine. If the Alertmanager configuration contains Alertmanager templates,
+    ## they'll need to be properly escaped so that they are not interpreted by
+    ## Helm
+    ## ref: https://helm.sh/docs/developing_charts/#using-the-tpl-function
+    ##      https://prometheus.io/docs/alerting/configuration/#tmpl_string
+    ##      https://prometheus.io/docs/alerting/notifications/
+    ##      https://prometheus.io/docs/alerting/notification_examples/
+    tplConfig: false
+
+    ## Alertmanager template files to format alerts
+    ## By default, templateFiles are placed in /etc/alertmanager/config/ and if
+    ## they have a .tmpl file suffix will be loaded. See config.templates above
+    ## to change, add other suffixes. If adding other suffixes, be sure to update
+    ## config.templates above to include those suffixes.
+    ## ref: https://prometheus.io/docs/alerting/notifications/
+    ##      https://prometheus.io/docs/alerting/notification_examples/
+    ##
+    templateFiles: {}
+    #
+    ## An example template:
+    #   template_1.tmpl: |-
+    #       {{ define "cluster" }}{{ .ExternalURL | reReplaceAll ".*alertmanager\\.(.*)" "$1" }}{{ end }}
+    #
+    #       {{ define "slack.myorg.text" }}
+    #       {{- $root := . -}}
+    #       {{ range .Alerts }}
+    #         *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+    #         *Cluster:* {{ template "cluster" $root }}
+    #         *Description:* {{ .Annotations.description }}
+    #         *Graph:* <{{ .GeneratorURL }}|:chart_with_upwards_trend:>
+    #         *Runbook:* <{{ .Annotations.runbook }}|:spiral_note_pad:>
+    #         *Details:*
+    #           {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
+    #           {{ end }}
+    #       {{ end }}
+    #       {{ end }}
+
+
+    ## Configuration for Alertmanager secret
+    ##
+    secret:
+      annotations: {}
+    service:
+      annotations: {}
+      labels: {}
+      clusterIP: ""
+      port: 9093
+      targetPort: 9093
+      nodePort: 30903
+      ## List of IP addresses at which the Prometheus server service is available
+      ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+      ##
+
+      ## Additional ports to open for Alertmanager service
+      additionalPorts: []
+      # additionalPorts:
+      # - name: authenticated
+      #   port: 8081
+      #   targetPort: 8081
+
+      externalIPs: []
+      loadBalancerIP: ""
+      loadBalancerSourceRanges: []
+
+      externalTrafficPolicy: Cluster
+
+      ## If you want to make sure that connections from a particular client are passed to the same Pod each time
+      ## Accepts 'ClientIP' or ''
+      ##
+      sessionAffinity: ""
+
+      ## Service type
+      ##
+      type: ClusterIP
+
+
+    serviceMonitor:
+      interval: ""
+      selfMonitor: true
+      additionalLabels: {}
+      sampleLimit: 0
+      targetLimit: 0
+      labelLimit: 0
+      labelNameLengthLimit: 0
+
+      labelValueLengthLimit: 0
+
+      proxyUrl: ""
+
+      scheme: ""
+
+      enableHttp2: true
+
+      tlsConfig: {}
+
+      bearerTokenFile:
+
+      metricRelabelings: []
+      # - action: keep
+      #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+      #   sourceLabels: [__name__]
+
+      relabelings: []
+      # - sourceLabels: [__meta_kubernetes_pod_node_name]
+      #   separator: ;
+      #   regex: ^(.*)$
+      #   targetLabel: nodename
+      #   replacement: $1
+      #   action: replace
+
+    ## ExtraSecret can be used to store various data in an extra secret
+    ## (use it for example to store hashed basic auth credentials)
+    extraSecret:
+      ## if not set, name will be auto generated
+      # name: ""
+      annotations: {}
+      data: {}
+    #   auth: |
+    #     foo:$apr1$OFG3Xybp$ckL0FHDAkoXYIlH9.cysT0
+    #     someoneelse:$apr1$DMZX2Z4q$6SbQIfyuLQd.xmo/P0m2c.
+
+  grafana:
+    enabled: false
+
+  kubernetesServiceMonitors:
+    enabled: true
+
+  kubeApiServer:
+    enabled: true
+    tlsConfig:
+      serverName: kubernetes
+      insecureSkipVerify: false
+
+  kubelet:
+    enabled: true
+    namespace: kube-system
+
+  kubeControllerManager:
+    enabled: true
+
+    ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
+    ##
+    endpoints: []
+    # - 10.141.4.22
+    # - 10.141.4.23
+    # - 10.141.4.24
+
+    ## If using kubeControllerManager.endpoints only the port and targetPort are used
+    ##
+    service:
+      enabled: true
+      ## If null or unset, the value is determined dynamically based on target Kubernetes version due to change
+      ## of default port in Kubernetes 1.22.
+      ##
+      port: null
+      targetPort: null
+      # selector:
+      #   component: kube-controller-manager
+
+    serviceMonitor:
+      enabled: true
+
+  ## Component scraping coreDns. Use either this or kubeDns
+  ##
+  coreDns:
+    enabled: true
+    service:
+      port: 9153
+      targetPort: 9153
+      # selector:
+      #   k8s-app: kube-dns
+
+
+  ## Component scraping etcd
+  ##
+  kubeEtcd:
+    enabled: true
+
+    ## If your etcd is not deployed as a pod, specify IPs it can be found on
+    ##
+    endpoints: []
+    # - 10.141.4.22
+    # - 10.141.4.23
+    # - 10.141.4.24
+
+    ## Etcd service. If using kubeEtcd.endpoints only the port and targetPort are used
+    ##
+    service:
+      enabled: true
+      port: 2381
+      targetPort: 2381
+      # selector:
+      #   component: etcd
+
+    ## Configure secure access to the etcd cluster by loading a secret into prometheus and
+    ## specifying security configuration below. For example, with a secret named etcd-client-cert
+    ##
+    ## serviceMonitor:
+    ##   scheme: https
+    ##   insecureSkipVerify: false
+    ##   serverName: localhost
+    ##   caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
+    ##   certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
+    ##   keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
+    ##
+    serviceMonitor:
+      enabled: true
+
+  kubeScheduler:
+    enabled: true
+
+    ## If your kube scheduler is not deployed as a pod, specify IPs it can be found on
+    ##
+    endpoints: []
+    # - 10.141.4.22
+    # - 10.141.4.23
+    # - 10.141.4.24
+
+    ## If using kubeScheduler.endpoints only the port and targetPort are used
+    ##
+    service:
+      enabled: true
+      ## If null or unset, the value is determined dynamically based on target Kubernetes version due to change
+      ## of default port in Kubernetes 1.23.
+      ##
+      port: null
+      targetPort: null
+      # selector:
+      #   component: kube-scheduler
+
+    serviceMonitor:
+      enabled: true
+
+  kubeProxy:
+    enabled: true
+
+    ## If your kube proxy is not deployed as a pod, specify IPs it can be found on
+    ##
+    endpoints: []
+    # - 10.141.4.22
+    # - 10.141.4.23
+    # - 10.141.4.24
+
+    service:
+      enabled: true
+      port: 10249
+      targetPort: 10249
+      # selector:
+      #   k8s-app: kube-proxy
+
+    serviceMonitor:
+      enabled: true
+
+  kubeStateMetrics:
+    enabled: true
+
+  ## Configuration for kube-state-metrics subchart
+  ##
+  kube-state-metrics:
+    namespaceOverride: ""
+    rbac:
+      create: true
+    releaseLabel: true
+    prometheus:
+      monitor:
+        enabled: true
+
+    selfMonitor:
+      enabled: true
+
+  ## Deploy node exporter as a daemonset to all nodes
+  ##
+  nodeExporter:
+    enabled: true
+
+  ## Configuration for prometheus-node-exporter subchart
+  ##
+  prometheus-node-exporter:
+    namespaceOverride: ""
+    podLabels:
+      ## Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards
+      ##
+      jobLabel: node-exporter
+    releaseLabel: true
+    extraArgs:
+      - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+      - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+    service:
+      portName: http-metrics
+    prometheus:
+      monitor:
+        enabled: true
+
+    rbac:
+      ## If true, create PSPs for node-exporter
+      ##
+      pspEnabled: false
+
+  ## Manages Prometheus and Alertmanager components
+  ##
+  prometheusOperator:
+    enabled: true
+
+    ## Prometheus-Operator v0.39.0 and later support TLS natively.
+    ##
+    tls:
+      enabled: true
+      # Value must match version names from https://golang.org/pkg/crypto/tls/#pkg-constants
+      tlsMinVersion: VersionTLS13
+      # The default webhook port is 10250 in order to work out-of-the-box in GKE private clusters and avoid adding firewall rules.
+      internalPort: 10250
+
+
+    ## Namespaces to scope the interaction of the Prometheus Operator and the apiserver (allow list).
+    ## This is mutually exclusive with denyNamespaces. Setting this to an empty object will disable the configuration
+    ##
+    namespaces: {}
+      # releaseNamespace: true
+      # additional:
+      # - kube-system
+
+    ## Namespaces not to scope the interaction of the Prometheus Operator (deny list).
+    ##
+    denyNamespaces: []
+
+
+    ## The clusterDomain value will be added to the cluster.peer option of the alertmanager.
+    ## Without this specified option cluster.peer will have value alertmanager-monitoring-alertmanager-0.alertmanager-operated:9094 (default value)
+    ## With this specified option cluster.peer will have value alertmanager-monitoring-alertmanager-0.alertmanager-operated.namespace.svc.cluster-domain:9094
+    ##
+    # clusterDomain: "cluster.local"
+
+
+    ## Service account for Alertmanager to use.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+    ##
+    serviceAccount:
+      create: true
+      name: ""
+
+    ## Configuration for Prometheus operator service
+    ##
+    service:
+      annotations: {}
+      labels: {}
+      clusterIP: ""
+
+    ## Port to expose on each node
+    ## Only used if service.type is 'NodePort'
+    ##
+      nodePort: 30080
+
+      nodePortTls: 30443
+
+    ## Additional ports to open for Prometheus service
+    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#multi-port-services
+    ##
+      additionalPorts: []
+
+    ## Loadbalancer IP
+    ## Only use if service.type is "LoadBalancer"
+    ##
+      loadBalancerIP: ""
+      loadBalancerSourceRanges: []
+
+      ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
+      ##
+      externalTrafficPolicy: Cluster
+
+      type: ClusterIP
+
+      externalIPs: []
+
+
+    ## Define Log Format
+    # Use logfmt (default) or json logging
+    # logFormat: logfmt
+
+    ## Decrease log verbosity to errors only
+    # logLevel: error
+
+    kubeletService:
+      enabled: true
+      namespace: kube-system
+      ## Use '{{ template "kube-prometheus-stack.fullname" . }}-kubelet' by default
+      name: ""
+
+
+
+    # Required for use in managed kubernetes clusters (such as AWS EKS) with custom CNI (such as calico),
+    # because control-plane managed by AWS cannot communicate with pods' IP CIDR and admission webhooks are not working
+    ##
+    hostNetwork: false
+
+    nodeSelector: {}
+
+    dnsConfig: {}
+      # nameservers:
+      #   - 1.2.3.4
+      # searches:
+      #   - ns1.svc.cluster-domain.example
+      #   - my.dns.search.suffix
+      # options:
+      #   - name: ndots
+      #     value: "2"
+    #   - name: edns0
+
+
+
+    ## Prometheus-operator image
+    ##
+    image:
+      registry: quay.io
+      repository: prometheus-operator/prometheus-operator
+      # if not set appVersion field from Chart.yaml is used
+      tag: ""
+      sha: ""
+      pullPolicy: IfNotPresent
+
+
+
+
+    ## Set a Field Selector to filter watched secrets
+    ##
+    secretFieldSelector: "type!=kubernetes.io/dockercfg,type!=kubernetes.io/service-account-token,type!=helm.sh/release.v1"
+
+  prometheus:
+    enabled: true
+    annotations: {}
+
+    ## Settings affecting prometheusSpec
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheusspec
+    ##
+    prometheusSpec:
+      ## Allows setting additional arguments for the Prometheus container
+      ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#monitoring.coreos.com/v1.Prometheus
+      additionalArgs: []
+
+      enableAdminAPI: false
+
+      ## WebTLSConfig defines the TLS parameters for HTTPS
+      ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#webtlsconfig
+      web: {}
+
+      image:
+        registry: quay.io
+        repository: prometheus/prometheus
+        tag: v2.44.0
+        sha: ""
+
+      ## enable --web.enable-remote-write-receiver flag on prometheus-server
+      ##
+      enableRemoteWriteReceiver: false
+
+
+      ## External URL at which Prometheus will be reachable.
+      ##
+      externalUrl: ""
+
+      ## Define which Nodes the Pods are scheduled on.
+      ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+      ##
+      nodeSelector: {}
+
+      ## Secrets is a list of Secrets in the same namespace as the Prometheus object, which shall be mounted into the Prometheus Pods.
+      ## The Secrets are mounted into /etc/prometheus/secrets/. Secrets changes after initial creation of a Prometheus object are not
+      ## reflected in the running Pods. To change the secrets mounted into the Prometheus Pods, the object must be deleted and recreated
+      ## with the new list of secrets.
+      ##
+      secrets: []
+
+      ## ConfigMaps is a list of ConfigMaps in the same namespace as the Prometheus object, which shall be mounted into the Prometheus Pods.
+      ## The ConfigMaps are mounted into /etc/prometheus/configmaps/.
+      ##
+      configMaps: []
+
+      ## How long to retain metrics
+      ##
+      retention: 10d
+
+      ## Maximum size of metrics
+      ##
+      retentionSize: ""
+
+      ## Allow out-of-order/out-of-bounds samples ingested into Prometheus for a specified duration
+      ## See https://prometheus.io/docs/prometheus/latest/configuration/configuration/#tsdb
+      tsdb:
+        outOfOrderTimeWindow: 0s
+
+
+      ## Prefix used to register routes, overriding externalUrl route.
+      ## Useful for proxies that rewrite URLs.
+      ##
+      routePrefix: /
+
+      ## The remote_read spec configuration for Prometheus.
+      ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#remotereadspec
+      remoteRead: []
+      # - url: http://remote1/read
+      ## additionalRemoteRead is appended to remoteRead
+      additionalRemoteRead: []
+
+      ## The remote_write spec configuration for Prometheus.
+      ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#remotewritespec
+      remoteWrite: []
+      # - url: http://remote1/push
+      ## additionalRemoteWrite is appended to remoteWrite
+      additionalRemoteWrite: []
+
+      ## Enable/Disable Grafana dashboards provisioning for prometheus remote write feature
+      remoteWriteDashboards: true
+
+      storageSpec: {}
+      ## Using PersistentVolumeClaim
+      ##
+      #  volumeClaimTemplate:
+      #    spec:
+      #      storageClassName: gluster
+      #      accessModes: ["ReadWriteOnce"]
+      #      resources:
+      #        requests:
+      #          storage: 50Gi
+      #    selector: {}
+
+      ## Using tmpfs volume
+      ##
+      #  emptyDir:
+      #    medium: Memory
+
+      # Additional volumes on the output StatefulSet definition.
+      volumes: []
+
+      # Additional VolumeMounts on the output StatefulSet definition.
+      volumeMounts: []
+
+      ## AdditionalScrapeConfigs allows specifying additional Prometheus scrape configurations. Scrape configurations
+      ## are appended to the configurations generated by the Prometheus Operator. Job configurations must have the form
+      ## as specified in the official Prometheus documentation:
+      ## https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config. As scrape configs are
+      ## appended, the user is responsible to make sure it is valid. Note that using this feature may expose the possibility
+      ## to break upgrades of Prometheus. It is advised to review Prometheus release notes to ensure that no incompatible
+      ## scrape configs are going to break Prometheus after the upgrade.
+      ## AdditionalScrapeConfigs can be defined as a list or as a templated string.
+      ##
+      ## The scrape configuration example below will find master nodes, provided they have the name .*mst.*, relabel the
+      ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
+      ##
+      additionalScrapeConfigs: []
+      # - job_name: kube-etcd
+      #   kubernetes_sd_configs:
+      #     - role: node
+      #   scheme: https
+      #   tls_config:
+      #     ca_file:   /etc/prometheus/secrets/etcd-client-cert/etcd-ca
+      #     cert_file: /etc/prometheus/secrets/etcd-client-cert/etcd-client
+      #     key_file:  /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
+      #   relabel_configs:
+      #   - action: labelmap
+      #     regex: __meta_kubernetes_node_label_(.+)
+      #   - source_labels: [__address__]
+      #     action: replace
+      #     targetLabel: __address__
+      #     regex: ([^:;]+):(\d+)
+      #     replacement: ${1}:2379
+      #   - source_labels: [__meta_kubernetes_node_name]
+      #     action: keep
+      #     regex: .*mst.*
+      #   - source_labels: [__meta_kubernetes_node_name]
+      #     action: replace
+      #     targetLabel: node
+      #     regex: (.*)
+      #     replacement: ${1}
+      #   metric_relabel_configs:
+      #   - regex: (kubernetes_io_hostname|failure_domain_beta_kubernetes_io_region|beta_kubernetes_io_os|beta_kubernetes_io_arch|beta_kubernetes_io_instance_type|failure_domain_beta_kubernetes_io_zone)
+      #     action: labeldrop
+      #
+      ## If scrape config contains a repetitive section, you may want to use a template.
+      ## In the following example, you can see how to define `gce_sd_configs` for multiple zones
+      # additionalScrapeConfigs: |
+      #  - job_name: "node-exporter"
+      #    gce_sd_configs:
+      #    {{range $zone := .Values.gcp_zones}}
+      #    - project: "project1"
+      #      zone: "{{$zone}}"
+      #      port: 9100
+      #    {{end}}
+      #    relabel_configs:
+      #    ...
+
+
+      ## If additional scrape configurations are already deployed in a single secret file you can use this section.
+      ## Expected values are the secret name and key
+      ## Cannot be used with additionalScrapeConfigs
+      additionalScrapeConfigsSecret: {}
+        # enabled: false
+        # name:
+        # key:
+
+
+      ## AdditionalAlertManagerConfigs allows for manual configuration of alertmanager jobs in the form as specified
+      ## in the official Prometheus documentation https://prometheus.io/docs/prometheus/latest/configuration/configuration/#<alertmanager_config>.
+      ## AlertManager configurations specified are appended to the configurations generated by the Prometheus Operator.
+      ## As AlertManager configs are appended, the user is responsible to make sure it is valid. Note that using this
+      ## feature may expose the possibility to break upgrades of Prometheus. It is advised to review Prometheus release
+      ## notes to ensure that no incompatible AlertManager configs are going to break Prometheus after the upgrade.
+      ##
+      additionalAlertManagerConfigs: []
+      # - consul_sd_configs:
+      #   - server: consul.dev.test:8500
+      #     scheme: http
+      #     datacenter: dev
+      #     tag_separator: ','
+      #     services:
+      #       - metrics-prometheus-alertmanager
+
+      ## If additional alertmanager configurations are already deployed in a single secret, or you want to manage
+      ## them separately from the helm deployment, you can use this section.
+      ## Expected values are the secret name and key
+      ## Cannot be used with additionalAlertManagerConfigs
+      additionalAlertManagerConfigsSecret: {}
+        # name:
+        # key:
+        # optional: false
+
+
+
+      ## InitContainers allows injecting additional initContainers. This is meant to allow doing some changes
+      ## (permissions, dir tree) on mounted volumes before starting prometheus
+      initContainers: []
+
+      ## PortName to use for Prometheus.
+      ##
+      portName: "http-web"
+
+
+      # Required for use in managed kubernetes clusters (such as AWS EKS) with custom CNI (such as calico),
+      # because control-plane managed by AWS cannot communicate with pods' IP CIDR and admission webhooks are not working
+      # Use the host's network namespace if true. Make sure to understand the security implications if you want to enable it.
+      # When hostNetwork is enabled, this will set dnsPolicy to ClusterFirstWithHostNet automatically.
+      hostNetwork: false
+
+      # HostAlias holds the mapping between IP and hostnames that will be injected
+      # as an entry in the pod’s hosts file.
+      hostAliases: []
+      #  - ip: 10.10.0.100
+      #    hostnames:
+      #      - a1.app.local
+      #      - b1.app.local
+
+  ## Setting to true produces cleaner resource names, but requires a data migration because the name of the persistent volume changes. Therefore this should only be set once on initial installation.
+  ##
+  cleanPrometheusOperatorObjectNames: false
+
+  ## Extra manifests to deploy as an array
+  extraManifests: []
+    # - apiVersion: v1
+    #   kind: ConfigMap
+    #   metadata:
+    #   labels:
+    #     name: prometheus-extra
+    #   data:
+    #     extra-data: "value"

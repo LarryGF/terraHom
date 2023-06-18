@@ -16,6 +16,16 @@ grafana:
 prometheus:
   name: prometheus
   namespace: monitoring
+  deploy: false
+  volumes: {}
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+
+kube-prometheus-stack:
+  name: prometheus
+  namespace: monitoring
   deploy: true
   volumes: {}
   override:

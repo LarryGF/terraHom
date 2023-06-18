@@ -44,10 +44,22 @@ module "argo-cd" {
   timezone       = var.timezone
   depends_on = [
     kubernetes_namespace.gitops,
+    module.prometheus-crds
 
   ]
 }
 
+
+
+module "prometheus-crds" {
+
+  source = "./submodules/prometheus-crds"
+
+  depends_on = [
+    kubernetes_namespace.monitoring,
+
+  ]
+}
 module "homepage" {
 
   source         = "./submodules/homepage"
