@@ -2143,8 +2143,8 @@
             {
                 "current": {
                     "selected": false,
-                    "text": "VictoriaMetrics",
-                    "value": "VictoriaMetrics"
+                    "text": "Prometheus",
+                    "value": "Prometheus"
                 },
                 "hide": 0,
                 "includeAll": false,
