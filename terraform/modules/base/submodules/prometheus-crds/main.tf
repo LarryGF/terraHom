@@ -1,4 +1,4 @@
-resource "helm_release" "duckdns" {
+resource "helm_release" "prometheus-operator-crds" {
   name         = "prometheus-operator-crds"
   chart        = "prometheus-operator-crds"
   repository   = "https://prometheus-community.github.io/helm-charts"
@@ -8,5 +8,5 @@ resource "helm_release" "duckdns" {
   wait            = true
   wait_for_jobs   = true
   timeout         = 180
-  version= 4.0.2
+  version= "4.0.2"
 }
