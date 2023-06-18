@@ -1,8 +1,4 @@
 grafana:
-
-  # plugins:
-  #   - grafana-piechart-panel
-
   datasources:
     datasources.yaml:
       apiVersion: 1
