@@ -1,10 +1,10 @@
 grafana:
   name: grafana
   namespace: monitoring
-  deploy: false
+  deploy: true
   volumes:
     config:
-      enabled: false
+      enabled: true
       name: grafana-config
       size: 1Gi
       access_modes:

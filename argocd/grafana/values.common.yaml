@@ -1,24 +1,24 @@
 grafana:
 
-  plugins:
-    - grafana-piechart-panel
+  # plugins:
+  #   - grafana-piechart-panel
 
-  # datasources:
-  #   datasources.yaml:
-  #     apiVersion: 1
-  #     datasources:
-  #     - name: Prometheus
-  #       type: prometheus
-  #       url: http://prometheus-server
-  #       access: proxy
-  #       isDefault: true
-  #     - name: Alertmanager
-  #       type: alertmanager
-  #       url: http://prometheus-alertmanager:9093
-  #       access: proxy
-  #       jsonData:
-  #         implementation: prometheus
-  #         handleGrafanaManagedAlerts: false
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server
+        access: proxy
+        isDefault: true
+      - name: Alertmanager
+        type: alertmanager
+        url: http://prometheus-alertmanager:9093
+        access: proxy
+        jsonData:
+          implementation: prometheus
+          handleGrafanaManagedAlerts: false
 
 
   grafana.ini:
