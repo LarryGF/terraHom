@@ -24,6 +24,7 @@
     - [Failure mounting NFS](#failure-mounting-nfs)
     - [Node down because of Disk pressure](#node-down-because-of-disk-pressure)
     - [Unable to attach or mount volumes timed out waiting for the condition](#unable-to-attach-or-mount-volumes-timed-out-waiting-for-the-condition)
+    - [In case everything fails](#in-case-everything-fails)
   - [Services](#services)
     - [Plex not authorized user](#plex-not-authorized-user)
   - [Restoring duplicati](#restoring-duplicati)
@@ -205,6 +206,10 @@ worst case scenario reload it in each node:
 ```shell
   systemctl restart iscsid
 ```
+
+### In case everything fails
+
+In case none of the above work you might want to inspect what's going on with the Longhorn pods, they're all running on the `longhorn system` namespace, most of the times you might have some dangling pods due to some error, maybe pods stuck on `Terminating`, if the issue is not easiy solvable, you might want to just delete those terminating pods and force them to recreate (this rings especially true for the `share manager` pods)
 
 ## Services
 
