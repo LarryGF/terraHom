@@ -53,11 +53,22 @@ loki:
   # Disable self-monitoring
   monitoring:
     selfMonitoring:
-      enabled: true
+      enabled: false
       grafanaAgent:
         installOperator: true
     lokiCanary:
         enabled: true
+    dashboards:
+      enabled: true
+      namespace: null
+      annotations: {}
+      labels:
+        grafana_dashboard: "1"
+    rules:
+      enabled: true
+      alerting: true
+    serviceMonitor:
+      enabled: true
 
   # Disable helm-test
   test:
