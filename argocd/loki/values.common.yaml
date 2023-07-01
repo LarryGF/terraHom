@@ -12,7 +12,7 @@ loki:
   # Configuration for the write
   write:
     # Number of replicas for the write
-    replicas: 2
+    replicas: 1
     persistence:
       # -- Size of persistent disk
       size: 10Gi
@@ -26,7 +26,7 @@ loki:
   # Configuration for the read
   read:
     # Number of replicas for the read
-    replicas: 2
+    replicas: 1
     persistence:
       # -- Size of persistent disk
       size: 10Gi
