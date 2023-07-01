@@ -31,7 +31,7 @@ resource "argocd_application" "application" {
         allow_empty = true
       }
       # Only available from ArgoCD 1.5.0 onwards
-      sync_options = ["Validate=false"]
+      sync_options = ["Validate=false","ServerSideApply=true"]
       retry {
         limit = "5"
         backoff {
