@@ -52,7 +52,6 @@ module "argo-cd" {
 
 
 module "prometheus-crds" {
-
   source = "./submodules/prometheus-crds"
 
   depends_on = [
