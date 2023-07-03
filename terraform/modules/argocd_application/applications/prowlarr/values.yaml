@@ -10,6 +10,9 @@ prowlarr:
         gethomepage.dev/description: "Prowlarr is an indexer manager/proxy for use with NZB and torrents"
         gethomepage.dev/group: "Template Aggregators"
         gethomepage.dev/icon: "prowlarr.png"
+        gethomepage.dev/widget.type: "prowlarr"
+        gethomepage.dev/widget.url: "http://prowlarr.${namespace}.svc.cluster.local:9696"
+        gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
         - host: "prowlarr.${duckdns_domain}.duckdns.org"
