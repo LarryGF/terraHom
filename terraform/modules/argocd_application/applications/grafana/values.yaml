@@ -9,8 +9,8 @@ grafana:
       gethomepage.dev/description: "Grafana is the open source analytics & monitoring solution for every database"
       gethomepage.dev/group: "Monitoring"
       gethomepage.dev/icon: "grafana.png"
-      gethomepage.dev/widget.type: "grafana"
-      gethomepage.dev/widget.url: "http://grafana.${namespace}.svc.cluster.local"
+      # gethomepage.dev/widget.type: "grafana"
+      # gethomepage.dev/widget.url: "http://grafana.${namespace}.svc.cluster.local"
     hosts:
       - "grafana.${duckdns_domain}.duckdns.org"    
     path: /

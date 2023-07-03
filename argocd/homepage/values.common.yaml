@@ -50,8 +50,7 @@ homepage:
           columns: 3
         Downloaders:
           icon: mdi-cloud-download 
-          style: row
-          columns: 3
+          style: columns
         Storage:
           icon: mdi-nas
           style: row
