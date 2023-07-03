@@ -60,16 +60,7 @@ module "prometheus-crds" {
 
   ]
 }
-module "homepage" {
 
-  source         = "./submodules/homepage"
-  duckdns_domain = var.duckdns_domain
-  timezone       = var.timezone
-  depends_on = [
-    kubernetes_namespace.services,
-
-  ]
-}
 # VPN configuration
 resource "kubernetes_secret" "vpnconfig" {
 
