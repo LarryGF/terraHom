@@ -1,0 +1,16 @@
+homepage:
+  ingress:
+    main:
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      enabled: true
+      hosts:
+        - host: "home.${duckdns_domain}.duckdns.org"
+          paths:
+          - path: /
+      tls:
+        - hosts:
+            - "home.${duckdns_domain}.duckdns.org"
+          secretName: tls-home-ingress

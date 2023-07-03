@@ -13,20 +13,20 @@ grafana:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
-prometheus:
-  name: prometheus
+kube-prometheus-stack:
+  name: kube-prometheus-stack
   namespace: monitoring
-  deploy: false
+  server_side: "false"
+  deploy: true
   volumes: {}
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
 
-kube-prometheus-stack:
-  name: kube-prometheus-stack
-  namespace: monitoring
-  server_side: "false"
+homepage:
+  name: homepage
+  namespace: services
   deploy: true
   volumes: {}
   override:

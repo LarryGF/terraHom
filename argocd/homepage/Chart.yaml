@@ -1,0 +1,7 @@
+apiVersion: v2
+name: homepage-umbrella
+version: 0.0.0
+dependencies:
+  - name: homepage
+    repository: https://jameswynn.github.io/helm-charts
+    version: 1.2.0
