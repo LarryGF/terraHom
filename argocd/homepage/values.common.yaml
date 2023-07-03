@@ -40,6 +40,11 @@ homepage:
         hideInternetSearch: true
       hideVersion: true
       theme: dark
+      providers:
+        longhorn:
+          url: https://longhorn.pi-k3s-home.duckdns.org
+          username: admin
+          password: LonghornPassword
       layout:
         Media:
           icon: mdi-movie-play
