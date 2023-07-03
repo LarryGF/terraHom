@@ -26,6 +26,7 @@ prometheus:
 kube-prometheus-stack:
   name: kube-prometheus-stack
   namespace: monitoring
+  server_side: "true"
   deploy: true
   volumes: {}
   override:

@@ -45,3 +45,10 @@ variable "deploy" {
   description = "Determines if the app is going to be deployed or not"
 
 }
+
+variable "server_side" {
+  type        = string
+  default = "false"
+  description = "Determines if the app is going to be deployed using server side apply"
+
+}
