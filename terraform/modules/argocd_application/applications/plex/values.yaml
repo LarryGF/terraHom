@@ -21,6 +21,9 @@ plex:
         gethomepage.dev/group: "Media"
         gethomepage.dev/icon: "plex.png"
         gethomepage.dev/href: "https://plex.${duckdns_domain}.duckdns.org/web/index.html"
+        gethomepage.dev/widget.type: "plex"
+        gethomepage.dev/widget.url: "http://plex.${namespace}.svc.cluster.local:32400"
+        gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
         - host: "plex.${duckdns_domain}.duckdns.org"

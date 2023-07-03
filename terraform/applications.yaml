@@ -81,6 +81,8 @@ plex:
     duckdns_domain: ${duckdns_domain}
     allowed_networks: ${allowed_networks} 
     plex_claim_token: ${plex_claim_token} 
+    api_key: ${api_keys["plex_key"]}
+
 
 jellyseerr:
   name: jellyseerr

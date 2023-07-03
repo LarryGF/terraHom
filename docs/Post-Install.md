@@ -45,6 +45,8 @@ api_keys = {
     radarr_key = "radarr-key"
     sonarr_key = "sonarr-key"
     prowlarr_key = "prowlarr-key"
+    plex_key = "plex-key"
+
 }
 ```
 
