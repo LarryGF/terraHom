@@ -42,7 +42,7 @@ homepage:
       theme: dark
       providers:
         longhorn:
-          url: https://longhorn.pi-k3s-home.duckdns.org
+          url: http://longhorn-frontend.longhorn-system.svc.cluster.local
       layout:
         Media:
           icon: mdi-movie-play
