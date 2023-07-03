@@ -26,7 +26,7 @@ prometheus:
 kube-prometheus-stack:
   name: kube-prometheus-stack
   namespace: monitoring
-  server_side: "true"
+  server_side: "false"
   deploy: true
   volumes: {}
   override:
@@ -48,7 +48,7 @@ dex:
 loki:
   name: loki
   namespace: monitoring
-  deploy: true
+  deploy: false
   volumes: {}
   override:
     timezone: ${timezone}

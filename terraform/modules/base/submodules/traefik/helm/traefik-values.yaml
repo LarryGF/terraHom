@@ -57,6 +57,8 @@ ingressRoute:
         gethomepage.dev/group: "Internal"
         gethomepage.dev/icon: "traefik.png"
         gethomepage.dev/href: "https://traefik.${duckdns_domain}.duckdns.org"
+        gethomepage.dev/widget.type: "traefik"
+        gethomepage.dev/widget.url: "http://traefik.kube-system.svc.cluster.local"
 
     matchRule: Host(`traefik.${duckdns_domain}.duckdns.org`)
     entryPoints: ["websecure"]
