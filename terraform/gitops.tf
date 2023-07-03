@@ -17,6 +17,7 @@ module "argocd_application" {
   storage_definitions = each.value.volumes
   deploy = each.value.deploy
   project = module.gitops.project
+  server_side = try(each.value.server_side, "false")
   depends_on = [
     module.gitops
   ]
