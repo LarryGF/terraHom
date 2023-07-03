@@ -28,7 +28,9 @@ kube-prometheus-stack:
         gethomepage.dev/name: "Prometheus"
         gethomepage.dev/description: "Monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach"
         gethomepage.dev/group: "Monitoring"
-        gethomepage.dev/icon: "alertmanager.png"
+        gethomepage.dev/icon: "prometheus.png"
+        gethomepage.dev/widget.type: "prometheus"
+        gethomepage.dev/widget.url: "http://prometheus-prometheus.${namespace}.svc.cluster.local:9090"
       hosts:
         - "prometheus.${duckdns_domain}.duckdns.org"    
       paths: 

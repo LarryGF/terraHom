@@ -20,7 +20,7 @@ resource "argocd_application" "application" {
       helm {
         
         value_files = local.values_files
-        values = templatefile("${path.module}/applications/${var.name}/values.yaml",var.override_values)
+        values = templatefile("${path.module}/applications/${var.name}/values.yaml",merge(var.override_values,{"namespace":var.namespace}))
       }
     }
 
