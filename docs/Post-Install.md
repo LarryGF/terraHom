@@ -8,10 +8,11 @@ These are the steps you need to follow after you've finished the infrastructure 
   - [Table of contents](#table-of-contents)
   - [Rtorrent-Flood](#rtorrent-flood)
   - [Jackett (DEPRECATED)](#jackett-deprecated)
+  - [IMPORTANT INFORMATION FOR \*ARR](#important-information-for-arr)
   - [Prowlarr](#prowlarr)
   - [Sonarr/Radarr](#sonarrradarr)
   - [Plex/Ombi](#plexombi)
-  - [orvpn wireguar](#orvpn-wireguar)
+  - [Nordvpn wireguard](#nordvpn-wireguard)
   - [Home assistant](#home-assistant)
   - [Mylar](#mylar)
   - [Jellyfin](#jellyfin)
@@ -31,6 +32,27 @@ These are the steps you need to follow after you've finished the infrastructure 
 - Go to `https://jackett.{your domain}.duckdns.org/UI/Dashboard`
 - Add your desired indexers
 - Don't close the page yet, since you'll need it to add indexers to Sonarr/Radarr
+
+## IMPORTANT INFORMATION FOR *ARR
+
+Please bear in mind that, after you have configured `Radarr,Sonarr,Prowlarr` etc. they will generate an API key that you will use to configure the integration between the services, if you're just interested in making the services work, that's as far as you'd need to go, but there are additional steps if you want the homepage widgets to work.
+
+- Take note of the API key for each service
+- Add it to `terraform.tfvars` under the `api_keys` variable, it should look something like this:
+
+```hcl
+api_keys = {
+    radarr_key = "radarr-key"
+    sonarr_key = "sonarr-key"
+    prowlarr_key = "prowlarr-key"
+}
+```
+
+- Then you have to run again the applications' stack:
+
+```shell
+terraform apply -auto-approve -target module.argocd_application
+```
 
 ## Prowlarr
 
@@ -79,7 +101,7 @@ emby-> settings-> api key
 
 ombi emby
 
-## orvpn wireguar
+## Nordvpn wireguard
 
 <https://gist.github.com/bluewalk/7b3db071c488c82c604baf76a42eaad3>
 <https://github.com/sfiorini/NordVPN-Wireguard>
