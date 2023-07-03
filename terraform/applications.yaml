@@ -157,6 +157,8 @@ sonarr:
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
+    api_key: ${api_keys["sonarr_key"]}
+
 
 prowlarr:
   name: prowlarr
@@ -172,6 +174,8 @@ prowlarr:
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
+    api_key: ${api_keys["prowlarr_key"]}
+
 
 filebrowser:
   name: filebrowser

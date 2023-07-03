@@ -10,6 +10,9 @@ sonarr:
         gethomepage.dev/description: "Sonarr is an internet PVR for Usenet and Torrents."
         gethomepage.dev/group: "Template Aggregators"
         gethomepage.dev/icon: "sonarr.png"
+        gethomepage.dev/widget.type: "sonarr"
+        gethomepage.dev/widget.url: "http://sonarr.${namespace}.svc.cluster.local:8989"
+        gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
         - host: "sonarr.${duckdns_domain}.duckdns.org"
