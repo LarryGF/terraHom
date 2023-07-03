@@ -7,6 +7,9 @@ homepage:
   # Enable RBAC. RBAC is necessary to use Kubernetes integration
   enableRbac: true
 
+  env:
+    LOG_LEVEL: debug
+  
   serviceAccount:
     # Specify a different service account name
     name: homepage
