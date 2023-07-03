@@ -38,6 +38,8 @@ ingress:
       gethomepage.dev/name: "Adguard Home"
       gethomepage.dev/group: "Internal"
       gethomepage.dev/icon: "adguard-home.png"
+      gethomepage.dev/widget.type: "adguard"
+      gethomepage.dev/widget.url: "http://adguard-adguard-home.${namespace}.svc.cluster.local:3000"
 
     hosts:
       - host: "adguard.${duckdns_domain}.duckdns.org"
