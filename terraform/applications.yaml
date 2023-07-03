@@ -141,6 +141,7 @@ radarr:
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
+    api_key: ${api_keys["radarr_key"]}
 
 sonarr:
   name: sonarr

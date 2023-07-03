@@ -133,3 +133,15 @@ variable "use_longhorn" {
   description = "Uses longhorn or local-path"
   default = false
 }
+
+## Keys
+
+variable "api_keys" {
+  description = "API Keys for each service"
+  type = map(string)
+  default = {
+    radarr_key = "radarr-key"
+    sonarr_key = "sonarr-key"
+    prowlarr_key = "prowlarr-key"
+  }
+}
