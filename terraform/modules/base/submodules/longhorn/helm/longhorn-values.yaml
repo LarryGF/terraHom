@@ -13,7 +13,7 @@ ingress:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Longhorn"
     gethomepage.dev/description: ""
-    gethomepage.dev/group: "Storage"
+    gethomepage.dev/group: "Internal"
     gethomepage.dev/icon: "longhorn.png"
 
   #  kubernetes.io/ingress.class: nginx
