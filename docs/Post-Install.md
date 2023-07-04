@@ -126,7 +126,7 @@ enable api key for prowlarr
 
 ### Plugins
 
-https://github.com/nicknsy/jellyscrub
+[jellyscrub](https://github.com/nicknsy/jellyscrub)
 
 ## Jellyseerr
 

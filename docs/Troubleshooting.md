@@ -27,6 +27,7 @@
     - [In case everything fails](#in-case-everything-fails)
   - [Services](#services)
     - [ArgoCD](#argocd)
+      - [Large annotations](#large-annotations)
     - [Plex not authorized user](#plex-not-authorized-user)
   - [Restoring duplicati](#restoring-duplicati)
 
@@ -216,6 +217,8 @@ In case none of the above work you might want to inspect what's going on with th
 
 ### ArgoCD
 
+#### Large annotations
+
 If you are trying to synchronize an application and it fails with the error:
 
 ```shell
@@ -245,7 +248,6 @@ If doing that does not solve the problem, you can always do the following:
 
 Doing that will guarantee that only the resources that cause the conflict will be synced.
 
-
 ### Plex not authorized user
 
 If you receive an error: `Not authorized You do not have access to this server` this means that you have to claim the server because Plex recognizes you as an external user (your source IP is in a different range than the Plex server), in order to solve this you can:
@@ -257,7 +259,6 @@ If you receive an error: `Not authorized You do not have access to this server` 
   kubectl port-forward -n services {your plex pod name} {your local port}:32400
 ```
 
+and then visiting `http://localhost:{your local port}` in your browser.
 
-and then visiting httt://localhost:{your local port} in your browser.
-
-## Restoring duplicati 
+## Restoring duplicati
