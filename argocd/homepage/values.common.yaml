@@ -56,13 +56,10 @@ homepage:
           columns: 3
         Template Aggregators:
           icon: mdi-briefcase-plus
-          style: row
-          columns: 3
+          style: columns
         Monitoring:
           icon: mdi-safety-goggles
-          style: row
-          columns: 3
-        
+          style: columns
         
 
     bookmarks:
