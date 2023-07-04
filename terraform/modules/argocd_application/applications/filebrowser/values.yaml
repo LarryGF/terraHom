@@ -8,7 +8,7 @@ filebrowser:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "File Browser"
         gethomepage.dev/description: ""
-        gethomepage.dev/group: "Storage"
+        gethomepage.dev/group: "Internal"
         gethomepage.dev/icon: "filebrowser.png"
       enabled: true
       hosts:

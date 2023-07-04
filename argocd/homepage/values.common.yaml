@@ -45,15 +45,14 @@ homepage:
       layout:
         Media:
           icon: mdi-movie-play
-          style: row
-          columns: 3
-        Downloaders:
-          icon: mdi-cloud-download 
           style: columns
-        Storage:
-          icon: mdi-nas
-          style: row
-          columns: 3
+        # Downloaders:
+        #   icon: mdi-cloud-download 
+        #   style: columns
+        # Storage:
+        #   icon: mdi-nas
+        #   style: row
+        #   columns: 3
         Template Aggregators:
           icon: mdi-briefcase-plus
           style: columns

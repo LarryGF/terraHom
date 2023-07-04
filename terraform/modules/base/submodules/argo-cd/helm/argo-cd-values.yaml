@@ -276,7 +276,7 @@ server:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Argo CD"
-      gethomepage.dev/group: "GitOps"
+      gethomepage.dev/group: "Internal"
       gethomepage.dev/icon: "argocd.png"
     hosts: 
       - argo.${duckdns_domain}.duckdns.org
