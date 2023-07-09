@@ -49,10 +49,9 @@ homepage:
         # Downloaders:
         #   icon: mdi-cloud-download 
         #   style: columns
-        # Storage:
-        #   icon: mdi-nas
-        #   style: row
-        #   columns: 3
+        Internal:
+          icon: mdi-nas
+          style: columns
         Template Aggregators:
           icon: mdi-briefcase-plus
           style: columns

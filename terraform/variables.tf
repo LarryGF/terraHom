@@ -134,6 +134,12 @@ variable "use_longhorn" {
   default = false
 }
 
+
+variable "use_sandbox" {
+  type        = bool
+  description = "Create a sandbox environment and credentials for testing"
+  default = false
+}
 ## Keys
 
 variable "api_keys" {

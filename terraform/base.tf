@@ -23,3 +23,10 @@ module "base" {
 
   use_longhorn = var.use_longhorn
 }
+
+module "sandbox" {
+  count = var.use_sandbox ? 1:0
+  source = "./modules/sandbox"
+  master_ip = var.master_ip
+  
+}
