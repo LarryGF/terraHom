@@ -48,7 +48,7 @@ dex:
 loki:
   name: loki
   namespace: monitoring
-  deploy: false
+  deploy: true
   volumes: {}
   override:
     timezone: ${timezone}
