@@ -83,7 +83,7 @@ grafana:
       resource: both
       # If specified, the sidecar will look for annotation with this name to create folder and put graph here.
       # You can use this parameter together with `provider.foldersFromFilesStructure`to annotate configmaps and create folder structure.
-      folderAnnotation: null
+      folderAnnotation: dashboard_folder
       # Endpoint to send request to reload alerts
       reloadURL: "http://localhost:3000/api/admin/provisioning/dashboards/reload"
       # Absolute path to shell script to execute after a configmap got reloaded
