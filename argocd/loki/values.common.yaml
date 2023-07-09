@@ -135,17 +135,17 @@ loki-distributed:
       compactor:
         shared_store: filesystem
 
-      ruler:
-        storage:
-          type: local
-          local:
-            directory: /etc/loki/rules
-        ring:
-          kvstore:
-            store: memberlist
-        rule_path: /tmp/loki/scratch
-        alertmanager_url: https://alertmanager.xx
-        external_url: https://alertmanager.xx
+      # ruler:
+      #   storage:
+      #     type: local
+      #     local:
+      #       directory: /etc/loki/rules
+      #   ring:
+      #     kvstore:
+      #       store: memberlist
+      #   rule_path: /tmp/loki/scratch
+      #   alertmanager_url: https://alertmanager.xx
+      #   external_url: https://alertmanager.xx
 
     # -- Check https://grafana.com/docs/loki/latest/configuration/#schema_config for more info on how to configure schemas
     schemaConfig:
