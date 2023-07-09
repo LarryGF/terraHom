@@ -24,6 +24,7 @@ resource "kubernetes_namespace" "gitops" {
     name = "gitops"
   }
 }
+
 resource "kubernetes_namespace" "cert-manager" {
   metadata {
     annotations = {

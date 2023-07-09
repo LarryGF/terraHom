@@ -10,3 +10,4 @@ terraform/.terraform/*
 Chart.lock
 charts
 *hidden*
+kubeconfig.yaml
