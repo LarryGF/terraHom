@@ -15,7 +15,12 @@ grafana:
         jsonData:
           implementation: prometheus
           handleGrafanaManagedAlerts: false
-
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki-gateway
+        jsonData:
+          maxLines: 1000
 
   grafana.ini:
     auth.anonymous:
