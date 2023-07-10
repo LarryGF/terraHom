@@ -137,7 +137,7 @@ radarr:
     config:
       enabled: false
       name: radarr-config
-      size: 200Mi
+      size: 512Mi
       access_modes:
         - ReadWriteOnce
   override:
@@ -153,7 +153,7 @@ sonarr:
     config:
       enabled: false
       name: sonarr-config
-      size: 200Mi
+      size: 512Mi
       access_modes:
         - ReadWriteOnce
   override:
@@ -170,7 +170,7 @@ prowlarr:
     config:
       enabled: false
       name: prowlarr-config
-      size: 200Mi
+      size: 512Mi
       access_modes:
         - ReadWriteOnce
   override:

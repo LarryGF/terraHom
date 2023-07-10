@@ -239,7 +239,7 @@ promtail:
     clients:
       - url: http://loki-gateway/loki/api/v1/push
     # -- The config to enable tracing
-    enableTracing: false
+    enableTracing: true
     # -- A section of reusable snippets that can be reference in `config.file`.
     # Custom snippets may be added in order to reduce redundancy.
     # This is especially helpful when multiple `kubernetes_sd_configs` are use which usually have large parts in common.
@@ -290,7 +290,7 @@ promtail:
 
       # If set to true, adds an additional label for the scrape job.
       # This helps debug the Promtail config.
-      addScrapeJobLabel: false
+      addScrapeJobLabel: true
 
       # -- You can put here any keys that will be directly added to the config file's 'limits_config' block.
       # @default -- empty
@@ -384,7 +384,7 @@ promtail:
 
   sidecar:
     configReloader:
-      enabled: false
+      enabled: true
 
   # -- Extra K8s manifests to deploy
   extraObjects: []
