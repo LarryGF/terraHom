@@ -199,7 +199,9 @@ renovate:
   securityContext: {}
 
   # -- Select the node using labels to specify where the cronjob pod should run on
-  nodeSelector: {}
+  nodeSelector:
+    kubernetes.io/arch: amd64
+
   # See: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
   # renovate: true
 
