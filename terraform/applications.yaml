@@ -145,6 +145,23 @@ radarr:
     duckdns_domain: ${duckdns_domain}
     api_key: ${api_keys["radarr_key"]}
 
+renovate:
+  name: renovate
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      enabled: false
+      name: renovate-config
+      size: 512Mi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    gh_username: ${gh_username}
+    gh_token: ${gh_token}
+
 sonarr:
   name: sonarr
   namespace: services

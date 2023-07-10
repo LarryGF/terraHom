@@ -11,6 +11,8 @@ locals {
       timezone = var.timezone
       plex_claim_token = var.plex_claim_token
       api_keys = var.api_keys
+      gh_username = var.gh_username
+      gh_token = var.gh_token
     }
   ))
 

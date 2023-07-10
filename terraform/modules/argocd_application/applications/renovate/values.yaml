@@ -1,0 +1,27 @@
+renovate:
+  renovate:
+    # -- Custom exiting global renovate config
+    existingConfigFile: ''
+    # -- Inline global renovate config.json
+    # config: ''
+    # See https://docs.renovatebot.com/self-hosted-configuration
+    config: |
+      {
+        "platform": "github",
+        "token": "${gh_token}",
+        "autodiscover": "true",
+        "dryRun": true,
+        "printConfig": true,
+      }
+
+    # -- Use the Helm tpl function on your configuration. See README for how to use this value
+    configEnableHelmTpl: false
+
+    # -- Use this to create the renovate-config as a secret instead of a configmap
+    configIsSecret: false
+
+    # -- Renovate Container-level security-context
+    securityContext: {}
+
+    # -- Options related to persistence
+
