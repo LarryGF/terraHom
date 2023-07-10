@@ -19,8 +19,6 @@
     - [Delete/get resources from only a specific node](#deleteget-resources-from-only-a-specific-node)
   - [Longhorn](#longhorn)
     - [Restoring backup](#restoring-backup)
-      - [In Longhorn UI](#in-longhorn-ui)
-      - [In Terraform](#in-terraform)
     - [Failure mounting NFS](#failure-mounting-nfs)
     - [Node down because of Disk pressure](#node-down-because-of-disk-pressure)
     - [Node not schedulable because of Disk pressure](#node-not-schedulable-because-of-disk-pressure)
@@ -168,19 +166,21 @@ This probably means that the image you're trying to run is not compatible with t
 
 ### Restoring backup
 
-In case you haven't wiped out your entire infrastructure, your longhorn backups will stay in place. The suggested procedure is:
+In case you haven't wiped out your entire infrastructure (meaning by this to actually delete everything from your hard drives, including the Longhorn backup target), your longhorn backups will stay in place. Below are the steps to do this:
 
-#### In Longhorn UI
+- In Longhorn UI
 
-- Go to Backups
-- Select all backups
-- Restore with original PV name
-- Individually select each volume and select "Create PV/PVC"
-- This will have to be done for each volume in which the namespace is shown in yellow
+  - Go to Backups
+  - Select all backups
+  - Restore with original PV name
+  - Individually select each volume and select "Create PV/PVC"
+  - This will have to be done for each volume in which the namespace is shown in yellow
 
-#### In Terraform
+- In Terraform
 
-- In `applications.yaml` mark each persistent volume claim for the restored backup as `enabled: false` so they don't get created
+  - In `applications.yaml` mark each persistent volume claim for the restored backup as `enabled: false` so they don't get created
+
+This procedure can be followed for any potentially destructive modification you want to make in the PV without losing data, for example: Changing the volume from ReadWriteMany to ReadWriteOnce or viceversa.
 
 ### Failure mounting NFS
 

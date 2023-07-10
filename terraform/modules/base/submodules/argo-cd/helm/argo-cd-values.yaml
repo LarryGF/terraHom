@@ -170,7 +170,10 @@ dex:
   enabled: true
   # -- Dex name
   name: dex-server
-
+  metrics:
+    enabled: false
+    serviceMonitor:
+      enabled: false
 ## Redis
 redis:
   # -- Enable redis
@@ -235,38 +238,10 @@ server:
   metrics:
     # -- Deploy metrics service
     enabled: true
-    service:
-      # -- Metrics service annotations
-      annotations: {}
-      # -- Metrics service labels
-      labels: {}
-      # -- Metrics service port
-      servicePort: 8083
-      # -- Metrics service port name
-      portName: http-metrics
     serviceMonitor:
       # -- Enable a prometheus ServiceMonitor
       enabled: true
-      # -- Prometheus ServiceMonitor interval
-      interval: 30s
-      # -- Prometheus [RelabelConfigs] to apply to samples before scraping
-      relabelings: []
-      # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
-      metricRelabelings: []
-      # -- Prometheus ServiceMonitor selector
-      selector: {}
-        # prometheus: kube-prometheus
-
-      # -- Prometheus ServiceMonitor scheme
-      scheme: ""
-      # -- Prometheus ServiceMonitor tlsConfig
-      tlsConfig: {}
-      # -- Prometheus ServiceMonitor namespace
-      namespace: "gitops"  # monitoring
-      # -- Prometheus ServiceMonitor labels
-      additionalLabels: {}
-      # -- Prometheus ServiceMonitor annotations
-      annotations: {}
+      
 
   ingress:
     enabled: true
