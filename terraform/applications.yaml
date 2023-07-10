@@ -94,7 +94,7 @@ jellyseerr:
       name: jellyseerr-config
       size: 200Mi
       access_modes:
-        - ReadWriteMany
+        - ReadWriteOnce
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
@@ -109,7 +109,7 @@ tautulli:
       name: tautulli-config
       size: 200Mi
       access_modes:
-        - ReadWriteMany
+        - ReadWriteOnce
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
@@ -139,7 +139,7 @@ radarr:
       name: radarr-config
       size: 200Mi
       access_modes:
-        - ReadWriteMany
+        - ReadWriteOnce
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
@@ -155,7 +155,7 @@ sonarr:
       name: sonarr-config
       size: 200Mi
       access_modes:
-        - ReadWriteMany
+        - ReadWriteOnce
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
@@ -172,7 +172,7 @@ prowlarr:
       name: prowlarr-config
       size: 200Mi
       access_modes:
-        - ReadWriteMany
+        - ReadWriteOnce
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
@@ -204,7 +204,7 @@ sabnzbd:
       name: sabnzbd-config
       size: 200Mi
       access_modes:
-        - ReadWriteMany
+        - ReadWriteOnce
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
@@ -219,7 +219,7 @@ bazarr:
       name: bazarr-config
       size: 200Mi
       access_modes:
-        - ReadWriteMany
+        - ReadWriteOnce
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
@@ -234,7 +234,7 @@ flood:
       name: flood-config
       size: 200Mi
       access_modes:
-        - ReadWriteMany
+        - ReadWriteOnce
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
