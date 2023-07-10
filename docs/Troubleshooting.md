@@ -23,6 +23,7 @@
       - [In Terraform](#in-terraform)
     - [Failure mounting NFS](#failure-mounting-nfs)
     - [Node down because of Disk pressure](#node-down-because-of-disk-pressure)
+    - [Node not schedulable because of Disk pressure](#node-not-schedulable-because-of-disk-pressure)
     - [Unable to attach or mount volumes timed out waiting for the condition](#unable-to-attach-or-mount-volumes-timed-out-waiting-for-the-condition)
     - [In case everything fails](#in-case-everything-fails)
   - [Services](#services)
@@ -193,6 +194,16 @@ This is likely to happen when one of your volumes is full beyond a certain thres
 - Mount it as `rw` on a local folder
 - Delete enough files so that the space is below the tresshold
 - Restart the node
+
+### Node not schedulable because of Disk pressure
+
+It might happen that your disk gets full and you might not be able to schedule any replicas. The important bits here are:
+
+- Storage Minimal Available Percentage: this lets you know what percentage of the available storage needs to be available in order for the disk to be schedulable, if you don't have an easy way of freeing space, try lowering this
+- Storage Over Provisioning Percentage: this should be set to 100, because, since you're working with physical disks, you don't want to overprovision your nodes
+- Storage Reserved (in your disk): this determines what amount of space will be reserved, you might want to lower this.
+
+If you find yourself lowering the reserved storage through the UI and it still does not reflect in the calculation, mark the disk as unschedulable, and then mark it as schedulable again, that should take care of the issue.
 
 ### Unable to attach or mount volumes timed out waiting for the condition
 
