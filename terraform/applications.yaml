@@ -89,10 +89,10 @@ plex:
 jellyseerr:
   name: jellyseerr
   namespace: services
-  deploy: false
+  deploy: true
   volumes: 
     config:
-      enabled: false
+      enabled: true
       name: jellyseerr-config
       size: 200Mi
       access_modes:
