@@ -12,6 +12,7 @@ grafana:
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
 
 kube-prometheus-stack:
   name: kube-prometheus-stack
@@ -82,6 +83,7 @@ plex:
     allowed_networks: ${allowed_networks} 
     plex_claim_token: ${plex_claim_token} 
     api_key: ${api_keys["plex_key"]}
+    master_hostname: ${master_hostname}
 
 
 jellyseerr:
@@ -144,6 +146,7 @@ radarr:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     api_key: ${api_keys["radarr_key"]}
+    master_hostname: ${master_hostname}
 
 renovate:
   name: renovate
@@ -177,6 +180,7 @@ sonarr:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     api_key: ${api_keys["sonarr_key"]}
+    master_hostname: ${master_hostname}
 
 
 prowlarr:
@@ -194,6 +198,7 @@ prowlarr:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     api_key: ${api_keys["prowlarr_key"]}
+    master_hostname: ${master_hostname}
 
 
 filebrowser:
@@ -210,6 +215,8 @@ filebrowser:
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+
 
 sabnzbd:
   name: sabnzbd
@@ -255,6 +262,7 @@ flood:
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
   
 whisparr:
   name: whisparr
