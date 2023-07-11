@@ -16,8 +16,6 @@ ingress:
     gethomepage.dev/group: "Internal"
     gethomepage.dev/icon: "longhorn.png"
 
-  #  kubernetes.io/ingress.class: nginx
-  #  kubernetes.io/tls-acme: true
 
 persistence:
   defaultClass: true

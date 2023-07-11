@@ -1,4 +1,6 @@
 radarr:
+  nodeSelector:
+    kubernetes.io/hostname: "${master_hostname}"
   ingress:
     main:
       ingressClassName: traefik
