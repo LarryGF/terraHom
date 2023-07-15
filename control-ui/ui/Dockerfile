@@ -4,6 +4,7 @@ ENV HOST 0
 WORKDIR /usr/src/app
 ADD ./ ./
 RUN  yarn install
+RUN  yarn build
 
 FROM node:14
 WORKDIR /usr/src/app
