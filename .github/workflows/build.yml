@@ -20,13 +20,24 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     
-    - name: Build and push
+    - name: Build and push api
       id: docker_build
       uses: docker/build-push-action@v2
       with:
         context: ./control-ui/api
         push: true
         tags: larryGF/control-ui-api:latest
+
+    - name: Image digest
+      run: echo ${{ steps.docker_build.outputs.digest }}
+
+    - name: Build and push ui
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        context: ./control-ui/ui
+        push: true
+        tags: larryGF/control-ui-ui:latest
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
