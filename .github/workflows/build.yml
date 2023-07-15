@@ -26,7 +26,7 @@ jobs:
       with:
         context: ./control-ui/api
         push: true
-        tags: larryGF/control-ui-api:latest
+        tags: larrygf/control-ui-api:latest
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
@@ -37,7 +37,7 @@ jobs:
       with:
         context: ./control-ui/ui
         push: true
-        tags: larryGF/control-ui-ui:latest
+        tags: larrygf/control-ui-ui:latest
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
