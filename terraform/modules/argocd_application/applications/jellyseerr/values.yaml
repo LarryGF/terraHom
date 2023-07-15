@@ -11,6 +11,9 @@ jellyseerr:
         gethomepage.dev/description: "Free and open source software application for managing requests for your media library"
         gethomepage.dev/group: "Media"
         gethomepage.dev/icon: "jellyseerr.png"
+        gethomepage.dev/widget.type: "jellyseerr"
+        gethomepage.dev/widget.url: "http://jellyseerr.${namespace}.svc.cluster.local:7878"
+        gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
         - host: "jellyseerr.${duckdns_domain}.duckdns.org"
