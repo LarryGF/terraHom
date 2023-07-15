@@ -1,0 +1,6 @@
+apiVersion: v2
+name: control-ui-chart
+description: A Helm chart that deploys the control UI for the LarryGF/pi-k8s repo
+type: application
+version: 0.0.1
+appVersion: 0.0.1
