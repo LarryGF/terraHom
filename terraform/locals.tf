@@ -7,6 +7,7 @@ locals {
     {
       duckdns_domain   = var.duckdns_domain
       master_hostname  = var.master_hostname
+      master_ip  = var.master_ip
       allowed_networks = var.allowed_networks
       timezone = var.timezone
       plex_claim_token = var.plex_claim_token
