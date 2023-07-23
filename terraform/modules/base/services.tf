@@ -11,15 +11,15 @@ module "duckdns" {
   ]
 }
 
-module "adguardhome" {
+# module "adguardhome" {
 
-  source = "./submodules/adguard"
+#   source = "./submodules/adguard"
 
-  duckdns_domain  = var.duckdns_domain
-  timezone        = var.timezone
-  master_hostname = var.master_hostname
-  master_ip       = var.master_ip
-  depends_on = [
-    kubernetes_namespace.services,
-  ]
-}
+#   duckdns_domain  = var.duckdns_domain
+#   timezone        = var.timezone
+#   master_hostname = var.master_hostname
+#   master_ip       = var.master_ip
+#   depends_on = [
+#     kubernetes_namespace.services,
+#   ]
+# }

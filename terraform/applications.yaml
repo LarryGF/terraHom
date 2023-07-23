@@ -35,6 +35,23 @@ homepage:
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
 
+pihole:
+  name: pihole
+  namespace: kube-system
+  deploy: true
+  volumes:
+    config:
+      enabled: true
+      name: pihole-config
+      size: 1Gi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+    master_ip: ${master_ip}
+
 dex:
   name: dex
   namespace: services
