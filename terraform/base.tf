@@ -20,7 +20,7 @@ module "base" {
   master_ip         = var.master_ip
   vpn_config        = var.vpn_config
   nfs_server        = var.nfs_server
-
+  api_keys = var.api_keys
   use_longhorn = var.use_longhorn
 }
 

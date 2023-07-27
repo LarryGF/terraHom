@@ -35,14 +35,14 @@ homepage:
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
 
-pihole:
-  name: pihole
-  namespace: kube-system
+nzbget:
+  name: nzbget
+  namespace: services
   deploy: true
   volumes:
     config:
       enabled: true
-      name: pihole-config
+      name: nzbget-config
       size: 1Gi
       access_modes:
         - ReadWriteOnce
@@ -269,7 +269,7 @@ bazarr:
 flood:
   name: flood
   namespace: services
-  deploy: true
+  deploy: false
   volumes:
     config:
       enabled: false

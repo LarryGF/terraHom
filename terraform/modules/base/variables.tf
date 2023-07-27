@@ -125,3 +125,16 @@ variable "sc_name" {
   description = "Storage Class name"
   default = "local-path"
 }
+
+variable "api_keys" {
+  description = "API Keys for each service"
+  type = map(string)
+  default = {
+    radarr_key = "radarr-key"
+    sonarr_key = "sonarr-key"
+    prowlarr_key = "prowlarr-key"
+    plex_key = "plex-key"
+    jellyseerr_key = "jellyseerr-key"
+    pihole_key = "pihole-key"
+  }
+}
