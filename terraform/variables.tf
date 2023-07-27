@@ -151,5 +151,6 @@ variable "api_keys" {
     prowlarr_key = "prowlarr-key"
     plex_key = "plex-key"
     jellyseerr_key = "jellyseerr-key"
+    pihole_key = "pihole-key"
   }
 }
