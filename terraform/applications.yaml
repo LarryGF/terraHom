@@ -38,10 +38,10 @@ homepage:
 nzbget:
   name: nzbget
   namespace: services
-  deploy: true
+  deploy: false
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: nzbget-config
       size: 1Gi
       access_modes:
@@ -242,7 +242,7 @@ sabnzbd:
   deploy: false
   volumes:
     config:
-      enabled: false
+      enabled: true
       name: sabnzbd-config
       size: 200Mi
       access_modes:
@@ -269,7 +269,7 @@ bazarr:
 flood:
   name: flood
   namespace: services
-  deploy: false
+  deploy: true
   volumes:
     config:
       enabled: false
