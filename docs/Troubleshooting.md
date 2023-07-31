@@ -268,13 +268,17 @@ The way the ArgoCD integration works is that we store the Argo credentials (user
 rpc error: code = Unknown desc = POST https://argo.pi-k3s-home.duckdns.org:443/session.SessionService/Create failed with status code 403
 ```
 
-This means that changes were made to the Terrafrom state and its not recognising those credentials as valid anymore, in order to update the credentials you need to run:
+There are two possible causes for this:
+
+- (Extremely unlikely) Changes were made to the Terrafrom state and its not recognising those credentials as valid anymore, in order to update the credentials you need to run:
 
 ```shell
 terraform apply -auto-approve  -target module.gitops
 ```
 
 And then run your `terraform apply` as usual.
+
+- (Probably the cause) Terraform is making the request and getting the public IP for the service instead of the private one, and Traefik is responding with a 403. Either flush the DNS cache, or, to make things easier in the future, manually add the argo hostname to you /etc/hosts file
 
 ### Plex not authorized user
 
