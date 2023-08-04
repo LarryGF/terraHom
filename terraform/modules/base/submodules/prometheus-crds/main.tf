@@ -8,5 +8,5 @@ resource "helm_release" "prometheus-operator-crds" {
   wait            = true
   wait_for_jobs   = true
   timeout         = 180
-  version= "4.0.2"
+  version= "5.1.0"
 }
