@@ -8,7 +8,7 @@ authelia:
   domain: ${duckdns_domain}.duckdns.org
 
   ingress:
-    enabled: false
+    enabled: true
 
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
@@ -36,7 +36,7 @@ authelia:
 
     tls:
       enabled: true
-      secret: authelia-tls
+      secret: tls-authelia-ingress
 
       # hostNameOverride:
 
@@ -278,3 +278,36 @@ authelia:
           bcrypt:
             variant: standard
             cost: 12
+  
+  ##
+  ## Authelia Persistence Configuration.
+  ##
+  ## Useful in scenarios where you need persistent storage.
+  ## Auth Provider Use Case: file; we recommend you use the ldap provider instead.
+  ## Storage Provider Use Case: local; we recommend you use the mysql/mariadb or postgres provider instead.
+  ## Configuration Use Case: when you want to manually configure the configuration entirely (set configMap.enabled = false).
+  ##
+  persistence:
+    enabled: true
+    readOnly: false
+
+    existingClaim: "authelia-config"
+
+redis:
+  global:
+    redis:
+      password: "redis"
+  fullnameOverride: redis
+  master:
+    kind: Deployment
+  persistence:
+    enabled: true
+    existingClaim: redis-data
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
+  volumePermissions:
+    enabled: true
