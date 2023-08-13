@@ -35,6 +35,16 @@ homepage:
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
 
+authelia:
+  name: authelia
+  namespace: authelia
+  deploy: true
+  volumes: {}
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+
 nzbget:
   name: nzbget
   namespace: services
