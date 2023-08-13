@@ -41,7 +41,7 @@ authelia:
 
   pod:
     # Must be Deployment, DaemonSet, or StatefulSet.
-    kind: DaemonSet
+    kind: Deployment
 
     annotations: {}
     # annotations:
@@ -74,13 +74,6 @@ authelia:
       #   allowPrivilegeEscalation: false
       #   privileged: false
 
-    tolerations: []
-    # tolerations:
-    # - key: key1
-    #   operator: Equal
-    #   value: value1
-    #   effect: NoSchedule
-    #   tolerationSeconds: 3600
 
     selectors:
     #   nodeName: worker-1
@@ -90,47 +83,6 @@ authelia:
       #   disktype: ssd
       #   kubernetes.io/hostname: worker-1
 
-      affinity:
-        nodeAffinity: {}
-        # nodeAffinity:
-        #   requiredDuringSchedulingIgnoredDuringExecution:
-        #     nodeSelectorTerms:
-        #     - matchExpressions:
-        #       - key: kubernetes.io/hostname
-        #         operator: In
-        #         values:
-        #         - worker-1
-        #         - worker-2
-        #   preferredDuringSchedulingIgnoredDuringExecution:
-        #   - weight: 1
-        #     preference:
-        #       matchExpressions:
-        #       - key: node-label-key
-        #         operator: NotIn
-        #         values:
-        #         - not-this
-        podAffinity: {}
-        # podAffinity:
-        #   requiredDuringSchedulingIgnoredDuringExecution:
-        #   - labelSelector:
-        #       matchExpressions:
-        #       - key: security
-        #         operator: In
-        #         values:
-        #         - S1
-        #     topologyKey: topology.kubernetes.io/zone
-        podAntiAffinity: {}
-        # podAntiAffinity:
-        #     preferredDuringSchedulingIgnoredDuringExecution:
-        #     - weight: 100
-        #       podAffinityTerm:
-        #         labelSelector:
-        #           matchExpressions:
-        #           - key: security
-        #             operator: In
-        #             values:
-        #             - S2
-        #         topologyKey: topology.kubernetes.io/zone
 
     env: []
     # env:
@@ -154,95 +106,22 @@ authelia:
           port: http
           scheme: HTTP
 
-      liveness:
-        initialDelaySeconds: 0
-        periodSeconds: 30
-        timeoutSeconds: 5
-        successThreshold: 1
-        failureThreshold: 5
-
-      readiness:
-        initialDelaySeconds: 0
-        periodSeconds: 5
-        timeoutSeconds: 5
-        successThreshold: 1
-        failureThreshold: 5
-
-      ## Note: Startup Probes are a Kubernetes feature gate which must be manually enabled pre-1.18.
-      ## Ref: https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/
-      startup:
-        initialDelaySeconds: 10
-        periodSeconds: 5
-        timeoutSeconds: 5
-        successThreshold: 1
-        failureThreshold: 6
-
     extraVolumeMounts: []
     extraVolumes: []
-
-  ##
-  ## Kubernetes Pod Disruption Budget
-  ##
-  podDisruptionBudget:
-    enabled: false
-
-    annotations: {}
-    # annotations:
-    #   myAnnotation: myValue
-
-    labels: {}
-    # labels:
-    #   myLabel: myValue
-
-    minAvailable: 0
-    maxUnavailable: 0
-
-  ##
-  ## Kubernetes Network Policy
-  ##
-  networkPolicy:
-    enabled: false
-
-    annotations: {}
-    # annotations:
-    #   myAnnotation: myValue
-
-    labels: {}
-    # labels:
-    #   myLabel: myValue
-
-    policyTypes:
-    - Ingress
-    ingress:
-    - from:
-      - namespaceSelector:
-          matchLabels:
-            authelia.com/network-policy: namespace
-      - podSelector:
-          matchLabels:
-            authelia.com/network-policy: pod
-      ports:
-      - protocol: TCP
-        port: 9091
-
 
   ##
   ## Authelia Config Map Generator
   ##
   configMap:
-
     # Enable the configMap source for the Authelia config.
     # If this is false you need to provide a volumeMount via PV/PVC or other means that mounts to /config.
     enabled: true
-
     annotations: {}
     # annotations:
     #   myAnnotation: myValue
-
     labels: {}
     # labels:
     #   myLabel: myValue
-
     key: configuration.yaml
 
     existingConfigMap: ""
@@ -293,7 +172,7 @@ authelia:
 
     log:
       ## Level of verbosity for logs: info, debug, trace.
-      level: info
+      level: debug
 
       ## Format the logs are written as: json, text.
       format: text
@@ -313,7 +192,7 @@ authelia:
       ##
       metrics:
         ## Enable Metrics.
-        enabled: false
+        enabled: true
 
         ## The port to listen on for metrics. This should be on a different port to the main server.port value.
         port: 9959
@@ -338,7 +217,7 @@ authelia:
           idle: 30s
 
         serviceMonitor:
-          enabled: false
+          enabled: true
           annotations: {}
           labels: {}
 
@@ -819,7 +698,7 @@ authelia:
       ##
       ## The redis connection details
       redis:
-        enabled: true
+        enabled: false
         enabledSecret: false
         host: redis.databases.svc.cluster.local
         port: 6379
@@ -920,7 +799,7 @@ authelia:
       ## Important: Kubernetes (or HA) users must read https://www.authelia.com/overview/authorization/statelessness/
       ##
       local:
-        enabled: false
+        enabled: true
         path: /config/db.sqlite3
 
       ##
@@ -960,7 +839,7 @@ authelia:
       ## PostgreSQL (Storage Provider)
       ##
       postgres:
-        enabled: true
+        enabled: false
         host: postgres.databases.svc.cluster.local
         port: 5432
         database: authelia
@@ -1004,7 +883,7 @@ authelia:
       ## Important: Kubernetes (or HA) users must read https://www.authelia.com/overview/authorization/statelessness/
       ##
       filesystem:
-        enabled: false
+        enabled: true
         filename: /config/notification.txt
 
       ##
@@ -1018,7 +897,7 @@ authelia:
       ##   - validate the SMTP server x509 certificate during the TLS handshake against the hosts trusted certificates
       ##     (configure in tls section)
       smtp:
-        enabled: true
+        enabled: false
         enabledSecret: false
         host: smtp.mail.svc.cluster.local
         port: 25
@@ -1291,179 +1170,6 @@ authelia:
       key: OIDC_HMAC_SECRET
       value: ""
       filename: OIDC_HMAC_SECRET
-
-    ## HashiCorp Vault Injector configuration.
-    vaultInjector:
-
-      ## Enable the vault injector annotations. This will disable secret injection via other means.
-      ## To see the annotations and what they do see: https://www.vaultproject.io/docs/platform/k8s/injector/annotations
-      ## Annotations with a blank string do not get configured at all.
-      ## Additional annotations can be configured via the secret.annotations: {} above.
-      ## Secrets are by default rendered in the /secrets directory. Changing this can be done via editing the
-      ## secret.mountPath value. You can alter the filenames with the secret.<secretName>.filename values.
-      ## Secrets are loaded from vault path specified below with secrets.<secretName>.path values. Its format should be
-      ## <SECRET_PATH>:<KEY_NAME>.
-      ## Secrets are by default rendered by template suitable for vault KV v1 or database secrets engines. If other used,
-      ## it can be overriden per each secret by specifying secrets.<secretName>.templateValue. For example for KV v2
-      ## secrets engine would be '{{ with secret "<SECRET_PATH>" }}{{ .Data.data.<KEY_NAME> }}{{ end }}'.
-      enabled: false
-
-      ## The vault role to assign via annotations.
-      ## Annotation: vault.hashicorp.com/role
-      role: authelia
-
-      agent:
-        ## Annotation: vault.hashicorp.com/agent-inject-status
-        status: update
-
-        ## Annotation: vault.hashicorp.com/agent-configmap
-        configMap: ""
-
-        ## Annotation: vault.hashicorp.com/agent-image
-        image: ""
-
-        ## Annotation: vault.hashicorp.com/agent-init-first
-        initFirst: "false"
-
-        ## Annotation: vault.hashicorp.com/agent-inject-command
-        command: "sh -c 'kill HUP $(pidof authelia)'"
-
-        ## Annotation: vault.hashicorp.com/agent-run-as-same-user
-        runAsSameUser: "true"
-
-      secrets:
-        jwt:
-          ## Vault Path to the Authelia JWT secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-jwt
-          path: secrets/authelia/jwt:token
-
-          ## Vault template specific to JWT.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-jwt
-          templateValue: ""
-
-          ## Vault after render command specific to JWT.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-jwt
-          command: ""
-        ldap:
-          ## Vault Path to the Authelia LDAP secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-ldap
-          path: secrets/authelia/ldap:password
-
-          ## Vault template specific to LDAP.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-ldap
-          templateValue: ""
-
-          ## Vault after render command specific to LDAP.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-ldap
-          command: ""
-        storage:
-          ## Vault Path to the Authelia storage password secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-storage
-          path: secrets/authelia/storage:password
-
-          ## Vault template specific to the storage password.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-storage
-          templateValue: ""
-
-          ## Vault after render command specific to the storage password.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-storage
-          command: ""
-        storageEncryptionKey:
-          ## Vault Path to the Authelia storage encryption key secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-storage-encryption-key
-          path: secrets/authelia/storage:encryption_key
-
-          ## Vault template specific to the storage encryption key.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-storage-encryption-key
-          templateValue: ""
-
-          ## Vault after render command specific to the storage encryption key.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-storage-encryption-key
-          command: ""
-        session:
-          ## Vault Path to the Authelia session secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-session
-          path: secrets/authelia/session:encryption_key
-
-          ## Vault template specific to session.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-session
-          templateValue: ""
-
-          ## Vault after render command specific to session.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-session
-          command: ""
-        duo:
-          ## Vault Path to the Authelia duo secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-duo
-          path: secrets/authelia/duo:api_key
-
-          ## Vault template specific to duo.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-duo
-          templateValue: ""
-
-          ## Vault after render command specific to duo.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-duo
-          command: ""
-        redis:
-          ## Vault Path to the Authelia redis secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-redis
-          path: secrets/authelia/redis:password
-
-          ## Vault template specific to redis.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-redis
-          templateValue: ""
-
-          ## Vault after render command specific to redis.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-redis
-          command: ""
-        redisSentinel:
-          ## Vault Path to the Authelia redis sentinel secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-redis-sentinel
-          path: secrets/authelia/redis_sentinel:password
-
-          ## Vault template specific to redis sentinel.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-redis-sentinel
-          templateValue: ""
-
-          ## Vault after render command specific to redis sentinel.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-redis-sentinel
-          command: ""
-        smtp:
-          ## Vault Path to the Authelia SMTP secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-smtp
-          path: secrets/authelia/smtp:password
-
-          ## Vault template specific to SMTP.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-smtp
-          templateValue: ""
-
-          ## Vault after render command specific to SMTP.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-smtp
-          command: ""
-        oidcPrivateKey:
-          ## Vault Path to the Authelia OIDC private key secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-oidc-private-key
-          path: secrets/authelia/oidc:private_key
-
-          ## Vault template specific to OIDC private key.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-oidc-private-key
-          templateValue: ""
-
-          ## Vault after render command specific to OIDC private key.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-oidc-private-key
-          command: ""
-        oidcHMACSecret:
-          ## Vault Path to the Authelia OIDC HMAC secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-secret-oidc-hmac-secret
-          path: secrets/authelia/oidc:hmac_secret
-
-          ## Vault template specific to OIDC HMAC secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-template-oidc-hmac-secret
-          templateValue: ""
-
-          ## Vault after render command specific to OIDC HMAC secret.
-          ## Annotation: vault.hashicorp.com/agent-inject-command-oidc-hmac-secret
-          command: ""
 
   certificates:
     existingSecret: ""

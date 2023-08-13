@@ -37,6 +37,10 @@ resource "argocd_project" "gitops" {
       server    = "https://kubernetes.default.svc"
       namespace = "kube-system"
     }
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "authelia"
+    }
 
     # cluster_resource_blacklist {
     #   group = "*"

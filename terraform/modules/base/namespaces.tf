@@ -33,3 +33,12 @@ resource "kubernetes_namespace" "cert-manager" {
     name = "cert-manager"
   }
 }
+
+resource "kubernetes_namespace" "authelia" {
+  metadata {
+    annotations = {
+      name = "Authelia"
+    }
+    name = "authelia"
+  }
+}
