@@ -365,7 +365,7 @@ authelia:
       ldap:
 
         ## Enable LDAP Backend.
-        enabled: true
+        enabled: false
 
         ## The LDAP implementation, this affects elements like the attribute utilised for resetting a password.
         ## Acceptable options are as follows:
@@ -484,50 +484,6 @@ authelia:
         ## The username of the admin user.
         user: CN=Authelia,DC=example,DC=com
 
-      ##
-      ## File (Authentication Provider)
-      ##
-      ## With this backend, the users database is stored in a file which is updated when users reset their passwords.
-      ## Therefore, this backend is meant to be used in a dev environment and not in production since it prevents Authelia
-      ## to be scaled to more than one instance. The options under 'password' have sane defaults, and as it has security
-      ## implications it is highly recommended you leave the default values. Before considering changing these settings
-      ## please read the docs page: https://www.authelia.com/reference/guides/passwords/#tuning
-      ##
-      ## Important: Kubernetes (or HA) users must read https://www.authelia.com/overview/authorization/statelessness/
-      ##
-      file:
-        enabled: false
-        path: /config/users_database.yml
-        watch: true
-        search:
-          email: false
-          case_insensitive: false
-        password:
-          algorithm: argon2
-          argon2:
-            variant: argon2id
-            iterations: 3
-            memory: 65536
-            parallelism: 4
-            key_length: 32
-            salt_length: 16
-          scrypt:
-            iterations: 16
-            block_size: 8
-            parallelism: 1
-            key_length: 32
-            salt_length: 16
-          pbkdf2:
-            variant: sha512
-            iterations: 310000
-            salt_length: 16
-          sha2crypt:
-            variant: sha512
-            iterations: 50000
-            salt_length: 16
-          bcrypt:
-            variant: standard
-            cost: 12
 
     ##
     ## Password Policy Configuration.
@@ -665,106 +621,6 @@ authelia:
       # - domain: "{user}.example.com"
       #   policy: bypass
 
-    ##
-    ## Session Provider Configuration
-    ##
-    ## The session cookies identify the user once logged in.
-    ## The available providers are: `memory`, `redis`. Memory is the provider unless redis is defined.
-    session:
-      ## The name of the session cookie. (default: authelia_session).
-      name: authelia_session
-
-      ## Sets the Cookie SameSite value. Possible options are none, lax, or strict.
-      ## Please read https://www.authelia.com/configuration/session/introduction/#same_site
-      same_site: lax
-
-      ## The time in seconds before the cookie expires and session is reset.
-      expiration: 1h
-
-      ## The inactivity time in seconds before the session is reset.
-      inactivity: 5m
-
-      ## The remember me duration.
-      ## Value is in seconds, or duration notation. Value of 0 disables remember me.
-      ## See: https://www.authelia.com/configuration/prologue/common/#duration-notation-format
-      ## Longer periods are considered less secure because a stolen cookie will last longer giving attackers more time to
-      ## spy or attack. Currently the default is 1M or 1 month.
-      remember_me_duration: 1M
-
-      ##
-      ## Redis Provider
-      ##
-      ## Important: Kubernetes (or HA) users must read https://www.authelia.com/overview/authorization/statelessness/
-      ##
-      ## The redis connection details
-      redis:
-        enabled: false
-        enabledSecret: false
-        host: redis.databases.svc.cluster.local
-        port: 6379
-
-        ## Optional username to be used with authentication.
-        # username: authelia
-        username: ""
-
-        ## This is the Redis DB Index https://redis.io/commands/select (sometimes referred to as database number, DB, etc).
-        database_index: 0
-
-        ## The maximum number of concurrent active connections to Redis.
-        maximum_active_connections: 8
-
-        ## The target number of idle connections to have open ready for work. Useful when opening connections is slow.
-        minimum_idle_connections: 0
-
-        ## The Redis TLS configuration. If defined will require a TLS connection to the Redis instance(s).
-        tls:
-          enabled: false
-
-          ## The server subject name to check the servers certificate against during the validation process.
-          ## This option is not required if the certificate has a SAN which matches the host option.
-          server_name: ""
-
-          ## Skip verifying the server certificate entirely. In preference to setting this we strongly recommend you add the
-          ## certificate or the certificate of the authority signing the certificate to the certificates directory which is
-          ## defined by the `certificates_directory` option at the top of the configuration.
-          ## It's important to note the public key should be added to the directory, not the private key.
-          ## This option is strongly discouraged but may be useful in some self-signed situations where validation is not
-          ## important to the administrator.
-          skip_verify: false
-
-          ## Minimum TLS version for the connection.
-          minimum_version: TLS1.2
-
-          ## Maximum TLS version for the connection.
-          maximum_version: TLS1.3
-
-        ## The Redis HA configuration options.
-        ## This provides specific options to Redis Sentinel, sentinel_name must be defined (Master Name).
-        high_availability:
-          enabled: false
-          enabledSecret: false
-          ## Sentinel Name / Master Name
-          sentinel_name: mysentinel
-
-          ## The Redis Sentinel-specific username. If supplied, authentication will be done via Redis 6+ ACL-based
-          ## authentication. If left blank, authentication to sentinels will be done via `requirepass`.
-          username: ""
-
-          ## The additional nodes to pre-seed the redis provider with (for sentinel).
-          ## If the host in the above section is defined, it will be combined with this list to connect to sentinel.
-          ## For high availability to be used you must have either defined; the host above or at least one node below.
-          nodes: []
-          # nodes:
-          #   - host: sentinel-0.databases.svc.cluster.local
-          #     port: 26379
-          #   - host: sentinel-1.databases.svc.cluster.local
-          #     port: 26379
-
-          ## Choose the host with the lowest latency.
-          route_by_latency: false
-
-          ## Choose the host randomly.
-          route_randomly: false
 
     ##
     ## Regulation Configuration
