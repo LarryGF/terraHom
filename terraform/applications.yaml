@@ -39,7 +39,19 @@ authelia:
   name: authelia
   namespace: authelia
   deploy: true
-  volumes: {}
+  volumes:
+    config:
+      enabled: true
+      name: authelia-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteOnce
+    redis:
+      enabled: true
+      name: redis-data
+      size: 200Mi
+      access_modes:
+        - ReadWriteOnce
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
