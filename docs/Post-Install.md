@@ -19,6 +19,8 @@ These are the steps you need to follow after you've finished the infrastructure 
     - [Plugins](#plugins)
   - [Jellyseerr](#jellyseerr)
   - [Duplicati](#duplicati)
+  - [Authelia](#authelia)
+    - [Setting encryption keys](#setting-encryption-keys)
 
 ## Rtorrent-Flood
 
@@ -181,3 +183,19 @@ I chose to go with OneDrive as a backup solution, since it's free and it's easy 
 - Since the only thing that should be different is the base path and the destination path, you can just quickly edit that same file and keep reuploading it to Duplicati until you have all your services backed up
 - All of the config folders for your services are mounted under `/config` in Duplicati by default
 - Of course, you can alway be lazy and backup the entire /config folder, Duplicati config included, but you will loose graularity and control (although you might want to backup it etirely anyways in case Duplicati itself goes down)
+
+## Authelia
+
+### Setting encryption keys
+
+Before installation put some long, random values under:
+
+```hcl
+api_keys = {
+    ...
+    authelia_JWT_TOKEN = "unique_long_string"
+    authelia_SESSION_ENCRYPTION_KEY = "unique_long_string"
+    authelia_STORAGE_ENCRYPTION_KEY = "unique_long_string"
+}
+```
+

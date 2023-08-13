@@ -46,9 +46,15 @@ authelia:
       size: 200Mi
       access_modes:
         - ReadWriteOnce
-    redis:
+    redis-master:
       enabled: true
-      name: redis-data
+      name: redis-data-master
+      size: 200Mi
+      access_modes:
+        - ReadWriteOnce
+    redis-replica:
+      enabled: true
+      name: redis-data-replica
       size: 200Mi
       access_modes:
         - ReadWriteOnce
@@ -56,6 +62,10 @@ authelia:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
+    JWT_TOKEN: ${api_keys["authelia_JWT_TOKEN"]}
+    SESSION_ENCRYPTION_KEY: ${api_keys["authelia_SESSION_ENCRYPTION_KEY"]}
+    STORAGE_ENCRYPTION_KEY: ${api_keys["authelia_STORAGE_ENCRYPTION_KEY"]}
+
 
 nzbget:
   name: nzbget
