@@ -106,8 +106,6 @@ authelia:
           port: http
           scheme: HTTP
 
-    extraVolumeMounts: []
-    extraVolumes: []
 
   ##
   ## Authelia Config Map Generator
@@ -130,10 +128,6 @@ authelia:
     ## Server Configuration
     ##
     server:
-      ##
-      ## Port sets the configured port for the daemon, service, and the probes.
-      ## Default is 9091 and should not need to be changed.
-      ##
       port: 9091
 
       ## Set the single level path Authelia listens on.
@@ -864,51 +858,6 @@ authelia:
 
     excludeVolumeAndMounts: false
 
-    ## Secrets.
-    jwt:
-      key: JWT_TOKEN
-      value: ""
-      filename: JWT_TOKEN
-    ldap:
-      key: LDAP_PASSWORD
-      value: ""
-      filename: LDAP_PASSWORD
-    storage:
-      key: STORAGE_PASSWORD
-      value: ""
-      filename: STORAGE_PASSWORD
-    storageEncryptionKey:
-      key: STORAGE_ENCRYPTION_KEY
-      value: ""
-      filename: STORAGE_ENCRYPTION_KEY
-    session:
-      key: SESSION_ENCRYPTION_KEY
-      value: ""
-      filename: SESSION_ENCRYPTION_KEY
-    duo:
-      key: DUO_API_KEY
-      value: ""
-      filename: DUO_API_KEY
-    redis:
-      key: REDIS_PASSWORD
-      value: ""
-      filename: REDIS_PASSWORD
-    redisSentinel:
-      key: REDIS_SENTINEL_PASSWORD
-      value: ""
-      filename: REDIS_SENTINEL_PASSWORD
-    smtp:
-      key: SMTP_PASSWORD
-      value: ""
-      filename: SMTP_PASSWORD
-    oidcPrivateKey:
-      key: OIDC_PRIVATE_KEY
-      value: ""
-      filename: OIDC_PRIVATE_KEY
-    oidcHMACSecret:
-      key: OIDC_HMAC_SECRET
-      value: ""
-      filename: OIDC_HMAC_SECRET
 
   certificates:
     existingSecret: ""

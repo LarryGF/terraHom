@@ -152,5 +152,8 @@ variable "api_keys" {
     plex_key = "plex-key"
     jellyseerr_key = "jellyseerr-key"
     pihole_key = "pihole-key"
+    authelia_JWT_TOKEN = "authelia-jwt-token"
+    authelia_SESSION_ENCRYPTION_KEY = "authelia-session-encryption-key"
+    authelia_STORAGE_ENCRYPTION_KEY = "authelia-storage-encryption-key"
   }
 }

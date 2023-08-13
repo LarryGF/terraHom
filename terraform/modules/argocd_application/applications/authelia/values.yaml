@@ -164,9 +164,9 @@ authelia:
       ##
       ## The redis connection details
       redis:
-        enabled: false
-        enabledSecret: false
-        host: redis.databases.svc.cluster.local
+        enabled: true
+        enabledSecret: true
+        host: redis-master.authelia.svc.cluster.local
         port: 6379
 
         ## Optional username to be used with authentication.
@@ -247,7 +247,7 @@ authelia:
       ##
       file:
         enabled: true
-        path: /config/users_database.yml
+        path: /config/users/users_database.yml
         watch: true
         search:
           email: false
@@ -290,8 +290,68 @@ authelia:
   persistence:
     enabled: true
     readOnly: false
-
     existingClaim: "authelia-config"
+  
+  secret:
+    ## Secrets.
+    jwt:
+      key: JWT_TOKEN
+      value: "${JWT_TOKEN}"
+      filename: JWT_TOKEN
+    ldap:
+      key: LDAP_PASSWORD
+      value: ""
+      filename: LDAP_PASSWORD
+    storage:
+      key: STORAGE_PASSWORD
+      value: ""
+      filename: STORAGE_PASSWORD
+    storageEncryptionKey:
+      key: STORAGE_ENCRYPTION_KEY
+      value: "${STORAGE_ENCRYPTION_KEY}"
+      filename: STORAGE_ENCRYPTION_KEY
+    session:
+      key: SESSION_ENCRYPTION_KEY
+      value: "${SESSION_ENCRYPTION_KEY}"
+      filename: SESSION_ENCRYPTION_KEY
+    duo:
+      key: DUO_API_KEY
+      value: ""
+      filename: DUO_API_KEY
+    redis:
+      key: REDIS_PASSWORD
+      value: "redis"
+      filename: REDIS_PASSWORD
+    redisSentinel:
+      key: REDIS_SENTINEL_PASSWORD
+      value: ""
+      filename: REDIS_SENTINEL_PASSWORD
+    smtp:
+      key: SMTP_PASSWORD
+      value: ""
+      filename: SMTP_PASSWORD
+    oidcPrivateKey:
+      key: OIDC_PRIVATE_KEY
+      value: ""
+      filename: OIDC_PRIVATE_KEY
+    oidcHMACSecret:
+      key: OIDC_HMAC_SECRET
+      value: ""
+      filename: OIDC_HMAC_SECRET
+  
+  pod:
+    extraVolumeMounts: 
+      - name: users-database
+        mountPath: "/config/users"
+        readOnly: true
+    extraVolumes:
+      - name: users-database
+        secret:
+          secretName: authelia-users         
+          items:
+            - key: users_database.yml
+              path: users_database.yml
+
 
 redis:
   global:
@@ -300,9 +360,15 @@ redis:
   fullnameOverride: redis
   master:
     kind: Deployment
-  persistence:
-    enabled: true
-    existingClaim: redis-data
+    persistence:
+      enabled: true
+      existingClaim: redis-data-master
+  replica:
+    replicaCount: 1
+    persistence:
+      enabled: true
+      existingClaim: redis-data-replica
+
   metrics:
     enabled: true
     serviceMonitor:
@@ -311,3 +377,15 @@ redis:
       enabled: true
   volumePermissions:
     enabled: true
+
+
+authelia_users:
+  users:
+    Admin:
+      disabled: false
+      displayname: "Administrator"
+      password: "$argon2id$v=19$m=32768,t=1,p=8$eUhVT1dQa082YVk2VUhDMQ$E8QI4jHbUBt3EdsU1NFDu4Bq5jObKNx7nBKSn1EYQxk"  # Password is 'authelia'
+      email: authelia@authelia.com
+      groups:
+        - admins
+        - dev
