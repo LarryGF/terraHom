@@ -353,6 +353,86 @@ authelia:
               path: users_database.yml
 
 
+  ##
+  ## Notification Provider
+  ##
+  ##
+  ## Notifications are sent to users when they require a password reset, a u2f registration or a TOTP registration.
+  ## The available providers are: filesystem, smtp. You must use one and only one of these providers.
+  notifier:
+    ## You can disable the notifier startup check by setting this to true.
+    disable_startup_check: false
+
+    ##
+    ## File System (Notification Provider)
+    ##
+    ## Important: Kubernetes (or HA) users must read https://www.authelia.com/overview/authorization/statelessness/
+    ##
+    filesystem:
+      enabled: false
+      filename: /config/notification.txt
+
+    ##
+    ## SMTP (Notification Provider)
+    ##
+    ## Use a SMTP server for sending notifications. Authelia uses the PLAIN or LOGIN methods to authenticate.
+    ## [Security] By default Authelia will:
+    ##   - force all SMTP connections over TLS including unauthenticated connections
+    ##      - use the disable_require_tls boolean value to disable this requirement
+    ##        (only works for unauthenticated connections)
+    ##   - validate the SMTP server x509 certificate during the TLS handshake against the hosts trusted certificates
+    ##     (configure in tls section)
+    smtp:
+      enabled: true
+      enabledSecret: true
+      host: authelia-maildev-smtp
+      port: 1025
+      timeout: 5s
+      username: admin
+      sender: admin@authelia.local
+      ## HELO/EHLO Identifier. Some SMTP Servers may reject the default of localhost.
+      identifier: localhost
+      ## Subject configuration of the emails sent.
+      ## {title} is replaced by the text from the notifier
+      subject: "[Authelia] {title}"
+      ## This address is used during the startup check to verify the email configuration is correct.
+      ## It's not important what it is except if your email server only allows local delivery.
+      startup_check_address: test@authelia.local
+
+      ## Disables sending HTML formatted emails.
+      disable_html_emails: false
+
+      ## By default we require some form of TLS. This disables this check though is not advised.
+      disable_require_tls: false
+
+      ## Some SMTP servers ignore SMTP specifications and claim to support STARTTLS when they in fact do not. For
+      ## security reasons Authelia refuses to send messages to these servers. This option disables this measure and is
+      ## enabled AT YOUR OWN RISK. It’s strongly recommended that instead of enabling this option you either fix the
+      ## issue with the SMTP server’s configuration or have the administrators of the server fix it. If the issue can’t
+      ## be fixed by configuration we recommend lodging an issue with the authors of the SMTP server. See [security] for
+      ## more information.
+      disable_starttls: false
+
+      tls:
+        ## The server subject name to check the servers certificate against during the validation process.
+        ## This option is not required if the certificate has a SAN which matches the host option.
+        server_name: ""
+
+        ## Skip verifying the server certificate entirely. In preference to setting this we strongly recommend you add the
+        ## certificate or the certificate of the authority signing the certificate to the certificates directory which is
+        ## defined by the `certificates_directory` option at the top of the configuration.
+        ## It's important to note the public key should be added to the directory, not the private key.
+        ## This option is strongly discouraged but may be useful in some self-signed situations where validation is not
+        ## important to the administrator.
+        skip_verify: false
+
+        ## Minimum TLS version for the connection.
+        minimum_version: TLS1.2
+
+        ## Maximum TLS version for the connection.
+        maximum_version: TLS1.3
+
+
 redis:
   global:
     redis:
@@ -388,19 +468,19 @@ maildev:
       cert-manager.io/cluster-issuer: letsencrypt
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       gethomepage.dev/enabled: "true"
-      gethomepage.dev/name: "Mailhog"
+      gethomepage.dev/name: "Maildev"
       gethomepage.dev/description: ""
       gethomepage.dev/group: "Internal"
-      gethomepage.dev/icon: "mailhog.png"
+      gethomepage.dev/icon: "docker-mailserver.png"
     hosts:
-      - host: "mailhog.${duckdns_domain}.duckdns.org"
+      - host: "maildev.${duckdns_domain}.duckdns.org"
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
         - hosts:
-            - "mailhog.${duckdns_domain}.duckdns.org"
-          secretName: tls-mailhog-ingress
+            - "maildev.${duckdns_domain}.duckdns.org"
+          secretName: tls-maildev-ingress
     
     maildev:
       config:
@@ -416,5 +496,4 @@ maildev:
 #       groups:
 #         - admins
 #         - dev
-
 
