@@ -38,6 +38,7 @@ homepage:
 authelia:
   name: authelia
   namespace: authelia
+  server_side: "false"
   deploy: true
   volumes:
     config:
