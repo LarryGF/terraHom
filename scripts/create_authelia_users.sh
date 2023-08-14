@@ -14,8 +14,8 @@ echo $hashed_password
 cat <<EOL >> ./users.config
 ${username}:
   disabled: false
-  displayname: ${username}
-  password: ${hashed_password}
+  displayname: "${username}"
+  password: "${hashed_password}"
   email: ${email}
   groups:
     - admins
