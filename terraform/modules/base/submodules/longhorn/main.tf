@@ -9,7 +9,7 @@ resource "helm_release" "longhorn" {
   create_namespace = "true"
   reuse_values = true
 
-  version = "1.4.1"
+  version = "1.5.1"
   values = [
     templatefile(
       "${path.module}/helm/longhorn-values.yaml",
