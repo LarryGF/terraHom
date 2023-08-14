@@ -157,3 +157,4 @@ variable "api_keys" {
     authelia_STORAGE_ENCRYPTION_KEY = "authelia-storage-encryption-key"
   }
 }
+

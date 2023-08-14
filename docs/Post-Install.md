@@ -21,6 +21,7 @@ These are the steps you need to follow after you've finished the infrastructure 
   - [Duplicati](#duplicati)
   - [Authelia](#authelia)
     - [Setting encryption keys](#setting-encryption-keys)
+    - [Generating users](#generating-users)
 
 ## Rtorrent-Flood
 
@@ -199,3 +200,19 @@ api_keys = {
 }
 ```
 
+### Generating users
+
+There is a bash script under `scripts/create_authelia_users.sh` that takes a username, password and email and creates the config file that authelia will use for local user creation. This will output a file named `users.config` in the path from where the script was run. For now you have to copy the contents of that file to `terraform/modules/argocd_application/authelia/values.yaml` under:
+
+```yaml
+authelia_users:
+  users:
+    {user_name}:
+      disabled: false
+      displayname: {user_name}
+      password: 
+      email: {user_email}
+      groups:
+        - admins
+        - dev
+```

@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Secret
 metadata:
@@ -6,3 +7,5 @@ metadata:
 type: Opaque
 data:
   users_database.yml: {{ .Values.authelia_users | toYaml | trim | b64enc | quote }}
+
+---

@@ -378,14 +378,36 @@ redis:
   volumePermissions:
     enabled: true
 
+mailhog:
+  serviceAccount:
+    create: true
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Mailhog"
+      gethomepage.dev/description: ""
+      gethomepage.dev/group: "Internal"
+      gethomepage.dev/icon: "mailhog.png"
+    hosts:
+      - host: "mailhog.${duckdns_domain}.duckdns.org"
+        paths:
+          - path: /
+    tls:
+        - hosts:
+            - "mailhog.${duckdns_domain}.duckdns.org"
+          secretName: tls-mailhog-ingress
 
-authelia_users:
-  users:
-    Admin:
-      disabled: false
-      displayname: "Administrator"
-      password: "$argon2id$v=19$m=32768,t=1,p=8$eUhVT1dQa082YVk2VUhDMQ$E8QI4jHbUBt3EdsU1NFDu4Bq5jObKNx7nBKSn1EYQxk"  # Password is 'authelia'
-      email: authelia@authelia.com
-      groups:
-        - admins
-        - dev
+# authelia_users:
+#   users:
+#     admin:
+#       disabled: false
+#       displayname: admin
+#       password: 
+#       email: admin@gmail.com
+#       groups:
+#         - admins
+#         - dev
