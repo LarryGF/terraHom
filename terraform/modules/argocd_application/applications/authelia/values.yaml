@@ -378,7 +378,7 @@ redis:
   volumePermissions:
     enabled: true
 
-mailhog:
+maildev:
   serviceAccount:
     create: true
   ingress:
@@ -396,10 +396,15 @@ mailhog:
       - host: "mailhog.${duckdns_domain}.duckdns.org"
         paths:
           - path: /
+            pathType: ImplementationSpecific
     tls:
         - hosts:
             - "mailhog.${duckdns_domain}.duckdns.org"
           secretName: tls-mailhog-ingress
+    
+    maildev:
+      config:
+        logMailContents: true
 
 # authelia_users:
 #   users:
@@ -411,3 +416,5 @@ mailhog:
 #       groups:
 #         - admins
 #         - dev
+
+

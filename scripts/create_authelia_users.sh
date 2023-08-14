@@ -7,8 +7,9 @@ read -s -p "Enter password: " password
 echo
 
 # Hash the password using Argon2
-hashed_password=$(echo -n "$password" | argon2 eUhVT1dQa082YVk2VUhDMQ -id -t 1 -m 15 -p 8 -l 32 | awk -F ': ' '/Encoded/{print $2}')
+hashed_password=$(echo -n "$password" | argon2 eUhVT1dQa082YVk2VUhDMQ -id -t 1 -m 15 -p 8 -l 32 | grep 'Encoded:' | awk '{print $2}')
 
+echo $hashed_password
 # Generate the required YAML format and append to users.config
 cat <<EOL >> ./users.config
 ${username}:
