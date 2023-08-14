@@ -22,6 +22,7 @@ These are the steps you need to follow after you've finished the infrastructure 
   - [Authelia](#authelia)
     - [Setting encryption keys](#setting-encryption-keys)
     - [Generating users](#generating-users)
+    - [Validating user](#validating-user)
 
 ## Rtorrent-Flood
 
@@ -216,3 +217,13 @@ authelia_users:
         - admins
         - dev
 ```
+
+### Validating user
+
+At the moment authelia is configured to store notifications inside the pod, to view this you have to check `/config/notification.txt`. In order to validate a user:
+
+- Go to your authelia url
+- Authenticate using your credentials
+- Click on register
+- Go to the authelia pod (either from ArgoCD's terminal feature or using `kubectl exec`)
+- There `cat /config/notification.txt` and follow the link shown

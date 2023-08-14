@@ -503,3 +503,13 @@ redis:
 #         - dev
 
 
+authelia_users:
+  users:
+    admin:
+      disabled: false
+      displayname: "admin"
+      password: "$argon2id$v=19$m=32768,t=1,p=8$ZVVoVlQxZFFhMDgyWVZrMlZVaERNUQ$XwYhxfpWGoZIBGV2WvEcohqFU+Ws8g2wAPmoRYGwGHI"
+      email: larrywtf609@gmail.com
+      groups:
+        - admins
+        - dev
