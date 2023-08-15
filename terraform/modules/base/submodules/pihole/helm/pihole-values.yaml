@@ -253,7 +253,7 @@ adlists:
 
 # -- list of whitelisted domains to import during initial start of the container
 whitelist:
-  {}
+  - www.googleadservices.com
   # If you want to provide whitelisted domains, add them here.
   # - clients4.google.com
 
@@ -455,6 +455,8 @@ dnsmasq:
     - address=/pihole.${duckdns_domain}.duckdns.org/${master_ip}
     - address=/prometheus.${duckdns_domain}.duckdns.org/${master_ip}
     - address=/alertmanager.${duckdns_domain}.duckdns.org/${master_ip}
+    - address=/ha.${duckdns_domain}.duckdns.org/${master_ip}
+    - address=/codeha.${duckdns_domain}.duckdns.org/${master_ip}
 
   # - address=/bar.foo/192.168.178.11
 

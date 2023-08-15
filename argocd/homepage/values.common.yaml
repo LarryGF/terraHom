@@ -46,21 +46,31 @@ homepage:
         Media:
           icon: mdi-movie-play
           style: columns
+          fiveColumns: true
+
         # Downloaders:
         #   icon: mdi-cloud-download 
         #   style: columns
         Internal:
           icon: mdi-nas
           style: columns
+          fiveColumns: true
+
         Template Aggregators:
           icon: mdi-briefcase-plus
           style: columns
+          fiveColumns: true
+
         Monitoring:
           icon: mdi-safety-goggles
           style: columns
+          fiveColumns: true
+
         Services:
           icon: mdi-server-network
           style: columns
+          fiveColumns: true
+
         
 
     bookmarks:
