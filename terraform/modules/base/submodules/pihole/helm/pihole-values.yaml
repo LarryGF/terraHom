@@ -146,13 +146,12 @@ probes:
     scheme: HTTP
 
 resources:
-  {}
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
+  limits:
+   cpu: 512m
+   memory: 512Mi
+  requests:
+   cpu: 256m
+   memory: 256Mi
 
 persistentVolumeClaim:
   enabled: true
@@ -233,7 +232,21 @@ doh:
 
 # -- list of adlists to import during initial start of the container
 adlists:
-  {}
+  # AdGuard DNS filter
+  - https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+  # AdAway
+  - https://adaway.org/hosts.txt
+  # MalwareDomainList.com Hosts List
+  - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+  # MalwareDomainList.com Hosts List
+  - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+  # MalwareDomainList.com Hosts List
+  - http://sysctl.org/cameleon/hosts
+  # MalwareDomainList.com Hosts List
+  - https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
+  # MalwareDomainList.com Hosts List
+  - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts
+  
   # If you want to provide blocklists, add them here.
   # - https://hosts-file.net/grm.txt
   # - https://reddestdream.github.io/Projects/MinimalHosts/etc/MinimalHostsBlocker/minimalhosts
@@ -358,10 +371,9 @@ extraObjects:
 
 # -- Additional annotations for pods
 podAnnotations:
-  {}
   # Example below allows Prometheus to scape on metric port (requires pihole-exporter sidecar enabled)
-  # prometheus.io/port: '9617'
-  # prometheus.io/scrape: 'true'
+  prometheus.io/port: '9617'
+  prometheus.io/scrape: 'true'
 
 monitoring:
   # -- Preferably adding prometheus scrape annotations rather than enabling podMonitor.
@@ -380,9 +392,9 @@ monitoring:
     resources:
       limits:
         memory: 128Mi
-      # requests:
-      #  cpu: 100m
-      #  memory: 128Mi
+      requests:
+       cpu: 128m
+       memory: 128Mi
 
 podDnsConfig:
   enabled: true
@@ -441,6 +453,8 @@ dnsmasq:
     - address=/traefik.${duckdns_domain}.duckdns.org/${master_ip}
     - address=/argo.${duckdns_domain}.duckdns.org/${master_ip}
     - address=/pihole.${duckdns_domain}.duckdns.org/${master_ip}
+    - address=/prometheus.${duckdns_domain}.duckdns.org/${master_ip}
+    - address=/alertmanager.${duckdns_domain}.duckdns.org/${master_ip}
 
   # - address=/bar.foo/192.168.178.11
 
