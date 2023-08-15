@@ -9,7 +9,7 @@ rtorrent-flood:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Flood"
         gethomepage.dev/description: "A beautiful web UI for various torrent clients."
-        gethomepage.dev/group: "Media"
+        gethomepage.dev/group: "Downloaders"
         gethomepage.dev/icon: "flood.png"
         gethomepage.dev/ping: "http://flood-rtorrent-flood.${namespace}.svc.cluster.local:3000"
         gethomepage.dev/widget.type: "flood"

@@ -292,7 +292,7 @@ filebrowser:
 sabnzbd:
   name: sabnzbd
   namespace: services
-  deploy: false
+  deploy: true
   volumes:
     config:
       enabled: true
