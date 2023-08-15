@@ -233,6 +233,8 @@ home-assistant:
     duckdns_domain: ${duckdns_domain}
     gh_username: ${gh_username}
     gh_token: ${gh_token}
+    master_hostname: ${master_hostname}
+
 
 sonarr:
   name: sonarr

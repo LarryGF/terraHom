@@ -149,10 +149,10 @@ authelia:
       same_site: lax
 
       ## The time in seconds before the cookie expires and session is reset.
-      expiration: 1h
+      expiration: 10h
 
       ## The inactivity time in seconds before the session is reset.
-      inactivity: 5m
+      inactivity: 30m
 
       ## The remember me duration.
       ## Value is in seconds, or duration notation. Value of 0 disables remember me.
@@ -517,14 +517,4 @@ authelia_users:
       groups:
         - admins
         - dev
-    arlett:
-      disabled: false
-      displayname: "arlett"
-      password: "$argon2id$v=19$m=32768,t=1,p=8$ZVVoVlQxZFFhMDgyWVZrMlZVaERNUQ$7sz+OEUhzc2A34voSl8N54esJWsZ7sSN9/736tBbf34"
-      email: 
-      groups:
-        - admins
-        - dev
-
-
 
