@@ -1,4 +1,5 @@
 {
+
     "__requires": [
       {
         "type": "panel",
@@ -47,7 +48,7 @@
       "list": [
         {
           "builtIn": 1,
-          "datasource": "${Prometheus}",
+          "datasource": "Prometheus",
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
@@ -90,7 +91,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#299c46"
         ],
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -186,7 +187,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "decimals": null,
         "fieldConfig": {
           "defaults": {
@@ -277,7 +278,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -365,7 +366,7 @@
           "label": "Others",
           "threshold": 0
         },
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -417,7 +418,7 @@
           "label": "Others",
           "threshold": 0
         },
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -469,7 +470,7 @@
           "label": "Others",
           "threshold": 0
         },
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -518,7 +519,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {
@@ -629,7 +630,7 @@
       },
       {
         "cacheTimeout": null,
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -707,7 +708,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -806,7 +807,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -909,7 +910,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -1008,7 +1009,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -1102,7 +1103,7 @@
       },
       {
         "columns": [],
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -1164,7 +1165,7 @@
       },
       {
         "columns": [],
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -1232,7 +1233,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {}
@@ -1336,7 +1337,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": "${Prometheus}",
+        "datasource": "Prometheus",
         "fieldConfig": {
           "defaults": {
             "custom": {
@@ -1459,7 +1460,7 @@
             "text": "10.10.200.20",
             "value": "10.10.200.20"
           },
-          "datasource": "${Prometheus}",
+          "datasource": "Prometheus",
           "definition": "label_values(pihole_ads_blocked_today, hostname)",
           "hide": 0,
           "includeAll": false,
