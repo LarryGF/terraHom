@@ -1,0 +1,35 @@
+grafana:
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-prometheus:9090
+        access: proxy
+        isDefault: true
+      - name: Alertmanager
+        type: alertmanager
+        url: http://prometheus-alertmanager:9093
+        access: proxy
+        jsonData:
+          implementation: prometheus
+          handleGrafanaManagedAlerts: false
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki-gateway
+        jsonData:
+          maxLines: 1000
+
+  grafana.ini:
+    auth.anonymous:
+      enabled: true
+      org_name: Main Org.
+      org_role: Admin
+    panels:
+      disable_sanitize_html: true
+
+  persistence:
+    enabled: true
+    existingClaim: grafana-config

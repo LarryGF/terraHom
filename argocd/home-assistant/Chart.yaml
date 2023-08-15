@@ -1,0 +1,7 @@
+apiVersion: v2
+name: home-assistant-umbrella
+version: 0.0.1
+dependencies:
+  - name: home-assistant
+    repository: https://geek-cookbook.github.io/charts
+    version: 13.5.0

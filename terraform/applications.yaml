@@ -216,6 +216,24 @@ renovate:
     gh_username: ${gh_username}
     gh_token: ${gh_token}
 
+
+home-assistant:
+  name: home-assistant
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      enabled: true
+      name: ha-config
+      size: 5Gi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    gh_username: ${gh_username}
+    gh_token: ${gh_token}
+
 sonarr:
   name: sonarr
   namespace: services
