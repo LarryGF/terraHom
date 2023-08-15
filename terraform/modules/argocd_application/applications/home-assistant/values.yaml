@@ -4,7 +4,12 @@ home-assistant:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext,websecure
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Home Assistant"
+        gethomepage.dev/description: ""
+        gethomepage.dev/group: "Services"
+        gethomepage.dev/icon: "home-assistant-alt.png"
       enabled: true
       hosts:
         - host: "ha.${duckdns_domain}.duckdns.org"
@@ -28,6 +33,11 @@ home-assistant:
         enabled: true
         annotations:
           cert-manager.io/issuer: letsencrypt
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: "HA Code Server"
+          gethomepage.dev/description: ""
+          gethomepage.dev/group: "Services"
+          gethomepage.dev/icon: "code.png"
         hosts:
         - host: code.ha.${duckdns_domain}.duckdns.org
           paths:
