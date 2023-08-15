@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: config-file
 data:
-  datafile.yaml: |
+  configuration.yaml: |
 {{ .Files.Get "files/configuration.yaml" | indent 4 }}
