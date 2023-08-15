@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: install-ha-plugins
+spec:
+  template:
+    metadata:
+      name: install-ha-plugins
+    spec:
+      volumes:
+        - name: ha-config
+          persistentVolumeClaim:
+            claimName: ha-config
+      containers:
+        - name: install-ha-plugins
+          image: bash
+          command:
+            - bash
+            - "-c"
+            - "cd /config && wget -O - https://get.hacs.xyz | bash -"
+          volumeMounts:
+            - name: ha-config
+              mountPath: "/config"
+      restartPolicy: Never
+  backoffLimit: 1
