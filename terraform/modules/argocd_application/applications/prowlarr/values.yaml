@@ -7,7 +7,8 @@ prowlarr:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Prowlarr"
         gethomepage.dev/description: "Prowlarr is an indexer manager/proxy for use with NZB and torrents"

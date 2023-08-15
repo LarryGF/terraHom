@@ -4,7 +4,9 @@ homepage:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+
       enabled: true
       hosts:
         - host: "home.${duckdns_domain}.duckdns.org"
