@@ -35,21 +35,6 @@ home-assistant:
     #   securityContext:
     #     runAsUser: 0
 
-  ingress:
-    main:
-      ingressClassName: traefik
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      enabled: true
-      hosts:
-        - host: "ha.${duckdns_domain}.duckdns.org"
-          paths:
-          - path: /
-      tls:
-        - hosts:
-            - "ha.${duckdns_domain}.duckdns.org"
-          secretName: tls-ha-ingress
 
   hostNetwork: true
   dnsPolicy: ClusterFirstWithHostNet
@@ -68,41 +53,8 @@ home-assistant:
     #   hostPath: /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2434151-if00
     #   mountPath: /dev/ttyUSB0
 
-  nodeSelector:
-    # kubernetes.io/hostname: ${master_hostname}
-    kubernetes.io/arch : amd64
 
 
   securityContext:
     privileged: true
 
-  addons:
-    codeserver:
-      image:
-        repository: codercom/code-server
-        tag: 4.11.0
-      enabled: true
-      ingress:
-        enabled: true
-        annotations:
-          cert-manager.io/issuer: letsencrypt
-        hosts:
-        - host: code.ha.${duckdns_domain}.duckdns.org
-          paths:
-            - path: /
-        tls:
-        - secretName: tls-code-ha-ingress
-          hosts:
-            - code.ha.${duckdns_domain}.duckdns.org
-
-      args:
-      - --auth
-      - none
-      - --user-data-dir
-      - "/config/.vscode"
-      
-      workingDir: "/config"
-
-      volumeMounts:
-      - name: config
-        mountPath: /config
