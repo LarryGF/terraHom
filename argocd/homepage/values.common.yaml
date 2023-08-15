@@ -58,6 +58,9 @@ homepage:
         Monitoring:
           icon: mdi-safety-goggles
           style: columns
+        Services:
+          icon: mdi-server-network
+          style: columns
         
 
     bookmarks:
