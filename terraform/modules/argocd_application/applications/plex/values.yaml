@@ -14,6 +14,7 @@ plex:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext,websecure
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
         # traefik.ingress.kubernetes.io/router.middlewares: services-whitelist-guests@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Plex"

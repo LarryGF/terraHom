@@ -406,7 +406,7 @@ ingress:
     gethomepage.dev/href: "https://pihole.${duckdns_domain}.duckdns.org/admin"
 
     gethomepage.dev/widget.type: "pihole"
-    gethomepage.dev/widget.url: "http://pihole-web.services.svc.cluster.local/admin/api"
+    gethomepage.dev/widget.url: "http://pihole-web.services.svc.cluster.local"
     gethomepage.dev/widget.key: "${pihole_key}"
 
   path: /
@@ -438,7 +438,10 @@ dnsmasq:
 
   # -- Add custom dns entries to override the dns resolution. All lines will be added to the pihole dnsmasq configuration.
   customDnsEntries: 
-    - address=/${duckdns_domain}.duckdns.org/${master_ip}
+    - address=/traefik.${duckdns_domain}.duckdns.org/${master_ip}
+    - address=/argo.${duckdns_domain}.duckdns.org/${master_ip}
+    - address=/pihole.${duckdns_domain}.duckdns.org/${master_ip}
+
   # - address=/bar.foo/192.168.178.11
 
   # -- Dnsmasq reads the /etc/hosts file to resolve ips. You can add additional entries if you like

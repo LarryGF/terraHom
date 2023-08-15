@@ -12,7 +12,7 @@ authelia:
 
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Authelia"
       gethomepage.dev/description: ""
@@ -80,7 +80,9 @@ authelia:
             # List of Middlewares to apply before the forwardAuth Middleware in the authentication chain.
             # before: []
             before:
-            - name: whitelist
+            - name: redirect-https
+              namespace: services
+            - name: whitelist-ext
               namespace: services
             - name: error-pages
               namespace: services
@@ -131,6 +133,8 @@ authelia:
           # - CurveP521
           # - CurveP384
   configMap:
+    default_redirection_url: "https://home.${duckdns_domain}.duckdns.org"
+
     ##
     ## Session Provider Configuration
     ##
@@ -513,3 +517,14 @@ authelia_users:
       groups:
         - admins
         - dev
+    arlett:
+      disabled: false
+      displayname: "arlett"
+      password: "$argon2id$v=19$m=32768,t=1,p=8$ZVVoVlQxZFFhMDgyWVZrMlZVaERNUQ$7sz+OEUhzc2A34voSl8N54esJWsZ7sSN9/736tBbf34"
+      email: 
+      groups:
+        - admins
+        - dev
+
+
+

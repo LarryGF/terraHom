@@ -223,7 +223,6 @@ authelia:
     ##
     ## Note: this parameter is optional. If not provided, user won't be redirected upon successful authentication.
     ## Default is https://www.<domain> (value at the top of the values.yaml).
-    default_redirection_url: ""
     # default_redirection_url: https://example.com
 
     ## Set the default 2FA method for new users and for when a user has a preferred method configured that has been
@@ -534,39 +533,6 @@ authelia:
       local:
         enabled: true
         path: /config/db.sqlite3
-
-      ##
-      ## MySQL (Storage Provider)
-      ##
-      ## Also supports MariaDB
-      ##
-      mysql:
-        enabled: false
-        host: mysql.databases.svc.cluster.local
-        port: 3306
-        database: authelia
-        username: authelia
-        timeout: 5s
-        tls:
-          enabled: false
-
-          ## The server subject name to check the servers certificate against during the validation process.
-          ## This option is not required if the certificate has a SAN which matches the host option.
-          server_name: ""
-
-          ## Skip verifying the server certificate entirely. In preference to setting this we strongly recommend you add the
-          ## certificate or the certificate of the authority signing the certificate to the certificates directory which is
-          ## defined by the `certificates_directory` option at the top of the configuration.
-          ## It's important to note the public key should be added to the directory, not the private key.
-          ## This option is strongly discouraged but may be useful in some self-signed situations where validation is not
-          ## important to the administrator.
-          skip_verify: false
-
-          ## Minimum TLS version for the connection.
-          minimum_version: TLS1.2
-
-          ## Maximum TLS version for the connection.
-          maximum_version: TLS1.3
 
       ##
       ## PostgreSQL (Storage Provider)

@@ -58,7 +58,7 @@ ingressRoute:
         gethomepage.dev/icon: "traefik.png"
         gethomepage.dev/href: "https://traefik.${duckdns_domain}.duckdns.org"
         gethomepage.dev/widget.type: "traefik"
-        gethomepage.dev/widget.url: "http://traefik.kube-system.svc.cluster.local"
+        gethomepage.dev/widget.url: "https://traefik.${duckdns_domain}.duckdns.org"
 
     matchRule: Host(`traefik.${duckdns_domain}.duckdns.org`)
     entryPoints: ["websecure"]
@@ -184,6 +184,7 @@ ports:
       - services-error-pages@kubernetescrd
       - services-whitelist@kubernetescrd
 
+
   websecure-ext:
     port: 9443
     expose: true
@@ -206,6 +207,8 @@ ports:
       - services-redirect-https@kubernetescrd
       - services-error-pages@kubernetescrd
       - services-whitelist-ext@kubernetescrd
+
+
 
   
   metrics:
