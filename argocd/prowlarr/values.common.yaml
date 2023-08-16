@@ -24,3 +24,6 @@ prowlarr:
     config:
       enabled: true
       existingClaim: prowlarr-config
+
+  metrics:
+    enabled: true
