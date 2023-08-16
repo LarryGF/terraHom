@@ -28,3 +28,6 @@ readarr:
     downloads:
       enabled: true
       existingClaim: media
+
+  metrics:
+    enabled: true
