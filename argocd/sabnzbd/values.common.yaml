@@ -28,3 +28,24 @@ sabnzbd:
     downloads:
       enabled: true
       existingClaim: media
+
+ # VPN side-car
+  addons:
+    vpn:
+      enabled: true
+      type: wireguard
+      wireguard:
+        image:
+          tag: v1.0.20210914
+
+      # -- Reference an existing secret that contains the VPN configuration file
+      # The chart expects it to be present under the `vpnConfigfile` key.
+      configFileSecret: vpnconfig
+      scripts:
+        up: |-
+          #!/bin/bash
+          echo "connected" > /shared/vpnstatus
+
+        down: |-
+          #!/bin/bash
+          echo "disconnected" > /shared/vpnstatus
