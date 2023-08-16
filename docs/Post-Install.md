@@ -7,6 +7,7 @@ These are the steps you need to follow after you've finished the infrastructure 
 - [Post Install](#post-install)
   - [Table of contents](#table-of-contents)
   - [Rtorrent-Flood](#rtorrent-flood)
+  - [SABnzbd](#sabnzbd)
   - [Jackett (DEPRECATED)](#jackett-deprecated)
   - [IMPORTANT INFORMATION FOR \*ARR](#important-information-for-arr)
   - [Prowlarr](#prowlarr)
@@ -29,6 +30,21 @@ These are the steps you need to follow after you've finished the infrastructure 
 - Go to <https://rtorrent.{your> domain}.duckdns.org
 - Create username and password and keep them in mind, you will need them later
 - Paste the following path in the socket `/config/.local/share/rtorrent/rtorrent.sock/config/.local/share/rtorrent/rtorrent.sock`
+
+## SABnzbd
+
+SABnzbd has a security feature where it prevents accessing it from anywhere but localhost unless a specific setting has been set, or credentials have been set, we will go for the last route for this particular config:
+
+- Forward sabnzbd to your localhost:
+
+```bash
+kubectl port-forward -n services svc/sabnzbd 8090:8080
+```
+
+- Go to `http://localhost:8090/sabnzbd`
+- Finish the wizard
+- In Config->General set the username and password
+- You'll be able to access it from anywhere now
 
 ## Jackett (DEPRECATED)
 
@@ -67,7 +83,7 @@ terraform apply -auto-approve -target module.argocd_application
 - I don't recommend you set up auth for this, it might lock you out of the app, and it's not worth the hassle
 - Add your desired indexers
 
-  - Go to the apps (#sonarr/radarr) and get their API keys by going to Settings -> General -> Security
+  - Go to the apps (#sonarr/radarr, #sabnzbd) and get their API keys by going to Settings -> General -> Security
 
 - Go to Settings -> Apps and add your deployed apps:
 
@@ -86,6 +102,7 @@ terraform apply -auto-approve -target module.argocd_application
 
 - After you've finished adding the apps you might want to trigger a `Sync app indexers`
 
+
 ## [Sonarr/Radarr](https://wiki.servarr.com/radarr)
 
 - Go to Radarr/Sonarr:  `https://{radarr/sonarr}.{your domain}.duckdns.org`
@@ -96,6 +113,12 @@ terraform apply -auto-approve -target module.argocd_application
   - Port: `3000`
   - Set username and password from [Flood](#rtorrent-flood) step
 
+- Go to Settings -> Download Clients: Add a new `SABnzbd` downloader:
+  - Name: Flood
+  - Host: `sabnzbd`
+  - Port: `8080`
+  - Set username and password from [SABnzbd](#sabnzbd) step
+  - You also need to add the SABnzbd api key from General-> API Key
 - Add new profiles to support other languages
 
 - If the categories don't match between Radarr/Sonarr and Prowlarr it might fail silently
