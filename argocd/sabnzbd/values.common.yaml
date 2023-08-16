@@ -1,6 +1,6 @@
 sabnzbd:
   image:
-    repository: lscr.io/linuxserver/sabnzbd
+    repository: cr.hotio.dev/hotio/sabnzbd
     tag: latest
 
   env:
