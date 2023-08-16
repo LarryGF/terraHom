@@ -80,6 +80,7 @@ terraform apply -auto-approve -target module.argocd_application
     | radarr          | 7878 |
     | sonarr          | 8989 |
     | whisparr-radarr | 6969 |
+    | sabnzbd         | 8080 |
 
   - For instance, for `sonarr`, `App server` would be `http://sonarr:8989`
 

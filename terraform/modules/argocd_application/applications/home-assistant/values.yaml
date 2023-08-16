@@ -8,7 +8,7 @@ home-assistant:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Home Assistant"
         gethomepage.dev/description: ""
-        gethomepage.dev/group: "Services"
+        gethomepage.dev/group: "Internal"
         gethomepage.dev/icon: "home-assistant-alt.png"
       enabled: true
       hosts:
@@ -37,7 +37,7 @@ home-assistant:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: "HA Code Server"
           gethomepage.dev/description: ""
-          gethomepage.dev/group: "Services"
+          gethomepage.dev/group: "Internal"
           gethomepage.dev/icon: "code.png"
         hosts:
         - host: codeha.${duckdns_domain}.duckdns.org

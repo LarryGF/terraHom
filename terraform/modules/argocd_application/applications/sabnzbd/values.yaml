@@ -9,7 +9,7 @@ sabnzbd:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "SABnzbd"
         gethomepage.dev/description: "Free and easy binary newsreader"
-        gethomepage.dev/group: "Downloaders"
+        gethomepage.dev/group: "Media"
         gethomepage.dev/icon: "sabnzbd-alt.png"
       enabled: true
       hosts:
