@@ -32,7 +32,7 @@ sabnzbd:
  # VPN side-car
   addons:
     vpn:
-      enabled: true
+      enabled: false
       type: wireguard
       wireguard:
         image:
