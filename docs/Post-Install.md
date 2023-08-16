@@ -46,6 +46,8 @@ kubectl port-forward -n services svc/sabnzbd 8090:8080
 - In Config->General set the username and password
 - You'll be able to access it from anywhere now
 
+It's worth mentioning that usenet indexers and servers are two different things, indexers are added in Prowlarr while servers are added in SABnzbd
+
 ## Jackett (DEPRECATED)
 
 - __Jackett has been deprecated in favor of prowlarr, it is way easier to sync the indexers that way__
