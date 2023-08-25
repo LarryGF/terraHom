@@ -52,3 +52,9 @@ variable "server_side" {
   description = "Determines if the app is going to be deployed using server side apply"
 
 }
+
+variable "priority" {
+  type        = string
+  description = "Determines in which node to run the helm chart"
+
+}

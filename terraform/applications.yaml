@@ -139,6 +139,7 @@ plex:
 jellyseerr:
   name: jellyseerr
   namespace: services
+  priority: low
   deploy: true
   volumes: 
     config:
@@ -156,6 +157,7 @@ tautulli:
   name: tautulli
   namespace: services
   deploy: false
+  priority: low
   volumes: 
     config:
       enabled: false
@@ -220,6 +222,7 @@ renovate:
 home-assistant:
   name: home-assistant
   namespace: services
+  priority: low
   deploy: true
   volumes:
     config:
@@ -276,6 +279,7 @@ filebrowser:
   name: filebrowser
   namespace: services
   deploy: true
+  priority: low
   volumes:
     config:
       enabled: false
@@ -307,10 +311,11 @@ sabnzbd:
 bazarr:
   name: bazarr
   namespace: services
-  deploy: false
+  deploy: true
+  priority: low
   volumes:
     config:
-      enabled: false
+      enabled: true
       name: bazarr-config
       size: 200Mi
       access_modes:
@@ -322,7 +327,8 @@ bazarr:
 flood:
   name: flood
   namespace: services
-  deploy: true
+  deploy: false
+  priority: low
   volumes:
     config:
       enabled: false
@@ -369,6 +375,7 @@ mylar:
   name: mylar
   namespace: services
   deploy: false
+  priority: low
   volumes:
     config:
       enabled: false

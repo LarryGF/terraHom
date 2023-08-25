@@ -457,6 +457,7 @@ dnsmasq:
     - address=/alertmanager.${duckdns_domain}.duckdns.org/${master_ip}
     - address=/ha.${duckdns_domain}.duckdns.org/${master_ip}
     - address=/codeha.${duckdns_domain}.duckdns.org/${master_ip}
+    - address=/longhorn.${duckdns_domain}.duckdns.org/${master_ip}
 
   # - address=/bar.foo/192.168.178.11
 

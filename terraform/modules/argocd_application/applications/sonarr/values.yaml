@@ -1,6 +1,8 @@
 sonarr:
+
   nodeSelector:
-    kubernetes.io/hostname: "${master_hostname}"
+    priority: ${priority}
+    
   ingress:
     main:
       ingressClassName: traefik

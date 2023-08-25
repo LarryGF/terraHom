@@ -8,6 +8,10 @@ plex:
     PLEX_PREFERENCE_1: "FriendlyName=plexHome"
     TZ: ${timezone}
 
+
+  nodeSelector:
+    priority: ${priority}
+    
   ingress:
     main:
       ingressClassName: traefik

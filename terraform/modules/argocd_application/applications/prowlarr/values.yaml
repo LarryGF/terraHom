@@ -1,7 +1,8 @@
 prowlarr:
-  nodeSelector:
-    kubernetes.io/hostname: "${master_hostname}"
 
+  nodeSelector:
+    priority: ${priority}
+    
   ingress:
     main:
       ingressClassName: traefik

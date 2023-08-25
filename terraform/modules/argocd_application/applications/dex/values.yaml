@@ -3,6 +3,9 @@ dex:
   # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#hostname-and-name-resolution)
   hostAliases: []
 
+  nodeSelector:
+    priority: ${priority}
+    
   configSecret:
     create: true
     name: ""

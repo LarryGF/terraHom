@@ -1,4 +1,8 @@
 kubeview:
+
+  nodeSelector:
+    priority: ${priority}
+    
   ingress:
     ingressClassName: traefik
     annotations:

@@ -3,6 +3,9 @@ tautulli:
   env:
     TZ: ${timezone}
 
+  nodeSelector:
+    priority: ${priority}
+    
   ingress:
     main:
       ingressClassName: traefik
