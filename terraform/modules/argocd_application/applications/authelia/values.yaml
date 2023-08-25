@@ -7,6 +7,9 @@ authelia:
   ## Authelia must be served from the domain or a subdomain under it.
   domain: ${duckdns_domain}.duckdns.org
 
+  nodeSelector:
+    priority: ${priority}
+    
   ingress:
     enabled: true
 

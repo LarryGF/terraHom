@@ -139,3 +139,9 @@
     daemon_reload: yes
     state: started
     enabled: yes
+
+
+- name: Add priority label to master servers 
+  become: no
+  local_action:
+    module: command kubectl --kubeconfig ~/.kube/config label nodes {{ inventory_hostname }} priority=critical --overwrite

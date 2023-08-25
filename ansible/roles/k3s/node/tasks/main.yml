@@ -14,3 +14,13 @@
     daemon_reload: yes
     state: restarted
     enabled: yes
+
+- name: Add label to agent server if not already labeled
+  become: no
+  local_action:
+    module: command kubectl --kubeconfig ~/.kube/config label nodes {{ inventory_hostname }} node-role.kubernetes.io/worker={{ inventory_hostname }} --overwrite
+
+- name: Add priority label to agent servers 
+  become: no
+  local_action:
+    module: command kubectl --kubeconfig ~/.kube/config label nodes {{ inventory_hostname }} priority=low --overwrite

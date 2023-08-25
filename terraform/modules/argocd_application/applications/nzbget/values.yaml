@@ -4,6 +4,9 @@ nzbget:
     PUID: 1001
     TZ: ${timezone}
     
+  nodeSelector:
+    priority: ${priority}
+    
   ingress:
     main:
       ingressClassName: traefik

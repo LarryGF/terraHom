@@ -1,4 +1,8 @@
 home-assistant:
+
+  nodeSelector:
+    priority: ${priority}
+    
   ingress:
     main:
       ingressClassName: traefik

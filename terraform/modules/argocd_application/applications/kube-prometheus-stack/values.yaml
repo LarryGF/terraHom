@@ -1,4 +1,8 @@
 kube-prometheus-stack:
+
+  nodeSelector:
+    priority: ${priority}
+    
   alertmanager:
     ingress:
       enabled: true

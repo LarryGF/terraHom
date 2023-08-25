@@ -15,6 +15,7 @@ module "argocd_application" {
   name = each.value.name
   namespace = each.value.namespace
   storage_definitions = each.value.volumes
+  priority = try(each.value.priority,"critical")
   deploy = each.value.deploy
   project = module.gitops.project
   server_side = try(each.value.server_side, "false")

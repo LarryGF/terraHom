@@ -1,5 +1,5 @@
 promtail:
   
   nodeSelector:
-    # kubernetes.io/hostname: ${master_hostname}
-    kubernetes.io/arch : amd64
+    priority: ${priority}
+    

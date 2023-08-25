@@ -58,7 +58,7 @@ resource "helm_release" "traefik" {
         access_log_enabled = var.access_log_enabled
         master_hostname    = var.master_hostname
         duckdns_domain    = var.duckdns_domain
-
+        namespace = "kube-system"
       }
     )
   ]
