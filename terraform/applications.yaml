@@ -17,13 +17,15 @@ grafana:
 kube-prometheus-stack:
   name: kube-prometheus-stack
   namespace: monitoring
-  server_side: "false"
+  server_side: "true"
   deploy: true
   volumes: {}
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
+    master_ip: ${master_ip}
+
 
 homepage:
   name: homepage

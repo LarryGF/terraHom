@@ -2,7 +2,80 @@ kube-prometheus-stack:
 
   nodeSelector:
     priority: ${priority}
-    
+  
+  kubeControllerManager:
+    enabled: true
+
+    ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
+    ##
+    endpoints:
+    - ${master_ip}
+    # - 10.141.4.22
+    # - 10.141.4.23
+    # - 10.141.4.24
+
+    ## If using kubeControllerManager.endpoints only the port and targetPort are used
+    ##
+    service:
+      enabled: true
+      ## If null or unset, the value is determined dynamically based on target Kubernetes version due to change
+      ## of default port in Kubernetes 1.22.
+      ##
+      port: null
+      targetPort: null
+      # selector:
+      #   component: kube-controller-manager
+
+    serviceMonitor:
+      enabled: true
+  
+  kubeProxy:
+    enabled: true
+
+    ## If your kube proxy is not deployed as a pod, specify IPs it can be found on
+    ##
+    endpoints:
+    - ${master_ip}
+    # - 10.141.4.22
+    # - 10.141.4.23
+    # - 10.141.4.24
+
+    service:
+      enabled: true
+      port: 10249
+      targetPort: 10249
+      # selector:
+      #   k8s-app: kube-proxy
+
+    serviceMonitor:
+      enabled: true
+  
+  kubeScheduler:
+    enabled: true
+
+    ## If your kube scheduler is not deployed as a pod, specify IPs it can be found on
+    ##
+    endpoints: 
+    - ${master_ip}
+    # - 10.141.4.22
+    # - 10.141.4.23
+    # - 10.141.4.24
+
+    ## If using kubeScheduler.endpoints only the port and targetPort are used
+    ##
+    service:
+      enabled: true
+      ## If null or unset, the value is determined dynamically based on target Kubernetes version due to change
+      ## of default port in Kubernetes 1.23.
+      ##
+      port: null
+      targetPort: null
+      # selector:
+      #   component: kube-scheduler
+
+    serviceMonitor:
+      enabled: true
+  
   alertmanager:
     ingress:
       enabled: true
