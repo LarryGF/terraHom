@@ -132,6 +132,7 @@
   vars:
     cluster_init: null
 
+
 - name: Restart K3s service on Primary Master
   when: inventory_hostname == groups['master'][0]
   systemd:
