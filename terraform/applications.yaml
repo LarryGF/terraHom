@@ -326,6 +326,23 @@ bazarr:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
+
+portainer:
+  name: portainer
+  namespace: kube-system
+  deploy: true
+  priority: critical
+  volumes:
+    config:
+      enabled: true
+      name: portainer-config
+      size: 1Gi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+
 flood:
   name: flood
   namespace: services
