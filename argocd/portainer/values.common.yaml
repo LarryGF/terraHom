@@ -1,0 +1,50 @@
+portainer:
+
+  replicaCount: 1
+
+  image:
+    repository: portainer/portainer-ce
+    tag: 2.18.4
+    pullPolicy: Always
+
+  imagePullSecrets: []
+
+  nodeSelector: {}
+
+  serviceAccount:
+    annotations: {}
+    name: portainer-sa-clusteradmin
+
+  service:
+    # Set the httpNodePort and edgeNodePort only if the type is NodePort
+    # For Ingress, set the type to be ClusterIP and set ingress.enabled to true
+    # For Cloud Providers, set the type to be LoadBalancer
+    type: ClusterIP
+    httpPort: 9000
+    httpsPort: 9443
+    httpNodePort: 30777
+    httpsNodePort: 30779
+    edgePort: 8000
+    edgeNodePort: 30776
+    annotations: {}
+
+  tls:
+    # If set, Portainer will be configured to use TLS only
+    force: false
+    # If set, will mount the existing secret into the pod
+    existingSecret: ""
+
+  mtls:
+    # If set, Portainer will be configured to use mTLS only
+    enable: false
+    # If set, will mount the existing secret into the pod
+    existingSecret: ""
+
+  feature:
+    flags: ""
+
+  resources: {}
+
+  persistence:
+    enabled: true
+    existingClaim: portainer-config
