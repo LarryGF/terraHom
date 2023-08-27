@@ -345,11 +345,11 @@ bazarr:
 portainer:
   name: portainer
   namespace: kube-system
-  deploy: true
+  deploy: false
   priority: critical
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: portainer-config
       size: 1Gi
       access_modes:
