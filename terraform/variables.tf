@@ -158,6 +158,7 @@ variable "api_keys" {
     authelia_SESSION_ENCRYPTION_KEY = "authelia-session-encryption-key"
     authelia_STORAGE_ENCRYPTION_KEY = "authelia-storage-encryption-key"
     discord_webhook_url = "discord-webhook-url"
+    kwatch_discord_webhook_url = "kwatch-discord-webhook-url"
   }
 }
 

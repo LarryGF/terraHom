@@ -27,6 +27,19 @@ kube-prometheus-stack:
     master_ip: ${master_ip}
     api_key: ${api_keys["discord_webhook_url"]}
 
+kwatch:
+  name: kwatch
+  namespace: monitoring
+  server_side: "false"
+  deploy: true
+  volumes: {}
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+    master_ip: ${master_ip}
+    api_key: ${api_keys["kwatch_discord_webhook_url"]}
+
 
 homepage:
   name: homepage

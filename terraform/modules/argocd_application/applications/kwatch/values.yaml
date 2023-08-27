@@ -1,0 +1,10 @@
+kwatch:
+  # kwatch configuration
+  config:
+    app:
+      clusterName: pi-k3s-home
+    alert:
+      discord:
+        webhook: "${api_key}"
+
+
