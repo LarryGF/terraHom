@@ -118,7 +118,7 @@ kube-prometheus-stack:
       receivers:
         - name: 'discord-receiver'
           webhook_configs:
-            - url: 'http://alertmanager-discord:9094'
+            - url: 'http://kube-prometheus-stack-alertmanager-discord:9094'
       templates:
       - '/etc/alertmanager/config/*.tmpl'
 
