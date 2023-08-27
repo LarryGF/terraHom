@@ -6,6 +6,8 @@ These are the steps you need to follow after you've finished the infrastructure 
 
 - [Post Install](#post-install)
   - [Table of contents](#table-of-contents)
+  - [Notifications](#notifications)
+    - [Discord](#discord)
   - [Downloaders](#downloaders)
     - [Rtorrent-Flood](#rtorrent-flood)
     - [SABnzbd](#sabnzbd)
@@ -20,8 +22,6 @@ These are the steps you need to follow after you've finished the infrastructure 
     - [Jellyfin](#jellyfin)
       - [Plugins](#plugins)
     - [Jellyseerr](#jellyseerr)
-  - [Notifications](#notifications)
-    - [Discord](#discord)
   - [Tools](#tools)
     - [Authelia](#authelia)
       - [Setting encryption keys](#setting-encryption-keys)
@@ -30,6 +30,19 @@ These are the steps you need to follow after you've finished the infrastructure 
     - [Nordvpn wireguard](#nordvpn-wireguard)
     - [Home assistant](#home-assistant)
     - [Duplicati](#duplicati)
+
+
+## Notifications
+
+### Discord
+
+Create a Discord Webhook:
+
+- Go to your Discord server settings.
+- Navigate to "Integrations" and then "Webhooks."
+- Create a new webhook. Remember the URL it gives you; you will need this for configuration.
+
+You can create as many webhooks as you like and you can split the notifications between several webhooks. You will use these webhooks for the notification of the different services.
 
 ## Downloaders
 
@@ -131,8 +144,21 @@ terraform apply -auto-approve -target module.argocd_application
   - Set username and password from [SABnzbd](#sabnzbd) step
   - You also need to add the SABnzbd api key from General-> API Key
 - Add new profiles to support other languages
-
 - If the categories don't match between Radarr/Sonarr and Prowlarr it might fail silently
+
+- Go to Settings -> Connect: Add a new Plex connection:
+  - Name: Plex
+  - Host: `plex`
+  - Port: `32400`
+  - Authenticate with plex.tv
+
+- Go to Settings -> Connect: Add a new Discord connection:
+  - Name: Plex
+  - Webhook URL: the webhook url you obtained in the [Discord](#discord) step
+  - Username: `Sonarr`/`Radarr`
+  - Avatar:
+    - For Sonarr use: https://avatars.githubusercontent.com/u/1082903?s=200&v=4
+    - For Radarr use: https://avatars.githubusercontent.com/u/25025331?s=200&v=4
 
 ### Mylar
 
@@ -164,16 +190,6 @@ ombi emby
 - Make sure to `test` first so you have access to the quality profiles
 - Set the root folder
 - Don't forget to mark them as default
-
-## Notifications
-
-### Discord
-
-Create a Discord Webhook:
-
-- Go to your Discord server settings.
-- Navigate to "Integrations" and then "Webhooks."
-- Create a new webhook. Remember the URL it gives you; you will need this for configuration.
 
 ## Tools
 
