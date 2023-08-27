@@ -27,3 +27,7 @@ radarr:
         - hosts:
             - "radarr.${duckdns_domain}.duckdns.org"
           secretName: tls-radarr-ingress
+
+  metrics:
+    prometheusRule:
+      enabled: true

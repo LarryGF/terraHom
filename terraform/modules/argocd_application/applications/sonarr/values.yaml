@@ -27,3 +27,7 @@ sonarr:
         - hosts:
             - "sonarr.${duckdns_domain}.duckdns.org"
           secretName: tls-sonarr-ingress
+
+  metrics:
+    prometheusRule:
+      enabled: true
