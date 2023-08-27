@@ -309,6 +309,7 @@ sabnzbd:
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
+    api_key: ${api_keys["sabnzbd_key"]}
 
 bazarr:
   name: bazarr
@@ -342,6 +343,8 @@ portainer:
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
+    api_key: ${api_keys["portainer_key"]}
+
 
 flood:
   name: flood

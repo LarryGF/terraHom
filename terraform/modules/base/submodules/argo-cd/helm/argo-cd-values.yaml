@@ -16,7 +16,9 @@ global:
     # -- Set the global logging level. One of: `debug`, `info`, `warn` or `error`
     level: info
 
-  nodeSelector: {}
+  nodeSelector:
+    priority: critical
+
   env: []
 
 ## Argo Configs

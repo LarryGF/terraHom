@@ -1,7 +1,10 @@
 apiVersion: v2
 name: kube-prometheus-stack-umbrella
-version: 0.0.0
+version: 0.0.1
 dependencies:
   - name: kube-prometheus-stack
     repository: https://prometheus-community.github.io/helm-charts
     version: 46.8.0
+  - name: alertmanager-discord
+    repository: https://geek-cookbook.github.io/charts/
+    version: 1.3.2
