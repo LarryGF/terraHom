@@ -77,6 +77,47 @@ kube-prometheus-stack:
       enabled: true
   
   alertmanager:
+    config:
+      global:
+        resolve_timeout: 5m
+      inhibit_rules:
+        - source_matchers:
+            - 'severity = critical'
+          target_matchers:
+            - 'severity =~ warning|info'
+          equal:
+            - 'namespace'
+            - 'alertname'
+        - source_matchers:
+            - 'severity = warning'
+          target_matchers:
+            - 'severity = info'
+          equal:
+            - 'namespace'
+            - 'alertname'
+        - source_matchers:
+            - 'alertname = InfoInhibitor'
+          target_matchers:
+            - 'severity = info'
+          equal:
+            - 'namespace'
+      route:
+        group_by: ['namespace']
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 12h
+        receiver: 'discord-receiver'
+        routes:
+        - receiver: 'null'
+          matchers:
+            - alertname =~ "InfoInhibitor|Watchdog"
+      receivers:
+        - name: 'discord-receiver'
+          webhook_configs:
+            - url: 'http://kube-prometheus-stack-alertmanager-discord:9094'
+      templates:
+      - '/etc/alertmanager/config/*.tmpl'
+      
     ingress:
       enabled: true
       annotations:
@@ -95,7 +136,7 @@ kube-prometheus-stack:
         - hosts:
             - "alertmanager.${duckdns_domain}.duckdns.org"
           secretName: tls-alertmanager-ingress
-          
+
   prometheus:
     ingress:
       enabled: true
