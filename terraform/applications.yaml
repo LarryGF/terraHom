@@ -25,6 +25,7 @@ kube-prometheus-stack:
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
     master_ip: ${master_ip}
+    api_key: ${api_keys["discord_webhook_url"]}
 
 
 homepage:

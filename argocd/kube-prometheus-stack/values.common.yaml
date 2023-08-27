@@ -116,7 +116,9 @@ kube-prometheus-stack:
           matchers:
             - alertname =~ "InfoInhibitor|Watchdog"
       receivers:
-      - name: 'null'
+      - name: 'discord-receiver'
+        webhook_configs:
+          - url: 'http://alertmanager-discord:9094'
       templates:
       - '/etc/alertmanager/config/*.tmpl'
 
