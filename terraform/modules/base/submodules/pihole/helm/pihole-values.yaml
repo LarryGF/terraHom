@@ -160,8 +160,7 @@ persistentVolumeClaim:
   annotations: {}
 
 nodeSelector: 
-  kubernetes.io/hostname: ${master_hostname}
-
+  priority: critical
 
 tolerations: []
 

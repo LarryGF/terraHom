@@ -1,3 +1,7 @@
+global:
+  nodeSelector:
+    priority: critical
+    
 ingress:
   enabled: true
   ingressClassName: traefik

@@ -15,6 +15,9 @@ sabnzbd:
         gethomepage.dev/description: "Free and easy binary newsreader"
         gethomepage.dev/group: "Media"
         gethomepage.dev/icon: "sabnzbd-alt.png"
+        gethomepage.dev/widget.type: "sabnzbd"
+        gethomepage.dev/widget.url: "http://sabnzbd.${namespace}.svc.cluster.local:8080"
+        gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
         - host: "sabnzbd.${duckdns_domain}.duckdns.org"

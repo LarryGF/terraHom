@@ -54,7 +54,7 @@ resources: {}
   #  memory: 128Mi
 
 nodeSelector: 
-  kubernetes.io/hostname: ${master_hostname}
+  priority: critical
 
 tolerations: []
   # A list of tolerations to be applied to the Deployment.
