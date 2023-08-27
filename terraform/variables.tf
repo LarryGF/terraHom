@@ -157,6 +157,7 @@ variable "api_keys" {
     authelia_JWT_TOKEN = "authelia-jwt-token"
     authelia_SESSION_ENCRYPTION_KEY = "authelia-session-encryption-key"
     authelia_STORAGE_ENCRYPTION_KEY = "authelia-storage-encryption-key"
+    discord_webhook_url = "discord-webhook-url"
   }
 }
 
