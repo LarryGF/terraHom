@@ -110,15 +110,15 @@ kube-prometheus-stack:
         group_wait: 30s
         group_interval: 5m
         repeat_interval: 12h
-        receiver: 'null'
+        receiver: 'discord-receiver'
         routes:
-        - receiver: 'null'
+        - receiver: 'discord-receiver'
           matchers:
             - alertname =~ "InfoInhibitor|Watchdog"
       receivers:
-      - name: 'discord-receiver'
-        webhook_configs:
-          - url: 'http://alertmanager-discord:9094'
+        - name: 'discord-receiver'
+          webhook_configs:
+            - url: 'http://alertmanager-discord:9094'
       templates:
       - '/etc/alertmanager/config/*.tmpl'
 
