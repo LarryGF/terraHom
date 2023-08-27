@@ -108,13 +108,14 @@ kube-prometheus-stack:
         repeat_interval: 12h
         receiver: 'discord-receiver'
         routes:
-        - receiver: 'null'
+        - receiver: 'blackhole'
           matchers:
-            - alertname =~ "InfoInhibitor|Watchdog"
+            - alertname =~ "InfoInhibitor|Watchdog|NodeClockNotSynchronising"
       receivers:
         - name: 'discord-receiver'
           webhook_configs:
             - url: 'http://kube-prometheus-stack-alertmanager-discord:9094'
+        - name: 'blackhole'
       templates:
       - '/etc/alertmanager/config/*.tmpl'
       
