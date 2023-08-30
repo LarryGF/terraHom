@@ -1,5 +1,4 @@
 promtail:
-  
   nodeSelector:
     priority: ${priority}
     
