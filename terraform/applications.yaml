@@ -19,6 +19,7 @@ grafana:
   name: grafana
   namespace: monitoring
   deploy: true
+  server_side: "true"
   volumes:
     config:
       enabled: false

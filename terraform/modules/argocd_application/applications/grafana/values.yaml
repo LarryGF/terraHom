@@ -69,7 +69,7 @@ grafana:
       # ignoreAlreadyProcessed: true
       SCProvider: true
       # label that the configmaps with dashboards are marked with
-      label: grafana_dashboard
+      label: grafana-dashboard
       # value of label that the configmaps with dashboards are set to
       labelValue: ""
       # Log level. Can be one of: DEBUG, INFO, WARN, ERROR, CRITICAL.
@@ -204,3 +204,29 @@ grafana:
       initNotifiers: false
       # Sets the size limit of the notifier sidecar emptyDir volume
       sizeLimit: {}
+
+
+loki-mixin:
+  fullnameOverride: loki-mixin
+  grafana:
+    dashboard_folder: Loki
+
+alertmanager-mixin:
+  fullnameOverride: alertmanager-mixin
+  grafana:
+    dashboard_folder: Prometheus
+
+kube-state-metrics-mixin:
+  fullnameOverride: kube-state-metrics-mixin
+  grafana:
+    dashboard_folder: Prometheus
+
+prometheus-operator-mixin:
+  fullnameOverride: prometheus-operator-mixin
+  grafana:
+    dashboard_folder: Prometheus
+
+promtail-mixin:
+  fullnameOverride: promtail-mixin
+  grafana:
+    dashboard_folder: Loki
