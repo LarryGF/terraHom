@@ -8,7 +8,7 @@ metadata:
     labels:
         grafana-dashboard: "1"
     annotations:
-        dashboard-folder: {{ last $pathList }}
+        grafana-folder: {{ last $pathList }}
     name: dashboard-{{ trimSuffix ".json" (base $path) }}
 data:
     {{base $path}}: |
