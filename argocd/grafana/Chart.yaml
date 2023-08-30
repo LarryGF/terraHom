@@ -5,3 +5,18 @@ dependencies:
   - name: grafana
     repository: https://grafana.github.io/helm-charts
     version: 6.56.5
+  - name: loki-mixin
+    repository: https://charts.portefaix.xyz
+    version: 1.4.0
+  - name: alertmanager-mixin
+    repository: https://charts.portefaix.xyz
+    version: 1.6.0
+  - name: kube-state-metrics-mixin
+    repository: https://charts.portefaix.xyz
+    version: 1.1.0
+  - name: prometheus-operator-mixin
+    repository: https://charts.portefaix.xyz
+    version: 1.2.0
+  - name: promtail-mixin
+    repository: https://charts.portefaix.xyz
+    version: 1.5.0

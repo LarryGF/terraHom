@@ -1,5 +1,44 @@
 loki:
-
-  nodeSelector:
-    priority: ${priority}
+  ingester:
+    nodeSelector:
+      priority: ${priority}
+  distributor:
+    nodeSelector:
+      priority: ${priority}
+  querier:
+    nodeSelector:
+      priority: ${priority}
+  queryFronted:
+    nodeSelector:
+      priority: ${priority}
+  queryScheduler:
+    nodeSelector:
+      priority: ${priority}
+  tableManager:
+    nodeSelector:
+      priority: ${priority}
+  gateway:
+    nodeSelector:
+      priority: ${priority}
+  compactor:
+    nodeSelector:
+      priority: ${priority}
+  ruler:
+    nodeSelector:
+      priority: ${priority}
+  indexGateway:
+    nodeSelector:
+      priority: ${priority}
+  memcachedChunks:
+    nodeSelector:
+      priority: ${priority}
+  memcachedFrontend:
+    nodeSelector:
+      priority: ${priority}
+  memcachedIndexQueries:
+    nodeSelector:
+      priority: ${priority}
+  memcachedIndexWrites:
+    nodeSelector:
+      priority: ${priority}
     

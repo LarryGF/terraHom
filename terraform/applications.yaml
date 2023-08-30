@@ -1,10 +1,27 @@
+## Storage
+media:
+  name: media
+  namespace: services
+  deploy: false
+  volumes:
+    media:
+      enabled: true
+      name: media
+      size: 9000Gi
+      access_modes:
+        - ReadWriteMany
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+
+## Monitoring
 grafana:
   name: grafana
   namespace: monitoring
   deploy: true
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: grafana-config
       size: 1Gi
       access_modes:
@@ -40,78 +57,6 @@ kwatch:
     master_ip: ${master_ip}
     api_key: ${api_keys["kwatch_discord_webhook_url"]}
 
-
-homepage:
-  name: homepage
-  namespace: services
-  deploy: true
-  volumes: {}
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
-    master_hostname: ${master_hostname}
-
-authelia:
-  name: authelia
-  namespace: authelia
-  server_side: "false"
-  deploy: true
-  volumes:
-    config:
-      enabled: true
-      name: authelia-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-    redis-master:
-      enabled: true
-      name: redis-data-master
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-    redis-replica:
-      enabled: true
-      name: redis-data-replica
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
-    master_hostname: ${master_hostname}
-    JWT_TOKEN: ${api_keys["authelia_JWT_TOKEN"]}
-    SESSION_ENCRYPTION_KEY: ${api_keys["authelia_SESSION_ENCRYPTION_KEY"]}
-    STORAGE_ENCRYPTION_KEY: ${api_keys["authelia_STORAGE_ENCRYPTION_KEY"]}
-
-
-nzbget:
-  name: nzbget
-  namespace: services
-  deploy: false
-  volumes:
-    config:
-      enabled: false
-      name: nzbget-config
-      size: 1Gi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
-    master_hostname: ${master_hostname}
-    master_ip: ${master_ip}
-
-dex:
-  name: dex
-  namespace: services
-  deploy: false
-  volumes: {}
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
-    master_hostname: ${master_hostname}
-
-
 loki:
   name: loki
   namespace: monitoring
@@ -132,6 +77,102 @@ promtail:
     duckdns_domain: ${duckdns_domain}
     master_hostname: ${master_hostname}
 
+## Auth
+authelia:
+  name: authelia
+  namespace: authelia
+  server_side: "false"
+  deploy: true
+  priority: low
+  volumes:
+    config:
+      enabled: false
+      name: authelia-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteOnce
+    redis-master:
+      enabled: false
+      name: redis-data-master
+      size: 200Mi
+      access_modes:
+        - ReadWriteOnce
+    redis-replica:
+      enabled: false
+      name: redis-data-replica
+      size: 200Mi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+    JWT_TOKEN: ${api_keys["authelia_JWT_TOKEN"]}
+    SESSION_ENCRYPTION_KEY: ${api_keys["authelia_SESSION_ENCRYPTION_KEY"]}
+    STORAGE_ENCRYPTION_KEY: ${api_keys["authelia_STORAGE_ENCRYPTION_KEY"]}
+
+dex:
+  name: dex
+  namespace: services
+  deploy: false
+  volumes: {}
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+
+## Downloaders
+sabnzbd:
+  name: sabnzbd
+  namespace: services
+  deploy: true
+  volumes:
+    config:
+      enabled: false
+      name: sabnzbd-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    api_key: ${api_keys["sabnzbd_key"]}
+
+flood:
+  name: flood
+  namespace: services
+  deploy: true
+  priority: low
+  volumes:
+    config:
+      enabled: false
+      name: flood-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+  
+nzbget:
+  name: nzbget
+  namespace: services
+  deploy: false
+  volumes:
+    config:
+      enabled: false
+      name: nzbget-config
+      size: 1Gi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+    master_ip: ${master_ip}
+
+## Media
 plex:
   name: plex
   namespace: services
@@ -151,15 +192,14 @@ plex:
     api_key: ${api_keys["plex_key"]}
     master_hostname: ${master_hostname}
 
-
 jellyseerr:
   name: jellyseerr
   namespace: services
   priority: low
-  deploy: true
+  deploy: false
   volumes: 
     config:
-      enabled: true
+      enabled: false
       name: jellyseerr-config
       size: 200Mi
       access_modes:
@@ -185,25 +225,13 @@ tautulli:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
-media:
-  name: media
-  namespace: services
-  deploy: false
-  volumes:
-    media:
-      enabled: true
-      name: media
-      size: 300Gi
-      access_modes:
-        - ReadWriteMany
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
 
+## Template Aggregators
 radarr:
   name: radarr
   namespace: services
   deploy: true
+  priority: low
   volumes:
     config:
       enabled: false
@@ -216,44 +244,6 @@ radarr:
     duckdns_domain: ${duckdns_domain}
     api_key: ${api_keys["radarr_key"]}
     master_hostname: ${master_hostname}
-
-renovate:
-  name: renovate
-  namespace: services
-  deploy: false
-  volumes:
-    config:
-      enabled: false
-      name: renovate-config
-      size: 512Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
-    gh_username: ${gh_username}
-    gh_token: ${gh_token}
-
-
-home-assistant:
-  name: home-assistant
-  namespace: services
-  priority: low
-  deploy: true
-  volumes:
-    config:
-      enabled: true
-      name: ha-config
-      size: 5Gi
-      access_modes:
-        - ReadWriteMany
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
-    gh_username: ${gh_username}
-    gh_token: ${gh_token}
-    master_hostname: ${master_hostname}
-
 
 sonarr:
   name: sonarr
@@ -272,11 +262,11 @@ sonarr:
     api_key: ${api_keys["sonarr_key"]}
     master_hostname: ${master_hostname}
 
-
 prowlarr:
   name: prowlarr
   namespace: services
   deploy: true
+  priority: low
   volumes:
     config:
       enabled: false
@@ -290,41 +280,6 @@ prowlarr:
     api_key: ${api_keys["prowlarr_key"]}
     master_hostname: ${master_hostname}
 
-
-filebrowser:
-  name: filebrowser
-  namespace: services
-  deploy: true
-  priority: low
-  volumes:
-    config:
-      enabled: false
-      name: filebrowser-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
-    master_hostname: ${master_hostname}
-
-
-sabnzbd:
-  name: sabnzbd
-  namespace: services
-  deploy: true
-  volumes:
-    config:
-      enabled: true
-      name: sabnzbd-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
-    api_key: ${api_keys["sabnzbd_key"]}
-
 bazarr:
   name: bazarr
   namespace: services
@@ -332,7 +287,7 @@ bazarr:
   priority: low
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: bazarr-config
       size: 200Mi
       access_modes:
@@ -341,42 +296,6 @@ bazarr:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
-
-portainer:
-  name: portainer
-  namespace: kube-system
-  deploy: false
-  priority: critical
-  volumes:
-    config:
-      enabled: false
-      name: portainer-config
-      size: 1Gi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
-    api_key: ${api_keys["portainer_key"]}
-
-
-flood:
-  name: flood
-  namespace: services
-  deploy: true
-  priority: low
-  volumes:
-    config:
-      enabled: false
-      name: flood-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
-    master_hostname: ${master_hostname}
-  
 whisparr:
   name: whisparr
   namespace: services
@@ -423,6 +342,72 @@ mylar:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
+## Services
+homepage:
+  name: homepage
+  namespace: services
+  deploy: true
+  volumes: {}
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+
+
+filebrowser:
+  name: filebrowser
+  namespace: services
+  deploy: true
+  priority: low
+  volumes:
+    config:
+      enabled: false
+      name: filebrowser-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteMany
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+
+
+home-assistant:
+  name: home-assistant
+  namespace: services
+  priority: low
+  deploy: false
+  volumes:
+    config:
+      enabled: false
+      name: ha-config
+      size: 5Gi
+      access_modes:
+        - ReadWriteMany
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    gh_username: ${gh_username}
+    gh_token: ${gh_token}
+    master_hostname: ${master_hostname}
+
+portainer:
+  name: portainer
+  namespace: kube-system
+  deploy: false
+  priority: critical
+  volumes:
+    config:
+      enabled: false
+      name: portainer-config
+      size: 1Gi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    api_key: ${api_keys["portainer_key"]}
+
 
 kubeview:
   name: kubeview
@@ -439,3 +424,20 @@ kubeview:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
 
+
+renovate:
+  name: renovate
+  namespace: services
+  deploy: false
+  volumes:
+    config:
+      enabled: false
+      name: renovate-config
+      size: 512Mi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    gh_username: ${gh_username}
+    gh_token: ${gh_token}
