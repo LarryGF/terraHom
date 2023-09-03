@@ -18,6 +18,7 @@
     - [exec /sbin/tini: exec format error](#exec-sbintini-exec-format-error)
     - [Delete/get resources from only a specific node](#deleteget-resources-from-only-a-specific-node)
   - [Longhorn](#longhorn)
+    - [Upgrading Longhorn](#upgrading-longhorn)
     - [Restoring backup](#restoring-backup)
     - [Failure mounting NFS](#failure-mounting-nfs)
     - [Node down because of Disk pressure](#node-down-because-of-disk-pressure)
@@ -163,6 +164,16 @@ This probably means that the image you're trying to run is not compatible with t
 ```
 
 ## Longhorn
+
+### Upgrading Longhorn
+
+Longhorn upgrade can be a tricky process, and will take a long time. Before proceeding further, be sure to make backups of all your volumes. Secondly, to be safe, detach all of your volumes just to be safe. You can achieve this by changing `deploy: false` in all of your applications in `applications.yaml` and applying the terraform, this will leave the volumes intact and remove the applications from Argo. It might take a couple of minutes to stabilize fully, and even then it might fail, make sure to follow [the documentation](https://longhorn.io/docs/1.5.1/deploy/upgrade/). You can check the status of your longhorn pods by running:
+
+```bash
+watch kubectl get pods -n longhorn-system  -o wide
+```
+
+*Be sure that in the module's `main.tf` you haven't set the helm chart option: `reuse_values = true` since this will cause the upgrade to fail
 
 ### Restoring backup
 

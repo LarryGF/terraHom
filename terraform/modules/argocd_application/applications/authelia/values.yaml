@@ -7,8 +7,6 @@ authelia:
   ## Authelia must be served from the domain or a subdomain under it.
   domain: ${duckdns_domain}.duckdns.org
 
-  nodeSelector:
-    priority: ${priority}
     
   ingress:
     enabled: true
@@ -436,6 +434,9 @@ authelia:
           items:
             - key: users_database.yml
               path: users_database.yml
+    selectors:
+      nodeSelector:
+        priority: ${priority}
 
 
 
@@ -450,11 +451,16 @@ redis:
     persistence:
       enabled: true
       existingClaim: redis-data-master
+    nodeSelector:
+      priority: ${priority}
+      
   replica:
     replicaCount: 1
     persistence:
       enabled: true
       existingClaim: redis-data-replica
+    nodeSelector:
+      priority: ${priority}
 
   metrics:
     enabled: true
