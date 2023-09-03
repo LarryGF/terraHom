@@ -7,9 +7,8 @@ resource "helm_release" "longhorn" {
   repository      = "https://charts.longhorn.io"
   namespace       = "longhorn-system"
   create_namespace = "true"
-  reuse_values = true
 
-  version = "1.4.1"
+  version = "1.5.1"
   values = [
     templatefile(
       "${path.module}/helm/longhorn-values.yaml",
@@ -25,6 +24,20 @@ resource "helm_release" "longhorn" {
     value = var.nfs_backupstore
   }
   
+}
+
+resource "kubectl_manifest" "backup" {
+  yaml_body = templatefile(
+    "${path.module}/helm/backup-recurringjob.tpl.yaml",
+    {
+      "name"   = "backup"
+      "retain"  = 3
+      "concurrency" = 2
+      "cron" = "0 3 * * *"
+    }
+  )
+
+  depends_on = [helm_release.longhorn]
 }
 
 variable "duckdns_domain" {

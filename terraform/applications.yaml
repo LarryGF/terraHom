@@ -18,7 +18,7 @@ media:
 grafana:
   name: grafana
   namespace: monitoring
-  deploy: true
+  deploy: false
   server_side: "true"
   volumes:
     config:
@@ -36,7 +36,7 @@ kube-prometheus-stack:
   name: kube-prometheus-stack
   namespace: monitoring
   server_side: "true"
-  deploy: true
+  deploy: false
   volumes: {}
   override:
     timezone: ${timezone}
@@ -49,7 +49,7 @@ kwatch:
   name: kwatch
   namespace: monitoring
   server_side: "false"
-  deploy: true
+  deploy: false
   volumes: {}
   override:
     timezone: ${timezone}
@@ -61,7 +61,7 @@ kwatch:
 loki:
   name: loki
   namespace: monitoring
-  deploy: true
+  deploy: false
   volumes: {}
   override:
     timezone: ${timezone}
@@ -71,7 +71,7 @@ loki:
 promtail:
   name: promtail
   namespace: monitoring
-  deploy: true
+  deploy: false
   volumes: {}
   override:
     timezone: ${timezone}
@@ -84,7 +84,7 @@ authelia:
   namespace: authelia
   server_side: "false"
   deploy: true
-  priority: low
+  priority: critical
   volumes:
     config:
       enabled: false
@@ -142,11 +142,12 @@ sabnzbd:
 flood:
   name: flood
   namespace: services
-  deploy: true
+  deploy: false
   priority: low
   volumes:
     config:
       enabled: false
+      # backup: enabled
       name: flood-config
       size: 200Mi
       access_modes:
@@ -232,7 +233,7 @@ radarr:
   name: radarr
   namespace: services
   deploy: true
-  priority: low
+  priority: critical
   volumes:
     config:
       enabled: false
@@ -250,6 +251,7 @@ sonarr:
   name: sonarr
   namespace: services
   deploy: true
+  priority: critical
   volumes:
     config:
       enabled: false
@@ -267,7 +269,7 @@ prowlarr:
   name: prowlarr
   namespace: services
   deploy: true
-  priority: low
+  priority: critical
   volumes:
     config:
       enabled: false
@@ -284,7 +286,7 @@ prowlarr:
 bazarr:
   name: bazarr
   namespace: services
-  deploy: true
+  deploy: false
   priority: low
   volumes:
     config:
@@ -358,7 +360,7 @@ homepage:
 filebrowser:
   name: filebrowser
   namespace: services
-  deploy: true
+  deploy: false
   priority: low
   volumes:
     config:

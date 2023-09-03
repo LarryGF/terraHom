@@ -1,7 +1,8 @@
-global:
-  nodeSelector:
-    priority: critical
-    
+networkPolicies:
+  enabled: false
+  # Available types: k3s, rke2, rke1
+  type: "k3s"
+
 ingress:
   enabled: true
   ingressClassName: traefik
@@ -24,9 +25,14 @@ ingress:
 persistence:
   defaultClass: true
   defaultClassReplicaCount: 1
+
   
 defaultSettings:
   defaultLonghornStaticStorageClass: longhorn
   createDefaultDiskLabeledNodes: true
   defaultReplicaCount: 1
   defaultDataPath: ${default_data_path}
+
+longhornUI:
+  nodeSelector:
+    priority: critical

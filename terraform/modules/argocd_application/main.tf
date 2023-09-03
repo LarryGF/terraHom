@@ -52,7 +52,11 @@ resource "kubernetes_persistent_volume_claim" "application_storage" {
   metadata {
     name      = each.value.name
     namespace = var.namespace
-
+    # labels = {
+    #   "recurring-job-group.longhorn.io/source" = "enabled"
+    #   "recurring-job-group.longhorn.io/backup" = try(each.value.backup,"disabled")
+    #   "recurring-job.longhorn.io/backup" = try(each.value.backup,"disabled")
+    # }
   }
   spec {
     access_modes       = each.value.access_modes
