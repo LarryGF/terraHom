@@ -198,7 +198,7 @@ jellyseerr:
   name: jellyseerr
   namespace: services
   priority: low
-  deploy: false
+  deploy: true
   volumes: 
     config:
       enabled: false
@@ -286,7 +286,7 @@ prowlarr:
 bazarr:
   name: bazarr
   namespace: services
-  deploy: false
+  deploy: true
   priority: low
   volumes:
     config:
@@ -298,6 +298,8 @@ bazarr:
   override:
     timezone: ${timezone}
     duckdns_domain: ${duckdns_domain}
+    api_key: ${api_keys["bazarr_key"]}
+
 
 whisparr:
   name: whisparr

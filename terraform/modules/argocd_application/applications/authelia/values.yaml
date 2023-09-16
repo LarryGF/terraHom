@@ -521,8 +521,17 @@ authelia_users:
     admin:
       disabled: false
       displayname: "admin"
-      password: "$argon2id$v=19$m=32768,t=1,p=8$ZVVoVlQxZFFhMDgyWVZrMlZVaERNUQ$XwYhxfpWGoZIBGV2WvEcohqFU+Ws8g2wAPmoRYGwGHI"
+      password: "$argon2id$v=19$m=32768,t=1,p=8$ZVVoVlQxZFFhMDgyWVZrMlZVaERNUQ$AnEkf+KygN+DEZ9vNKH04g6IY4l3p78RJQh7cPEVf/w"
       email: larrywtf609@gmail.com
+      groups:
+        - admins
+        - dev
+
+    hiancd:
+      disabled: false
+      displayname: "hiancd"
+      password: "$argon2id$v=19$m=32768,t=1,p=8$ZVVoVlQxZFFhMDgyWVZrMlZVaERNUQ$nFMaTUkpBgNEDeFDFgNcovoVNJR5pW7hUjV4MDveXj4"
+      email: hiantrsnm@gmail.com
       groups:
         - admins
         - dev
