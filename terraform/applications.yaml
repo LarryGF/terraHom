@@ -112,6 +112,32 @@ authelia:
     SESSION_ENCRYPTION_KEY: ${api_keys["authelia_SESSION_ENCRYPTION_KEY"]}
     STORAGE_ENCRYPTION_KEY: ${api_keys["authelia_STORAGE_ENCRYPTION_KEY"]}
 
+crowdsec:
+  name: crowdsec
+  namespace: crowdsec
+  server_side: "false"
+  deploy: true
+  priority: critical
+  volumes:
+    config:
+      enabled: true
+      name: crowdsec-config
+      size: 200Mi
+      access_modes:
+        - ReadWriteOnce
+    data:
+      enabled: true
+      name: crowdsec-data
+      size: 1Gi
+      access_modes:
+        - ReadWriteOnce
+    
+  override:
+    timezone: ${timezone}
+    duckdns_domain: ${duckdns_domain}
+    master_hostname: ${master_hostname}
+    api_key: ${api_keys["crowdsec_enrollment_key"]}
+
 dex:
   name: dex
   namespace: services

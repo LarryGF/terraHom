@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/helmfile.json": "file:///home/larry/git/pi-k8s/argocd/crowdsec/values.common.yaml"
+    }
+}
