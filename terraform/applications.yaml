@@ -131,6 +131,12 @@ crowdsec:
       size: 1Gi
       access_modes:
         - ReadWriteOnce
+    agent_config:
+      enabled: true
+      name: crowdsec-agent-config
+      size: 1Gi
+      access_modes:
+        - ReadWriteOnce
     
   override:
     timezone: ${timezone}

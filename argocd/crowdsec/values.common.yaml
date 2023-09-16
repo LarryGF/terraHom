@@ -94,15 +94,6 @@ crowdsec:
     lapi:
       secret: "{{ .Release.Name }}-lapi-tls"
 
-  # If you want to specify secrets that will be used for all your crowdsec-agents
-  # secrets can be provided as env variables
-  secrets:
-    # -- agent username (default is generated randomly)
-    username: ""
-    # -- agent password (default is generated randomly)
-    password: ""
-
-
   # agent will deploy pod on every node as daemonSet to read wanted pods logs
   agent:
     # -- To add custom acquisitions using available datasources (https://docs.crowdsec.net/docs/next/data_sources/intro)
@@ -133,11 +124,11 @@ crowdsec:
     persistentVolume:
       # -- Persistent volume for config folder. Stores local config (parsers, scenarios etc.)
       config:
-        enabled: false
+        enabled: true
         accessModes:
           - ReadWriteOnce
         storageClassName: ""
-        existingClaim: ""
+        existingClaim: "crowdsec-agent-config"
         size: 100Mi
     # -- environment variables from crowdsecurity/crowdsec docker image
     env:

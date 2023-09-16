@@ -196,8 +196,10 @@ ombi emby
 
 ### Crowdsec
 
-- First create an account in [Crowdsec](https://crowdsec.net/blog/how-to-secure-your-raspberry-pi-with-crowdsec/)
+- First create an account in [Crowdsec](https://app.crowdsec.net/)
 - In the crowdsec console,you can get the enrollment key by checking the key under `Enroll your CrowdSec Security Engine`
+- Deploy the helm chart by enabling it in `applications.yaml`
+- Once it's deployed accept the in the Crowdsec console
 
 ### Authelia
 
