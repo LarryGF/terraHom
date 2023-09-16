@@ -42,3 +42,12 @@ resource "kubernetes_namespace" "authelia" {
     name = "authelia"
   }
 }
+
+resource "kubernetes_namespace" "crowdsec" {
+  metadata {
+    annotations = {
+      name = "Crowdsec"
+    }
+    name = "crowdsec"
+  }
+}

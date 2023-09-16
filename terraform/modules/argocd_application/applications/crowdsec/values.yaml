@@ -1,0 +1,184 @@
+crowdsec:
+  config:
+    # -- To better understand stages in parsers, you can take a look at https://docs.crowdsec.net/docs/next/parsers/intro/
+    parsers:
+      s00-raw: {}
+      s01-parse: {}
+        # example-parser.yaml: |
+        #   filter: "evt.Line.Labels.type == 'myProgram'"
+        #   onsuccess: next_stage
+        #   ....
+      s02-enrich: {}
+    # -- to better understand how to write a scenario, you can take a look at https://docs.crowdsec.net/docs/next/scenarios/intro
+    scenarios: {}
+      # myScenario.yaml: |
+      #   type: trigger
+      #    name: myName/MyScenario
+      #    description: "Detect bruteforce on myService"
+      #    filter: "evt.Meta.log_type == 'auth_bf_log'"
+      #    ...
+    # -- to better understand how to write a postoverflow, you can take a look at (https://docs.crowdsec.net/docs/next/whitelist/create/#whitelist-in-postoverflows)
+    postoverflows:
+      s00-enrich: {}
+        # rdnsEnricher.yaml: |
+        #   ...
+      s01-whitelist: {}
+        # myRdnsWhitelist.yaml: |
+        #   ...
+    # -- Simulation configuration (https://docs.crowdsec.net/docs/next/scenarios/simulation/)
+    simulation.yaml: ""
+      #  |
+      # simulation: false
+      # exclusions:
+      #  - crowdsecurity/ssh-bf
+    console.yaml: ""
+      #   |
+      # share_manual_decisions: true
+      # share_tainted: true
+      # share_custom: true
+    capi_whitelists.yaml: ""
+      #   |
+      # ips:
+      # - 1.2.3.4
+      # - 2.3.4.5
+      # cidrs:
+      # - 1.2.3.0/24
+    # -- Profiles configuration (https://docs.crowdsec.net/docs/next/profiles/format/#profile-configuration-example)
+    profiles.yaml: ""
+      #   |
+      #  name: default_ip_remediation
+      #  debug: true
+      #  filters:
+      #    - Alert.Remediation == true && Alert.GetScope() == "Ip"
+      #  ...
+    # -- notifications configuration (https://docs.crowdsec.net/docs/next/notification_plugins/intro)
+    notifications: {}
+      # email.yaml: |
+      #   type: email
+      #   name: email_default
+      #   One of "trace", "debug", "info", "warn", "error", "off"
+      #   log_level: info
+      #   ...
+      # slack.yaml: ""
+      # http.yaml: ""
+      # splunk.yaml: ""
+
+
+  # If you want to specify secrets that will be used for all your crowdsec-agents
+  # secrets can be provided as env variables
+  secrets:
+    # -- agent username (default is generated randomly)
+    username: ""
+    # -- agent password (default is generated randomly)
+    password: ""
+
+  # lapi will deploy pod with crowdsec lapi and dashboard as deployment
+  lapi:
+    # -- environment variables from crowdsecurity/crowdsec docker image
+    env:
+      - name: ENROLL_KEY
+        value: ${api_key}
+      - name: ENROLL_INSTANCE_NAME
+        value: "k3s_cluster"
+      - name: ENROLL_TAGS
+        value: "k8s linux test"
+      # by default disable the agent because it only needs the local API.
+      #- name: DISABLE_AGENT
+      #  value: "true"
+    # -- Enable ingress lapi object
+    ingress:
+      enabled: false
+      annotations: {}
+        # we only want http to the backend so we need this annotation
+      
+      # labels: {}
+      ingressClassName: "" # nginx
+      host: "" # crowdsec-api.example.com
+      # tls: {}
+
+    dashboard:
+      # -- Enable Metabase Dashboard (by default disabled)
+      enabled: true
+      image:
+        # -- docker image repository name
+        repository: metabase/metabase
+        # -- pullPolicy
+        pullPolicy: IfNotPresent
+        # -- docker image tag
+        tag: "v0.46.6.1"
+      # -- Metabase SQLite static DB containing Dashboards
+      assetURL: https://crowdsec-statics-assets.s3-eu-west-1.amazonaws.com/metabase_sqlite.zip
+
+      ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
+      ##
+      resources: {}
+        # limits:
+        #   memory: 2Gi
+        # requests:
+        #   cpu: 150m
+        #   memory: 1700Mi
+
+      # -- Enable ingress object
+      ingress:
+        enabled: false
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        # labels: {}
+        ingressClassName: "traefik" # nginx
+        host: "crowdsec.${duckdns_domain}.duckdns.org" # metabase.example.com
+        # tls: {}
+
+    resources:
+      limits:
+        memory: 100Mi
+      requests:
+        cpu: 150m
+        memory: 100Mi
+    # -- Enable persistent volumes
+    persistentVolume:
+      # -- Persistent volume for data folder. Stores e.g. registered bouncer api keys
+      data:
+        enabled: true
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: ""
+        existingClaim: "crowdsec-data"
+        size: 1Gi
+      # -- Persistent volume for config folder. Stores e.g. online api credentials
+      config:
+        enabled: true
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: ""
+        existingClaim: "crowdsec-config"
+        size: 100Mi
+
+    service:
+      type: ClusterIP
+      labels: {}
+      annotations: {}
+      externalIPs: []
+      loadBalancerIP: null
+      loadBalancerClass: null
+      externalTrafficPolicy: Cluster
+
+    # -- nodeSelector for lapi
+    nodeSelector: {}
+    # -- tolerations for lapi
+    tolerations: {}
+
+    # -- Enable service monitoring (exposes "metrics" port "6060" for Prometheus)
+    metrics:
+      enabled: true
+      # -- Creates a ServiceMonitor so Prometheus will monitor this service
+      # -- Prometheus needs to be configured to watch on all namespaces for ServiceMonitors
+      # -- See the documentation: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#prometheusioscrape
+      # -- See also: https://github.com/prometheus-community/helm-charts/issues/106#issuecomment-700847774
+      serviceMonitor:
+        enabled: true
+
+    strategy:
+      type: RollingUpdate
+
+

@@ -23,6 +23,7 @@ These are the steps you need to follow after you've finished the infrastructure 
       - [Plugins](#plugins)
     - [Jellyseerr](#jellyseerr)
   - [Tools](#tools)
+    - [Crowdsec](#crowdsec)
     - [Authelia](#authelia)
       - [Setting encryption keys](#setting-encryption-keys)
       - [Generating users](#generating-users)
@@ -192,6 +193,11 @@ ombi emby
 - Don't forget to mark them as default
 
 ## Tools
+
+### Crowdsec
+
+- First create an account in [Crowdsec](https://crowdsec.net/blog/how-to-secure-your-raspberry-pi-with-crowdsec/)
+- In the crowdsec console,you can get the enrollment key by checking the key under `Enroll your CrowdSec Security Engine`
 
 ### Authelia
 
