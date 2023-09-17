@@ -13,7 +13,7 @@ resource "helm_release" "longhorn" {
     templatefile(
       "${path.module}/helm/longhorn-values.yaml",
       {
-        "domain"       = var.duckdns_domain
+        "domain"       = var.domain
         "default_data_path" = var.default_data_path
       }
     )
@@ -40,7 +40,7 @@ resource "kubectl_manifest" "backup" {
   depends_on = [helm_release.longhorn]
 }
 
-variable "duckdns_domain" {
+variable "domain" {
   type        = string
   description = "DuckDNS domain to use"
 }

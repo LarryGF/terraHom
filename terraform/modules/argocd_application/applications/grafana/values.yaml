@@ -17,11 +17,11 @@ grafana:
       # gethomepage.dev/widget.type: "grafana"
       # gethomepage.dev/widget.url: "http://grafana.${namespace}.svc.cluster.local"
     hosts:
-      - "grafana.${duckdns_domain}.duckdns.org"    
+      - "grafana.${domain}.duckdns.org"    
     path: /
     tls:
       - hosts:
-          - "grafana.${duckdns_domain}.duckdns.org"
+          - "grafana.${domain}.duckdns.org"
         secretName: tls-grafana-ingress
 
   sidecar:

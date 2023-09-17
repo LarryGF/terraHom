@@ -31,7 +31,7 @@ No resources.
 | <a name="input_access_log_enabled"></a> [access\_log\_enabled](#input\_access\_log\_enabled) | Enable access logs for Traefik | `string` | `true` | no |
 | <a name="input_allowed_networks"></a> [allowed\_networks](#input\_allowed\_networks) | Allowed local networks with lonng netmask: 192.168.1.0/255.255.255.0 | `string` | n/a | yes |
 | <a name="input_default_data_path"></a> [default\_data\_path](#input\_default\_data\_path) | Default Data Path | `string` | `"/storage01"` | no |
-| <a name="input_duckdns_domain"></a> [duckdns\_domain](#input\_duckdns\_domain) | DuckDNS domain to use | `string` | n/a | yes |
+| <a name="input_domain"></a> [duckdns\_domain](#input\_duckdns\_domain) | DuckDNS domain to use | `string` | n/a | yes |
 | <a name="input_duckdns_token"></a> [duckdns\_token](#input\_duckdns\_token) | DuckDNS token to use | `string` | n/a | yes |
 | <a name="input_gh_base_repo"></a> [gh\_base\_repo](#input\_gh\_base\_repo) | Standard repo to use for ArgoCD | `string` | `"https://github.com/LarryGF/pi-k8s.git"` | no |
 | <a name="input_gh_token"></a> [gh\_token](#input\_gh\_token) | GH access token to access default repo | `string` | n/a | yes |

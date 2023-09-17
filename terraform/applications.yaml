@@ -12,7 +12,7 @@ media:
         - ReadWriteMany
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
 
 ## Monitoring
 grafana:
@@ -29,7 +29,7 @@ grafana:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
 
 kube-prometheus-stack:
@@ -40,7 +40,7 @@ kube-prometheus-stack:
   volumes: {}
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
     master_ip: ${master_ip}
     api_key: ${api_keys["discord_webhook_url"]}
@@ -53,7 +53,7 @@ kwatch:
   volumes: {}
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
     master_ip: ${master_ip}
     api_key: ${api_keys["kwatch_discord_webhook_url"]}
@@ -65,7 +65,7 @@ loki:
   volumes: {}
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
 
 promtail:
@@ -75,7 +75,7 @@ promtail:
   volumes: {}
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
 
 ## Auth
@@ -106,7 +106,7 @@ authelia:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
     JWT_TOKEN: ${api_keys["authelia_JWT_TOKEN"]}
     SESSION_ENCRYPTION_KEY: ${api_keys["authelia_SESSION_ENCRYPTION_KEY"]}
@@ -140,7 +140,7 @@ crowdsec:
     
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
     api_key: ${api_keys["crowdsec_enrollment_key"]}
 
@@ -151,7 +151,7 @@ dex:
   volumes: {}
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
 
 ## Downloaders
@@ -168,7 +168,7 @@ sabnzbd:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     api_key: ${api_keys["sabnzbd_key"]}
 
 flood:
@@ -186,7 +186,7 @@ flood:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
   
 nzbget:
@@ -202,7 +202,7 @@ nzbget:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
     master_ip: ${master_ip}
 
@@ -220,7 +220,7 @@ plex:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     allowed_networks: ${allowed_networks} 
     plex_claim_token: ${plex_claim_token} 
     api_key: ${api_keys["plex_key"]}
@@ -240,7 +240,7 @@ jellyseerr:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     api_key: ${api_keys["jellyseerr_key"]}
 
 tautulli:
@@ -257,7 +257,7 @@ tautulli:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
 
 
 ## Template Aggregators
@@ -275,7 +275,7 @@ radarr:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     api_key: ${api_keys["radarr_key"]}
     master_hostname: ${master_hostname}
 
@@ -293,7 +293,7 @@ sonarr:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     api_key: ${api_keys["sonarr_key"]}
     master_hostname: ${master_hostname}
 
@@ -311,7 +311,7 @@ prowlarr:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     api_key: ${api_keys["prowlarr_key"]}
     master_hostname: ${master_hostname}
 
@@ -329,7 +329,7 @@ bazarr:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     api_key: ${api_keys["bazarr_key"]}
 
 
@@ -346,7 +346,7 @@ whisparr:
         - ReadWriteMany
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
 
 readarr:
   name: readarr
@@ -361,7 +361,7 @@ readarr:
         - ReadWriteMany
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
 
 mylar:
   name: mylar
@@ -377,7 +377,7 @@ mylar:
         - ReadWriteMany
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
 
 ## Services
 homepage:
@@ -387,7 +387,7 @@ homepage:
   volumes: {}
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
 
 
@@ -405,7 +405,7 @@ filebrowser:
         - ReadWriteMany
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
 
 
@@ -423,7 +423,7 @@ home-assistant:
         - ReadWriteMany
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     gh_username: ${gh_username}
     gh_token: ${gh_token}
     master_hostname: ${master_hostname}
@@ -442,7 +442,7 @@ portainer:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     api_key: ${api_keys["portainer_key"]}
 
 
@@ -459,7 +459,7 @@ kubeview:
         - ReadWriteMany
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
 
 
 renovate:
@@ -475,6 +475,6 @@ renovate:
         - ReadWriteOnce
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     gh_username: ${gh_username}
     gh_token: ${gh_token}

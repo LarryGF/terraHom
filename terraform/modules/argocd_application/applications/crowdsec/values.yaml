@@ -126,7 +126,7 @@ crowdsec:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
         # labels: {}
         ingressClassName: "traefik" # nginx
-        host: "crowdsec.${duckdns_domain}.duckdns.org" # metabase.example.com
+        host: "crowdsec.${domain}.duckdns.org" # metabase.example.com
         # tls: {}
 
     resources:

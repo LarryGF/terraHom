@@ -56,12 +56,12 @@ ingressRoute:
         gethomepage.dev/description: "Traefik Dashboard"
         gethomepage.dev/group: "Internal"
         gethomepage.dev/icon: "traefik.png"
-        gethomepage.dev/href: "https://traefik.${duckdns_domain}.duckdns.org"
+        gethomepage.dev/href: "https://traefik.${domain}.duckdns.org"
         gethomepage.dev/widget.type: "traefik"
-        gethomepage.dev/widget.url: "https://traefik.${duckdns_domain}.duckdns.org"
+        gethomepage.dev/widget.url: "https://traefik.${domain}.duckdns.org"
         traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
 
-    matchRule: Host(`traefik.${duckdns_domain}.duckdns.org`)
+    matchRule: Host(`traefik.${domain}.duckdns.org`)
     entryPoints: ["websecure","websecure-ext"]
     tls:
       secretName: tls-traefik-ingress
@@ -311,7 +311,7 @@ extraObjects:
       namespace: kube-system
     spec:
       dnsNames:
-        - traefik.${duckdns_domain}.duckdns.org
+        - traefik.${domain}.duckdns.org
       secretName: tls-traefik-ingress
       issuerRef:
         name: letsencrypt

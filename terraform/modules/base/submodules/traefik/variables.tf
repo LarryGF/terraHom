@@ -36,7 +36,7 @@ variable "master_hostname" {
   
 }
 
-variable "duckdns_domain" {
+variable "domain" {
   type        = string
   description = "DuckDNS domain to use"
 }

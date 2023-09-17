@@ -16,7 +16,7 @@ module "traefik" {
   log_level          = "WARNING"
   master_hostname    = var.master_hostname
   access_log_enabled = true
-  duckdns_domain    = var.duckdns_domain
+  domain    = var.domain
 
   depends_on         = [module.cert-manager, kubernetes_namespace.services]
 }
@@ -27,7 +27,7 @@ module "longhorn" {
   count = var.use_longhorn ? 1 : 0
 
   source            = "./submodules/longhorn"
-  duckdns_domain    = var.duckdns_domain
+  domain    = var.domain
   nfs_backupstore   = var.nfs_backupstore
   default_data_path = "/mnt/external-disk/storage"
   depends_on = [
@@ -40,7 +40,7 @@ module "argo-cd" {
 
   source = "./submodules/argo-cd"
 
-  duckdns_domain = var.duckdns_domain
+  domain = var.domain
   timezone       = var.timezone
   depends_on = [
     kubernetes_namespace.gitops,

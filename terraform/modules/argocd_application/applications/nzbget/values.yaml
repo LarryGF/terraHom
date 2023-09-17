@@ -21,10 +21,10 @@ nzbget:
         gethomepage.dev/icon: "nzbget.png"
       enabled: true
       hosts:
-        - host: "nzbget.${duckdns_domain}.duckdns.org"
+        - host: "nzbget.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "nzbget.${duckdns_domain}.duckdns.org"
+            - "nzbget.${domain}.duckdns.org"
           secretName: tls-nzbget-ingress

@@ -20,12 +20,12 @@ sonarr:
         gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
-        - host: "sonarr.${duckdns_domain}.duckdns.org"
+        - host: "sonarr.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "sonarr.${duckdns_domain}.duckdns.org"
+            - "sonarr.${domain}.duckdns.org"
           secretName: tls-sonarr-ingress
 
   metrics:

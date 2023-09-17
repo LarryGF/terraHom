@@ -16,12 +16,12 @@ duplicati:
         gethomepage.dev/icon: "duplicati.png"
       enabled: true
       hosts:
-        - host: "duplicati.${duckdns_domain}.duckdns.org"
+        - host: "duplicati.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "duplicati.${duckdns_domain}.duckdns.org"
+            - "duplicati.${domain}.duckdns.org"
           secretName: tls-duplicati-ingress
   persistence:
     ${volume_mounts}
@@ -34,12 +34,12 @@ duplicati:
         annotations:
           cert-manager.io/issuer: letsencrypt
         hosts:
-        - host: code.duplicati.${duckdns_domain}.duckdns.org
+        - host: code.duplicati.${domain}.duckdns.org
           paths:
             - path: /
         tls:
         - secretName: tls-code-duplicati-ingress
           hosts:
-            - code.duplicati.${duckdns_domain}.duckdns.org
+            - code.duplicati.${domain}.duckdns.org
       volumeMounts: 
         ${vscode_volume_mounts}

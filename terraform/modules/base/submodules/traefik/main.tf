@@ -7,7 +7,7 @@ resource "kubectl_manifest" "middlewares" {
       "source_range" = split(",", var.source_range)
       "source_range_ext" = split(",", join(",",[var.source_range,var.source_range_ext]))
       "namespace"    = var.namespace
-      "domain" = var.duckdns_domain
+      "domain" = var.domain
     }
   )
 
@@ -57,7 +57,7 @@ resource "helm_release" "traefik" {
         log_level          = var.log_level
         access_log_enabled = var.access_log_enabled
         master_hostname    = var.master_hostname
-        duckdns_domain    = var.duckdns_domain
+        domain    = var.domain
         namespace = "kube-system"
       }
     )

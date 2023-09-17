@@ -15,7 +15,7 @@ module "base" {
 
   timezone          = var.timezone
   letsencrypt_email = var.letsencrypt_email
-  duckdns_domain    = var.duckdns_domain
+  domain    = var.domain
   master_hostname   = var.master_hostname
   master_ip         = var.master_ip
   vpn_config        = var.vpn_config

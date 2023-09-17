@@ -138,12 +138,12 @@ kube-prometheus-stack:
         gethomepage.dev/group: "Monitoring"
         gethomepage.dev/icon: "alertmanager.png"
       hosts:
-        - "alertmanager.${duckdns_domain}.duckdns.org"
+        - "alertmanager.${domain}.duckdns.org"
       paths:
         - "/"
       tls:
         - hosts:
-            - "alertmanager.${duckdns_domain}.duckdns.org"
+            - "alertmanager.${domain}.duckdns.org"
           secretName: tls-alertmanager-ingress
 
   prometheus:
@@ -160,12 +160,12 @@ kube-prometheus-stack:
         gethomepage.dev/widget.type: "prometheus"
         gethomepage.dev/widget.url: "http://prometheus-prometheus.${namespace}.svc.cluster.local:9090"
       hosts:
-        - "prometheus.${duckdns_domain}.duckdns.org"    
+        - "prometheus.${domain}.duckdns.org"    
       paths: 
         - "/"
       tls:
         - hosts:
-            - "prometheus.${duckdns_domain}.duckdns.org"
+            - "prometheus.${domain}.duckdns.org"
           secretName: tls-prometheus-ingress
     prometheusSpec:
       nodeSelector:

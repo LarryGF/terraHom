@@ -12,7 +12,7 @@ resource "helm_release" "pihole" {
   }
 
   values = [templatefile("${path.module}/helm/pihole-values.yaml", {
-    duckdns_domain = var.duckdns_domain,
+    domain = var.domain,
     master_hostname    = var.master_hostname
     master_ip = var.master_ip
     pihole_key = var.pihole_key
@@ -41,7 +41,7 @@ resource "kubernetes_persistent_volume_claim" "pihole" {
     }
   }
 }
-variable "duckdns_domain" {
+variable "domain" {
   type        = string
   description = "DuckDNS domain to use"
 }

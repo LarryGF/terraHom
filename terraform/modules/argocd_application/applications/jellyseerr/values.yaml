@@ -20,10 +20,10 @@ jellyseerr:
         gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
-        - host: "jellyseerr.${duckdns_domain}.duckdns.org"
+        - host: "jellyseerr.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "jellyseerr.${duckdns_domain}.duckdns.org"
+            - "jellyseerr.${domain}.duckdns.org"
           secretName: tls-jellyseerr-ingress

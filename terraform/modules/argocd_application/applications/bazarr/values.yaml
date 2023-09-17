@@ -23,10 +23,10 @@ bazarr:
         gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
-        - host: "bazarr.${duckdns_domain}.duckdns.org"
+        - host: "bazarr.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "bazarr.${duckdns_domain}.duckdns.org"
+            - "bazarr.${domain}.duckdns.org"
           secretName: tls-bazarr-ingress

@@ -12,7 +12,7 @@ resource "helm_release" "argo-cd" {
   }
 
   values = [templatefile("${path.module}/helm/argo-cd-values.yaml", {
-    duckdns_domain = var.duckdns_domain,
+    domain = var.domain,
    
   })]
 
@@ -26,7 +26,7 @@ data "kubernetes_secret" "argo-cd-password" {
   depends_on = [helm_release.argo-cd]
 }
 
-variable "duckdns_domain" {
+variable "domain" {
   type        = string
   description = "DuckDNS domain to use"
 }
