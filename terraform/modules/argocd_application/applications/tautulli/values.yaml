@@ -19,10 +19,10 @@ tautulli:
         gethomepage.dev/icon: "tautulli.png"
       enabled: true
       hosts:
-        - host: "tautulli.${duckdns_domain}.duckdns.org"
+        - host: "tautulli.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "tautulli.${duckdns_domain}.duckdns.org"
+            - "tautulli.${domain}.duckdns.org"
           secretName: tls-tautulli-ingress

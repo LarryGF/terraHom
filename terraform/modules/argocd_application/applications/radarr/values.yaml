@@ -20,12 +20,12 @@ radarr:
         gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
-        - host: "radarr.${duckdns_domain}.duckdns.org"
+        - host: "radarr.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "radarr.${duckdns_domain}.duckdns.org"
+            - "radarr.${domain}.duckdns.org"
           secretName: tls-radarr-ingress
 
   metrics:

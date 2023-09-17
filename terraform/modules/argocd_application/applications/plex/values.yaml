@@ -24,16 +24,16 @@ plex:
         gethomepage.dev/description: "Plex combines free movies & TV with your favorite streaming services and personal media"
         gethomepage.dev/group: "Media"
         gethomepage.dev/icon: "plex.png"
-        gethomepage.dev/href: "https://plex.${duckdns_domain}.duckdns.org/web/index.html"
+        gethomepage.dev/href: "https://plex.${domain}.duckdns.org/web/index.html"
         gethomepage.dev/widget.type: "plex"
         gethomepage.dev/widget.url: "http://plex.${namespace}.svc.cluster.local:32400"
         gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
-        - host: "plex.${duckdns_domain}.duckdns.org"
+        - host: "plex.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "plex.${duckdns_domain}.duckdns.org"
+            - "plex.${domain}.duckdns.org"
           secretName: tls-plex-ingress

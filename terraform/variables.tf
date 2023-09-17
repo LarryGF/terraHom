@@ -86,9 +86,9 @@ variable "letsencrypt_email" {
   description = "Email to use for Let's Encrypt certificates"
 }
 
-variable "duckdns_domain" {
+variable "domain" {
   type        = string
-  description = "DuckDNS domain to use"
+  description = "Domain to use"
 }
 
 variable "master_hostname" {

@@ -17,10 +17,10 @@ filebrowser:
         gethomepage.dev/icon: "filebrowser.png"
       enabled: true
       hosts:
-        - host: "filebrowser.${duckdns_domain}.duckdns.org"
+        - host: "filebrowser.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "filebrowser.${duckdns_domain}.duckdns.org"
+            - "filebrowser.${domain}.duckdns.org"
           secretName: tls-filebrowser-ingress

@@ -8,7 +8,7 @@ resource "helm_release" "duckdns" {
   values = [templatefile("${path.module}/helm/duckdns-values.yaml",
     {
       token           = var.duckdns_token
-      domains         = var.duckdns_domain
+      domains         = var.domain
       timezone        = var.timezone
       master_hostname = var.master_hostname
 
@@ -20,7 +20,7 @@ resource "helm_release" "duckdns" {
   timeout         = 180
 }
 
-variable "duckdns_domain" {
+variable "domain" {
   type        = string
   description = "DuckDNS domain to use"
 }

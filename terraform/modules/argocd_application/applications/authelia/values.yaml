@@ -5,7 +5,7 @@ authelia:
   ## For example if you have apps app1.example.com and app2.example.com it should be example.com
   ## This affects the ingress (partially sets the domain used) and configMap.
   ## Authelia must be served from the domain or a subdomain under it.
-  domain: ${duckdns_domain}.duckdns.org
+  domain: ${domain}.duckdns.org
 
     
   ingress:
@@ -134,7 +134,7 @@ authelia:
           # - CurveP521
           # - CurveP384
   configMap:
-    default_redirection_url: "https://home.${duckdns_domain}.duckdns.org"
+    default_redirection_url: "https://home.${domain}.duckdns.org"
 
     ##
     ## Session Provider Configuration
@@ -486,13 +486,13 @@ redis:
 #       gethomepage.dev/group: "Internal"
 #       gethomepage.dev/icon: "docker-mailserver.png"
 #     hosts:
-#       - host: "maildev.${duckdns_domain}.duckdns.org"
+#       - host: "maildev.${domain}.duckdns.org"
 #         paths:
 #           - path: /
 #             pathType: ImplementationSpecific
 #     tls:
 #         - hosts:
-#             - "maildev.${duckdns_domain}.duckdns.org"
+#             - "maildev.${domain}.duckdns.org"
 #           secretName: tls-maildev-ingress
     
 #     maildev:

@@ -17,10 +17,10 @@ readarr:
         gethomepage.dev/icon: "readarr.png"
       enabled: true
       hosts:
-        - host: "readarr.${duckdns_domain}.duckdns.org"
+        - host: "readarr.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "readarr.${duckdns_domain}.duckdns.org"
+            - "readarr.${domain}.duckdns.org"
           secretName: tls-readarr-ingress

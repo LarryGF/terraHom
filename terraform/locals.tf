@@ -5,7 +5,7 @@ locals {
 
   template_applications = yamldecode(templatefile("applications.yaml",
     {
-      duckdns_domain   = var.duckdns_domain
+      domain   = var.domain
       master_hostname  = var.master_hostname
       master_ip  = var.master_ip
       allowed_networks = var.allowed_networks
@@ -38,7 +38,7 @@ locals {
       "deploy" : false,
       "volumes" : {}
       "override" : {
-        "duckdns_domain" : var.duckdns_domain,
+        "domain" : var.domain,
         "volume_mounts" : indent(4,yamlencode(local.duplicati_mounts))
         "vscode_volume_mounts" : indent(8, yamlencode(local.vscode_mounts))
       }

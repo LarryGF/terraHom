@@ -16,12 +16,12 @@ home-assistant:
         gethomepage.dev/icon: "home-assistant-alt.png"
       enabled: true
       hosts:
-        - host: "ha.${duckdns_domain}.duckdns.org"
+        - host: "ha.${domain}.duckdns.org"
           paths:
           - path: /
       tls:
         - hosts:
-            - "ha.${duckdns_domain}.duckdns.org"
+            - "ha.${domain}.duckdns.org"
           secretName: tls-ha-ingress
 
   nodeSelector:
@@ -44,13 +44,13 @@ home-assistant:
           gethomepage.dev/group: "Internal"
           gethomepage.dev/icon: "code.png"
         hosts:
-        - host: codeha.${duckdns_domain}.duckdns.org
+        - host: codeha.${domain}.duckdns.org
           paths:
             - path: /
         tls:
         - secretName: tls-code-ha-ingress
           hosts:
-            - codeha.${duckdns_domain}.duckdns.org
+            - codeha.${domain}.duckdns.org
 
       args:
       - --auth
