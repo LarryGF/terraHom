@@ -259,7 +259,7 @@ kube-prometheus-stack:
   volumes: {}
   override:
     timezone: ${timezone}
-    duckdns_domain: ${duckdns_domain}
+    domain: ${domain}
     master_hostname: ${master_hostname}
 ```
 

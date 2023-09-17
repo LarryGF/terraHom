@@ -83,10 +83,15 @@ These steps need to be executed in order and before moving on with the process, 
   - Alternatively you can just edit /etc/sudoers
 
 - Create your free public domain (this is necessary if you want to use valid [SSL certificates](https://www.kaspersky.com/resource-center/definitions/what-is-a-ssl-certificate))
+  
+  - DuckDNS
+    - Create an account on duckdns.org
 
-  - Create an account on duckdns.org
-
-  - Create your subdomain on duckdns.org, save your subdomain and your token
+    - Create your subdomain on duckdns.org, save your subdomain and your token
+  
+  - DeSec
+    - Create an account on https://desec.io/
+    - Create your domain, save your subdomain
 
 - Point your subdomain to your public IP address (this won't work if your public IP address is _NATed_ by your ISP)
   
