@@ -42,12 +42,12 @@ ingress:
       gethomepage.dev/widget.url: "http://adguard-adguard-home.services.svc.cluster.local:3000"
 
     hosts:
-      - host: "adguard.${domain}.duckdns.org"
+      - host: "adguard.${domain}"
         paths:
         - path: /
     tls:
       - hosts:
-          - "adguard.${domain}.duckdns.org"
+          - "adguard.${domain}"
         secretName: tls-adguard-ingress
 service:
   dns-tcp:

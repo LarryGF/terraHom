@@ -20,3 +20,8 @@ variable "gh_base_repo" {
   description = "Standard repo to use for ArgoCD"
   default = "https://github.com/LarryGF/pi-k8s.git"
 }
+
+variable "domain" {
+  type        = string
+  description = "Domain to use"
+}

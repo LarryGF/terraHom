@@ -16,10 +16,10 @@ mylar:
         gethomepage.dev/icon: "mylar.png"
       enabled: true
       hosts:
-        - host: "mylar.${domain}.duckdns.org"
+        - host: "mylar.${domain}"
           paths:
           - path: /
       tls:
         - hosts:
-            - "mylar.${domain}.duckdns.org"
+            - "mylar.${domain}"
           secretName: tls-mylar-ingress

@@ -414,7 +414,7 @@ ingress:
     gethomepage.dev/description: "Network-wide Ad Blocking"
     gethomepage.dev/group: "Internal"
     gethomepage.dev/icon: "pi-hole.png"
-    gethomepage.dev/href: "https://pihole.${domain}.duckdns.org/admin"
+    gethomepage.dev/href: "https://pihole.${domain}/admin"
 
     gethomepage.dev/widget.type: "pihole"
     gethomepage.dev/widget.url: "http://pihole-web.services.svc.cluster.local"
@@ -423,10 +423,10 @@ ingress:
   path: /
   hosts:
     # virtualHost (default value is pi.hole) will be appended to the hosts
-    - "pihole.${domain}.duckdns.org"
+    - "pihole.${domain}"
   tls: 
     - hosts:
-        - "pihole.${domain}.duckdns.org"
+        - "pihole.${domain}"
       secretName: tls-pihole-ingress
 
 
@@ -449,14 +449,14 @@ dnsmasq:
 
   # -- Add custom dns entries to override the dns resolution. All lines will be added to the pihole dnsmasq configuration.
   customDnsEntries: 
-    - address=/traefik.${domain}.duckdns.org/${master_ip}
-    - address=/argo.${domain}.duckdns.org/${master_ip}
-    - address=/pihole.${domain}.duckdns.org/${master_ip}
-    - address=/prometheus.${domain}.duckdns.org/${master_ip}
-    - address=/alertmanager.${domain}.duckdns.org/${master_ip}
-    - address=/ha.${domain}.duckdns.org/${master_ip}
-    - address=/codeha.${domain}.duckdns.org/${master_ip}
-    - address=/longhorn.${domain}.duckdns.org/${master_ip}
+    - address=/traefik.${domain}/${master_ip}
+    - address=/argo.${domain}/${master_ip}
+    - address=/pihole.${domain}/${master_ip}
+    - address=/prometheus.${domain}/${master_ip}
+    - address=/alertmanager.${domain}/${master_ip}
+    - address=/ha.${domain}/${master_ip}
+    - address=/codeha.${domain}/${master_ip}
+    - address=/longhorn.${domain}/${master_ip}
 
   # - address=/bar.foo/192.168.178.11
 

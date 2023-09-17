@@ -16,16 +16,14 @@ home-assistant:
         gethomepage.dev/icon: "home-assistant-alt.png"
       enabled: true
       hosts:
-        - host: "ha.${domain}.duckdns.org"
+        - host: "ha.${domain}"
           paths:
           - path: /
       tls:
         - hosts:
-            - "ha.${domain}.duckdns.org"
+            - "ha.${domain}"
           secretName: tls-ha-ingress
 
-  nodeSelector:
-    kubernetes.io/hostname: ${master_hostname}
 
   addons:
     codeserver:
@@ -44,13 +42,13 @@ home-assistant:
           gethomepage.dev/group: "Internal"
           gethomepage.dev/icon: "code.png"
         hosts:
-        - host: codeha.${domain}.duckdns.org
+        - host: codeha.${domain}
           paths:
             - path: /
         tls:
         - secretName: tls-code-ha-ingress
           hosts:
-            - codeha.${domain}.duckdns.org
+            - codeha.${domain}
 
       args:
       - --auth

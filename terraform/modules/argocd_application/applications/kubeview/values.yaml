@@ -13,13 +13,13 @@ kubeview:
       gethomepage.dev/description: "Plex combines free movies & TV with your favorite streaming services and personal media"
       gethomepage.dev/group: "Internal"
       gethomepage.dev/icon: "kubernetes.png"
-      gethomepage.dev/href: "https://kubeview.${domain}.duckdns.org/web/index.html"
+      gethomepage.dev/href: "https://kubeview.${domain}/web/index.html"
     enabled: true
     hosts:
-      - host: "kubeview.${domain}.duckdns.org"
+      - host: "kubeview.${domain}"
         paths:
         - path: /
     tls:
       - hosts:
-          - "kubeview.${domain}.duckdns.org"
+          - "kubeview.${domain}"
         secretName: tls-kubeview-ingress

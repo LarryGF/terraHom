@@ -19,10 +19,10 @@ portainer:
       gethomepage.dev/widget.key: "${api_key}"
     enabled: true
     hosts:
-      - host: "portainer.${domain}.duckdns.org"
+      - host: "portainer.${domain}"
         paths:
         - path: /
     tls:
       - hosts:
-          - "portainer.${domain}.duckdns.org"
+          - "portainer.${domain}"
         secretName: tls-portainer-ingress
