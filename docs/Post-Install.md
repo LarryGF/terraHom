@@ -49,7 +49,7 @@ You can create as many webhooks as you like and you can split the notifications 
 
 ### Rtorrent-Flood
 
-- Go to <https://rtorrent.{your> domain}.duckdns.org
+- Go to <https://rtorrent.{your> domain}
 - Create username and password and keep them in mind, you will need them later
 - Paste the following path in the socket `/config/.local/share/rtorrent/rtorrent.sock/config/.local/share/rtorrent/rtorrent.sock`
 
@@ -75,7 +75,7 @@ It's worth mentioning that usenet indexers and servers are two different things,
 ### Jackett (DEPRECATED)
 
 - __Jackett has been deprecated in favor of prowlarr, it is way easier to sync the indexers that way__
-- Go to `https://jackett.{your domain}.duckdns.org/UI/Dashboard`
+- Go to `https://jackett.{your domain}/UI/Dashboard`
 - Add your desired indexers
 - Don't close the page yet, since you'll need it to add indexers to Sonarr/Radarr
 
@@ -104,7 +104,7 @@ terraform apply -auto-approve -target module.argocd_application
 
 ### Prowlarr
 
-- Go to `https://prowlar.{your> domain}.duckdns.org`
+- Go to `https://prowlar.{your> domain}`
 
 - I don't recommend you set up auth for this, it might lock you out of the app, and it's not worth the hassle
 - Add your desired indexers
@@ -130,7 +130,7 @@ terraform apply -auto-approve -target module.argocd_application
 
 ### [Sonarr/Radarr](https://wiki.servarr.com/radarr)
 
-- Go to Radarr/Sonarr:  `https://{radarr/sonarr}.{your domain}.duckdns.org`
+- Go to Radarr/Sonarr:  `https://{radarr/sonarr}.{your domain}`
 - Go to Settings -> Media Management: set root folder to /downloads, that's where the `media`shared volume will be mounted
 - Go to Settings -> Download Clients: Add a new `Flood` downloader:
   - Name: Flood
@@ -170,7 +170,7 @@ enable api key for prowlarr
 
 ### Plex/Ombi
 
-- Login to Plex by visiting: `https://plex.{your domain}.duckdns.org`
+- Login to Plex by visiting: `https://plex.{your domain}`
 
 emby-> settings-> api key
 

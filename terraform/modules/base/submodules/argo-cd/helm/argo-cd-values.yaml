@@ -37,7 +37,7 @@ configs:
           return hs
     # -- Argo CD's externally facing base URL (optional). Required when configuring SSO
 
-    # url: "https://argo.${domain}.duckdns.org"
+    # url: "https://argo.${domain}"
     # -- The name of tracking label used by Argo CD for resource pruning
     # @default -- Defaults to app.kubernetes.io/instance
     application.instanceLabelKey: argocd.argoproj.io/instance
@@ -256,7 +256,7 @@ server:
       gethomepage.dev/group: "Internal"
       gethomepage.dev/icon: "argocd.png"
     hosts: 
-      - argo.${domain}.duckdns.org
+      - argo.${domain}
     paths:
       - /
     # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
@@ -275,7 +275,7 @@ server:
     tls: 
       - secretName: tls-argo-ingress
         hosts:
-          - argo.${domain}.duckdns.org
+          - argo.${domain}
 
     # -- Uses `server.service.servicePortHttps` instead `server.service.servicePortHttp`
     https: false

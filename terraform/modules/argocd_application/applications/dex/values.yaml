@@ -13,7 +13,7 @@ dex:
   # -- Application configuration.
   # See the [official documentation](https://dexidp.io/docs/).
   config: 
-    issuer: https://dex.${domain}.duckdns.org
+    issuer: https://dex.${domain}
     storage:
         type: memory
     enablePasswordDB: true
@@ -73,7 +73,7 @@ dex:
     # -- Ingress host configuration.
     # @default -- See [values.yaml](values.yaml).
     hosts:
-      - host: dex.${domain}.duckdns.org
+      - host: dex.${domain}
         paths:
           - path: /
             pathType: ImplementationSpecific
@@ -83,7 +83,7 @@ dex:
     tls: 
      - secretName: tls-dex-ingress
        hosts:
-         - dex.${domain}.duckdns.org
+         - dex.${domain}
 
   serviceMonitor:
     # -- Enable Prometheus ServiceMonitor.

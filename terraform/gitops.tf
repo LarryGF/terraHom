@@ -4,6 +4,7 @@ module "gitops" {
   gh_token        = var.gh_token
   gh_username     = var.gh_username
   gh_base_repo   = var.gh_base_repo
+  domain = var.domain
 }
 
 module "argocd_application" {

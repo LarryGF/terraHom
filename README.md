@@ -194,6 +194,8 @@ kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' -n
 
 ```
 - terraform taint "module.argocd_application[\"promtail\"].argocd_application.application[0]"
+```
+
 ## Manual Deployment (not recommended)
 
 Alternatively you can deploy everything manually, but you will need to do it in the following order (this is the order that the automated deployment script runs the commands, you can always check it for reference):
@@ -248,9 +250,8 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 ## TODO
 - Mylar
 - kavita
-- Improve grafana
+
 - Add loki documentation
-- kubeview displays weird
 - Airlock Microgateway
 - linkerd
 - k8tz
@@ -260,3 +261,4 @@ Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), t
 - kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
 - Dex not working
 - Explain plex external setup
+- Explain traefik automatic ip addition to whitelist

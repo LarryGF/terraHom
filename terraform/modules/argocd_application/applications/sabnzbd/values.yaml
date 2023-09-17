@@ -20,10 +20,10 @@ sabnzbd:
         gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
-        - host: "sabnzbd.${domain}.duckdns.org"
+        - host: "sabnzbd.${domain}"
           paths:
           - path: /
       tls:
         - hosts:
-            - "sabnzbd.${domain}.duckdns.org"
+            - "sabnzbd.${domain}"
           secretName: tls-sabnzbd-ingress

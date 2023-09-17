@@ -6,7 +6,7 @@ networkPolicies:
 ingress:
   enabled: true
   ingressClassName: traefik
-  host: "longhorn.${domain}.duckdns.org"
+  host: "longhorn.${domain}"
   tls: true
   secureBackends: false
   tlsSecret: tls-longhorn-ingress

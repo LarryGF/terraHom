@@ -276,7 +276,7 @@ Doing that will guarantee that only the resources that cause the conflict will b
 The way the ArgoCD integration works is that we store the Argo credentials (username/password, repo credentials, etc) inside terraform, and then use those credentials to call ArgoCD and make it do operations in our behalf. Sometimes you could get errors like:
 
 ```shell
-rpc error: code = Unknown desc = POST https://argo.pi-k3s-home.duckdns.org:443/session.SessionService/Create failed with status code 403
+rpc error: code = Unknown desc = POST https://argo.pi-k3s-home:443/session.SessionService/Create failed with status code 403
 ```
 
 There are two possible causes for this:

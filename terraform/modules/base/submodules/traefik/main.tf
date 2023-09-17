@@ -4,14 +4,14 @@ resource "kubectl_manifest" "middlewares" {
   yaml_body = templatefile(
     "${path.module}/middlewares/${each.value}",
     {
-      "source_range" = split(",", var.source_range)
-      "source_range_ext" = split(",", join(",",[var.source_range,var.source_range_ext]))
+      "source_range" = split(",", "${local.my_ip}/32,${var.source_range}")
+      "source_range_ext" = split(",", join(",",[var.source_range,var.source_range_ext,"${local.my_ip}/32"]))
       "namespace"    = var.namespace
       "domain" = var.domain
     }
   )
 
-  # depends_on = [helm_release.error-pages]
+  depends_on = [data.http.my_public_ip]
 }
 
 resource "helm_release" "error-pages" {

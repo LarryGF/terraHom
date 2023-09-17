@@ -23,10 +23,10 @@ rtorrent-flood:
 
       enabled: true
       hosts:
-        - host: "flood.${domain}.duckdns.org"
+        - host: "flood.${domain}"
           paths:
           - path: /
       tls:
         - hosts:
-            - "flood.${domain}.duckdns.org"
+            - "flood.${domain}"
           secretName: tls-flood-ingress

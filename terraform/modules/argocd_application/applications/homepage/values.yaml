@@ -13,10 +13,10 @@ homepage:
 
       enabled: true
       hosts:
-        - host: "home.${domain}.duckdns.org"
+        - host: "home.${domain}"
           paths:
           - path: /
       tls:
         - hosts:
-            - "home.${domain}.duckdns.org"
+            - "home.${domain}"
           secretName: tls-home-ingress

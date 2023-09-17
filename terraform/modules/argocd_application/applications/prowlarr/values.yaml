@@ -20,10 +20,10 @@ prowlarr:
         gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
-        - host: "prowlarr.${domain}.duckdns.org"
+        - host: "prowlarr.${domain}"
           paths:
           - path: /
       tls:
         - hosts:
-            - "prowlarr.${domain}.duckdns.org"
+            - "prowlarr.${domain}"
           secretName: tls-prowlarr-ingress

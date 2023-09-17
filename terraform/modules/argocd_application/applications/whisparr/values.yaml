@@ -17,10 +17,10 @@ radarr:
         gethomepage.dev/icon: "whisparr.png"
       enabled: true
       hosts:
-        - host: "whisparr.${domain}.duckdns.org"
+        - host: "whisparr.${domain}"
           paths:
           - path: /
       tls:
         - hosts:
-            - "whisparr.${domain}.duckdns.org"
+            - "whisparr.${domain}"
           secretName: tls-whisparr-ingress
