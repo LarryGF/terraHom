@@ -181,4 +181,11 @@ crowdsec:
     strategy:
       type: RollingUpdate
 
-
+  agent:
+    acquisition:
+      # -- Specify each pod you want to process it logs (namespace, podName and program)
+      - namespace: "kube-system"
+        # -- to select pod logs to process
+        podName: traefik-* 
+        # -- program name related to specific parser you will use (see https://hub.crowdsec.net/author/crowdsecurity/configurations/docker-logs)
+        program: "traefik"

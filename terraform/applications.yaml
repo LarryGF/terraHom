@@ -116,27 +116,27 @@ crowdsec:
   name: crowdsec
   namespace: crowdsec
   server_side: "false"
-  deploy: true
+  deploy: false
   priority: critical
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: crowdsec-config
       size: 200Mi
       access_modes:
         - ReadWriteOnce
     data:
-      enabled: true
+      enabled: false
       name: crowdsec-data
       size: 1Gi
       access_modes:
         - ReadWriteOnce
     agent_config:
-      enabled: true
+      enabled: false
       name: crowdsec-agent-config
-      size: 1Gi
+      size: 500Mi
       access_modes:
-        - ReadWriteOnce
+        - ReadWriteMany
     
   override:
     timezone: ${timezone}
