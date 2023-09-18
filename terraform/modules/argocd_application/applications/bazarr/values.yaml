@@ -16,8 +16,11 @@ bazarr:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Bazarr"
         gethomepage.dev/description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles"
-        gethomepage.dev/group: "Internal"
+        gethomepage.dev/group: "Template Aggregators"
         gethomepage.dev/icon: "bazarr.png"
+        gethomepage.dev/widget.type: "bazarr"
+        gethomepage.dev/widget.url: "http://bazarr.${namespace}.svc.cluster.local:7878"
+        gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
         - host: "bazarr.${domain}"
