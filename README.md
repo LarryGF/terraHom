@@ -84,7 +84,7 @@ These steps need to be executed in order and before moving on with the process, 
 
 - Create your free public domain (this is necessary if you want to use valid [SSL certificates](https://www.kaspersky.com/resource-center/definitions/what-is-a-ssl-certificate))
   
-  - DuckDNS
+  - DuckDNS (deprecated)
     - Create an account on duckdns.org
 
     - Create your subdomain on duckdns.org, save your subdomain and your token
@@ -92,6 +92,7 @@ These steps need to be executed in order and before moving on with the process, 
   - DeSec
     - Create an account on https://desec.io/
     - Create your domain, save your subdomain
+    - Create a wildcard record pointing to your public IP address
 
 - Point your subdomain to your public IP address (this won't work if your public IP address is _NATed_ by your ISP)
   

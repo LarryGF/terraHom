@@ -43,7 +43,7 @@ provider "kubectl" {
 }
 
 provider "argocd" {
-    server_addr = "argo.pi-k3s-home.duckdns.org:443"
+    server_addr = "argo.${var.domain}:443"
     username = "admin"
     password = module.base.argo-cd-password
 }
