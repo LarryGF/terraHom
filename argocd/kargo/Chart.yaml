@@ -1,0 +1,7 @@
+apiVersion: v2
+name: kargo-umbrella
+version: 0.0.0
+dependencies:
+  - name: kargo
+    repository: oci://ghcr.io/akuity/kargo-charts/kargo
+    version: v0.1.0-rc.23
