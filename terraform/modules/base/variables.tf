@@ -30,9 +30,8 @@ variable "access_log_enabled" {
   default     = true
 }
 
-## DuckDNS
 
-variable "duckdns_token" {
+variable "token" {
   type        = string
   description = "DuckDNS token to use"
 }

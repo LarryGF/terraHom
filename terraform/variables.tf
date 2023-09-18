@@ -37,6 +37,10 @@ variable "duckdns_token" {
   description = "DuckDNS token to use"
 }
 
+variable "token" {
+  type        = string
+  description = "Token to use"
+}
 ## Longhorn
 
 variable "default_data_path" {

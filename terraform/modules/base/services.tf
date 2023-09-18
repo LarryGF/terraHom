@@ -11,6 +11,19 @@
 #   ]
 # }
 
+module "ddclient" {
+
+  source = "./submodules/ddclient"
+
+  domain  = var.domain
+  token   = var.token
+  timezone        = var.timezone
+  master_hostname = var.master_hostname
+  depends_on = [
+    kubernetes_namespace.services,
+  ]
+}
+
 module "adguardhome" {
 
   source = "./submodules/adguard"
