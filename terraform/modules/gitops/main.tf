@@ -10,6 +10,13 @@ resource "argocd_repository" "default-repo" {
   type = "git"
 }
 
+resource "argocd_repository" "kargo-repo" {
+  repo = "ghcr.io/akuity/kargo-charts"
+  name = "kargo"
+  type = "helm"
+  enable_oci = true
+}
+
 resource "argocd_project" "gitops" {
   metadata {
     name      = "gitops"

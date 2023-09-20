@@ -393,7 +393,7 @@ homepage:
 kargo:
   name: kargo
   namespace: gitops
-  deploy: true
+  deploy: false
   priority: critical
   volumes:
     config:
