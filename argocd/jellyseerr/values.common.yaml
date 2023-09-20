@@ -4,7 +4,7 @@ jellyseerr:
     repository: fallenbagel/jellyseerr
     # -- image tag
     # @default -- chart.appVersion
-    tag: latest
+    tag: 1.7.0
     # -- image pull policy
     pullPolicy: IfNotPresent
 
