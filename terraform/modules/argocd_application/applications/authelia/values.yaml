@@ -536,3 +536,12 @@ authelia_users:
         - admins
         - dev
 
+    omar:
+      disabled: false
+      displayname: "omar"
+      password: "$argon2id$v=19$m=32768,t=1,p=8$ZVVoVlQxZFFhMDgyWVZrMlZVaERNUQ$KMpW8Z953jR4GCMehVsho1EF4T6MnYP+F+Sj1v+ZyaQ"
+      email: 
+      groups:
+        - admins
+        - dev
+
