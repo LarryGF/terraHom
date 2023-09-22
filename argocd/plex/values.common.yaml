@@ -2,6 +2,7 @@ plex:
   image:
     repository: ghcr.io/hotio/plex
     tag: latest
+    pullPolicy: Always
 
   hostNetwork: true
   dnsPolicy: ClusterFirstWithHostNet
