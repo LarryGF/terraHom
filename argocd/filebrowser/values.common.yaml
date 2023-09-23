@@ -1,12 +1,14 @@
 filebrowser:
   image:
-    repository: filebrowser/filebrowser
-    tag: s6
+    tag: latest
 
-  env:
-    PGID: 1001
-    PUID: 1001
-
+  # env:
+  #   PGID: 1001
+  #   PUID: 1001
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    
   config: |
     {
       "port": 80,
@@ -36,8 +38,3 @@ filebrowser:
     downloads:
       enabled: true
       existingClaim: media
-    filebrowser-config:
-      enabled: true
-      type: configMap
-      mountPath: /config
-      subPath: settings.json
