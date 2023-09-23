@@ -1,7 +1,7 @@
 filebrowser:
   image:
-    repository: filebrowser/filebrowser:s6
-    tag: latest
+    repository: filebrowser/filebrowser
+    tag: s6
 
   env:
     PGID: 1001
