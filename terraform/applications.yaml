@@ -414,7 +414,7 @@ filebrowser:
   priority: low
   volumes:
     config:
-      enabled: false
+      enabled: true
       name: filebrowser-config
       size: 200Mi
       access_modes:
