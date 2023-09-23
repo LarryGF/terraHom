@@ -5,10 +5,10 @@ filebrowser:
   # env:
   #   PGID: 1001
   #   PUID: 1001
-  podSecurityContext:
-    runAsUser: 1001
-    runAsGroup: 1001
-    
+  # podSecurityContext:
+  #   runAsUser: 1001
+  #   runAsGroup: 1001
+
   config: |
     {
       "port": 80,
