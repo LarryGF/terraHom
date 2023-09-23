@@ -21,7 +21,7 @@ filebrowser:
   initContainers:
     update-volume-permission:
       image: busybox
-      command: ["sh", "-c", "chmod -R 777 /config && chmod -R 777 /database"]
+      command: ["sh", "-c", "chmod -R 777 /config"]
 
       volumeMounts:
       - name: config
