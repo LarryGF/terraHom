@@ -36,3 +36,8 @@ filebrowser:
     downloads:
       enabled: true
       existingClaim: media
+    filebrowser-config:
+      enabled: true
+      type: configMap
+      mountPath: /config
+      subPath: settings.json
