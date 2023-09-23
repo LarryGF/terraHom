@@ -1,5 +1,6 @@
 filebrowser:
   image:
+    repository: filebrowser/filebrowser:v2-s6
     tag: latest
 
   env:
