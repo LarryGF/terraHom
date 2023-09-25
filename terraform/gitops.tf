@@ -25,3 +25,56 @@ module "argocd_application" {
   ]
 }
 
+resource "argocd_application" "kargo" {
+  count = 1
+  depends_on = [ module.gitops ]
+
+  metadata {
+    name      = "kargo"
+    namespace = "gitops"
+  }
+
+  spec {
+    project = "gitops"
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "gitops"
+    }
+
+    source {
+      repo_url        = "ghcr.io/akuity/kargo-charts"
+      target_revision = "0.1.0"
+      chart= "kargo"
+      
+
+      helm {
+        
+        values = templatefile("./modules/argocd_application/applications/kargo/values.yaml",merge({
+          timezone:var.timezone,
+          domain: var.domain
+          master_hostname: var.master_hostname
+
+        },{"namespace":"gitops","priority":"critical"}))
+      }
+    }
+
+    sync_policy {
+      automated {
+        prune       = true
+        self_heal   = true
+        allow_empty = true
+      }
+      # Only available from ArgoCD 1.5.0 onwards
+      sync_options = ["Validate=false"]
+      retry {
+        limit = "5"
+        backoff {
+          duration     = "10s"
+          max_duration = "2m"
+          factor       = "2"
+        }
+      }
+    }
+  }
+
+}

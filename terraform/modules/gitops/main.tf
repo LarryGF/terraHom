@@ -36,6 +36,12 @@ resource "argocd_project" "gitops" {
       server    = "https://kubernetes.default.svc"
       namespace = "services"
     }
+
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "gitops"
+    }
+
     destination {
       server    = "https://kubernetes.default.svc"
       namespace = "monitoring"

@@ -7,7 +7,7 @@ media:
     media:
       enabled: true
       name: media
-      size: 9000Gi
+      size: 9500Gi
       access_modes:
         - ReadWriteMany
   override:
@@ -390,22 +390,6 @@ homepage:
     domain: ${domain}
     master_hostname: ${master_hostname}
 
-kargo:
-  name: kargo
-  namespace: gitops
-  deploy: false
-  priority: critical
-  volumes:
-    config:
-      enabled: false
-      name: kargo-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
 
 filebrowser:
   name: filebrowser

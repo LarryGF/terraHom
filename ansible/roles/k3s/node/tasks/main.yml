@@ -23,4 +23,4 @@
 - name: Add priority label to agent servers 
   become: no
   local_action:
-    module: command kubectl --kubeconfig ~/.kube/config label nodes {{ inventory_hostname }} priority=low --overwrite
+    module: command kubectl --kubeconfig ~/.kube/config label nodes {{ inventory_hostname }} priority={{ hostvars[inventory_hostname]['priority'] | default('low') }} --overwrite
