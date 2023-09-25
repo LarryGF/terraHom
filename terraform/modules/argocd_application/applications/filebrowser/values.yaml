@@ -1,5 +1,7 @@
 filebrowser:
-
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
   nodeSelector:
     priority: ${priority}
     
