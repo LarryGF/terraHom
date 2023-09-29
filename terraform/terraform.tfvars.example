@@ -1,0 +1,52 @@
+
+## Cert Manager
+letsencrypt_email  = ""
+letsencrypt_server = ""
+
+## Traefik
+source_range = ""
+source_range_ext = ""
+
+## Global
+timezone        = ""
+domain  = ""
+master_hostname = ""
+master_ip = ""
+
+## DNS
+token = ""
+
+
+## ArgoCD
+gh_username = ""
+gh_token = ""
+
+## Rtorrent
+vpn_config = ""
+
+## Plex
+allowed_networks = ""
+plex_claim_token = ""
+
+## Keys
+api_keys = {
+    radarr_key = ""
+    sonarr_key = ""
+    prowlarr_key = ""
+    bazarr_key = ""
+    plex_key = ""
+    portainer_key = ""
+    jellyseerr_key = ""
+    pihole_key = ""
+    sabnzbd_key = ""
+    discord_webhook_url = ""
+    kwatch_discord_webhook_url = ""
+    authelia_JWT_TOKEN = ""
+    authelia_SESSION_ENCRYPTION_KEY = ""
+    authelia_STORAGE_ENCRYPTION_KEY = ""
+    crowdsec_enrollment_key = ""
+}
+
+## Components
+use_sandbox = false
+use_longhorn = true

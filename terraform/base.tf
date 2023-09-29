@@ -7,7 +7,6 @@ module "base" {
   access_log_enabled = var.access_log_enabled
   token              = var.token
   default_data_path  = var.default_data_path
-  media_storage_size = var.media_storage_size
   nfs_backupstore    = var.nfs_backupstore
   gh_username        = var.gh_username
   gh_token           = var.gh_token
