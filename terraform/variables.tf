@@ -30,12 +30,6 @@ variable "access_log_enabled" {
   default     = true
 }
 
-## DuckDNS
-
-variable "duckdns_token" {
-  type        = string
-  description = "DuckDNS token to use"
-}
 
 variable "token" {
   type        = string
@@ -49,10 +43,7 @@ variable "default_data_path" {
   default     = "/storage01"
 }
 
-variable "media_storage_size" {
-  type        = string
-  description = "Size of the media PVC"
-}
+
 
 variable "nfs_backupstore" {
   type        = string

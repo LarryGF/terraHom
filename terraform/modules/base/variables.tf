@@ -44,10 +44,7 @@ variable "default_data_path" {
   default     = "/storage01"
 }
 
-variable "media_storage_size" {
-  type        = string
-  description = "Size of the media PVC"
-}
+
 
 variable "nfs_backupstore" {
   type        = string

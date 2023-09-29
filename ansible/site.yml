@@ -25,7 +25,7 @@
   tags:
     - prereq
 
-- name: Kubernetes installation prerequisites
+- name: Kubernetes installation download
   hosts: all
   become: true
   gather_facts: yes

@@ -25,10 +25,7 @@ variable "domain" {
   description = "DuckDNS domain to use"
 }
 
-variable "duckdns_token" {
-  type        = string
-  description = "DuckDNS token to use"
-}
+
 
 variable "timezone" {
   type        = string
