@@ -1,4 +1,19 @@
 # This needs to be properly indented otherwise terraform will put it without indentations 
-      - domain: "*.your.domain"
+      - domain: "traefik.${domain}"
         answer: ${master_ip}
-      
+      - domain: "argo.${domain}"
+        answer: ${master_ip}
+      - domain: "pihole.${domain}"
+        answer: ${master_ip}
+      - domain: "adguard.${domain}"
+        answer: ${master_ip}
+      - domain: "prometheus.${domain}"
+        answer: ${master_ip}
+      - domain: "alertmanager.${domain}"
+        answer: ${master_ip}
+      - domain: "ha.${domain}"
+        answer: ${master_ip}
+      - domain: "codeha.${domain}"
+        answer: ${master_ip}
+      - domain: "longhorn.${domain}"
+        answer: ${master_ip}

@@ -16,20 +16,16 @@
     - [VPN Setup](#vpn-setup)
       - [Obtaining the VPN config](#obtaining-the-vpn-config)
   - [Automated Deployment](#automated-deployment)
+    - [(Non-exhaustive) Requirements](#non-exhaustive-requirements)
     - [Ansible](#ansible)
     - [Terraform](#terraform)
-  - [ArgoCD](#argocd)
-  - [Manual Deployment (not recommended)](#manual-deployment-not-recommended)
-    - [Ansible](#ansible-1)
-    - [Longhorn](#longhorn)
+      - [(1) Base](#1-base)
+      - [(2) Gitops](#2-gitops)
+      - [(3) ArgoCD Application](#3-argocd-application)
+      - [Accessing ArgoCD](#accessing-argocd)
+  - [Post Install](#post-install)
   - [Troubleshooting](#troubleshooting)
   - [Expanding the repo](#expanding-the-repo)
-  - [General knowledge](#general-knowledge)
-    - [Kubectl](#kubectl)
-  - [Uninstalling](#uninstalling)
-    - [Uninstall Longhorn](#uninstall-longhorn)
-  - [Adult Content](#adult-content)
-  - [TODO](#todo)
 
 ## Terminology
 
@@ -160,7 +156,11 @@ If you are like me and are stuck with NordVPN for the foreseeable future, you wo
 
 ## Automated Deployment
 
-This section covers the `k3s` installation using [ansible playbooks](#ansible) and the deployment of the services using a mix of [Terraform and ArgoCD](#terraform). The playbooks are in charge of preparing the environment, installing required packages, tagging nodes and making the necessary local changes in order for terraform to work (variable creation, kubeconfig creation, etc.) unless you know what you're doing it is strongly advised to install everything using the provided playbooks.
+This section covers the `k3s` installation using [ansible playbooks](#ansible) and the deployment of the services using a mix of [Terraform and ArgoCD](#terraform). The playbooks are in charge of preparing the environment, installing required packages, tagging nodes and making the necessary local changes in order for terraform to work (variable creation, kubeconfig creation, etc.) unless you know what you're doing it is strongly advised to install everything using the provided playbooks. In case you want to skip this here is a list of some resource that could be missing, but I might have missed something:
+
+### (Non-exhaustive) Requirements
+
+- [Longhorn](https://staging--longhornio.netlify.app/docs/0.8.1/deploy/install/#installation-requirements)
 
 ### Ansible
 
@@ -233,7 +233,8 @@ If you're planning on manually installing kubernetes or if you already have a ku
 
 Ansible just installs kubernetes and makes the necessary configurations, but doesn't deploy anything to the cluster, as a matter of fact, by default the playbook even skips some components that come with `k3s` by default to allow for a fresh, fully customized deployment.
 
-1. Create `terraform/terraform.tfvars`, you can use `terraform/terraform.tfvars.example` as a base, below is a table with an explanation for each variable:
+1. Create `terraform/terraform.tfvars`, you can use `terraform/terraform.tfvars.example` as a base, below is a table with an explanation for each variable, you can ignore the `Rtorrent`,`Plex` and `Keys` components for now since they won't be used until the services are deployed:
+  
    | Component    | Name                                     | Description                                                                                                                                                                                                              |
    | ------------ | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
    | Cert Manager | letsencrypt_email                        | Email associated with Let's Encrypt certification |
@@ -270,47 +271,94 @@ Ansible just installs kubernetes and makes the necessary configurations, but doe
    | Components   | use_sandbox                              | Boolean to determine if sandbox environment is created |
    |              | use_longhorn                             | Boolean to determine if Longhorn is used |
 
+2. Rename and/or edit the file `terraform/modules/base/submodules/adguard/helm/dns-rewrites.example.yaml` to `terraform/modules/base/submodules/adguard/helm/dns-rewrites.config.yaml`, this basically tells `Adguard`'s DNS to resolve some services using their private IP addresses instead of their public ones. You can add or remove entries as you please
 
-## ArgoCD
+3. (Optional) If you are feeling adventurous, in theory you could run everything now, but you might find yourself with unexpected errors or services/configs that you don't want. Maybe you want to validate if the default values are correct, in any case, you can run (from the root of the repo):
 
-- Get admin user by running:
+   ```bash
+    # terraform -chdir=terraform init
+    # terraform -chdir=terraform apply -auto-approve
+   ```
+
+4. In the sections below I will cover the different modules and their functions in order:
+
+#### (1) Base
+
+As its name implies, the `base` module deploys the base services needed in order for the rest of the applications to run, it also creates all the namespaces that will be used. There are many submodules, some are deprecated and not currently in use, but the code is still there in case anyone finds it helpful. The submodules deployed are:
+
+- Cert-manager: this module deploys a ClusterIssuer that generates certificates using LetsEncrypt for all of your ingresses.
+- Traefik: this module deploys a modified `traefik` LoadBalancer, replacing the `traefik` that comes with `k3s` by default. It also deploys several middlewares:
+  - Error pages: this also deploys an `error pages` service that shows a custom error page and comes as a default view for any HTTP error that traefik shows
+  - Ip Whitelist: this will only allow traffic from the subnets/IPs defined in `terraform.tfvars`. By default this will always fetch and add your public IP to the whitelists at run time. It also adds the IP ranges for Cloudflare servers for future Cloudflare integrations
+  - Redirect https: this will redirect all `http` to `https`
+- Longhorn: this modules installs and configures `longhorn`
+- Prometheus-CRDS: this just installs some additional CustomResourceDefinitions that at this moment are not present in the cluster in order to create ServiceMonitors, PrometheusRules, etc
+- DDclient: this module is in charge of updating your domain to always point to your public IP
+- Adguard Home: this module deploys `Adguard Home` with pre-configured lists and can act as your local DNS server. Be sure to add `nameserver {master node ip}` to the `/etc/resolve.conf` in your `control node`.
+- ArgoCD: this module deploys `ArgoCD` to your cluster. Once this module has been installed it will be used to deploy all of the other applications to your cluster.
+
+Now that you know all of the components for the `base` module you can deploy it to your cluster by running from the root of the repo:
+
+```bash
+terraform -chdir=terraform init
+terraform apply -chdir=terraform -auto-approve -target module.base   
+```
+
+If it complains about missing CRDs you can install them by running:
+
+```bash
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
+kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
+# and then run again
+terraform apply -chdir=terraform -auto-approve -target module.base   
+```
+
+#### (2) Gitops
+
+The `Gitops` module is responsible for configuring `ArgoCD` and making it usable: it creates default repositories, repository credentials, projects and permission. It is also tasked with initializing the `ArgoCD` provider with the correct credentials removing that responsibility from the next module. You can deploy it by running:
+
+```bash
+terraform apply -chdir=terraform -auto-approve -target module.gitops   
+```
+
+#### (3) ArgoCD Application
+
+This is where the interesting part happens, this module is responsible for deploying your applications, it achieves this by making `Terraform` and `ArgoCD` work togehter, below is a more in-depth explanation of how it works and its components:
+
+- `applications.yaml`: this `YAML` contains the configuration for all of the applications that can be deployed, from here you can control if an application will be deployed or not, where will it be deployed (namespace and node), persistence, as well as values to be overwritten.
+
+- For each application marked to be deployed the module creates an `Application` CRD that will get picked up and deployed by `ArgoCD` following these steps:
+  - Each application is declared as an [umbrella-chart](https://helm.sh/docs/howto/charts_tips_and_tricks/#complex-charts-with-many-dependencies) inside the `argocd` folder in the root of the repo. This allows us to take advantage of this new `umbrella chart` to install any additional desired kubernetes manifests, and provide basic configuration to the chart using the `values.common.yaml`
+  - Each application also has a counterpart inside `terraform/modules/argocd_application/applications`, this allows us to use terraform variables and data to further configure the `ArgoCD` application without having to explicitly declare anything extra (this is done through the `override` key for each application in `applications.yaml`)
+  - If the application has volumes declared it will create any necessary PVCs with the desired configs (if Longhorn is enabled it will use the `longhorn` `StorageClass`, otherwise will use the `local-path` `StorageClass`)
+
+- Each application in the repo should work out of the box and they come pre-configured to work fine in this particular environment, so they should work well together. Of course, they come with a highly opinionated configuration, so you're always free to make any changes.
+
+You can read the [Applications](./docs/Applications.md) file to find out what each application does and whic ones are enabled by default.
+
+It is worth noting that the helm charts deployed as part of the `base` module won't be visible in `ArgoCD` since they weren't created using `Applications` but directly installed using helm charts from `Terraform`. The same thing happens with the `PersistentVolumes` and `PersistentVolumeClaims`, they are not visible as a resource in `ArgoCD` since they were created from `Terraform` and are just being referenced as an existing `PVC` in the helm values file, but they will be visible from `Longhorn`'s UI.
+
+At this point everything should be up and running, if you face any issues you can head to the [Troubleshooting section](#troubleshooting), and if that doesn't solve your problem feel free to open an issue in the repo or write an email and I will do my best to help you.
+
+#### Accessing ArgoCD
+
+- First thing you need to do is to get the admin user's password by running:
 
 ```shell
 kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' -n gitops | base64 -d
 ```
 
-```shell
-- terraform taint "module.argocd_application[\"promtail\"].argocd_application.application[0]"
-```
+- You will get a string in this form: `y3hGrasC0123LXc-%` be sure not to copy the `%` since that is not part of the password
+- Once you have that you can go to `https://argo.{your_domain}/`, login as `admin` with the previously obtained password and you will be greeted by this screen:
+  ![argocd screen](images/argo.png)
 
-## Manual Deployment (not recommended)
+- Alternatively, if you are deploying the default applications, or at least the `homepage` application, you can head to `https://home.{your_domain}/` where you will find a dashboard that will automatically update with links to your deployed services:
+  ![home dashboard](images/home.png)
 
-Alternatively you can deploy everything manually, but you will need to do it in the following order (this is the order that the automated deployment script runs the commands, you can always check it for reference):
+## Post Install
 
-___This does not mean that you won't have to create the variable files, otherwise you will have to pass them as arguments to the commands___
-
-- Execute the ansible playbook that will make sure that all requirements in the node(s) are met:
-
-    ```shell
-    ansible-playbook ./ansible/k3s-ansible/site.yml -i ./ansible/k3s-ansible/inventory/deploy/hosts.ini -u $user 
-    ```
-
-- Install the necessary CRDs for `traefik` and `cert-manager`:
-
-    ```shell
-    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.crds.yaml
-    kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.9/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
-    ```
-
-### Ansible
-
-- From the root folder
-
-### Longhorn
-
-If you are going to use longhorn verify that the below requirements are met before deploying:
-
-- <https://staging--longhornio.netlify.app/docs/0.8.1/deploy/install/#installation-requirements>
+Read the [Post-Install](./docs/Post-Install.md) file to see any additional configs for some of the services to be deployed
 
 ## Troubleshooting
 
@@ -319,33 +367,3 @@ Read the [Troubleshooting](./docs/Troubleshooting.md) file to find solutions to 
 ## Expanding the repo
 
 Read the [Expanding](./docs/Expanding.md) file to find a more in-depth explanation on how things work and how to add your own services and functionalities.
-
-## General knowledge
-
-### Kubectl
-
-## Uninstalling
-
-### Uninstall Longhorn
-
-<https://longhorn.io/docs/1.4.1/deploy/uninstall>
-
-## Adult Content
-
-Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), this won't be enabled by default and not be part of the `modules_to_run` variable, if you want to be able to download adult cotent, you will have to add that manually.
-
-## TODO
-- Mylar
-- kavita
-
-- Add loki documentation
-- Airlock Microgateway
-- linkerd
-- k8tz
-- k8s-scanner
-- https://artifacthub.io/packages/helm/geek-cookbook/samba
-- kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-rbac.yml
-- kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v2.10/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
-- Dex not working
-- Explain plex external setup
-- Explain traefik automatic ip addition to whitelist
