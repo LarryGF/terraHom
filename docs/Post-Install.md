@@ -17,6 +17,7 @@ These are the steps you need to follow after you've finished the infrastructure 
     - [Prowlarr](#prowlarr)
     - [Sonarr/Radarr](#sonarrradarr)
     - [Mylar](#mylar)
+    - [Adult Content](#adult-content)
   - [Players](#players)
     - [Plex/Ombi](#plexombi)
     - [Jellyfin](#jellyfin)
@@ -165,6 +166,10 @@ terraform apply -auto-approve -target module.argocd_application
 
 set comics foler and comicvine api key
 enable api key for prowlarr
+
+### Adult Content
+
+Adult content is provided using [Whisparr](https://wiki.servarr.com/whisparr), this won't be enabled by default, if you want to be able to download adult cotent, you will have to add the `whisparr` config manually to the `applications.yaml`
 
 ## Players
 

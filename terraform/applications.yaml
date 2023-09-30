@@ -333,21 +333,6 @@ bazarr:
     api_key: ${api_keys["bazarr_key"]}
 
 
-whisparr:
-  name: whisparr
-  namespace: services
-  deploy: false
-  volumes:
-    config:
-      enabled: false
-      name: whisparr-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-
 readarr:
   name: readarr
   namespace: services
