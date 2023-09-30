@@ -1,0 +1,11 @@
+---
+- name: Install ZeroTier
+  shell: |
+    curl -s https://install.zerotier.com/ | bash
+  register: install_result
+  changed_when: "'already installed' not in install_result.stdout"
+
+- name: Join ZeroTier Network
+  command: zerotier-cli join {{ zerotier_network_id }}
+  register: join_result
+  changed_when: "'200 join OK' in join_result.stdout"
