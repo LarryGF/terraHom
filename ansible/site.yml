@@ -67,3 +67,11 @@
   tags:
     - kubernetes
     - storage
+
+- name: Install and Configure ZeroTier
+  hosts: zerotier
+  become: true
+  roles:
+    - zerotier
+  tags:
+    - zerotier

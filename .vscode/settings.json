@@ -1,5 +1,6 @@
 {
     "yaml.schemas": {
         "https://json.schemastore.org/helmfile.json": "file:///home/larry/git/pi-k8s/argocd/crowdsec/values.common.yaml"
-    }
+    },
+    "ansible.python.interpreterPath": "/home/larry/.pyenv/versions/3.9.13/bin/python"
 }
