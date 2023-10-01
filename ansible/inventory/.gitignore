@@ -1,3 +1,5 @@
 *
 !.gitignore
-!sample/
+!deploy/
+!group_vars/
+!.gitkeep

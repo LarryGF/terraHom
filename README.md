@@ -181,7 +181,7 @@ If you're planning on manually installing kubernetes or if you already have a ku
           - network2
     ```
 
-2. Create `ansible/k3s-ansible/inventory/deploy/hosts.ini` with the following:
+2. Create `ansible/inventory/deploy/hosts.ini` with the following:
   
     ```ini
     [master]
