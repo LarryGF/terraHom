@@ -2,3 +2,4 @@
 #		to NFS clients.  See exports(5).
 
 /mnt/external-disk/nfs *(rw,sync,no_subtree_check,no_root_squash)
+/mnt/external-disk-2/nfs *(rw,sync,no_subtree_check,no_root_squash)

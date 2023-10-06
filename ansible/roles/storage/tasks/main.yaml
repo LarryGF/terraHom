@@ -7,47 +7,58 @@
 - name: Create directory to mount disk
   file:
     state: directory
-    path: /mnt/external-disk
+    path: "{{ item.path }}"
     owner: root
     group: root
     mode: '0755'
+  loop: "{{ disks }}"
+
 
 - name: Mount external disk
   ansible.posix.mount:
-    path: /mnt/external-disk
-    src: "/dev/{{ nfs_drive_partition }}"
+    path: "{{ item.path }}"
+    src: "/dev/{{ item.device }}"
     fstype: ext4
     state: mounted
+  loop: "{{ disks }}"
+
+
+- name: Ensure /etc/fstab is correctly set for each disk
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    regexp: '^/dev/{{ item.device }}\s'
+    line: '/dev/{{ item.device }} {{ item.path }} ext4 defaults 0 0'
+  with_items: "{{ disks }}"
 
 - name: Create directory for Longhorn storage
   file:
     state: directory
-    path: /mnt/external-disk/storage
+    path: "{{ item.path }}/storage"
     owner: root
     group: root
     mode: '0755'
+  loop: "{{ disks }}"
+
 
 - name: Create folder for PVs and backups
   file:
     state: directory
-    path: "/mnt/external-disk/{{ item }}"
-  with_items:
-    - nfs/backups
-    - nfs/pvs
-    - nfs/pvs/media
-  
+    path: "{{ item[0].path}}/{{ item[1] }}"
+  loop: "{{ disks | product(['nfs/backups','nfs/pvs','nfs/pvs/media'])}}"
 
-- name: Create NFS export 
-  copy:
-    src: exports
+
+- name: Create NFS export
+  template:
+    src: exports.tpl.j2
     dest: /etc/exports
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   notify: Restart NFS Server
 
+
 - name: Make exports available
-  command:  exportfs -rv
+  command: exportfs -rv
 
 - name: Set terraform variables for storage server
   become: no
@@ -56,21 +67,22 @@
       local_action:
         module: lineinfile
         dest: "../terraform/terraform.tfvars"
-        regexp: '^nfs_server = .*'
-        line: "nfs_server = \"{{ ansible_default_ipv4.address }}\""
+        regexp: "^nfs_server = .*"
+        line: 'nfs_server = "{{ ansible_default_ipv4.address }}"'
 
     - name: Set backup store for longhorn
       local_action:
         module: lineinfile
         dest: "../terraform/terraform.tfvars"
-        regexp: '^nfs_backupstore = .*'
-        line: "nfs_backupstore = \"nfs://{{ ansible_default_ipv4.address }}:/mnt/external-disk/nfs/backups\""
+        regexp: "^nfs_backupstore = .*"
+        line: 'nfs_backupstore = "nfs://{{ ansible_default_ipv4.address }}:/mnt/external-disk/nfs/backups"'
 
 - name: Add label to storage node
-  become: no
+  become: false
   local_action:
     module: command kubectl --kubeconfig ~/.kube/config label nodes {{ inventory_hostname }} node.longhorn.io/create-default-disk=true --overwrite
 
-# - name: Remove 'default' flag for local-path storage class
-#   local_action:
-#     module: command kubectl --kubeconfig ./tmp/k3s.yaml patch storageclass local-path -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
+- name: Remove 'default' flag for local-path storage class
+  become: false
+  local_action:
+    module: command kubectl --kubeconfig ~/.kube/config patch storageclass local-path -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'

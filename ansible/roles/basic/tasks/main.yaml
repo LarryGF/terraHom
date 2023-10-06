@@ -5,8 +5,8 @@
   systemd:
     name: dphys-swapfile
     state: stopped
-    enabled: no
-    masked: yes
+    enabled: false
+    masked: true
 
 - name: Disable SWAP
   command: /sbin/swapoff -a
@@ -17,7 +17,7 @@
 - name: Upgrade system
   apt:
     upgrade: dist
-    update_cache: yes
+    update_cache: true
 
 # Time
 - name: Set timezone
@@ -59,14 +59,14 @@
     regexp: "^127.0.1.1.*"
     line: "127.0.1.1\t{{ inventory_hostname }}"
     state: present
-    backup: yes
+    backup: true
 
 - name: Stop and disable systemd-resolved
   systemd:
     name: systemd-resolved
     state: stopped
-    enabled: no
-    masked: yes
+    enabled: false
+    masked: true
 
 - name: Stop NetworkManager from modifying resolv.conf
   lineinfile:
@@ -114,3 +114,22 @@
       - nfs-common
     state: present
 
+
+- name: Set up logrotate for daemon.log and syslog
+  copy:
+    dest: "/etc/logrotate.d/large_logfiles"
+    content: |
+      /var/log/daemon.log
+      /var/log/syslog
+      {
+        rotate 1
+        weekly
+        missingok
+        notifempty
+        compress
+        delaycompress
+        sharedscripts
+        postrotate
+          /bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
+        endscript
+      }

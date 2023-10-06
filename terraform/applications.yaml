@@ -1,25 +1,25 @@
 ## Storage
-media:
-  name: media
-  namespace: services
-  deploy: false
-  volumes:
-    media:
-      enabled: true
-      name: media
-      size: 9500Gi
-      access_modes:
-        - ReadWriteMany
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
+# media:
+#   name: media
+#   namespace: services
+#   deploy: false
+#   volumes:
+#     media:
+#       enabled: false
+#       name: media
+#       size: 9500Gi
+#       access_modes:
+#         - ReadWriteMany
+#   override:
+#     timezone: ${timezone}
+#     domain: ${domain}
 
 ## Monitoring
 grafana:
   name: grafana
   namespace: monitoring
   deploy: false
-  server_side: "true"
+  server_side: "false"
   volumes:
     config:
       enabled: false
@@ -35,7 +35,7 @@ grafana:
 kube-prometheus-stack:
   name: kube-prometheus-stack
   namespace: monitoring
-  server_side: "true"
+  server_side: "false"
   deploy: false
   volumes: {}
   override:
@@ -174,11 +174,11 @@ sabnzbd:
 flood:
   name: flood
   namespace: services
-  deploy: true
+  deploy: false
   priority: low
   volumes:
     config:
-      enabled: false
+      enabled: true
       # backup: enabled
       name: flood-config
       size: 200Mi
@@ -322,7 +322,7 @@ bazarr:
   priority: low
   volumes:
     config:
-      enabled: false
+      enabled: true
       name: bazarr-config
       size: 200Mi
       access_modes:
@@ -379,11 +379,11 @@ homepage:
 filebrowser:
   name: filebrowser
   namespace: services
-  deploy: true
+  deploy: false
   priority: low
   volumes:
     config:
-      enabled: true
+      enabled: false
       name: filebrowser-config
       size: 200Mi
       access_modes:
