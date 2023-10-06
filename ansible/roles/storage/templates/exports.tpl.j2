@@ -1,0 +1,6 @@
+# /etc/exports: the access control list for filesystems which may be exported
+#       to NFS clients.  See exports(5).
+
+{% for disk in disks %}
+{{ disk.path }}/nfs *(rw,sync,no_subtree_check,no_root_squash)
+{% endfor %}
