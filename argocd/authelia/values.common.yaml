@@ -451,7 +451,7 @@ authelia:
       #   networks:
       #   - 10.9.0.0/16
 
-      rules: []
+      # rules: []
       # rules:
       # - domain_regex: '^.*\.example.com$'
       #   policy: bypass
