@@ -6,8 +6,8 @@ module "base" {
   log_level          = var.log_level
   access_log_enabled = var.access_log_enabled
   token              = var.token
-  default_data_path  = var.default_data_path
-  nfs_backupstore    = var.nfs_backupstore
+  default_data_path  = "${var.nfs_servers["root"]["path"]}/storage"
+  nfs_backupstore    = "nfs://${var.nfs_servers["root"]["ip"]}:${var.nfs_servers["root"]["path"]}/nfs/backups"
   gh_username        = var.gh_username
   gh_token           = var.gh_token
   gh_base_repo       = var.gh_base_repo
@@ -18,7 +18,7 @@ module "base" {
   master_hostname   = var.master_hostname
   master_ip         = var.master_ip
   vpn_config        = var.vpn_config
-  nfs_server        = var.nfs_server
+  # nfs_server        = var.nfs_server
   api_keys          = var.api_keys
   use_longhorn      = var.use_longhorn
 }

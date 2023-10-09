@@ -10,25 +10,31 @@
     path: "{{ item.path }}"
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
   loop: "{{ disks }}"
-
 
 - name: Mount external disk
   ansible.posix.mount:
     path: "{{ item.path }}"
     src: "/dev/{{ item.device }}"
     fstype: ext4
-    state: mounted
+    state: ephemeral
   loop: "{{ disks }}"
 
+- name: Get list of disk paths
+  set_fact:
+    disk_paths: "{{ disks|map(attribute='path')|list }}"
 
 - name: Ensure /etc/fstab is correctly set for each disk
   ansible.builtin.lineinfile:
     path: /etc/fstab
-    regexp: '^/dev/{{ item.device }}\s'
-    line: '/dev/{{ item.device }} {{ item.path }} ext4 defaults 0 0'
-  with_items: "{{ disks }}"
+    regexp: '^UUID={{ item.uuid }}\s'
+    line: "UUID={{ item.uuid }} {{ item.mount }} ext4 defaults 0 0"
+  with_items: "{{ ansible_mounts }}"
+  no_log: true
+  when:
+    - "'/dev/' in item.device"
+    - item.mount in disk_paths
 
 - name: Create directory for Longhorn storage
   file:
@@ -36,16 +42,14 @@
     path: "{{ item.path }}/storage"
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
   loop: "{{ disks }}"
-
 
 - name: Create folder for PVs and backups
   file:
     state: directory
     path: "{{ item[0].path}}/{{ item[1] }}"
   loop: "{{ disks | product(['nfs/backups','nfs/pvs','nfs/pvs/media'])}}"
-
 
 - name: Create NFS export
   template:
@@ -56,26 +60,80 @@
     mode: "0644"
   notify: Restart NFS Server
 
-
 - name: Make exports available
   command: exportfs -rv
 
-- name: Set terraform variables for storage server
-  become: no
-  block:
-    - name: Set nfs_server variable
-      local_action:
-        module: lineinfile
-        dest: "../terraform/terraform.tfvars"
-        regexp: "^nfs_server = .*"
-        line: 'nfs_server = "{{ ansible_default_ipv4.address }}"'
+- name: Debug disks
+  debug:
+    var: disks
 
-    - name: Set backup store for longhorn
-      local_action:
-        module: lineinfile
-        dest: "../terraform/terraform.tfvars"
-        regexp: "^nfs_backupstore = .*"
-        line: 'nfs_backupstore = "nfs://{{ ansible_default_ipv4.address }}:/mnt/external-disk/nfs/backups"'
+- name: Get list of disk sizes
+  set_fact:
+    disks_with_sizes: "{{ disks_with_sizes|default([]) + [ item|combine({'size_in_gib': (ansible_mounts|selectattr('device', 'equalto', '/dev/' + item.device)|first).size_total / (2**30)})] }}"
+  loop: "{{ disks }}"
+  loop_control:
+    loop_var: item
+
+- name: Debug disks_with_sizes
+  debug:
+    var: disks_with_sizes
+
+- name: Construct cluster_storage dictionary
+  set_fact:
+    cluster_storage: >-
+      {{
+        cluster_storage | default({}) |
+        combine({
+          item.key: item.value.disks
+        })
+      }}
+  loop: "{{ hostvars | dict2items }}"
+  when: item.value.disks is defined
+  run_once: true
+  no_log: true
+
+- name: Debug cluster_storage
+  debug:
+    var: cluster_storage
+
+- name: Backup terraform.tfvars
+  become: false
+  ansible.builtin.copy:
+    src: ../terraform/terraform.tfvars
+    dest: ../terraform/terraform.tfvars.backup.config
+    mode: preserve
+  delegate_to: localhost
+
+- name: Remove existing nfs_servers definition from terraform.tfvars
+  become: false
+  local_action:
+    module: lineinfile
+    dest: "../terraform/terraform.tfvars"
+    regexp: '^nfs_servers\s*='
+    state: absent
+  run_once: true
+
+- name: Append the new nfs_servers definition to terraform.tfvars
+  become: false
+  local_action:
+    module: blockinfile
+    dest: "../terraform/terraform.tfvars"
+    block: |
+      nfs_servers = {
+      {% for host, disks in cluster_storage.items() %}
+        {% for disk in hostvars[host].disks_with_sizes %}
+        "{{ disk.name }}" = {
+            longhorn = {{ disk.longhorn | lower }}
+            path = "{{ disk.path }}"
+            size = "{{ disk.size_in_gib| round(0)| int  }}"
+            hostname = "{{ host }}"
+            ip = "{{ hostvars[host].ansible_host }}"
+          },
+        {% endfor %}
+      {% endfor %}
+      }
+    marker: "# {mark} ANSIBLE MANAGED BLOCK for nfs_servers"
+  run_once: true
 
 - name: Add label to storage node
   become: false

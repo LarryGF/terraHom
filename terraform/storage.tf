@@ -6,39 +6,13 @@ resource "kubernetes_storage_class" "nfs" {
   storage_provisioner = "nfs"
 }
 
-## Media
-resource "kubernetes_persistent_volume" "media-pv" {
-  metadata {
-    name = "media"
-  }
-  spec {
-    capacity = {
-      storage = "9600Gi"
-    }
-    access_modes       = ["ReadWriteMany"]
-    storage_class_name = kubernetes_storage_class.nfs.metadata[0].name
-    persistent_volume_source {
-      nfs {
-        server = var.nfs_server
-        path   = "/mnt/external-disk-2/nfs/pvs/media/"
-      }
-    }
-  }
-}
-
-resource "kubernetes_persistent_volume_claim" "media" {
-  metadata {
-    name = "media"
-    namespace = "services"
-  }
-  spec {
-    access_modes = ["ReadWriteMany"]
-    resources {
-      requests = {
-        storage = "9600Gi"
-      }
-    }
-    volume_name        = kubernetes_persistent_volume.media-pv.metadata[0].name
-    storage_class_name = kubernetes_storage_class.nfs.metadata[0].name
-  }
+module "storage" {
+  source = "./modules/storage"
+  for_each = local.cluster_storage
+  storage_class_name = kubernetes_storage_class.nfs.metadata[0].name
+  pv_name = each.key
+  pv_capacity = each.value.size
+  pv_access_modes = ["ReadWriteMany"]
+  nfs_server_ip = each.value.ip
+  nfs_server_path = "${each.value.path}/nfs/pvs/media"
 }

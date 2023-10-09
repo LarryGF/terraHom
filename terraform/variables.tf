@@ -45,10 +45,10 @@ variable "default_data_path" {
 
 
 
-variable "nfs_backupstore" {
-  type        = string
-  description = "Default NFS for backups"
-}
+# variable "nfs_backupstore" {
+#   type        = string
+#   description = "Default NFS for backups"
+# }
 
 
 
@@ -104,9 +104,14 @@ variable "vpn_config" {
 
 }
 
-variable "nfs_server" {
-  type        = string
-  description = "IP address of NFS server"
+# variable "nfs_server" {
+#   type        = string
+#   description = "IP address of NFS server"
+# }
+
+variable "nfs_servers" {
+  type        = any
+  description = "Object containing all of the NFS storage for the cluster"
 }
 
 
