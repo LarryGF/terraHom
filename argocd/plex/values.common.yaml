@@ -18,13 +18,6 @@ plex:
       securityContext:
         runAsUser: 0
 
-  persistence:
-    config:
-      enabled: true
-      existingClaim: plex-config
-    downloads:
-      enabled: true
-      existingClaim: media
 
   nodeSelector:
     # kubernetes.io/hostname: ${master_hostname}

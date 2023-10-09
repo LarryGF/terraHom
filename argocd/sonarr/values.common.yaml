@@ -22,13 +22,5 @@ sonarr:
       securityContext:
         runAsUser: 0
 
-  persistence:
-    config:
-      enabled: true
-      existingClaim: sonarr-config
-    downloads:
-      enabled: true
-      existingClaim: media
-
   metrics:
     enabled: true

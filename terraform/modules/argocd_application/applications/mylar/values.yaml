@@ -23,3 +23,11 @@ mylar:
         - hosts:
             - "mylar.${domain}"
           secretName: tls-mylar-ingress
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: mylar-config
+    downloads:
+      enabled: true
+      existingClaim: media

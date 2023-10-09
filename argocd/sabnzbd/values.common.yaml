@@ -21,13 +21,6 @@ sabnzbd:
       securityContext:
         runAsUser: 0
 
-  persistence:
-    config:
-      enabled: true
-      existingClaim: sabnzbd-config
-    downloads:
-      enabled: true
-      existingClaim: media
 
 #  # VPN side-car
 #   addons:

@@ -37,3 +37,11 @@ plex:
         - hosts:
             - "plex.${domain}"
           secretName: tls-plex-ingress
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: plex-config
+    downloads:
+      enabled: true
+      existingClaim: media
