@@ -24,3 +24,11 @@ readarr:
         - hosts:
             - "readarr.${domain}"
           secretName: tls-readarr-ingress
+          
+  persistence:
+    config:
+      enabled: true
+      existingClaim: readarr-config
+    downloads:
+      enabled: true
+      existingClaim: media

@@ -30,3 +30,11 @@ bazarr:
         - hosts:
             - "bazarr.${domain}"
           secretName: tls-bazarr-ingress
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: bazarr-config
+    downloads:
+      enabled: true
+      existingClaim: media

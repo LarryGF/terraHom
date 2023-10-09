@@ -22,10 +22,3 @@ mylar:
       securityContext:
         runAsUser: 0
 
-  persistence:
-    config:
-      enabled: true
-      existingClaim: mylar-config
-    downloads:
-      enabled: true
-      existingClaim: media

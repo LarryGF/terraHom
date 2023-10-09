@@ -27,3 +27,10 @@ sabnzbd:
         - hosts:
             - "sabnzbd.${domain}"
           secretName: tls-sabnzbd-ingress
+  persistence:
+    config:
+      enabled: true
+      existingClaim: sabnzbd-config
+    downloads:
+      enabled: true
+      existingClaim: media

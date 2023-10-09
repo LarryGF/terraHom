@@ -20,14 +20,6 @@ radarr:
         mountPath: /downloads 
       securityContext:
         runAsUser: 0
-
-  persistence:
-    config:
-      enabled: true
-      existingClaim: radarr-config
-    downloads:
-      enabled: true
-      existingClaim: media
   
   metrics:
     enabled: true

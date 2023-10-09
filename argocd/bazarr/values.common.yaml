@@ -3,15 +3,6 @@ bazarr:
     repository: lscr.io/linuxserver/bazarr
     tag: 1.2.0
 
-  
-    
-  persistence:
-    config:
-      enabled: true
-      existingClaim: bazarr-config
-    downloads:
-      enabled: true
-      existingClaim: media
 
   initContainers:
       update-volume-permission:
@@ -25,3 +16,4 @@ bazarr:
           mountPath: /downloads 
         securityContext:
           runAsUser: 0
+

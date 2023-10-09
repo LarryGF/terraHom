@@ -30,3 +30,17 @@ rtorrent-flood:
         - hosts:
             - "flood.${domain}"
           secretName: tls-flood-ingress
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: flood-config
+
+    downloads:
+      enabled: true
+      existingClaim: media
+
+    shared:
+      enabled: true
+      type: emptyDir
+      mountPath: /shared

@@ -31,3 +31,11 @@ radarr:
   metrics:
     prometheusRule:
       enabled: true
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: radarr-config
+    downloads:
+      enabled: true
+      existingClaim: media

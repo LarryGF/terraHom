@@ -31,3 +31,11 @@ sonarr:
   metrics:
     prometheusRule:
       enabled: true
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: sonarr-config
+    downloads:
+      enabled: true
+      existingClaim: media
