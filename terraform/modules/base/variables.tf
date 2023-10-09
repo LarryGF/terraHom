@@ -41,7 +41,7 @@ variable "token" {
 variable "default_data_path" {
   type        = string
   description = "Default Data Path"
-  default     = "/storage01"
+  default     = "/mnt/external-disk/storage"
 }
 
 
@@ -104,10 +104,11 @@ variable "vpn_config" {
 
 }
 
-variable "nfs_server" {
-  type        = string
-  description = "IP address of NFS server"
-}
+# variable "nfs_server" {
+#   type        = string
+#   description = "IP address of NFS server"
+# }
+
 
 ## Operational
 variable "use_longhorn" {

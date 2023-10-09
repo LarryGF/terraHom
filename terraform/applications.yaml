@@ -178,7 +178,7 @@ flood:
   priority: low
   volumes:
     config:
-      enabled: true
+      enabled: false
       # backup: enabled
       name: flood-config
       size: 200Mi

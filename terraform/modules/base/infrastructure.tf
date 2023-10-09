@@ -29,7 +29,7 @@ module "longhorn" {
   source            = "./submodules/longhorn"
   domain    = var.domain
   nfs_backupstore   = var.nfs_backupstore
-  default_data_path = "/mnt/external-disk/storage"
+  default_data_path = var.default_data_path
   depends_on = [
     module.cert-manager,
     

@@ -59,8 +59,9 @@
     - role: sync
   tags:
     - kubernetes
+
 - name: Configure storage nodes
-  hosts: storage[0]
+  hosts: storage
   become: true
   roles:
     - storage

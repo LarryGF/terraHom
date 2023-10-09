@@ -44,5 +44,9 @@ locals {
       }
     }
   }
+
+  cluster_storage = {
+    for key,value in var.nfs_servers : key => value if try(value.longhorn == false, false)
+  }
 }
 

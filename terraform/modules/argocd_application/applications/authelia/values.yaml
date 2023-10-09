@@ -136,7 +136,6 @@ authelia:
     default_redirection_url: "https://home.${domain}"
     access_control:
       rules: 
-      # rules:
       - domain_regex: 'sonarr.${domain}'
         policy: bypass
         resources:
@@ -148,48 +147,7 @@ authelia:
       - domain_regex: 'sabnzbd.${domain}'
         policy: bypass
         resources:
-        - "^/api/.*$"
-      # - domain: public.example.com
-      #   policy: bypass
-      # - domain: "*.example.com"
-      #   policy: bypass
-      #   methods:
-      #   - OPTIONS
-      # - domain: secure.example.com
-      #   policy: one_factor
-      #   networks:
-      #   - private
-      #   - vpn
-      #   - 192.168.1.0/24
-      #   - 10.0.0.1
-      # - domain:
-      #   - secure.example.com
-      #   - private.example.com
-      #   policy: two_factor
-      # - domain: singlefactor.example.com
-      #   policy: one_factor
-      # - domain: "mx2.mail.example.com"
-      #   subject: "group:admins"
-      #   policy: deny
-      # - domain: "*.example.com"
-      #   subject:
-      #   - "group:admins"
-      #   - "group:moderators"
-      #   policy: two_factor
-      # - domain: dev.example.com
-      #   resources:
-      #   - "^/groups/dev/.*$"
-      #   subject: "group:dev"
-      #   policy: two_factor
-      # - domain: dev.example.com
-      #   resources:
-      #   - "^/users/john/.*$"
-      #   subject:
-      #   - ["group:dev", "user:john"]
-      #   - "group:admins"
-      #   policy: two_factor
-      # - domain: "{user}.example.com"
-      #   policy: bypass
+        - "^/api.*$"
     ##
     ## Session Provider Configuration
     ##
