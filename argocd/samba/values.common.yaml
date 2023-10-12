@@ -1,0 +1,22 @@
+samba:
+  image:
+    # -- image repository
+    repository: ghcr.io/crazy-max/samba
+    # -- image tag
+    tag: 4.18.5
+    # -- image pull policy
+    pullPolicy: Always
+
+  # -- Configures service settings for the chart.
+  # @default -- See values.yaml
+  service:
+    main:
+      ports:
+        tcp:
+          enabled: true
+          protocol: TCP
+          port: 445
+        netbios:
+          enabled: true
+          protocol: TCP
+          port: 139
