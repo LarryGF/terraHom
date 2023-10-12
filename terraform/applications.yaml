@@ -431,6 +431,24 @@ portainer:
     api_key: ${api_keys["portainer_key"]}
 
 
+samba:
+  name: samba
+  namespace: services
+  deploy: true
+  priority: low
+  volumes:
+    config:
+      enabled: false
+      name: samba-config
+      size: 100Mi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    domain: ${domain}
+
+
+
 kubeview:
   name: kubeview
   namespace: services
