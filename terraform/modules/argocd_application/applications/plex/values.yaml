@@ -44,4 +44,9 @@ plex:
       existingClaim: plex-config
     downloads:
       enabled: true
-      existingClaim: media
+      existingClaim: media    
+    downloads-radarr:
+      enabled: true
+      existingClaim: media-radarr
+      mountPath: /downloads/radarr
+      subpath: radarr
