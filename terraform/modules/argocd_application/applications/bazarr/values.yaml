@@ -38,3 +38,8 @@ bazarr:
     downloads:
       enabled: true
       existingClaim: media
+    downloads-radarr:
+      enabled: true
+      existingClaim: media-radarr
+      mountPath: /downloads/radarr
+      subpath: radarr

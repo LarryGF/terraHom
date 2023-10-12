@@ -39,3 +39,24 @@ radarr:
     downloads:
       enabled: true
       existingClaim: media
+    downloads-radarr:
+      enabled: true
+      existingClaim: media-radarr
+      mountPath: /downloads/radarr
+      subpath: radarr    
+
+  initContainers:
+    update-volume-permission:
+      image: busybox
+      command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/radarr && chown -R 1001:1001 /downloads/radarr"]
+
+      volumeMounts:
+      - name: config
+        mountPath: /config
+      - name: downloads 
+        mountPath: /downloads
+      - name: downloads-radarr
+        mountPath: /downloads/radarr
+      securityContext:
+        runAsUser: 0
+  
