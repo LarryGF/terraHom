@@ -2,6 +2,8 @@ samba:
   env:
     # -- Set the container timezone
     TZ: ${timezone}
+    WSDD2_NETBIOS_NAME: sambaServer
+    SAMBA_HOSTS_ALLOW: 0.0.0.0/0
     # SAMBA_WORKGROUP: NT-Domain-Name or Workgroup-Name. (default WORKGROUP)
     # SAMBA_SERVER_STRING: Server string is the equivalent of the NT Description field. (default Docker Samba Server)
     # SAMBA_LOG_LEVEL: Log level. (default 0)
@@ -11,11 +13,21 @@ samba:
     # SAMBA_INTERFACES: Allows you to override the default network interfaces list.
 
   ingress:
-    # -- Enable and configure ingress settings for the chart under this key.
-    # @default -- See values.yaml
     main:
-      enabled: false
-
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      enabled: true
+      hosts:
+        - host: "samba.${domain}"
+          paths:
+          - path: /
+      tls:
+        - hosts:
+            - "samba.${domain}"
+          secretName: tls-samba-ingress
   # -- Configure persistence settings for the chart under this key.
   # @default -- See values.yaml
   persistence:
@@ -27,7 +39,7 @@ samba:
   configmap:
     config:
       # -- Store samba configuration as a ConfigMap
-      enabled: false
+      enabled: true
       # -- Samba configuration. See [image documentation](https://github.com/crazy-max/docker-samba#configuration) for more information.
       # @default -- See values.yaml
       data:
