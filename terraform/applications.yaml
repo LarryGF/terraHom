@@ -452,7 +452,7 @@ gow:
   name: gow
   namespace: services
   deploy: true
-  priority: low
+  priority: critical
   volumes:
     config:
       enabled: false
