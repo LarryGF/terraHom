@@ -1,5 +1,8 @@
 games-on-whales:
 
+  nodeSelector:
+    priority: ${priority}
+  
   ingress:
     # -- Enable and configure ingress settings for the chart under this key.
     # @default -- See values.yaml
@@ -8,7 +11,7 @@ games-on-whales:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
-        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        # traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "GOW"
         gethomepage.dev/description: "Streams graphic applications/games"
