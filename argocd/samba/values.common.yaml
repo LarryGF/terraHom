@@ -16,7 +16,7 @@ samba:
           enabled: true
           protocol: TCP
           port: 445
-        # netbios:
-        #   enabled: true
-        #   protocol: TCP
-        #   port: 139
+        netbios:
+          enabled: true
+          protocol: TCP
+          port: 139

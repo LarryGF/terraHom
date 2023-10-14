@@ -11,3 +11,5 @@
 - Add storage documentation and explain how the PVCs get created from ansible and ansible hosts
 - Explain how to configure multiple media volumes to plex/sabnzbd
 - Explain Lunasea setup
+- Finish samba setup
+- Gameyfin

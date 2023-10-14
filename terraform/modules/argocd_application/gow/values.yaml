@@ -1,0 +1,39 @@
+games-on-whales:
+
+  ingress:
+    # -- Enable and configure ingress settings for the chart under this key.
+    # @default -- See values.yaml
+    main:
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "GOW"
+        gethomepage.dev/description: "Streams graphic applications/games"
+        gethomepage.dev/group: "Internal"
+        gethomepage.dev/icon: "https://artifacthub.io/image/af0a46a7-596b-4d29-b1bc-9ed7ba9e0e1d@1x"
+      enabled: true
+      hosts:
+        - host: "gow.${domain}"
+          paths:
+          - path: /
+      tls:
+        - hosts:
+            - "gow.${domain}"
+          secretName: tls-gow-ingress
+
+
+  # -- Configure persistence settings for the chart under this key.
+  # @default -- See values.yaml
+  persistence:
+    home:
+      enabled: true
+      type: emptyDir
+      mountPath: /home/retro
+
+  # -- (object) Pass GPU resources to Xorg, steam and retroarch containers
+  # See Custom configuration section in the Readme
+  graphic_resources:
+
