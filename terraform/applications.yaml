@@ -434,7 +434,7 @@ portainer:
 samba:
   name: samba
   namespace: services
-  deploy: true
+  deploy: false
   priority: low
   volumes:
     config:
@@ -447,6 +447,22 @@ samba:
     timezone: ${timezone}
     domain: ${domain}
 
+
+gow:
+  name: gow
+  namespace: services
+  deploy: true
+  priority: low
+  volumes:
+    config:
+      enabled: false
+      name: gow-config
+      size: 100Mi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    domain: ${domain}
 
 
 kubeview:
