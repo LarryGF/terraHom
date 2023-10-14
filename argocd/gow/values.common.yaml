@@ -46,7 +46,7 @@ games-on-whales:
     # -- sunshine web interface pasword
     password: admin
     # -- sunshine log level
-    logLevel: info
+    logLevel: debug
     # -- sunshine additional env settings
     env: {}
   xorg:
