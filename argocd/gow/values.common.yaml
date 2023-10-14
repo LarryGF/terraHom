@@ -38,7 +38,7 @@ games-on-whales:
       # -- sunshine image repository
       repository: ghcr.io/games-on-whales/sunshine
       # -- sunshine image tag
-      tag: 1.0.0
+      tag: master
       # -- sunshine image pull policy
       pullPolicy: IfNotPresent
     # -- sunshine web interface user
@@ -54,7 +54,7 @@ games-on-whales:
       # -- xorg image repository
       repository: ghcr.io/games-on-whales/xorg
       # -- xorg image tag
-      tag: 1.0.0
+      tag: master
       # -- xorg image pull policy
       pullPolicy: IfNotPresent
     # -- xorg display ID
@@ -68,7 +68,7 @@ games-on-whales:
       # -- pulseaudio image repository
       repository: ghcr.io/games-on-whales/pulseaudio
       # -- pulseaudio image tag
-      tag: 1.0.0
+      tag: master
       # -- pulseaudio image pull policy
       pullPolicy: IfNotPresent
   retroarch:
@@ -78,7 +78,7 @@ games-on-whales:
       # -- retroarch image repository
       repository: ghcr.io/games-on-whales/retroarch
       # -- retroarch image tag
-      tag: 1.0.0
+      tag: master
       # -- retroarch image pull policy
       pullPolicy: IfNotPresent
     # -- retroarch log level
@@ -92,7 +92,7 @@ games-on-whales:
       # -- steam image repository
       repository: ghcr.io/games-on-whales/steam
       # -- steam image tag
-      tag: 1.0.0
+      tag: master
       # -- steam image pull policy
       pullPolicy: IfNotPresent
     # -- enable proton log
