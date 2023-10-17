@@ -74,6 +74,11 @@
   loop_control:
     loop_var: item
 
+- name: Ensure disks_with_sizes exists
+  set_fact:
+    disks_with_sizes: "{{ disks_with_sizes|default([])}}"
+  
+
 - name: Debug disks_with_sizes
   debug:
     var: disks_with_sizes

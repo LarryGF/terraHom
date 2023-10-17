@@ -36,6 +36,18 @@ samba:
       type: hostPath
       hostPath: /share/samba/share1
 
+  service:
+    main:
+      ports:
+        tcp:
+          enabled: true
+          protocol: TCP
+          port: 445
+        netbios:
+          enabled: false
+          protocol: TCP
+          port: 139
+
   configmap:
     config:
       # -- Store samba configuration as a ConfigMap
@@ -57,10 +69,10 @@ samba:
 
           share:
             - name: foo
-              path: /share/samba/share1
+              path: /home
               browsable: yes
               readonly: no
-              guestok: no
+              guestok: yes
               validusers: foo
               writelist: foo
               veto: no

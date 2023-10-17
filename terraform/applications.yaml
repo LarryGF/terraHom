@@ -434,7 +434,7 @@ portainer:
 samba:
   name: samba
   namespace: services
-  deploy: false
+  deploy: true
   priority: low
   volumes:
     config:
@@ -452,7 +452,7 @@ gow:
   name: gow
   namespace: services
   deploy: true
-  priority: critical
+  priority: high
   volumes:
     config:
       enabled: false
