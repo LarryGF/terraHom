@@ -18,8 +18,9 @@
 grafana:
   name: grafana
   namespace: monitoring
-  deploy: false
+  deploy: true
   server_side: "false"
+  priority: critical
   volumes:
     config:
       enabled: false
@@ -36,7 +37,8 @@ kube-prometheus-stack:
   name: kube-prometheus-stack
   namespace: monitoring
   server_side: "false"
-  deploy: false
+  priority: critical
+  deploy: true
   volumes: {}
   override:
     timezone: ${timezone}
@@ -61,7 +63,8 @@ kwatch:
 loki:
   name: loki
   namespace: monitoring
-  deploy: false
+  priority: critical
+  deploy: true
   volumes: {}
   override:
     timezone: ${timezone}
@@ -71,7 +74,8 @@ loki:
 promtail:
   name: promtail
   namespace: monitoring
-  deploy: false
+  priority: critical
+  deploy: true
   volumes: {}
   override:
     timezone: ${timezone}
@@ -159,6 +163,7 @@ sabnzbd:
   name: sabnzbd
   namespace: services
   deploy: true
+  priority: high
   volumes:
     config:
       enabled: false
@@ -175,7 +180,7 @@ flood:
   name: flood
   namespace: services
   deploy: false
-  priority: low
+  priority: high
   volumes:
     config:
       enabled: false
@@ -211,6 +216,7 @@ plex:
   name: plex
   namespace: services
   deploy: true
+  priority: high
   volumes:
     config:
       enabled: false
@@ -229,7 +235,7 @@ plex:
 jellyseerr:
   name: jellyseerr
   namespace: services
-  priority: low
+  priority: high
   deploy: true
   volumes: 
     config:
@@ -246,11 +252,11 @@ jellyseerr:
 tautulli:
   name: tautulli
   namespace: services
-  deploy: false
-  priority: low
+  deploy: true
+  priority: high
   volumes: 
     config:
-      enabled: false
+      enabled: true
       name: tautulli-config
       size: 200Mi
       access_modes:
@@ -265,7 +271,7 @@ radarr:
   name: radarr
   namespace: services
   deploy: true
-  priority: critical
+  priority: high
   volumes:
     config:
       enabled: false
@@ -283,7 +289,7 @@ sonarr:
   name: sonarr
   namespace: services
   deploy: true
-  priority: critical
+  priority: high
   volumes:
     config:
       enabled: false
@@ -301,7 +307,7 @@ prowlarr:
   name: prowlarr
   namespace: services
   deploy: true
-  priority: critical
+  priority: high
   volumes:
     config:
       enabled: false
@@ -319,7 +325,7 @@ bazarr:
   name: bazarr
   namespace: services
   deploy: true
-  priority: low
+  priority: high
   volumes:
     config:
       enabled: true
@@ -434,7 +440,7 @@ portainer:
 samba:
   name: samba
   namespace: services
-  deploy: true
+  deploy: false
   priority: low
   volumes:
     config:
@@ -451,7 +457,7 @@ samba:
 gow:
   name: gow
   namespace: services
-  deploy: true
+  deploy: false
   priority: high
   volumes:
     config:

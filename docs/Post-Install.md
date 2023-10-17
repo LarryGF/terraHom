@@ -24,6 +24,7 @@ These are the steps you need to follow after you've finished the infrastructure 
       - [Plugins](#plugins)
     - [Jellyseerr](#jellyseerr)
   - [Tools](#tools)
+    - [Tautulli](#tautulli)
     - [Crowdsec](#crowdsec)
     - [Authelia](#authelia)
       - [Setting encryption keys](#setting-encryption-keys)
@@ -198,6 +199,16 @@ ombi emby
 - Don't forget to mark them as default
 
 ## Tools
+
+### Tautulli
+
+First you need to access Tautulli over the local port to configure it:
+
+```bash
+kubectl port-forward -n services svc/tautulli 8181:8181
+```
+
+Finish the setup config, login to plex, setup username and password, etc
 
 ### Crowdsec
 
