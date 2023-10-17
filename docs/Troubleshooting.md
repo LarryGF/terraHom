@@ -30,6 +30,7 @@
       - [Large annotations](#large-annotations)
       - [Unauthorized](#unauthorized)
     - [Plex not authorized user](#plex-not-authorized-user)
+    - [ZeroTier not installing](#zerotier-not-installing)
   - [Restoring duplicati](#restoring-duplicati)
 
 ## General
@@ -304,4 +305,17 @@ If you receive an error: `Not authorized You do not have access to this server` 
 
 and then visiting `http://localhost:{your local port}` in your browser.
 
+### ZeroTier not installing
+
+ZeroTier might fail to install with the following error:
+
+```text
+The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 1657198823E52A61.
+```
+
+to fix this you can run:
+
+```bash
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 1657198823E52A61
+```
 ## Restoring duplicati

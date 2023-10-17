@@ -9,14 +9,4 @@ samba:
 
   # -- Configures service settings for the chart.
   # @default -- See values.yaml
-  service:
-    main:
-      ports:
-        tcp:
-          enabled: true
-          protocol: TCP
-          port: 445
-        netbios:
-          enabled: true
-          protocol: TCP
-          port: 139
+

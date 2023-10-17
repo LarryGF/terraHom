@@ -81,6 +81,8 @@ These steps need to be executed in order and before moving on with the process, 
 
   - Alternatively you can just edit /etc/sudoers
 
+- Be sure to disable the `CD-ROM` entry in `/etc/apt/sources.list` otherwise the system update will fail
+
 - Create your free public domain (this is necessary if you want to use valid [SSL certificates](https://www.kaspersky.com/resource-center/definitions/what-is-a-ssl-certificate)) and access some services outside of your private network, if you don't want this, you can check [this](#domain-and-public-ip)
   
   - DuckDNS (deprecated)
@@ -222,7 +224,9 @@ If you're planning on manually installing kubernetes or if you already have a ku
       kvothe   Ready    worker                 34d    v1.26.3+k3s1
      ```
 
-5. (Optional) All of the plays have been tagged, so, if you want to make any changes and don't want to run everything again you can just run plays matching specific tags:
+5. Verify that everything ran as expected, some of the required steps won't be executed if all roles don't finish running succesfully on all hosts
+
+6. (Optional) All of the plays have been tagged, so, if you want to make any changes and don't want to run everything again you can just run plays matching specific tags:
   
    ```bash
    ansible-playbook ./ansible/site.yml -i ./ansible/inventory/deploy/hosts.ini --ask-become-pass --user {your_user} --tags kubernetes,download

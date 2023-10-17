@@ -13,3 +13,4 @@
 - Explain Lunasea setup
 - Finish samba setup
 - Gameyfin
+- consider external-dns
