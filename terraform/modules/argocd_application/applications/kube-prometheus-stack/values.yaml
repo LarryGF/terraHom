@@ -1,9 +1,14 @@
 kube-prometheus-stack:
+  kube-state-metrics:
+    nodeSelector:
+      priority: ${priority}
   prometheusOperathor:
     nodeSelector:
       priority: ${priority}
     admissionWebhooks:
+      enabled: false
       patch:
+        enabled: false
         nodeSelector:
           priority: ${priority}
 

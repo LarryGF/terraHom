@@ -19,6 +19,3 @@ plex:
         runAsUser: 0
 
 
-  nodeSelector:
-    # kubernetes.io/hostname: ${master_hostname}
-    kubernetes.io/arch: amd64

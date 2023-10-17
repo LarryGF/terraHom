@@ -1,5 +1,4 @@
 tautulli:
-  image:
   env:
     TZ: ${timezone}
 
