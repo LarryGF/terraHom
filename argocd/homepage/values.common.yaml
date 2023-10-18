@@ -34,6 +34,7 @@ homepage:
     settings:
       title: "Home Dashboard"
       headerStyle: clean
+      background: https://wallpapercave.com/wp/wp8865987.jpg
       quicklaunch:
         searchDescriptions: true
         hideInternetSearch: true
