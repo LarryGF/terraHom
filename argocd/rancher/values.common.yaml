@@ -132,4 +132,4 @@ rancher:
       psp:
         # will default to true on 1.24 and below, and false for 1.25 and above
         # can be changed manually to true or false to bypass version checks and force that option
-        enabled: "false" 
+        enabled: false
