@@ -19,7 +19,7 @@ grafana:
   name: grafana
   namespace: monitoring
   deploy: true
-  server_side: "false"
+  server_side: "true"
   priority: critical
   volumes:
     config:
@@ -36,7 +36,7 @@ grafana:
 kube-prometheus-stack:
   name: kube-prometheus-stack
   namespace: monitoring
-  server_side: "false"
+  server_side: "true"
   priority: critical
   deploy: true
   volumes: {}
@@ -216,7 +216,7 @@ plex:
   name: plex
   namespace: services
   deploy: true
-  priority: high
+  priority: critical
   volumes:
     config:
       enabled: false
@@ -252,7 +252,7 @@ jellyseerr:
 tautulli:
   name: tautulli
   namespace: services
-  deploy: true
+  deploy: false
   priority: high
   volumes: 
     config:
@@ -422,11 +422,11 @@ home-assistant:
 portainer:
   name: portainer
   namespace: kube-system
-  deploy: false
-  priority: critical
+  deploy: true
+  priority: high
   volumes:
     config:
-      enabled: false
+      enabled: true
       name: portainer-config
       size: 1Gi
       access_modes:

@@ -144,10 +144,15 @@ authelia:
         policy: bypass
         resources:
         - "^/api/.*$"
+      - domain_regex: 'bazarr.${domain}'
+        policy: bypass
+        resources:
+        - "^/api/.*$"
       - domain_regex: 'sabnzbd.${domain}'
         policy: bypass
         resources:
         - "^/api.*$"
+      
     ##
     ## Session Provider Configuration
     ##
