@@ -51,3 +51,12 @@ resource "kubernetes_namespace" "crowdsec" {
     name = "crowdsec"
   }
 }
+
+resource "kubernetes_namespace" "rancher" {
+  metadata {
+    annotations = {
+      name = "Rancher"
+    }
+    name = "cattle-system"
+  }
+}

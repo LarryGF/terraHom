@@ -436,6 +436,22 @@ portainer:
     domain: ${domain}
     api_key: ${api_keys["portainer_key"]}
 
+rancher:
+  name: rancher
+  namespace: cattle-system
+  deploy: true
+  priority: high
+  volumes:
+    config:
+      enabled: true
+      name: rancher-config
+      size: 1Gi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    domain: ${domain}
+    letsencrypt_email: ${letsencrypt_email}
 
 samba:
   name: samba

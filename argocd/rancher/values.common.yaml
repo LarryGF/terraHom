@@ -1,0 +1,135 @@
+rancher:
+  additionalTrustedCAs: false
+
+  antiAffinity: preferred
+  topologyKey: kubernetes.io/hostname
+
+  # Audit Logs https://rancher.com/docs/rancher/v2.x/en/installation/api-auditing/
+  # The audit log is piped to the console of the rancher-audit-log container in the rancher pod.
+  # https://rancher.com/docs/rancher/v2.x/en/installation/api-auditing/
+  # destination stream to sidecar container console or hostPath volume
+  # level: Verbosity of logs, 0 to 3. 0 is off 3 is a lot.
+  auditLog:
+    destination: sidecar
+    hostPath: /var/log/rancher/audit/
+    level: 0
+    maxAge: 1
+    maxBackup: 1
+    maxSize: 100
+
+    # Image for collecting rancher audit logs.
+    # Important: update pkg/image/export/resolve.go when this default image is changed, so that it's reflected accordingly in rancher-images.txt generated for air-gapped setups.
+    image:
+      repository: "rancher/mirrored-bci-micro"
+      tag: 15.4.14.3
+      # Override imagePullPolicy image
+      # options: Always, Never, IfNotPresent
+      pullPolicy: "IfNotPresent"
+
+  # As of Rancher v2.5.0 this flag is deprecated and must be set to 'true' in order for Rancher to start
+  addLocal: "true"
+
+  # Add debug flag to Rancher server
+  debug: true
+
+  # When starting Rancher for the first time, bootstrap the admin as restricted-admin
+  restrictedAdmin: false
+
+  ### service ###
+  # Override to use NodePort or LoadBalancer service type - default is ClusterIP
+  service:
+    type: ""
+    annotations: {}
+
+  # If you are using certs signed by a private CA set to 'true' and set the 'tls-ca'
+  # in the 'rancher-system' namespace. See the README.md for details
+  privateCA: false
+
+  # http[s] proxy server passed into rancher server.
+  # proxy: http://<username>@<password>:<url>:<port>
+
+  # comma separated list of domains or ip addresses that will not use the proxy
+  noProxy: 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.svc,.cluster.local
+
+  # Override rancher image location for Air Gap installs
+  rancherImage: rancher/rancher
+  # rancher/rancher image tag. https://hub.docker.com/r/rancher/rancher/tags/
+  # Defaults to .Chart.appVersion
+  # rancherImageTag: v2.0.7
+
+  # Override imagePullPolicy for rancher server images
+  # options: Always, Never, IfNotPresent
+  # Defaults to IfNotPresent
+  # rancherImagePullPolicy: <pullPolicy>
+
+  # Number of Rancher server replicas. Setting to negative number will dynamically between 0 and the abs(replicas) based on available nodes.
+  # of available nodes in the cluster
+  replicas: 3
+
+  # Set priorityClassName to avoid eviction
+  priorityClassName: rancher-critical
+
+  # Set pod resource requests/limits for Rancher.
+  resources: {}
+
+  #
+  # tls
+  #   Where to offload the TLS/SSL encryption
+  # - ingress (default)
+  # - external
+  tls: ingress
+
+  systemDefaultRegistry: ""
+
+  # Set to use the packaged system charts
+  useBundledSystemChart: false
+
+  # Certmanager version compatibility
+  certmanager:
+    version: ""
+
+  # Rancher custom logos persistence
+  customLogos:
+    enabled: false
+    volumeSubpaths:
+      emberUi: "ember"
+      vueUi: "vue"
+    ## Volume kind to use for persistence: persistentVolumeClaim, configMap
+    volumeKind: persistentVolumeClaim
+    ## Use an existing volume. Custom logos should be copied to the volume by the user
+    volumeName: rancher-config
+    ## Just for volumeKind: persistentVolumeClaim
+    ## To disables dynamic provisioning, set storageClass: "" or storageClass: "-"
+    storageClass: "-"
+
+  # Rancher post-delete hook
+  postDelete:
+    enabled: true
+    image:
+      repository: rancher/shell
+      tag: v0.1.20
+    namespaceList:
+      - cattle-fleet-system
+      - cattle-system
+      - rancher-operator-system
+    # Number of seconds to wait for an app to be uninstalled
+    timeout: 120
+    # by default, the job will fail if it fail to uninstall any of the apps
+    ignoreTimeoutError: false
+
+  # Set a bootstrap password. If leave empty, a random password will be generated.
+  bootstrapPassword: ""
+
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 30
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 30
+
+  global:
+    cattle:
+      psp:
+        # will default to true on 1.24 and below, and false for 1.25 and above
+        # can be changed manually to true or false to bypass version checks and force that option
+        enabled: "false" 

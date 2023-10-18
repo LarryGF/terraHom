@@ -1,0 +1,62 @@
+rancher:
+  # Extra environment variables passed to the rancher pods.
+  # extraEnv:
+  # - name: CATTLE_TLS_MIN_VERSION
+  #   value: "1.0"
+
+  # Fully qualified name to reach your Rancher server
+  hostname: "portainer.${domain}"
+
+  ## Optional array of imagePullSecrets containing private registry credentials
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  imagePullSecrets: []
+  # - name: secretName
+
+  ### ingress ###
+  # Readme for details and instruction on adding tls secrets.
+  ingress:
+    # If set to false, ingress will not be created
+    # Defaults to true
+    # options: true, false
+    enabled: true
+    includeDefaultExtraAnnotations: true
+    extraAnnotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Rancher"
+      gethomepage.dev/description: ""
+      gethomepage.dev/group: "Internal"
+      gethomepage.dev/icon: "portainer.png"
+    ingressClassName: "traefik"
+    # backend port number
+    servicePort: 80
+
+    # configurationSnippet - Add additional Nginx configuration. This example statically sets a header on the ingress.
+    # configurationSnippet: |
+    #   more_set_input_headers "X-Forwarded-Host: {{ .Values.hostname }}";
+
+    tls:
+      # options: rancher, letsEncrypt, secret
+      source: letsEncrypt
+      secretName: tls-rancher-ingress
+
+  ### service ###
+  # Override to use NodePort or LoadBalancer service type - default is ClusterIP
+  service:
+    type: ""
+    annotations: {}
+
+  ### LetsEncrypt config ###
+  # ProTip: The production environment only allows you to register a name 5 times a week.
+  #         Use staging until you have your config right.
+  letsEncrypt:
+    # email: none@example.com
+    email: ${letsencrypt_email}
+    environment: production
+    ingress:
+      # options: traefik, nginx
+      class: "traefik"
+  # If you are using certs signed by a private CA set to 'true' and set the 'tls-ca'
+  # in the 'rancher-system' namespace. See the README.md for details
+  privateCA: false

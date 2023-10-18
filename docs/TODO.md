@@ -14,3 +14,4 @@
 - Finish samba setup
 - Gameyfin
 - consider external-dns
+- Explain multi-cloud cluster setup in ansible
