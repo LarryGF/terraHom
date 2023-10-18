@@ -17,7 +17,7 @@ portainer:
       gethomepage.dev/icon: "portainer.png"
       gethomepage.dev/widget.type: "portainer"
       gethomepage.dev/widget.env: "1"
-      gethomepage.dev/widget.url: "http://portainer.${namespace}.svc.cluster.local:9443"
+      gethomepage.dev/widget.url: "http://portainer.${namespace}.svc.cluster.local:9000"
       gethomepage.dev/widget.key: "${api_key}"
     enabled: true
     hosts:
