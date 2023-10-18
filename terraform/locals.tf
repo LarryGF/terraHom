@@ -14,6 +14,7 @@ locals {
       api_keys = var.api_keys
       gh_username = var.gh_username
       gh_token = var.gh_token
+      letsencrypt_email = var.letsencrypt_email
     }
   ))
 
