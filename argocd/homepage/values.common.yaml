@@ -36,7 +36,7 @@ homepage:
       headerStyle: clean
       background: 
         image: https://wallpapercave.com/wp/wp8865987.jpg
-        opacity: 50
+        opacity: 30
       cardBlur: md
       quicklaunch:
         searchDescriptions: true

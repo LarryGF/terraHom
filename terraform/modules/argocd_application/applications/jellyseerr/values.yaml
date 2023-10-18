@@ -16,7 +16,7 @@ jellyseerr:
         gethomepage.dev/group: "Media"
         gethomepage.dev/icon: "jellyseerr.png"
         gethomepage.dev/widget.type: "jellyseerr"
-        gethomepage.dev/widget.url: "http://jellyseerr.${namespace}.svc.cluster.local:7878"
+        gethomepage.dev/widget.url: "http://jellyseerr.${namespace}.svc.cluster.local:5055"
         gethomepage.dev/widget.key: "${api_key}"
       enabled: true
       hosts:
