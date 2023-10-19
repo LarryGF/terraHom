@@ -47,3 +47,4 @@ provider "argocd" {
     username = "admin"
     password = module.base.argo-cd-password
 }
+
