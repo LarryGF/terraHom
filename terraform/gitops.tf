@@ -5,6 +5,9 @@ module "gitops" {
   gh_username     = var.gh_username
   gh_base_repo   = var.gh_base_repo
   domain = var.domain
+  depends_on = [ 
+    module.base 
+    ]
 }
 
 module "argocd_application" {

@@ -422,7 +422,7 @@ home-assistant:
 portainer:
   name: portainer
   namespace: kube-system
-  deploy: true
+  deploy: false
   priority: high
   volumes:
     config:

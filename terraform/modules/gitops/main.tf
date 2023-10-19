@@ -59,6 +59,11 @@ resource "argocd_project" "gitops" {
       namespace = "crowdsec"
     }
 
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "cattle-system"
+    }
+
     # cluster_resource_blacklist {
     #   group = "*"
     #   kind  = "*"

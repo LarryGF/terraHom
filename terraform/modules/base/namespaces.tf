@@ -5,6 +5,11 @@ resource "kubernetes_namespace" "services" {
     }
     name = "services"
   }
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
+  }
 }
 
 resource "kubernetes_namespace" "monitoring" {
@@ -13,6 +18,11 @@ resource "kubernetes_namespace" "monitoring" {
       name = "Monitoring"
     }
     name = "monitoring"
+  }
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
   }
 }
 
@@ -23,6 +33,11 @@ resource "kubernetes_namespace" "gitops" {
     }
     name = "gitops"
   }
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
+  }
 }
 
 resource "kubernetes_namespace" "cert-manager" {
@@ -31,6 +46,11 @@ resource "kubernetes_namespace" "cert-manager" {
       name = "CertManager"
     }
     name = "cert-manager"
+  }
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
   }
 }
 
@@ -41,6 +61,11 @@ resource "kubernetes_namespace" "authelia" {
     }
     name = "authelia"
   }
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
+  }
 }
 
 resource "kubernetes_namespace" "crowdsec" {
@@ -50,6 +75,11 @@ resource "kubernetes_namespace" "crowdsec" {
     }
     name = "crowdsec"
   }
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
+  }
 }
 
 resource "kubernetes_namespace" "rancher" {
@@ -58,5 +88,10 @@ resource "kubernetes_namespace" "rancher" {
       name = "Rancher"
     }
     name = "cattle-system"
+  }
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
   }
 }

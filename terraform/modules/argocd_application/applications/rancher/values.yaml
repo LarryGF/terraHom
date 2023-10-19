@@ -3,9 +3,9 @@ rancher:
   # extraEnv:
   # - name: CATTLE_TLS_MIN_VERSION
   #   value: "1.0"
-
+  replicas: 2
   # Fully qualified name to reach your Rancher server
-  hostname: "portainer.${domain}"
+  hostname: "rancher.${domain}"
 
   ## Optional array of imagePullSecrets containing private registry credentials
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -21,13 +21,12 @@ rancher:
     enabled: true
     includeDefaultExtraAnnotations: true
     extraAnnotations:
-      cert-manager.io/cluster-issuer: letsencrypt
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Rancher"
       gethomepage.dev/description: ""
       gethomepage.dev/group: "Internal"
-      gethomepage.dev/icon: "portainer.png"
+      gethomepage.dev/icon: "rancher.png"
     ingressClassName: "traefik"
     # backend port number
     servicePort: 80
