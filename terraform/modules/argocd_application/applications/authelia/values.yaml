@@ -132,6 +132,7 @@ authelia:
           # curvePreferences:
           # - CurveP521
           # - CurveP384
+
   configMap:
     default_redirection_url: "https://home.${domain}"
     access_control:
@@ -320,7 +321,7 @@ authelia:
       ## Important: Kubernetes (or HA) users must read https://www.authelia.com/overview/authorization/statelessness/
       ##
       filesystem:
-        enabled: true
+        enabled: false
         filename: /config/notification.txt
 
       ##
@@ -334,21 +335,21 @@ authelia:
       ##   - validate the SMTP server x509 certificate during the TLS handshake against the hosts trusted certificates
       ##     (configure in tls section)
       smtp:
-        enabled: false
+        enabled: true
         enabledSecret: true
-        host: authelia-maildev-smtp
-        port: 1025
+        host: ${smtp_host}
+        port: ${smtp_port}
         timeout: 5s
-        username: admin
-        sender: admin@authelia.local
+        username: ${smtp_username}
+        sender: ${smtp_sender_email}
         ## HELO/EHLO Identifier. Some SMTP Servers may reject the default of localhost.
-        identifier: localhost
+        identifier: ${master_hostname}
         ## Subject configuration of the emails sent.
         ## {title} is replaced by the text from the notifier
         subject: "[Authelia] {title}"
         ## This address is used during the startup check to verify the email configuration is correct.
         ## It's not important what it is except if your email server only allows local delivery.
-        startup_check_address: test@authelia.local
+        startup_check_address: ${smtp_username}
 
         ## Disables sending HTML formatted emails.
         disable_html_emails: false
@@ -432,7 +433,7 @@ authelia:
       filename: REDIS_SENTINEL_PASSWORD
     smtp:
       key: SMTP_PASSWORD
-      value: "admin"
+      value: ${smtp_password}
       filename: SMTP_PASSWORD
     oidcPrivateKey:
       key: OIDC_PRIVATE_KEY
