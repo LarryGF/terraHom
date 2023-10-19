@@ -35,6 +35,43 @@ homepage:
 
     services: []
 
+  config:
+    # To use an existing ConfigMap uncomment this line and specify the name
+    # useExistingConfigMap: existing-homepage-configmap
+    settings:
+      title: "Home Dashboard"
+      headerStyle: clean
+      background: 
+        image: https://wallpapercave.com/wp/wp8865987.jpg
+        opacity: 20
+      cardBlur: md
+      quicklaunch:
+        searchDescriptions: true
+        hideInternetSearch: true
+      hideVersion: true
+      theme: dark
+      providers:
+        longhorn:
+          url: http://longhorn-frontend.longhorn-system.svc.cluster.local
+      layout:
+        Media:
+          icon: mdi-movie-play
+          style: columns
+        Internal:
+          icon: mdi-nas
+          style: columns
+        Template Aggregators:
+          icon: mdi-briefcase-plus
+          style: columns
+        Monitoring:
+          icon: mdi-safety-goggles
+          style: columns
+        Services:
+          icon: mdi-server-network
+          style: columns
+        Downloaders:
+          icon: mdi-download
+          style: columns
 
   persistence:
     logs:
