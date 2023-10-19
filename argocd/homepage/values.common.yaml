@@ -33,7 +33,7 @@ homepage:
               - abbr: Repo
                 href: https://github.com/LarryGF/pi-k8s
 
-    services: []
+    
 
   config:
     # To use an existing ConfigMap uncomment this line and specify the name

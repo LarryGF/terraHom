@@ -24,10 +24,11 @@ homepage:
   # All the config files for Homepage can be specified under their relevant config block.
 
   config:
+    services: []
     widgets:
       - resources:
           # change backend to 'kubernetes' to use Kubernetes integration. Requires RBAC.
-          backend: resources
+          backend: kubernetes
           expanded: true
           cpu: true
           memory: true
@@ -52,6 +53,7 @@ homepage:
           total: true
           labels: true
           nodes: true
+
 
     kubernetes:
       # change mode to 'cluster' to use RBAC service account
