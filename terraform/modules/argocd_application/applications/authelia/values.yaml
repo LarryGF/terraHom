@@ -451,11 +451,8 @@ authelia:
         readOnly: true
     extraVolumes:
       - name: users-database
-        secret:
-          secretName: authelia-users         
-          items:
-            - key: users_database.yml
-              path: users_database.yml
+        configMap:
+          name: authelia-users
     selectors:
       nodeSelector:
         priority: ${priority}
