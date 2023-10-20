@@ -14,4 +14,6 @@
 - Finish samba setup
 - Gameyfin
 - consider external-dns
-- Explain multi-cloud cluster setup in ansible
+- Explain multi-cloud cluster setup in ansible (longhorn not working)
+- explain authelia and elastic mail setup
+- use kiwigrid k8s-sidecar for authrlia
