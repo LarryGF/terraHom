@@ -95,3 +95,17 @@ resource "kubernetes_namespace" "rancher" {
     ]
   }
 }
+
+resource "kubernetes_namespace" "operators" {
+  metadata {
+    annotations = {
+      name = "Operators"
+    }
+    name = "operators"
+  }
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
+  }
+}

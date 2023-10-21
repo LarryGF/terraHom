@@ -524,3 +524,8 @@ renovate:
     domain: ${domain}
     gh_username: ${gh_username}
     gh_token: ${gh_token}
+
+## Operators
+operators:
+  name: operators
+  namespace: operators
