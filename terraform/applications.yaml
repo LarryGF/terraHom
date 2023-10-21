@@ -115,11 +115,11 @@ authelia:
     JWT_TOKEN: ${api_keys["authelia_JWT_TOKEN"]}
     SESSION_ENCRYPTION_KEY: ${api_keys["authelia_SESSION_ENCRYPTION_KEY"]}
     STORAGE_ENCRYPTION_KEY: ${api_keys["authelia_STORAGE_ENCRYPTION_KEY"]}
-    smtp_username: ${api_keys["authelia_SMTP_USERNAME"]}
-    smtp_password: ${api_keys["authelia_SMTP_PASSWORD"]}
-    smtp_host: ${api_keys["authelia_SMTP_HOST"]}
-    smtp_port: ${api_keys["authelia_SMTP_PORT"]}
-    smtp_sender_email: ${api_keys["authelia_SMTP_SENDER_EMAIL"]}
+    smtp_username: ${api_keys["smtp_username"]}
+    smtp_password: ${api_keys["smtp_password"]}
+    smtp_host: ${api_keys["smtp_host"]}
+    smtp_port: ${api_keys["smtp_port"]}
+    smtp_sender_email: ${api_keys["smtp_sender_email"]}
 
 crowdsec:
   name: crowdsec
@@ -525,7 +525,23 @@ renovate:
     gh_username: ${gh_username}
     gh_token: ${gh_token}
 
-## Operators
-operators:
-  name: operators
-  namespace: operators
+
+nextcloud:
+  name: nextcloud
+  namespace: services
+  deploy: true
+  volumes:
+    db:
+      enabled: true
+      name: nextcloud-db-config
+      size: 5Gi
+      access_modes:
+        - ReadWriteOnce
+  override:
+    timezone: ${timezone}
+    domain: ${domain}
+    smtp_username: ${api_keys["smtp_username"]}
+    smtp_password: ${api_keys["smtp_password"]}
+    smtp_host: ${api_keys["smtp_host"]}
+    smtp_port: ${api_keys["smtp_port"]}
+    smtp_sender_email: ${api_keys["smtp_sender_email"]}

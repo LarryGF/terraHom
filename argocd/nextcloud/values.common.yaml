@@ -1,0 +1,236 @@
+nextcloud:
+  image:
+    repository: nextcloud
+    # tag: 24.0.3-apache
+    pullPolicy: IfNotPresent
+
+  nameOverride: ""
+  fullnameOverride: "nextcloud"
+
+  # Number of replicas to be deployed
+  replicaCount: 1
+
+  ## Allowing use of ingress controllers
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
+  ##
+
+
+  ##
+  ## External database configuration
+  ##
+  externalDatabase:
+    enabled: true
+
+    # ## Supported database engines: mysql or postgresql
+    # type: mysql
+
+    # ## Database host
+    # host:
+
+    # ## Database user
+    # user: nextcloud
+
+    # ## Database password
+    # password: nextcloud
+
+    # ## Database name
+    # database: nextcloud
+
+    # ## Use a existing secret
+    # existingSecret:
+    #   enabled: false
+    #   # secretName: nameofsecret
+    #   # usernameKey: db-username
+    #   # passwordKey: db-password
+    #   # hostKey: db-hostname-or-ip
+    #   # databaseKey: db-name
+
+  ##
+  ## MariaDB chart configuration
+  ## ref: https://github.com/bitnami/charts/tree/main/bitnami/mariadb
+  ##
+  mariadb:
+    ## Whether to deploy a mariadb server from the bitnami mariab db helm chart
+    # to satisfy the applications database requirements. if you want to deploy this bitnami mariadb, set this and externalDatabase to true
+    # To use an ALREADY DEPLOYED mariadb database, set this to false and configure the externalDatabase parameters
+    enabled: true
+
+    auth:
+      database: nextcloud
+      username: nextcloud
+      password: nextcloud
+      # Use existing secret (auth.rootPassword, auth.password, and auth.replicationPassword will be ignored).
+      # secret must contain the keys mariadb-root-password, mariadb-replication-password and mariadb-password
+      existingSecret: ""
+
+    architecture: standalone
+
+    ## Enable persistence using Persistent Volume Claims
+    ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+    ##
+    primary:
+      persistence:
+        enabled: true
+        existingClaim: "nextcloud-db-config"
+
+
+  ##
+  ## Redis chart configuration
+  ## for more options see https://github.com/bitnami/charts/tree/main/bitnami/redis
+  ##
+
+  redis:
+    enabled: true
+    auth:
+      enabled: false
+      password: 'changeme'
+      # name of an existing secret with Redis® credentials (instead of auth.password), must be created ahead of time
+      existingSecret: ""
+      # Password key to be retrieved from existing secret
+      existingSecretPasswordKey: ""
+
+
+  ## Cronjob to execute Nextcloud background tasks
+  ## ref: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/background_jobs_configuration.html#cron
+  ##
+  cronjob:
+    enabled: true
+
+    ## Cronjob sidecar resource requests and limits
+    ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+    ##
+    resources: {}
+
+    # Allow configuration of lifecycle hooks
+    # ref: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
+    lifecycle: {}
+      # postStartCommand: []
+      # preStopCommand: []
+    # Set securityContext parameters. For example, you may need to define runAsNonRoot directive
+    securityContext: {}
+    #   runAsUser: 33
+    #   runAsGroup: 33
+    #   runAsNonRoot: true
+    #   readOnlyRootFilesystem: true
+
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+
+  ## Liveness and readiness probe values
+  ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+  ##
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 30
+    successThreshold: 1
+
+  ## Prometheus Exporter / Metrics
+  ##
+  metrics:
+    enabled: true
+
+    replicaCount: 1
+    # The metrics exporter needs to know how you serve Nextcloud either http or https
+    https: false
+    # Use API token if set, otherwise fall back to password authentication
+    # https://github.com/xperimental/nextcloud-exporter#token-authentication
+    # Currently you still need to set the token manually in your nextcloud install
+    token: ""
+    timeout: 5s
+    # if set to true, exporter skips certificate verification of Nextcloud server.
+    tlsSkipVerify: false
+
+    image:
+      repository: xperimental/nextcloud-exporter
+      tag: 0.6.1
+      pullPolicy: IfNotPresent
+      # pullSecrets:
+      #   - myRegistrKeySecretName
+
+    ## Metrics exporter resource requests and limits
+    ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+    ##
+    # resources: {}
+
+    ## Metrics exporter pod Annotation and Labels
+    # podAnnotations: {}
+
+    # podLabels: {}
+
+    service:
+      type: ClusterIP
+      ## Use serviceLoadBalancerIP to request a specific static IP,
+      ## otherwise leave blank
+      # loadBalancerIP:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9205"
+      labels: {}
+
+    ## Prometheus Operator ServiceMonitor configuration
+    ##
+    serviceMonitor:
+      ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using PrometheusOperator
+      ##
+      enabled: true
+
+      ## @param metrics.serviceMonitor.namespace Namespace in which Prometheus is running
+      ##
+      namespace: ""
+
+      ## @param metrics.serviceMonitor.jobLabel The name of the label on the target service to use as the job name in prometheus.
+      ##
+      jobLabel: ""
+
+      ## @param metrics.serviceMonitor.interval Interval at which metrics should be scraped
+      ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+      ##
+      interval: 30s
+
+      ## @param metrics.serviceMonitor.scrapeTimeout Specify the timeout after which the scrape is ended
+      ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+      ##
+      scrapeTimeout: ""
+
+      ## @param metrics.serviceMonitor.labels Extra labels for the ServiceMonitor
+      ##
+      labels: {}
+
+
+  rbac:
+    enabled: true
+    serviceaccount:
+      create: true
+      name: nextcloud-serviceaccount
+      annotations: {}
+
+
+  ## @param securityContext for nextcloud pod @deprecated Use `nextcloud.podSecurityContext` instead
+  securityContext: {}
