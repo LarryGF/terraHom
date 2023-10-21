@@ -15,12 +15,13 @@ nextcloud:
   ##
 
   internalDatabase:
-    enabled: false
+    enabled: true
+    database: nextcloud
   ##
   ## External database configuration
   ##
   externalDatabase:
-    enabled: true
+    enabled: false
     type: mysql
     host: nextcloud-mariadb
     user: nextcloud
