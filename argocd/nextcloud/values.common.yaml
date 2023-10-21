@@ -154,11 +154,11 @@ nextcloud:
   ## Prometheus Exporter / Metrics
   ##
   metrics:
-    enabled: true
+    enabled: false
 
     replicaCount: 1
     # The metrics exporter needs to know how you serve Nextcloud either http or https
-    https: false
+    https: true
     # Use API token if set, otherwise fall back to password authentication
     # https://github.com/xperimental/nextcloud-exporter#token-authentication
     # Currently you still need to set the token manually in your nextcloud install
