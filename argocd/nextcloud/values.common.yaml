@@ -92,22 +92,22 @@ nextcloud:
   ##
   livenessProbe:
     enabled: true
-    initialDelaySeconds: 40
-    periodSeconds: 10
+    initialDelaySeconds: 60
+    periodSeconds: 20
     timeoutSeconds: 5
-    failureThreshold: 3
+    failureThreshold: 10
     successThreshold: 1
   readinessProbe:
     enabled: true
-    initialDelaySeconds: 40
-    periodSeconds: 10
+    initialDelaySeconds: 60
+    periodSeconds: 20
     timeoutSeconds: 5
-    failureThreshold: 3
+    failureThreshold: 10
     successThreshold: 1
   startupProbe:
     enabled: false
-    initialDelaySeconds: 60
-    periodSeconds: 10
+    initialDelaySeconds: 70
+    periodSeconds: 20
     timeoutSeconds: 5
     failureThreshold: 30
     successThreshold: 1
