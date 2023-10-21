@@ -8,7 +8,7 @@ nextcloud:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
       traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
-      traefik.ingress.kubernetes.io/router.middlewares: services-nextcloud-headers@kubernetescrd,services-nextcloud-redirectregex@kubernetescrd
+      # traefik.ingress.kubernetes.io/router.middlewares: services-nextcloud-redirect-caldav@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Nextcloud"
       gethomepage.dev/group: "Internal"
@@ -81,11 +81,11 @@ nextcloud:
     # Extra config files created in /var/www/html/config/
     # ref: https://docs.nextcloud.com/server/15/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-config-php-file
     configs:
-      # debug.config.php: |-
-      #   <?php
-      #   $CONFIG = array (
-      #       'debug' => true,
-      #   );
+      debug.config.php: |-
+        <?php
+        $CONFIG = array (
+            'debug' => true,
+        );
       proxy.config.php: |-
         <?php
         $CONFIG = array (
