@@ -53,30 +53,18 @@ rancher:
 
   # Override rancher image location for Air Gap installs
   rancherImage: rancher/rancher
-  # rancher/rancher image tag. https://hub.docker.com/r/rancher/rancher/tags/
-  # Defaults to .Chart.appVersion
   # rancherImageTag: v2.0.7
 
-  # Override imagePullPolicy for rancher server images
-  # options: Always, Never, IfNotPresent
-  # Defaults to IfNotPresent
-  # rancherImagePullPolicy: <pullPolicy>
 
   # Number of Rancher server replicas. Setting to negative number will dynamically between 0 and the abs(replicas) based on available nodes.
   # of available nodes in the cluster
-  replicas: 3
+  replicas: 2
 
   # Set priorityClassName to avoid eviction
   priorityClassName: rancher-critical
 
   # Set pod resource requests/limits for Rancher.
   resources: {}
-
-  #
-  # tls
-  #   Where to offload the TLS/SSL encryption
-  # - ingress (default)
-  # - external
   tls: ingress
 
   systemDefaultRegistry: ""
@@ -90,7 +78,7 @@ rancher:
 
   # Rancher custom logos persistence
   customLogos:
-    enabled: false
+    enabled: true
     volumeSubpaths:
       emberUi: "ember"
       vueUi: "vue"

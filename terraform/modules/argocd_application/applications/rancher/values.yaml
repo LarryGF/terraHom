@@ -7,17 +7,9 @@ rancher:
   # Fully qualified name to reach your Rancher server
   hostname: "rancher.${domain}"
 
-  ## Optional array of imagePullSecrets containing private registry credentials
-  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  imagePullSecrets: []
-  # - name: secretName
-
   ### ingress ###
   # Readme for details and instruction on adding tls secrets.
   ingress:
-    # If set to false, ingress will not be created
-    # Defaults to true
-    # options: true, false
     enabled: true
     includeDefaultExtraAnnotations: true
     extraAnnotations:
