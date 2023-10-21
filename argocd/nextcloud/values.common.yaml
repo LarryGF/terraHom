@@ -21,20 +21,10 @@ nextcloud:
   ##
   externalDatabase:
     enabled: true
-
-    # ## Supported database engines: mysql or postgresql
     type: mysql
-
-    # ## Database host
     host: nextcloud-mariadb
-
-    # ## Database user
     user: nextcloud
-
-    # ## Database password
     password: nextcloud
-
-    # ## Database name
     database: nextcloud
 
     # ## Use a existing secret
@@ -46,33 +36,6 @@ nextcloud:
     #   # hostKey: db-hostname-or-ip
     #   # databaseKey: db-name
 
-  ##
-  ## MariaDB chart configuration
-  ## ref: https://github.com/bitnami/charts/tree/main/bitnami/mariadb
-  ##
-  mariadb:
-    ## Whether to deploy a mariadb server from the bitnami mariab db helm chart
-    # to satisfy the applications database requirements. if you want to deploy this bitnami mariadb, set this and externalDatabase to true
-    # To use an ALREADY DEPLOYED mariadb database, set this to false and configure the externalDatabase parameters
-    enabled: true
-
-    auth:
-      database: nextcloud
-      username: nextcloud
-      password: nextcloud
-      # Use existing secret (auth.rootPassword, auth.password, and auth.replicationPassword will be ignored).
-      # secret must contain the keys mariadb-root-password, mariadb-replication-password and mariadb-password
-      existingSecret: ""
-
-    architecture: standalone
-
-    ## Enable persistence using Persistent Volume Claims
-    ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
-    ##
-    primary:
-      persistence:
-        enabled: true
-        existingClaim: "nextcloud-db-config"
 
 
   ##
@@ -86,7 +49,7 @@ nextcloud:
       enabled: false
       password: 'changeme'
     replica:
-      replicaCount: 2
+      replicaCount: 1
 
   ## Cronjob to execute Nextcloud background tasks
   ## ref: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/background_jobs_configuration.html#cron
@@ -129,21 +92,21 @@ nextcloud:
   ##
   livenessProbe:
     enabled: true
-    initialDelaySeconds: 10
+    initialDelaySeconds: 40
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 3
     successThreshold: 1
   readinessProbe:
     enabled: true
-    initialDelaySeconds: 10
+    initialDelaySeconds: 40
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 3
     successThreshold: 1
   startupProbe:
     enabled: false
-    initialDelaySeconds: 30
+    initialDelaySeconds: 60
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 30
