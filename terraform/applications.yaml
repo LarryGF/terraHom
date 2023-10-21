@@ -530,6 +530,7 @@ nextcloud:
   name: nextcloud
   namespace: services
   deploy: true
+  priority: high
   volumes:
     db:
       enabled: true

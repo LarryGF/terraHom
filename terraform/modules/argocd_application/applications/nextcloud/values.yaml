@@ -8,12 +8,11 @@ nextcloud:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
       traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
-      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: services-nextcloud-headers@kubernetescrd,services-nextcloud-redirectregex@kubernetescrd
       gethomepage.dev/enabled: "true"
-      gethomepage.dev/name: "Readarr"
-      gethomepage.dev/description: "Ebook and audiobook collection manager for Usenet and BitTorrent users"
-      gethomepage.dev/group: "Template Aggregators"
-      gethomepage.dev/icon: "readarr.png"
+      gethomepage.dev/name: "Nextcloud"
+      gethomepage.dev/group: "Internal"
+      gethomepage.dev/icon: "nextcloud.png"
     tls:
       - secretName: tls-nextcloud-ingress
         hosts:
@@ -24,7 +23,7 @@ nextcloud:
 
 
   phpClientHttpsFix:
-    enabled: false
+    enabled: true
     protocol: https
 
   nextcloud:
@@ -81,7 +80,12 @@ nextcloud:
       smtp.config.php: true
     # Extra config files created in /var/www/html/config/
     # ref: https://docs.nextcloud.com/server/15/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-config-php-file
-    configs: {}
+    configs:
+      debug.config.php: |-
+        <?php
+        $CONFIG = array (
+            'debug' => true,
+        );
 
     # For example, to use S3 as primary storage
     # ref: https://docs.nextcloud.com/server/13/admin_manual/configuration_files/primary_storage.html#simple-storage-service-s3
@@ -219,7 +223,8 @@ nextcloud:
     #  memory: 128Mi
 
 
-  nodeSelector: {}
+  nodeSelector:
+    priority: ${priority}
 
   tolerations: []
 
