@@ -8,9 +8,9 @@ dependencies:
   - name: redis
     repository: https://charts.bitnami.com/bitnami
     version: 17.15.2
-  - name: lldap
-    repository: https://charts.truecharts.org
-    version: 2.0.2
+  # - name: lldap
+  #   repository: https://charts.truecharts.org
+  #   version: 2.0.2
   # - name: maildev
   #   repository: https://christianknell.github.io/helm-charts/
   #   version: 1.1.0
