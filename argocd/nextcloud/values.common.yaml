@@ -47,8 +47,8 @@ nextcloud:
   redis:
     enabled: true
     auth:
-      enabled: false
-      password: 'changeme'
+      enabled: true
+      password: 'nextcloud'
     replica:
       replicaCount: 1
 
