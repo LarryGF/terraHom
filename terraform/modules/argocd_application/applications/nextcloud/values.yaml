@@ -81,10 +81,23 @@ nextcloud:
     # Extra config files created in /var/www/html/config/
     # ref: https://docs.nextcloud.com/server/15/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-config-php-file
     configs:
-      debug.config.php: |-
+      # debug.config.php: |-
+      #   <?php
+      #   $CONFIG = array (
+      #       'debug' => true,
+      #   );
+      proxy.config.php: |-
         <?php
         $CONFIG = array (
-            'debug' => true,
+          'trusted_proxies' => array(
+          0 => '127.0.0.1',
+          1 => '10.42.0.0/16',
+        ),
+        );
+      locales.config.php: |-
+        <?php
+        $CONFIG = array (
+          'default_phone_region' => 'ES',
         );
       reverseproxy.config.php: |-
         <?php
@@ -175,6 +188,36 @@ nextcloud:
     #   runAsNonRoot: true
     #   readOnlyRootFilesystem: false
 
+  ##
+  ## MariaDB chart configuration
+  ## ref: https://github.com/bitnami/charts/tree/main/bitnami/mariadb
+  ##
+  mariadb:
+    ## Whether to deploy a mariadb server from the bitnami mariab db helm chart
+    # to satisfy the applications database requirements. if you want to deploy this bitnami mariadb, set this and externalDatabase to true
+    # To use an ALREADY DEPLOYED mariadb database, set this to false and configure the externalDatabase parameters
+    enabled: true
+
+    auth:
+      database: nextcloud
+      username: nextcloud
+      password: nextcloud
+      rootPassword: nextcloud
+      replicationPassword: nextcloud
+      forcePassword: true
+      # Use existing secret (auth.rootPassword, auth.password, and auth.replicationPassword will be ignored).
+      # secret must contain the keys mariadb-root-password, mariadb-replication-password and mariadb-password
+      existingSecret: ""
+
+    architecture: standalone
+
+    ## Enable persistence using Persistent Volume Claims
+    ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+    ##
+    primary:
+      persistence:
+        enabled: true
+        existingClaim: "nextcloud-db-config"
 
   service:
     type: ClusterIP
