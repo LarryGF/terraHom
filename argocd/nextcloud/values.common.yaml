@@ -14,7 +14,8 @@ nextcloud:
   ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
   ##
 
-
+  internalDatabase:
+    enabled: false
   ##
   ## External database configuration
   ##
