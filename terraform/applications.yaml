@@ -529,13 +529,19 @@ renovate:
 nextcloud:
   name: nextcloud
   namespace: services
-  deploy: true
+  deploy: false
   priority: high
   volumes:
     db:
-      enabled: true
+      enabled: false
       name: nextcloud-db-config
       size: 5Gi
+      access_modes:
+        - ReadWriteOnce
+    config:
+      enabled: false
+      name: nextcloud-config
+      size: 1Gi
       access_modes:
         - ReadWriteOnce
   override:
