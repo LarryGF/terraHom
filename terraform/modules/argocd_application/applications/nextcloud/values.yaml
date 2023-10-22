@@ -26,6 +26,9 @@ nextcloud:
     enabled: true
     protocol: https
 
+  lifecycle:
+    postStartCommand: ["/bin/sh", "-c", "echo \"ServerName nextcloud.${domain}\" | tee -a /etc/apache2/apache2.conf"]
+
   nextcloud:
     host: nextcloud.${domain}
     username: admin
@@ -48,8 +51,8 @@ nextcloud:
       subPath:
     mail:
       enabled: true
-      fromAddress: ${smtp_sender_email}
-      domain: ${smtp_host}
+      fromAddress: ${split("@", smtp_sender_email)[0]}
+      domain: ${split("@", smtp_sender_email)[1]}
       smtp:
         host: ${smtp_host}
         secure: ssl
@@ -81,11 +84,11 @@ nextcloud:
     # Extra config files created in /var/www/html/config/
     # ref: https://docs.nextcloud.com/server/15/admin_manual/configuration_server/config_sample_php_parameters.html#multiple-config-php-file
     configs:
-      debug.config.php: |-
-        <?php
-        $CONFIG = array (
-            'debug' => true,
-        );
+      # debug.config.php: |-
+      #   <?php
+      #   $CONFIG = array (
+      #       'debug' => true,
+      #   );
       proxy.config.php: |-
         <?php
         $CONFIG = array (
@@ -93,6 +96,26 @@ nextcloud:
           0 => '127.0.0.1',
           1 => '10.42.0.0/16',
         ),
+        );
+      logging.config.php: |-
+        <?php
+        $CONFIG = array (
+          'loglevel' => 2,
+        );
+      mail.config.php: |-
+        <?php
+        $CONFIG = array (
+          'mail_smtpdebug' => true,
+          'mail_smtptimeout'  => 30, 
+          'mail_smtpstreamoptions' =>
+          array (
+            'ssl' =>
+            array (
+              'allow_self_signed' => true,
+              'verify_peer' => false,
+              'verify_peer_name' => false,
+            ),
+          ),
         );
       locales.config.php: |-
         <?php
@@ -104,7 +127,7 @@ nextcloud:
         $CONFIG = array (
             'overwritehost' => 'nextcloud.${domain}',
             'overwriteprotocol' => 'https',
-            'overwrite.cli.url' => 'https://nextcloud.${domain}'
+            'overwrite.cli.url' => 'https://nextcloud.${domain}/'
         );
 
     # For example, to use S3 as primary storage

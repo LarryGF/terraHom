@@ -25,10 +25,10 @@ jellyseerr:
 
   # -- Configure persistence settings for the chart under this key.
   # @default -- See values.yaml
-  persistence:
-    config:
-      enabled: true
-      existingClaim: jellyseerr-config
-      mountPath: /app/config
+  # persistence:
+    # config:
+    #   enabled: true
+    #   existingClaim: jellyseerr-config
+    #   mountPath: /app/config
 
 
