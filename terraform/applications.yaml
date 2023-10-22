@@ -5,7 +5,7 @@
 #   deploy: false
 #   volumes:
 #     media:
-#       enabled: false
+#       create: false
 #       name: media
 #       size: 9500Gi
 #       access_modes:
@@ -23,7 +23,7 @@ grafana:
   priority: high
   volumes:
     config:
-      enabled: false
+      create: false
       name: grafana-config
       size: 1Gi
       access_modes:
@@ -63,7 +63,7 @@ kwatch:
 loki:
   name: loki
   namespace: monitoring
-  priority: high
+  priority: low
   deploy: true
   volumes: {}
   override:
@@ -91,19 +91,19 @@ authelia:
   priority: critical
   volumes:
     config:
-      enabled: false
+      create: false
       name: authelia-config
       size: 200Mi
       access_modes:
         - ReadWriteOnce
     redis-master:
-      enabled: false
+      create: false
       name: redis-data-master
       size: 200Mi
       access_modes:
         - ReadWriteOnce
     redis-replica:
-      enabled: false
+      create: false
       name: redis-data-replica
       size: 200Mi
       access_modes:
@@ -129,19 +129,19 @@ crowdsec:
   priority: critical
   volumes:
     config:
-      enabled: false
+      create: false
       name: crowdsec-config
       size: 200Mi
       access_modes:
         - ReadWriteOnce
     data:
-      enabled: false
+      create: false
       name: crowdsec-data
       size: 1Gi
       access_modes:
         - ReadWriteOnce
     agent_config:
-      enabled: false
+      create: false
       name: crowdsec-agent-config
       size: 500Mi
       access_modes:
@@ -171,7 +171,7 @@ sabnzbd:
   priority: high
   volumes:
     config:
-      enabled: false
+      create: false
       name: sabnzbd-config
       size: 200Mi
       access_modes:
@@ -188,7 +188,7 @@ flood:
   priority: high
   volumes:
     config:
-      enabled: false
+      create: false
       # backup: enabled
       name: flood-config
       size: 200Mi
@@ -205,7 +205,7 @@ nzbget:
   deploy: false
   volumes:
     config:
-      enabled: false
+      create: false
       name: nzbget-config
       size: 1Gi
       access_modes:
@@ -224,7 +224,7 @@ plex:
   priority: critical
   volumes:
     config:
-      enabled: false
+      create: false
       name: plex-config
       size: 5Gi
       access_modes:
@@ -244,7 +244,7 @@ jellyseerr:
   deploy: true
   volumes: 
     config:
-      enabled: false
+      create: false
       name: jellyseerr-config
       size: 200Mi
       access_modes:
@@ -261,7 +261,7 @@ tautulli:
   priority: high
   volumes: 
     config:
-      enabled: true
+      create: true
       name: tautulli-config
       size: 200Mi
       access_modes:
@@ -279,7 +279,7 @@ radarr:
   priority: high
   volumes:
     config:
-      enabled: false
+      create: false
       name: radarr-config
       size: 512Mi
       access_modes:
@@ -297,7 +297,7 @@ sonarr:
   priority: high
   volumes:
     config:
-      enabled: false
+      create: false
       name: sonarr-config
       size: 512Mi
       access_modes:
@@ -315,7 +315,7 @@ prowlarr:
   priority: high
   volumes:
     config:
-      enabled: false
+      create: false
       name: prowlarr-config
       size: 512Mi
       access_modes:
@@ -333,7 +333,7 @@ bazarr:
   priority: high
   volumes:
     config:
-      enabled: true
+      create: true
       name: bazarr-config
       size: 200Mi
       access_modes:
@@ -350,7 +350,7 @@ readarr:
   deploy: false
   volumes:
     config:
-      enabled: false
+      create: false
       name: readarr-config
       size: 200Mi
       access_modes:
@@ -366,7 +366,7 @@ mylar:
   priority: low
   volumes:
     config:
-      enabled: false
+      create: false
       name: mylar-config
       size: 200Mi
       access_modes:
@@ -394,7 +394,7 @@ filebrowser:
   priority: low
   volumes:
     config:
-      enabled: false
+      create: false
       name: filebrowser-config
       size: 200Mi
       access_modes:
@@ -412,7 +412,7 @@ home-assistant:
   deploy: false
   volumes:
     config:
-      enabled: false
+      create: false
       name: ha-config
       size: 5Gi
       access_modes:
@@ -431,7 +431,7 @@ portainer:
   priority: high
   volumes:
     config:
-      enabled: true
+      create: true
       name: portainer-config
       size: 1Gi
       access_modes:
@@ -448,7 +448,7 @@ rancher:
   priority: high
   volumes:
     config:
-      enabled: true
+      create: true
       name: rancher-config
       size: 1Gi
       access_modes:
@@ -465,7 +465,7 @@ samba:
   priority: low
   volumes:
     config:
-      enabled: false
+      create: false
       name: samba-config
       size: 100Mi
       access_modes:
@@ -482,7 +482,7 @@ gow:
   priority: high
   volumes:
     config:
-      enabled: false
+      create: false
       name: gow-config
       size: 100Mi
       access_modes:
@@ -498,7 +498,7 @@ kubeview:
   deploy: false
   volumes:
     config:
-      enabled: false
+      create: false
       name: kubeview-config
       size: 200Mi
       access_modes:
@@ -514,7 +514,7 @@ renovate:
   deploy: false
   volumes:
     config:
-      enabled: false
+      create: false
       name: renovate-config
       size: 512Mi
       access_modes:
@@ -529,17 +529,17 @@ renovate:
 nextcloud:
   name: nextcloud
   namespace: services
-  deploy: true
+  deploy: false
   priority: high
   volumes:
     db:
-      enabled: true
+      create: false
       name: nextcloud-db-config
       size: 5Gi
       access_modes:
         - ReadWriteOnce
     config:
-      enabled: true
+      create: false
       name: nextcloud-config
       size: 1Gi
       access_modes:
