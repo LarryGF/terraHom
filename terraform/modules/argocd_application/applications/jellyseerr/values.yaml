@@ -28,5 +28,5 @@ jellyseerr:
             - "jellyseerr.${domain}"
           secretName: tls-jellyseerr-ingress
 
-# Generating persistence config from applications.yaml
-  ${indent(2,yamlencode({persistence: { for key, value in storage: key => {"enabled":true,"existingClaim":value.name,"mountPath": try(value.mount,"/app/config")}}}))}
+  # Generating persistence config from applications.yaml
+  ${indent(2,yamlencode({persistence: { for key, value in storage: key => {"enabled":true,"existingClaim":value.name,"mountPath": try(value.mountPath == null ? "/app/config": value.mountPath,"/app/config")}}}))}

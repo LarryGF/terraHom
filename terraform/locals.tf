@@ -18,33 +18,19 @@ locals {
     }
   ))
 
-  applications = merge(local.template_applications, local.duplicati_definition)
+  applications = { for app, values in local.template_applications : app => merge(values, {
+      volumes = { for vol_name, vol_data in values.volumes : vol_name => merge({
+        create       = false,
+        name         = "",
+        size         = "0Mi",
+        access_modes = [],
+        mountPath    = null,
+        subpath      = null
+      }, vol_data) }
+    })}
+  # applications = merge(local.template_applications, local.duplicati_definition)
 
-  duplicati_mounts = { for app in local.template_applications :
-    app.name => {
-      enabled       = true,
-      mountPath     = "/config/${app.name}",
-      existingClaim = app.volumes.config.name
-    } if app.deploy && app.namespace == "services" && contains(keys(app.volumes), "config")
-  }
-
-  vscode_mounts = [
-    for key, value in local.duplicati_mounts : { "name" : key, "mountPath" : value["mountPath"] }
-  ]
-
-  duplicati_definition = {
-    "duplicati" : {
-      "name" : "duplicati",
-      "namespace" : "services",
-      "deploy" : false,
-      "volumes" : {}
-      "override" : {
-        "domain" : var.domain,
-        "volume_mounts" : indent(4,yamlencode(local.duplicati_mounts))
-        "vscode_volume_mounts" : indent(8, yamlencode(local.vscode_mounts))
-      }
-    }
-  }
+  
 
   cluster_storage = {
     for key,value in var.nfs_servers : key => value if try(value.longhorn == false, false)
