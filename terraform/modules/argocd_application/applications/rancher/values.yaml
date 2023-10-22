@@ -51,3 +51,19 @@ rancher:
   # If you are using certs signed by a private CA set to 'true' and set the 'tls-ca'
   # in the 'rancher-system' namespace. See the README.md for details
   privateCA: false
+
+
+  # Rancher custom logos persistence
+  customLogos:
+    enabled: true
+    volumeSubpaths:
+      emberUi: "ember"
+      vueUi: "vue"
+    ## Volume kind to use for persistence: persistentVolumeClaim, configMap
+    volumeKind: persistentVolumeClaim
+    ## Use an existing volume. Custom logos should be copied to the volume by the user
+    volumeName: rancher-config
+    ## Just for volumeKind: persistentVolumeClaim
+    ## To disables dynamic provisioning, set storageClass: "" or storageClass: "-"
+    storageClass: "-"
+    accessMode: ReadWriteMany

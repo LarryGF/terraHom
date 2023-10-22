@@ -267,7 +267,7 @@ tautulli:
   priority: high
   volumes: 
     config:
-      create: true
+      create: false
       name: tautulli-config
       size: 200Mi
       access_modes:
@@ -443,7 +443,7 @@ portainer:
   priority: high
   volumes:
     config:
-      create: true
+      create: false
       name: portainer-config
       size: 1Gi
       access_modes:
