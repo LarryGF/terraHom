@@ -206,6 +206,13 @@ grafana:
       sizeLimit: {}
 
 
+  # persistence:
+  #   enabled: true
+  #   existingClaim: grafana-config
+
+  # Generating persistence config from applications.yaml
+  ${indent(2,yamlencode({persistence: { for key, value in storage: key => {"enabled":true,"existingClaim":value.name,"mountPath": try(value.mountPath,null),"subpath": try(value.subpath,null)}}}))}
+
 loki-mixin:
   fullnameOverride: loki-mixin
   grafana:

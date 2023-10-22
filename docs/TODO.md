@@ -19,3 +19,4 @@
 - Nextcloud docs, apps:
   - deck
   - auditing/loging
+- Explain which apps are getting volumes from applications.yaml
