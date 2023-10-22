@@ -29,7 +29,3 @@ grafana:
       org_role: Admin
     panels:
       disable_sanitize_html: true
-
-  persistence:
-    enabled: true
-    existingClaim: grafana-config

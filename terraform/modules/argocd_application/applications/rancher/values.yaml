@@ -3,7 +3,7 @@ rancher:
   # extraEnv:
   # - name: CATTLE_TLS_MIN_VERSION
   #   value: "1.0"
-  replicas: 1
+  replicas: 2
   # Fully qualified name to reach your Rancher server
   hostname: "rancher.${domain}"
 

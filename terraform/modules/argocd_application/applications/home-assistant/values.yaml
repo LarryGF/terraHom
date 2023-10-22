@@ -61,3 +61,18 @@ home-assistant:
       volumeMounts:
       - name: config
         mountPath: /config
+
+  persistence:
+    config:
+      enabled: true
+      existingClaim: ha-config
+    config-custom:
+      enabled: true
+      type: configMap
+      name: config-file
+    # usb:
+    #   enabled: true
+    #   type: hostPath
+    #   hostPath: /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2434151-if00
+    #   mountPath: /dev/ttyUSB0
+  
