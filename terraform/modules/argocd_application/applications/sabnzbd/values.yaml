@@ -27,18 +27,18 @@ sabnzbd:
         - hosts:
             - "sabnzbd.${domain}"
           secretName: tls-sabnzbd-ingress
-  persistence:
-    config:
-      enabled: true
-      existingClaim: sabnzbd-config
-    downloads:
-      enabled: true
-      existingClaim: media
-    downloads-radarr:
-      enabled: true
-      existingClaim: media-radarr
-      mountPath: /downloads/radarr
-      subpath: radarr
+  # persistence:
+  #   config:
+  #     enabled: true
+  #     existingClaim: sabnzbd-config
+  #   downloads:
+  #     enabled: true
+  #     existingClaim: media
+  #   downloads-radarr:
+  #     enabled: true
+  #     existingClaim: media-radarr
+  #     mountPath: /downloads/radarr
+  #     subpath: radarr
 
 
   # Generating persistence config from applications.yaml

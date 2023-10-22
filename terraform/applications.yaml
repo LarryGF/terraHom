@@ -541,7 +541,7 @@ renovate:
 nextcloud:
   name: nextcloud
   namespace: services
-  deploy: false
+  deploy: true
   priority: high
   volumes:
     db:
@@ -551,7 +551,7 @@ nextcloud:
       access_modes:
         - ReadWriteOnce
     config:
-      create: false
+      create: true
       name: nextcloud-config
       size: 1Gi
       access_modes:

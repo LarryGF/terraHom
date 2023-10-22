@@ -89,6 +89,7 @@ rancher:
     ## Just for volumeKind: persistentVolumeClaim
     ## To disables dynamic provisioning, set storageClass: "" or storageClass: "-"
     storageClass: "-"
+    accessMode: ReadWriteMany
 
   # Rancher post-delete hook
   postDelete:
