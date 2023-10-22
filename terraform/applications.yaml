@@ -338,6 +338,12 @@ bazarr:
       size: 200Mi
       access_modes:
         - ReadWriteOnce
+    downloads:
+      name: media
+    downloads-radarr:
+      name: media-radarr
+      mountPath: /downloads/radarr
+      subpath: radarr
   override:
     timezone: ${timezone}
     domain: ${domain}
