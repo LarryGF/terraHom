@@ -17,7 +17,7 @@ nzbget:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "NZBGet"
         gethomepage.dev/description: "NZBGet is a Usenet downloader client"
-        gethomepage.dev/group: "Template Aggregators"
+        gethomepage.dev/group: "Aggregators"
         gethomepage.dev/icon: "nzbget.png"
       enabled: true
       hosts:

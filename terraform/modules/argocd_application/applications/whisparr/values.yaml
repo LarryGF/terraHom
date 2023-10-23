@@ -13,7 +13,7 @@ radarr:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Whisparr"
         gethomepage.dev/description: "Adult movie collection manager for Usenet and BitTorrent users."
-        gethomepage.dev/group: "Template Aggregators"
+        gethomepage.dev/group: "Aggregators"
         gethomepage.dev/icon: "whisparr.png"
       enabled: true
       hosts:

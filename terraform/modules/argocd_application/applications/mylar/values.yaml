@@ -12,7 +12,7 @@ mylar:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Mylar"
         gethomepage.dev/description: "Automated Comic Book (cbr/cbz) downloader for use with NZB and torrents "
-        gethomepage.dev/group: "Template Aggregators"
+        gethomepage.dev/group: "Aggregators"
         gethomepage.dev/icon: "mylar.png"
       enabled: true
       hosts:

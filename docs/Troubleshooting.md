@@ -29,6 +29,8 @@
     - [ArgoCD](#argocd)
       - [Large annotations](#large-annotations)
       - [Unauthorized](#unauthorized)
+    - [HomePage](#homepage)
+      - [Homepage showing error fetching widget information](#homepage-showing-error-fetching-widget-information)
     - [Plex not authorized user](#plex-not-authorized-user)
     - [ZeroTier not installing](#zerotier-not-installing)
   - [Restoring duplicati](#restoring-duplicati)
@@ -291,6 +293,17 @@ terraform apply -auto-approve  -target module.gitops
 And then run your `terraform apply` as usual.
 
 - (Probably the cause) Terraform is making the request and getting the public IP for the service instead of the private one, and Traefik is responding with a 403. Either flush the DNS cache, or, to make things easier in the future, manually add the argo hostname to you /etc/hosts file
+
+### HomePage
+
+#### Homepage showing error fetching widget information
+
+This could happening because various reasons, some of the more common are below:
+
+- Errors with the `widget.url`:
+  - You are using the wrong widget hostname: Prefer using the internal service name, something in the form `{service_name}.{namespace}.svc.cluster.local`
+  - You are using the wrong port: Verify that you are using the correct port for the servie, you can check which ports are available by runnning `kubectl get svc -A`
+- The IP address for the homepage pod is not whitelisted in traefik middleware (which will cause a 403 error), you can do this by adding the flannel subnets to `source_range` variable in `terraform.tfvars`, usually will be something like : `"10.42.0.0/24,10.42.1.0/24(...)"`
 
 ### Plex not authorized user
 

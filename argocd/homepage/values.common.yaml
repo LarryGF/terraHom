@@ -53,25 +53,7 @@ homepage:
       providers:
         longhorn:
           url: http://longhorn-frontend.longhorn-system.svc.cluster.local
-      layout:
-        Media:
-          icon: mdi-movie-play
-          style: columns
-        Internal:
-          icon: mdi-nas
-          style: columns
-        Template Aggregators:
-          icon: mdi-briefcase-plus
-          style: columns
-        Monitoring:
-          icon: mdi-safety-goggles
-          style: columns
-        Services:
-          icon: mdi-server-network
-          style: columns
-        Downloaders:
-          icon: mdi-download
-          style: columns
+      
 
   persistence:
     logs:
