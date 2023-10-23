@@ -13,9 +13,8 @@ app-template:
           env:
             # -- Config dir
             DATA_FOLDER: "config"
-    db:
-      containers:
-        main:
+
+        db:
           image:
             repository: postgres
             tag: alpine
@@ -28,9 +27,8 @@ app-template:
             POSTGRES_USER: kaizoku
             POSTGRES_DB: kaizoku
             POSTGRES_PASSWORD: kaizoku
-    redis:
-      containers:
-        main:
+
+        redis:
           image:
             repository: redis
             tag: 7-alpine
