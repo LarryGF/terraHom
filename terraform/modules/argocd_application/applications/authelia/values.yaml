@@ -16,7 +16,7 @@ authelia:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Authelia"
       gethomepage.dev/description: ""
-      gethomepage.dev/group: "Internal"
+      gethomepage.dev/group: "Home Services"
       gethomepage.dev/icon: "authelia.png"
 
     labels: {}

@@ -64,7 +64,7 @@ loki:
   name: loki
   namespace: monitoring
   priority: low
-  deploy: true
+  deploy: false
   volumes: {}
   override:
     timezone: ${timezone}
@@ -277,7 +277,7 @@ tautulli:
     domain: ${domain}
 
 
-## Template Aggregators
+## Aggregators
 radarr:
   name: radarr
   namespace: services
@@ -564,3 +564,4 @@ nextcloud:
     smtp_host: ${api_keys["smtp_host"]}
     smtp_port: ${api_keys["smtp_port"]}
     smtp_sender_email: ${api_keys["smtp_sender_email"]}
+    api_key: ${api_keys["nextcloud_key"]}

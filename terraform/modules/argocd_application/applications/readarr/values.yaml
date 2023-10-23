@@ -13,7 +13,7 @@ readarr:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Readarr"
         gethomepage.dev/description: "Ebook and audiobook collection manager for Usenet and BitTorrent users"
-        gethomepage.dev/group: "Template Aggregators"
+        gethomepage.dev/group: "Aggregators"
         gethomepage.dev/icon: "readarr.png"
       enabled: true
       hosts:

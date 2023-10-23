@@ -24,6 +24,32 @@ homepage:
   # All the config files for Homepage can be specified under their relevant config block.
 
   config:
+    settings:
+      fiveColumns: true
+      layout:
+          Media:
+            icon: mdi-movie-play
+            # style: row
+            # columns: 5
+          Internal:
+            icon: mdi-nas
+            # style: row
+            # columns: 5
+          Aggregators:
+            icon: mdi-briefcase-plus
+            # style: row
+            # columns: 5
+          Monitoring:
+            icon: mdi-safety-goggles
+            # style: row
+            # columns: 5
+          # Services:
+          #   icon: mdi-server-network
+          #   style: columns
+          Home Services:
+            icon: mdi-home-lightbulb
+            # style: row
+            # columns: 5
     services: []
     widgets:
       - resources:

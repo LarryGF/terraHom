@@ -11,7 +11,7 @@ These are the steps you need to follow after you've finished the infrastructure 
   - [Downloaders](#downloaders)
     - [Rtorrent-Flood](#rtorrent-flood)
     - [SABnzbd](#sabnzbd)
-  - [Template aggregators](#template-aggregators)
+  - [Aggregators](#template-aggregators)
     - [Jackett (DEPRECATED)](#jackett-deprecated)
     - [IMPORTANT INFORMATION FOR \*ARR](#important-information-for-arr)
     - [Prowlarr](#prowlarr)
@@ -72,7 +72,7 @@ kubectl port-forward -n services svc/sabnzbd 8090:8080
 
 It's worth mentioning that usenet indexers and servers are two different things, indexers are added in Prowlarr while servers are added in SABnzbd. I particuarly recommend [NZBGeek](https://nzbgeek.info/) for indexer and [FrugalUsenet](https://frugalusenet.com/) for server.
 
-## Template aggregators
+## Aggregators
 
 ### Jackett (DEPRECATED)
 

@@ -11,8 +11,11 @@ nextcloud:
       # traefik.ingress.kubernetes.io/router.middlewares: services-nextcloud-redirect-caldav@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Nextcloud"
-      gethomepage.dev/group: "Internal"
+      gethomepage.dev/group: "Home Services"
       gethomepage.dev/icon: "nextcloud.png"
+      # gethomepage.dev/widget.type: "nextcloud"
+      # gethomepage.dev/widget.url: "http://nextcloud.${namespace}.svc.cluster.local:8080"
+      # gethomepage.dev/widget.key: "${api_key}"
     tls:
       - secretName: tls-nextcloud-ingress
         hosts:
