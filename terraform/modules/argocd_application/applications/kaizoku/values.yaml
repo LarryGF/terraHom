@@ -36,10 +36,10 @@ app-template:
   #               port: websocket
 
   # # -- Configure persistence settings for the chart under this key.
-  # persistence:
-  #   config:
-  #     enabled: true
-  #     type: persistentVolumeClaim
-  #     accessMode: ReadWriteOnce
-  #     size: 1Gi
-  #     mountPath: /config
+  persistence:
+    config:
+      enabled: true
+      type: persistentVolumeClaim
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      mountPath: /config

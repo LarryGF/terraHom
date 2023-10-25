@@ -264,7 +264,7 @@ kaizoku:
   name: kaizoku
   namespace: services
   priority: high
-  deploy: true
+  deploy: false
   volumes: 
     config:
       create: false
