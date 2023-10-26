@@ -260,22 +260,6 @@ tautulli:
     timezone: ${timezone}
     domain: ${domain}
 
-kaizoku:
-  name: kaizoku
-  namespace: services
-  priority: high
-  deploy: false
-  volumes: 
-    config:
-      create: false
-      name: kaizoku-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-
 ## Aggregators
 radarr:
   name: radarr
