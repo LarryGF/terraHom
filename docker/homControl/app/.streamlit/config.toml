@@ -1,0 +1,11 @@
+[server]
+port = 8501
+
+[logger]
+level = "debug"
+
+[browser]
+serverAddress = "localhost"
+gatherUsageStats = false
+serverPort = 8501
+
