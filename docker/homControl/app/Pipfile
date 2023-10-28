@@ -9,6 +9,7 @@ cdktf = "*"
 pyyaml = "*"
 streamlit-card = "*"
 streamlit-extras = "*"
+python-hcl2 = "*"
 
 [dev-packages]
 
