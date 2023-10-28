@@ -13,6 +13,7 @@ def load_yaml(file_path):
         return yaml.safe_load(file)
 
 def main():
+    
     # Determine YAML path based on environment
     if os.getenv('docker'):
         st.toast(":red[Running inside docker]")
@@ -29,14 +30,27 @@ def main():
             st.error("YAML file not found!")
             return
 
-    enable_all, disable_all = st.columns(2)
-    if enable_all.button("Enable all",type="primary",use_container_width=True):
-        for app_name in st.session_state.apps_data:
-            st.session_state.apps_data[app_name]['deploy'] = True
-
-    if disable_all.button("Disable all",type="primary",use_container_width=True):
-        for app_name in st.session_state.apps_data:
-            st.session_state.apps_data[app_name]['deploy'] = False
+    with st.sidebar:
+        
+        st.sidebar.header("Applications Control") 
+        if st.sidebar.button("Enable all "):
+            for app_name in st.session_state.apps_data:
+                st.session_state.apps_data[app_name]['deploy'] = True
+            
+        if st.sidebar.button("Disable all"):
+            for app_name in st.session_state.apps_data:
+                st.session_state.apps_data[app_name]['deploy'] = False
+        if st.button('Save Changes', type="primary"):
+            with open(yaml_path, 'w') as yaml_file:
+                # Add a comment at the beginning (optional)
+                yaml_file.write("# This file contains the configuration for applications.\n")
+                yaml_file.write("# Make changes with caution!\n\n")
+                
+                # Dump the data in a human-readable format
+                yaml.safe_dump(st.session_state.apps_data, yaml_file, default_flow_style=False, indent=2, allow_unicode=True)
+            
+            st.toast(":green[Changes saved!]")
+            
     num_cols = 5
     cols = st.columns(num_cols)
     # Extract the dictionary items from st.session_state.apps_data
@@ -108,25 +122,7 @@ def main():
     #     with open(yaml_path, 'w') as yaml_file:
     #         yaml.dump(st.session_state.apps_data, yaml_file)
     #     st.success("Changes saved!")
-    with st.sidebar:
-        st.sidebar.header("Applications Control") 
-        if st.sidebar.button("Enable all"):
-            for app_name in st.session_state.apps_data:
-                st.session_state.apps_data[app_name]['deploy'] = True
-            
-        if st.sidebar.button("Disable all"):
-            for app_name in st.session_state.apps_data:
-                st.session_state.apps_data[app_name]['deploy'] = False
-        if st.button('Save Changes', type="primary"):
-            with open(yaml_path, 'w') as yaml_file:
-                # Add a comment at the beginning (optional)
-                yaml_file.write("# This file contains the configuration for applications.\n")
-                yaml_file.write("# Make changes with caution!\n\n")
-                
-                # Dump the data in a human-readable format
-                yaml.safe_dump(st.session_state.apps_data, yaml_file, default_flow_style=False, indent=2, allow_unicode=True)
-            
-            st.success("Changes saved!")
+
 
 if __name__ == "__main__":
     main()
