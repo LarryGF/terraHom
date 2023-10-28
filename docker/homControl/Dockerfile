@@ -30,4 +30,4 @@ COPY ./app/ /app/
 # ENV NAME World
 
 # Run app.py when the container launches using pipenv
-CMD ["pipenv", "run", "streamlit", "run", "app.py"]
+CMD ["pipenv", "run", "streamlit", "run", "Home.py"]

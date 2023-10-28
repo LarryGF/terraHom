@@ -34,7 +34,11 @@ def main():
         detach=True,
         ports={'8501/tcp': 8501},  # Forward port 8501 on localhost to port 8501 in the container
         volumes={os.path.abspath('../../terraform'): {'bind': '/app/terraform', 'mode': 'rw'}},
-
+        environment={
+            "PUID": uid, 
+            "PGID": gid, 
+            "docker": True
+        }
     )
     print(f"Container {container.id} started.")
 
