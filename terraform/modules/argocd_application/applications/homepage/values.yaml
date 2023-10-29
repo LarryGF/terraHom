@@ -50,7 +50,11 @@ homepage:
             icon: mdi-home-lightbulb
             # style: row
             # columns: 5
-    services: []
+    services:
+      - Home Services:
+          - homControl:
+              href: http://localhost:8501
+              icon: https://raw.githubusercontent.com/LarryGF/pi-k8s/homControl/docker/homControl/app/files/logo.png
     widgets:
       - resources:
           # change backend to 'kubernetes' to use Kubernetes integration. Requires RBAC.
