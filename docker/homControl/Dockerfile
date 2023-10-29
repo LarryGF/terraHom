@@ -14,7 +14,26 @@ RUN apt-get update && apt-get install -y \
     gcc \
     libffi-dev \
     libssl-dev \
+    gnupg \
+    software-properties-common \
     && rm -rf /var/lib/apt/lists/*
+
+# Set Terraform version
+ARG TERRAFORM_VERSION="1.6.2"  # Adjust this to your desired version
+
+# Update and install required dependencies
+RUN apt-get update && \
+    apt-get install -y wget unzip && \
+    # Download Terraform
+    wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    # Unzip and install Terraform
+    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    mv terraform /usr/local/bin/ && \
+    # Clean up
+    apt-get remove -y wget unzip && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 # Install pipenv
 RUN pip install --upgrade pip && pip install pipenv

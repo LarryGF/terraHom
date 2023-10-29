@@ -190,7 +190,7 @@ homepage:
     domain: ${domain}
     master_hostname: ${master_hostname}
     timezone: ${timezone}
-  priority: ''
+  priority: critical
   volumes: {}
 jellyseerr:
   deploy: true
