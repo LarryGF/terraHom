@@ -1,550 +1,516 @@
-## Monitoring
-grafana:
-  name: grafana
-  namespace: monitoring
-  deploy: true
-  server_side: "true"
-  priority: high
-  volumes:
-    config:
-      create: false
-      name: grafana-config
-      size: 1Gi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
+# This file contains the configuration for applications.
+# Make changes with caution!
 
-kube-prometheus-stack:
-  name: kube-prometheus-stack
-  namespace: monitoring
-  server_side: "true"
-  priority: critical
-  deploy: true
-  volumes: {}
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-    master_ip: ${master_ip}
-    api_key: ${api_keys["discord_webhook_url"]}
-
-kwatch:
-  name: kwatch
-  namespace: monitoring
-  server_side: "false"
-  deploy: false
-  volumes: {}
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-    master_ip: ${master_ip}
-    api_key: ${api_keys["kwatch_discord_webhook_url"]}
-
-loki:
-  name: loki
-  namespace: monitoring
-  priority: low
-  deploy: false
-  volumes: {}
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-
-promtail:
-  name: promtail
-  namespace: monitoring
-  priority: high
-  deploy: true
-  volumes: {}
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-
-## Auth
 authelia:
+  deploy: true
   name: authelia
   namespace: authelia
-  server_side: "false"
-  deploy: true
-  priority: critical
-  volumes:
-    config:
-      create: false
-      name: authelia-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-    redis-master:
-      create: false
-      name: redis-data-master
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-    redis-replica:
-      create: false
-      name: redis-data-replica
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
   override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
     JWT_TOKEN: ${api_keys["authelia_JWT_TOKEN"]}
     SESSION_ENCRYPTION_KEY: ${api_keys["authelia_SESSION_ENCRYPTION_KEY"]}
     STORAGE_ENCRYPTION_KEY: ${api_keys["authelia_STORAGE_ENCRYPTION_KEY"]}
-    smtp_username: ${api_keys["smtp_username"]}
-    smtp_password: ${api_keys["smtp_password"]}
+    domain: ${domain}
+    master_hostname: ${master_hostname}
     smtp_host: ${api_keys["smtp_host"]}
+    smtp_password: ${api_keys["smtp_password"]}
     smtp_port: ${api_keys["smtp_port"]}
     smtp_sender_email: ${api_keys["smtp_sender_email"]}
-
-crowdsec:
-  name: crowdsec
-  namespace: crowdsec
-  server_side: "false"
-  deploy: false
+    smtp_username: ${api_keys["smtp_username"]}
+    timezone: ${timezone}
   priority: critical
+  server_side: 'false'
   volumes:
     config:
+      access_modes:
+      - ReadWriteOnce
       create: false
-      name: crowdsec-config
+      name: authelia-config
       size: 200Mi
+    redis-master:
       access_modes:
-        - ReadWriteOnce
-    data:
+      - ReadWriteOnce
       create: false
-      name: crowdsec-data
-      size: 1Gi
-      access_modes:
-        - ReadWriteOnce
-    agent_config:
-      create: false
-      name: crowdsec-agent-config
-      size: 500Mi
-      access_modes:
-        - ReadWriteMany
-    
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-    api_key: ${api_keys["crowdsec_enrollment_key"]}
-
-dex:
-  name: dex
-  namespace: services
-  deploy: false
-  volumes: {}
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-
-## Downloaders
-sabnzbd:
-  name: sabnzbd
-  namespace: services
-  deploy: true
-  priority: high
-  volumes:
-    config:
-      create: false
-      name: sabnzbd-config
+      name: redis-data-master
       size: 200Mi
+    redis-replica:
       access_modes:
-        - ReadWriteOnce
-    downloads:
-      name: media
-    downloads-radarr:
-      name: media-radarr
-      mountPath: /downloads/radarr
-      subpath: radarr
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    api_key: ${api_keys["sabnzbd_key"]}
-
-flood:
-  name: flood
-  namespace: services
-  deploy: false
-  priority: high
-  volumes:
-    config:
+      - ReadWriteOnce
       create: false
-      # backup: enabled
-      name: flood-config
+      name: redis-data-replica
       size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-  
-nzbget:
-  name: nzbget
-  namespace: services
-  deploy: false
-  volumes:
-    config:
-      create: false
-      name: nzbget-config
-      size: 1Gi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-    master_ip: ${master_ip}
-
-## Media
-plex:
-  name: plex
-  namespace: services
-  deploy: true
-  priority: critical
-  volumes:
-    config:
-      create: false
-      name: plex-config
-      size: 5Gi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    allowed_networks: ${allowed_networks} 
-    plex_claim_token: ${plex_claim_token} 
-    api_key: ${api_keys["plex_key"]}
-    master_hostname: ${master_hostname}
-
-jellyseerr:
-  name: jellyseerr
-  namespace: services
-  priority: high
-  deploy: true
-  volumes: 
-    config:
-      create: false
-      name: jellyseerr-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    api_key: ${api_keys["jellyseerr_key"]}
-
-tautulli:
-  name: tautulli
-  namespace: services
-  deploy: false
-  priority: high
-  volumes: 
-    config:
-      create: false
-      name: tautulli-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-
-## Aggregators
-radarr:
-  name: radarr
-  namespace: services
-  deploy: true
-  priority: high
-  volumes:
-    config:
-      create: false
-      name: radarr-config
-      size: 512Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    api_key: ${api_keys["radarr_key"]}
-    master_hostname: ${master_hostname}
-
-sonarr:
-  name: sonarr
-  namespace: services
-  deploy: true
-  priority: high
-  volumes:
-    config:
-      create: false
-      name: sonarr-config
-      size: 512Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    api_key: ${api_keys["sonarr_key"]}
-    master_hostname: ${master_hostname}
-
-prowlarr:
-  name: prowlarr
-  namespace: services
-  deploy: true
-  priority: high
-  volumes:
-    config:
-      create: false
-      name: prowlarr-config
-      size: 512Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    api_key: ${api_keys["prowlarr_key"]}
-    master_hostname: ${master_hostname}
-
 bazarr:
+  deploy: true
   name: bazarr
   namespace: services
-  deploy: true
+  override:
+    api_key: ${api_keys["bazarr_key"]}
+    domain: ${domain}
+    timezone: ${timezone}
   priority: high
   volumes:
     config:
+      access_modes:
+      - ReadWriteOnce
       create: true
       name: bazarr-config
       size: 200Mi
-      access_modes:
-        - ReadWriteOnce
     downloads:
       name: media
     downloads-radarr:
-      name: media-radarr
       mountPath: /downloads/radarr
+      name: media-radarr
       subpath: radarr
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    api_key: ${api_keys["bazarr_key"]}
-
-
-readarr:
-  name: readarr
-  namespace: services
+crowdsec:
   deploy: false
-  volumes:
-    config:
-      create: false
-      name: readarr-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
+  name: crowdsec
+  namespace: crowdsec
   override:
-    timezone: ${timezone}
-    domain: ${domain}
-
-mylar:
-  name: mylar
-  namespace: services
-  deploy: false
-  priority: low
-  volumes:
-    config:
-      create: false
-      name: mylar-config
-      size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-
-## Services
-homepage:
-  name: homepage
-  namespace: services
-  deploy: true
-  volumes: {}
-  override:
-    timezone: ${timezone}
+    api_key: ${api_keys["crowdsec_enrollment_key"]}
     domain: ${domain}
     master_hostname: ${master_hostname}
-
-
+    timezone: ${timezone}
+  priority: critical
+  server_side: 'false'
+  volumes:
+    agent_config:
+      access_modes:
+      - ReadWriteMany
+      create: false
+      name: crowdsec-agent-config
+      size: 500Mi
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: crowdsec-config
+      size: 200Mi
+    data:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: crowdsec-data
+      size: 1Gi
+dex:
+  deploy: false
+  name: dex
+  namespace: services
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: ''
+  volumes: {}
 filebrowser:
+  deploy: false
   name: filebrowser
   namespace: services
-  deploy: false
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
   priority: low
   volumes:
     config:
+      access_modes:
+      - ReadWriteMany
       create: false
       name: filebrowser-config
       size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-
-
-home-assistant:
-  name: home-assistant
+flood:
+  deploy: false
+  name: flood
   namespace: services
-  priority: low
-  deploy: false
-  volumes:
-    config:
-      create: false
-      name: ha-config
-      size: 5Gi
-      access_modes:
-        - ReadWriteMany
   override:
-    timezone: ${timezone}
     domain: ${domain}
-    gh_username: ${gh_username}
-    gh_token: ${gh_token}
     master_hostname: ${master_hostname}
-
-portainer:
-  name: portainer
-  namespace: kube-system
-  deploy: false
+    timezone: ${timezone}
   priority: high
   volumes:
     config:
+      access_modes:
+      - ReadWriteOnce
       create: false
-      name: portainer-config
-      size: 1Gi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    api_key: ${api_keys["portainer_key"]}
-
-rancher:
-  name: rancher
-  namespace: cattle-system
-  deploy: true
-  priority: high
-  volumes:
-    config:
-      create: true
-      name: rancher-config
-      size: 1Gi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    letsencrypt_email: ${letsencrypt_email}
-
-samba:
-  name: samba
-  namespace: services
-  deploy: false
-  priority: low
-  volumes:
-    config:
-      create: false
-      name: samba-config
-      size: 100Mi
-      access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-
-
+      name: flood-config
+      size: 200Mi
 gow:
+  deploy: false
   name: gow
   namespace: services
-  deploy: false
+  override:
+    domain: ${domain}
+    timezone: ${timezone}
   priority: high
   volumes:
     config:
+      access_modes:
+      - ReadWriteOnce
       create: false
       name: gow-config
       size: 100Mi
-      access_modes:
-        - ReadWriteOnce
+grafana:
+  deploy: true
+  name: grafana
+  namespace: monitoring
   override:
-    timezone: ${timezone}
     domain: ${domain}
-
-
-kubeview:
-  name: kubeview
-  namespace: services
-  deploy: false
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: high
+  server_side: 'true'
   volumes:
     config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: grafana-config
+      size: 1Gi
+home-assistant:
+  deploy: false
+  name: home-assistant
+  namespace: services
+  override:
+    domain: ${domain}
+    gh_token: ${gh_token}
+    gh_username: ${gh_username}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: low
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteMany
+      create: false
+      name: ha-config
+      size: 5Gi
+homepage:
+  deploy: true
+  name: homepage
+  namespace: services
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: critical
+  volumes: {}
+jellyseerr:
+  deploy: true
+  name: jellyseerr
+  namespace: services
+  override:
+    api_key: ${api_keys["jellyseerr_key"]}
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: jellyseerr-config
+      size: 200Mi
+kube-prometheus-stack:
+  deploy: true
+  name: kube-prometheus-stack
+  namespace: monitoring
+  override:
+    api_key: ${api_keys["discord_webhook_url"]}
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    master_ip: ${master_ip}
+    timezone: ${timezone}
+  priority: critical
+  server_side: 'true'
+  volumes: {}
+kubeview:
+  deploy: false
+  name: kubeview
+  namespace: services
+  override:
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: ''
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteMany
       create: false
       name: kubeview-config
       size: 200Mi
-      access_modes:
-        - ReadWriteMany
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-
-
-renovate:
-  name: renovate
-  namespace: services
+kwatch:
   deploy: false
+  name: kwatch
+  namespace: monitoring
+  override:
+    api_key: ${api_keys["kwatch_discord_webhook_url"]}
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    master_ip: ${master_ip}
+    timezone: ${timezone}
+  priority: ''
+  server_side: 'false'
+  volumes: {}
+loki:
+  deploy: false
+  name: loki
+  namespace: monitoring
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: low
+  volumes: {}
+mylar:
+  deploy: false
+  name: mylar
+  namespace: services
+  override:
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: low
   volumes:
     config:
-      create: false
-      name: renovate-config
-      size: 512Mi
       access_modes:
-        - ReadWriteOnce
-  override:
-    timezone: ${timezone}
-    domain: ${domain}
-    gh_username: ${gh_username}
-    gh_token: ${gh_token}
-
-
+      - ReadWriteMany
+      create: false
+      name: mylar-config
+      size: 200Mi
 nextcloud:
+  deploy: true
   name: nextcloud
   namespace: services
-  deploy: true
+  override:
+    api_key: ${api_keys["nextcloud_key"]}
+    domain: ${domain}
+    smtp_host: ${api_keys["smtp_host"]}
+    smtp_password: ${api_keys["smtp_password"]}
+    smtp_port: ${api_keys["smtp_port"]}
+    smtp_sender_email: ${api_keys["smtp_sender_email"]}
+    smtp_username: ${api_keys["smtp_username"]}
+    timezone: ${timezone}
   priority: high
   volumes:
-    db:
-      create: false
-      name: nextcloud-db-config
-      size: 5Gi
-      access_modes:
-        - ReadWriteOnce
     config:
+      access_modes:
+      - ReadWriteOnce
       create: true
       name: nextcloud-config
       size: 1Gi
+    db:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
+      create: false
+      name: nextcloud-db-config
+      size: 5Gi
+nzbget:
+  deploy: false
+  name: nzbget
+  namespace: services
   override:
-    timezone: ${timezone}
     domain: ${domain}
-    smtp_username: ${api_keys["smtp_username"]}
-    smtp_password: ${api_keys["smtp_password"]}
-    smtp_host: ${api_keys["smtp_host"]}
-    smtp_port: ${api_keys["smtp_port"]}
-    smtp_sender_email: ${api_keys["smtp_sender_email"]}
-    api_key: ${api_keys["nextcloud_key"]}
+    master_hostname: ${master_hostname}
+    master_ip: ${master_ip}
+    timezone: ${timezone}
+  priority: ''
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: nzbget-config
+      size: 1Gi
+plex:
+  deploy: true
+  name: plex
+  namespace: services
+  override:
+    allowed_networks: ${allowed_networks}
+    api_key: ${api_keys["plex_key"]}
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    plex_claim_token: ${plex_claim_token}
+    timezone: ${timezone}
+  priority: critical
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: plex-config
+      size: 5Gi
+portainer:
+  deploy: false
+  name: portainer
+  namespace: kube-system
+  override:
+    api_key: ${api_keys["portainer_key"]}
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: portainer-config
+      size: 1Gi
+promtail:
+  deploy: true
+  name: promtail
+  namespace: monitoring
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: high
+  volumes: {}
+prowlarr:
+  deploy: true
+  name: prowlarr
+  namespace: services
+  override:
+    api_key: ${api_keys["prowlarr_key"]}
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: prowlarr-config
+      size: 512Mi
+radarr:
+  deploy: true
+  name: radarr
+  namespace: services
+  override:
+    api_key: ${api_keys["radarr_key"]}
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: radarr-config
+      size: 512Mi
+rancher:
+  deploy: true
+  name: rancher
+  namespace: cattle-system
+  override:
+    domain: ${domain}
+    letsencrypt_email: ${letsencrypt_email}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: true
+      name: rancher-config
+      size: 1Gi
+readarr:
+  deploy: false
+  name: readarr
+  namespace: services
+  override:
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: ''
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteMany
+      create: false
+      name: readarr-config
+      size: 200Mi
+renovate:
+  deploy: false
+  name: renovate
+  namespace: services
+  override:
+    domain: ${domain}
+    gh_token: ${gh_token}
+    gh_username: ${gh_username}
+    timezone: ${timezone}
+  priority: ''
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: renovate-config
+      size: 512Mi
+sabnzbd:
+  deploy: true
+  name: sabnzbd
+  namespace: services
+  override:
+    api_key: ${api_keys["sabnzbd_key"]}
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: sabnzbd-config
+      size: 200Mi
+    downloads:
+      name: media
+    downloads-radarr:
+      mountPath: /downloads/radarr
+      name: media-radarr
+      subpath: radarr
+samba:
+  deploy: false
+  name: samba
+  namespace: services
+  override:
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: low
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: samba-config
+      size: 100Mi
+sonarr:
+  deploy: true
+  name: sonarr
+  namespace: services
+  override:
+    api_key: ${api_keys["sonarr_key"]}
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: sonarr-config
+      size: 512Mi
+tautulli:
+  deploy: false
+  name: tautulli
+  namespace: services
+  override:
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      create: false
+      name: tautulli-config
+      size: 200Mi
