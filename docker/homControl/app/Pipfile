@@ -5,11 +5,11 @@ name = "pypi"
 
 [packages]
 streamlit = "*"
-cdktf = "*"
 pyyaml = "*"
 streamlit-card = "*"
 streamlit-extras = "*"
 python-hcl2 = "*"
+python-terraform = "*"
 
 [dev-packages]
 

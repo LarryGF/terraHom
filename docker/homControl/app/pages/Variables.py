@@ -60,7 +60,7 @@ def main():
             tfvars_json_path = f"{tfvars_path}.json"
             
             for row,value in st.session_state["vars-data-editor"]["edited_rows"].items():
-                st.session_state.tfvars[generic_vars[row][0]] = value["1"]
+                st.session_state.tfvars[generic_vars[row][0]] = eval(value["1"])
             
             for row,value in st.session_state["vars-api-keys-editor"]["edited_rows"].items():
                 st.session_state.tfvars["api_keys"][api_keys[row][0]] = value["1"]
@@ -96,7 +96,5 @@ def main():
     # for key,value in st.session_state["vars-data-editor"]["edited_rows"].items():
     #     st.session_state.tfvars[key] = [st.session_state.tfvars[key][0],value["1"]]
     
-    st.write(st.session_state["vars-data-editor"])
-    st.write(st.session_state.tfvars)
 if __name__ == "__main__":
     main()
