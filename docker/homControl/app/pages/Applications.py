@@ -4,7 +4,10 @@ import streamlit as st
 from uuid import uuid4
 from streamlit_extras.stylable_container import stylable_container 
 
-st.set_page_config(layout="wide")
+st.set_page_config(
+    layout="wide",
+    page_icon="https://raw.githubusercontent.com/LarryGF/pi-k8s/c1682af8f077bce0dcfd04c7d70b64375f2fa042/docker/homControl/app/files/logo_dark-transparent.svg"
+    )
 st.title("Applications Configuration Dashboard")
 
 def load_yaml(file_path):

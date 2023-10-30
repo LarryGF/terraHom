@@ -4,7 +4,10 @@ import streamlit as st
 import json
 import hcl2
 
-st.set_page_config(layout="wide")
+st.set_page_config(
+    layout="wide",
+    page_icon="https://raw.githubusercontent.com/LarryGF/pi-k8s/c1682af8f077bce0dcfd04c7d70b64375f2fa042/docker/homControl/app/files/logo_dark-transparent.svg"
+    )
 st.title("Terraform Variables")
 
 def load_hcl(file_path):
@@ -33,7 +36,7 @@ def main():
     
     # Initialize session state for tfvars
     if 'tfvars' not in st.session_state:
-        if os.path.exists(tfvars_path):
+        if os.path.exists(tfvars_path_json):
             st.session_state.tfvars = load_json(tfvars_path_json)
             st.toast(":green[Loaded vars from generated JSON!]")
             

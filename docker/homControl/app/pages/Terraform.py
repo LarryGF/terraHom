@@ -7,13 +7,16 @@ import re
 from streamlit_extras.stylable_container import stylable_container 
 from python_terraform import *
 
-st.set_page_config(layout="wide")
+st.set_page_config(
+    layout="wide",
+    page_icon="https://raw.githubusercontent.com/LarryGF/pi-k8s/c1682af8f077bce0dcfd04c7d70b64375f2fa042/docker/homControl/app/files/logo_dark-transparent.svg"
+    )
 st.title("Terraform Modules")
 def main():
     st.session_state.initial_keys = set(st.session_state.keys())
     # Determine YAML path based on environment
-    base_path = determine_base_path()
-    tf_modules_path = os.path.join(base_path, 'terraform')
+    st.session_state.base_path = determine_base_path()
+    tf_modules_path = os.path.join(st.session_state.base_path, 'terraform')
     terraform_client = Terraform(working_dir=tf_modules_path)
 
     if 'deploy_stage' not in st.session_state:
@@ -31,7 +34,7 @@ def main():
         handle_init(terraform_client)
 
     if st.session_state.deploy_stage == "plan":
-        variables = load_json(os.path.join(base_path, 'terraform', 'terraform.tfvars.json'))
+        variables = load_json(os.path.join(st.session_state.base_path, 'terraform', 'terraform.tfvars.json'))
         deploy_terraform_modules(terraform_client, variables, modules_to_deploy)
 
 def determine_base_path():
@@ -195,7 +198,7 @@ def deploy_terraform_modules(tf_client,variables,modules_to_deploy):
                         clear_new_session_keys(st.session_state.initial_keys)
                         # Delete the plan file after writing to stdout
                         try:
-                            os.remove(os.path.join(base_path,'terraform',st.session_state.plan_name))
+                            os.remove(os.path.join(st.session_state.base_path,'terraform',st.session_state.plan_name))
                             st.write("Plan file deleted successfully.")
                         except Exception as e:
                             st.write(f"Error deleting plan file: {e}")
