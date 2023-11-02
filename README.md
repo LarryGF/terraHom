@@ -1,21 +1,24 @@
-# Pi-k8s
 
-\*Mostly\* Automated setup to install _k3s_ and additional services on your home cluster.
+# terraHom
+
+<img src="images/logo.svg" width="400" height="400">
+
+_Mostly_ Automated setup to deploy _k3s_ and additional services on your home cluster using `homControl`.
 
 ## Table of Contents
 
-- [Pi-k8s](#pi-k8s)
+- [terraHom](#terrahom)
   - [Table of Contents](#table-of-contents)
-  - [Terminology](#terminology)
-  - [Pre-deployment](#pre-deployment)
-    - [Basic node setup](#basic-node-setup)
+  - [Terminology 📖](#terminology-)
+  - [Pre-deployment 🚀](#pre-deployment-)
+    - [Basic node setup 🛠](#basic-node-setup-)
       - [Control Node](#control-node)
       - [Managed Nodes](#managed-nodes)
         - [Domain and public IP](#domain-and-public-ip)
-    - [Storage](#storage)
-    - [VPN Setup](#vpn-setup)
+    - [Storage 🛠](#storage-)
+    - [VPN Setup 🛠](#vpn-setup-)
       - [Obtaining the VPN config](#obtaining-the-vpn-config)
-  - [Automated Deployment](#automated-deployment)
+  - [Automated Deployment 🚀](#automated-deployment-)
     - [(Non-exhaustive) Requirements](#non-exhaustive-requirements)
     - [Ansible](#ansible)
     - [Terraform](#terraform)
@@ -27,91 +30,90 @@
   - [Troubleshooting](#troubleshooting)
   - [Expanding the repo](#expanding-the-repo)
 
-## Terminology
+## Terminology 📖
 
-- Control Node: This is your local computer, you will be running most of the actions from here
-- Managed Nodes: These will be your Kubernetes cluster nodes, here is where your services will be deployed
-  - Master node(s): Your Kubernetes cluster control plane , this is where the management functions for your cluster take place
-  - Agent node(s): These are worker nodes, they will be running most of the services
-  - Storage node(s): These can be `master` or `agent` nodes, this only marks which nodes will have external storage attached.
+- **Control Node:** Your local computer. Most actions are executed from here.
+- **Managed Nodes:** These are your [Kubernetes](https://kubernetes.io/) cluster nodes where services are deployed.
+  - **Master node(s):** The control plane for your Kubernetes cluster. This is where the cluster's management functions take place.
+  - **Agent node(s):** Worker nodes where most services run.
+  - **Storage node(s):** Can be either `master` or `agent` nodes. Represents nodes with attached external storage.
 
-## Pre-deployment
+## Pre-deployment 🚀
 
-### Basic node setup
+### Basic node setup 🛠
 
-These steps need to be executed in order and before moving on with the process, since they will make it possible to run the automations.
+Ensure you follow these steps in sequence before proceeding further, as they are crucial for the automation to work seamlessly.
 
 #### Control Node
 
-- Install [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (this is only necessary if you want to use the playbooks)
-- Install [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
-- Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- Install [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (only required if you're planning to use the playbooks).
+- Install [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli).
+- Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
 #### Managed Nodes
 
-- Flash Debian GNU/Linux 11 (bullseye) on the nodes (depending on your node's CPU you might need to flash an `amd64`  or `arm64` image)
-- Connect the node to your network (steps might vary depending on the OS)
-- Set up password-less [SSH](https://www.cyberciti.biz/faq/how-to-set-up-ssh-keys-on-linux-unix/) (this step is done from your `Control node`)
+- Flash/Install [Debian GNU/Linux 11 (bullseye)](https://www.debian.org/) on the nodes (depending on your node's CPU you might need to flash an `amd64` or `arm64` image).
+- Connect the node to your network.
+- Set up password-less [SSH](https://www.cyberciti.biz/faq/how-to-set-up-ssh-keys-on-linux-unix/) (this step is done from your `Control node`):
 
-  ```shell
+  ```bash
   ssh-copy-id {your username}@<NODE_IP>
   ```
-  
-  - It is strongly recommended that you use the same username in your `Control node` an your `Managed nodes` [ansible playbooks](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_intro.html) will also make changes on your local filesystem and we want to avoid unnecessary privilege escalation
+
+  - It is strongly recommended that you use the same username in your `Control node` and your `Managed nodes`. [Ansible playbooks](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_intro.html) will also make changes on your local filesystem, so avoid unnecessary privilege escalation.
   
 - Add your user to the `sudo` group:
 
-  ```shell
-    # as root
-    usermod -aG sudo {your username}
+  ```bash
+  # as root
+  usermod -aG sudo {your username}
   ```
 
-- Allow memebers of the sudo group to run any command without a password:
+- Grant `sudoers` permission to run commands without a password:
 
-  ```shell
+  - Run:
+  
+    ```bash
     # as root
     visudo
-  ```
-
-  - Add the following line to the file (or edit the existing one):
-
-    ```shell
-      %sudo ALL=(ALL) NOPASSWD:ALL
     ```
 
-  - Alternatively you can just edit /etc/sudoers
+  - Add or modify this line in the file:
 
-- Be sure to disable the `CD-ROM` entry in `/etc/apt/sources.list` otherwise the system update will fail
+    ```bash
+    %sudo ALL=(ALL) NOPASSWD:ALL
+    ```
 
-- Create your free public domain (this is necessary if you want to use valid [SSL certificates](https://www.kaspersky.com/resource-center/definitions/what-is-a-ssl-certificate)) and access some services outside of your private network, if you don't want this, you can check [this](#domain-and-public-ip)
-  
-  - DuckDNS (deprecated)
-    - Create an account on duckdns.org
-    - Create your subdomain on duckdns.org, save your subdomain and your token
-  
-  - DeSec
-    - Create an account on [DeSec](https://desec.io/)
-    - Create your domain, save your subdomain
-    - Create a wildcard record pointing to your **public IP address**
-      - You can get your public IP [here](https://www.whatsmyip.org/)
-      - Once everything is up and running there will be a service to automatically update this value
-    - Under `Token management` create your token and save it for later
+  - Alternatively, you can directly edit `/etc/sudoers`.
 
-- Point your public IP address to your cluster (this might not work if your public IP address is _NATed_ by your ISP, so mileage might vary)
+- Ensure the `CD-ROM` entry in `/etc/apt/sources.list` is disabled to prevent system update failures.
+
+- Create your free public domain for valid [SSL certificates](https://www.kaspersky.com/resource-center/definitions/what-is-a-ssl-certificate). If you don't want external access, check [this](#domain-and-public-ip).
   
-  - This can be achieved by [Port Forwarding](https://nordvpn.com/blog/port-forwarding/) ports `80` and/or `443` in your edge router to your `Master node`'s IP address
+  - DuckDNS (deprecated):
+    - Register on duckdns.org.
+    - Set up your subdomain and note down the subdomain and token.
   
-  - If your public IP is being _NATed_ consider upgrading to a static IP address or modifying the values to deploy with self-signed certificates
+  - DeSec:
+    - Register on [DeSec](https://desec.io/).
+    - Set up your domain and save your subdomain for later.
+    - Create a wildcard record targeting your **public IP address** (Find it [here](https://www.whatsmyip.org/)).
+    - Once set up, a service will be deployed to auto-update this IP.
+    - In the webpage, go to `Token management`, create and note down your token.
+
+- Direct your public IP to your cluster (might be limited if your ISP _NATs_ your public IP).
   
-    - A simple way to find out if this is the case is to forward a random port (let's say: `8080`) to your `Control node`
+  - Achieve this by [Port Forwarding](https://nordvpn.com/blog/port-forwarding/) ports `80`/`443` on your router to your `Master node`'s IP.
   
-    - Run a simple web service on that port in your `control node`:
+  - If your IP is _NATed_, consider a static IP or deploy with self-signed certificates.
   
-      ```shell
+    - Test by forwarding port `8080` to your `Control node` and run:
+
+      ```bash
       python -m http.server 8080
       ```
   
-    - And then, on your browser, go to `http://{your public ip}:8080`, if it errors out, and you're certain you did everything correctly, chances are your public IP is being `CG-NATed` by your ISP an you will have to take it up with them
+    - Access `http://{your public ip}:8080`. If there's an error and you've followed steps correctly, your IP might be `CG-NATed` by the ISP.
 
 ##### Domain and public IP
 
@@ -126,7 +128,7 @@ If you already own a domain name or want to use a different solution for your fr
 
 If you are planning on deploying this on an [Air gapped environment](https://en.wikipedia.org/wiki/Air_gap_(networking)), a possible solution to achieve this result could be to create your domain, generate a wildcard certificate (*.{your_domain}) and to use that certificate in your cluster for all services (this alternative won't be covered in the documentation).
 
-### Storage
+### Storage 🛠
 
 This is only necessary if you want to use longhorn. *_*I don't recommend using longhorn for single node deployments*_.
 
@@ -135,7 +137,7 @@ This is only necessary if you want to use longhorn. *_*I don't recommend using l
 
 If you're planning on adding any additional drives later that's totally fine, and they can be added manually from the Longhorn UI, or from ansible, only thing to keep in mind is that if you are planning on using Longhorn from the beginning, you should at least have one storage node so the correct Peristent Volume Claims get created and you won't risk loosing any data.
 
-### VPN Setup
+### VPN Setup 🛠
 
 Some modules (`rtorrent` for now), have a Wireguard VPN addon, in order for this to work you need to pass it the Wireguard config. The wireguard config will be stored as a Kubernetes secret and mounted in the container, you need to pass the contents of the config file as a `base64` encoded string, you can get this string by running:
 
@@ -156,7 +158,7 @@ Your VPN provider should have a config file available for you to use, it should 
 
 If you are like me and are stuck with NordVPN for the foreseeable future, you would have realized already that there's no easy way to get the config file. That's why this repo has a `git submodule` under `scripts/NordVPN-Wireguard` that will let you generate the config file yourself. You can find the instructions on how to use it in the [README](./scripts/NordVPN-Wireguard/README.md).
 
-## Automated Deployment
+## Automated Deployment 🚀
 
 This section covers the `k3s` installation using [ansible playbooks](#ansible) and the deployment of the services using a mix of [Terraform and ArgoCD](#terraform). The playbooks are in charge of preparing the environment, installing required packages, tagging nodes and making the necessary local changes in order for terraform to work (variable creation, kubeconfig creation, etc.) unless you know what you're doing it is strongly advised to install everything using the provided playbooks. In case you want to skip this here is a list of some resource that could be missing, but I might have missed something:
 
@@ -199,7 +201,7 @@ If you're planning on manually installing kubernetes or if you already have a ku
     
     [storage:children]
     master
-
+  
     ; Additionally you can add individual members to the storage group by doing:
     ;[storage]
     ;{agent hostname2}
@@ -230,7 +232,7 @@ If you're planning on manually installing kubernetes or if you already have a ku
   
    ```bash
    ansible-playbook ./ansible/site.yml -i ./ansible/inventory/deploy/hosts.ini --ask-become-pass --user {your_user} --tags kubernetes,download
-
+   
    ```
 
 ### Terraform
@@ -238,42 +240,6 @@ If you're planning on manually installing kubernetes or if you already have a ku
 Ansible just installs kubernetes and makes the necessary configurations, but doesn't deploy anything to the cluster, as a matter of fact, by default the playbook even skips some components that come with `k3s` by default to allow for a fresh, fully customized deployment.
 
 1. Create `terraform/terraform.tfvars`, you can use `terraform/terraform.tfvars.example` as a base, below is a table with an explanation for each variable, you can ignore the `Rtorrent`,`Plex` and `Keys` components for now since they won't be used until the services are deployed:
-  
-   | Component    | Name                                     | Description                                                                                                                                                                                                              |
-   | ------------ | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-   | Cert Manager | letsencrypt_email                        | Email associated with Let's Encrypt certification |
-   |              | letsencrypt_server                       | Let's Encrypt server URL (you should use `https://acme-staging-v02.api.letsencrypt.org/directory` initially and `https://acme-v02.api.letsencrypt.org/directory` once you verify that everything is working as intended) |
-   | Traefik      | source_range                             | Comma separated list of IP source range to allow for internal traffic ("192.168.1.0/24,10.42.1.0/24") |
-   |              | source_range_ext                         | Comma separated list of IPs to allow for external traffic  (95.95.95.95/32,85.85.85.85/32) |
-   | Global       | timezone                                 | Timezone for the pods |
-   |              | domain                                   | Domain for the infrastructure (something like {your_domain}.dedyn.io) |
-   |              | master_hostname                          | Master server's hostname (this will be autogenerated from ansible in the future) |
-   |              | master_ip                                | IP address of the master server (this will be autogenerated from ansible in the future) |
-   | DNS          | token                                    | The token you obtained [here](#managed-nodes)  |
-   | Longhorn     | nfs_server                               | NFS server address (this is  autogenerated from ansible) |
-   |              | nfs_backupstore                          | NFS backup storage path (this is  autogenerated from ansible) |
-   | ArgoCD       | gh_username                              | Your GitHub username, ArgoCD will use this to access your repo (could be this one or a fork) |
-   |              | gh_token                                 | Your GitHub token for ArgoCD authentication |
-   | Rtorrent     | vpn_config                               | Configuration for VPN with rTorrent in `base64` format, obtained [here](#vpn-setup) |
-   | Plex         | allowed_networks                         | IP ranges allowed to access Plex |
-   |              | plex_claim_token                         | Token to claim Plex server |
-   | Keys         | api_keys.radarr_key                      | API key for Radarr |
-   |              | api_keys.sonarr_key                      | API key for Sonarr |
-   |              | api_keys.prowlarr_key                    | API key for Prowlarr |
-   |              | api_keys.bazarr_key                      | API key for Bazarr |
-   |              | api_keys.plex_key                        | API key for Plex |
-   |              | api_keys.portainer_key                   | API key for Portainer |
-   |              | api_keys.jellyseerr_key                  | API key for Jellyseerr |
-   |              | api_keys.pihole_key                      | API key for Pi-hole |
-   |              | api_keys.sabnzbd_key                     | API key for SABnzbd |
-   |              | api_keys.discord_webhook_url             | Discord webhook URL for notifications |
-   |              | api_keys.kwatch_discord_webhook_url      | Discord webhook URL for KWatch notifications |
-   |              | api_keys.authelia_JWT_TOKEN              | JWT token for Authelia authentication |
-   |              | api_keys.authelia_SESSION_ENCRYPTION_KEY | Session encryption key for Authelia |
-   |              | api_keys.authelia_STORAGE_ENCRYPTION_KEY | Storage encryption key for Authelia |
-   |              | api_keys.crowdsec_enrollment_key         | Enrollment key for CrowdSec |
-   | Components   | use_sandbox                              | Boolean to determine if sandbox environment is created |
-   |              | use_longhorn                             | Boolean to determine if Longhorn is used |
 
 2. Rename and/or edit the file `terraform/modules/base/submodules/adguard/helm/dns-rewrites.example.yaml` to `terraform/modules/base/submodules/adguard/helm/dns-rewrites.config.yaml`, this basically tells `Adguard`'s DNS to resolve some services using their private IP addresses instead of their public ones. You can add or remove entries as you please
 
