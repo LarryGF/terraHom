@@ -39,7 +39,7 @@ RUN apt-get update && \
 RUN pip install --upgrade pip && pip install pipenv
 
 # Install Python dependencies from Pipfile.lock
-RUN pipenv install --deploy --ignore-pipfile --python $(which python3)
+RUN pipenv install --deploy --ignore-pipfile --python $(which python)
 
 COPY ./app/ /app/
 
