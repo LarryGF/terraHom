@@ -27,7 +27,7 @@ grafana:
   sidecar:
     image:
       repository: quay.io/kiwigrid/k8s-sidecar
-      tag: 1.22.0
+      tag: 1.25.1
     enableUniqueFilenames: false
     alerts:
       enabled: true
