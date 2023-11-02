@@ -4,7 +4,7 @@ version: 0.0.0
 dependencies:
   - name: authelia
     repository: https://charts.authelia.com
-    version: 0.8.57
+    version: 0.8.58
   - name: redis
     repository: https://charts.bitnami.com/bitnami
     version: 17.15.2
