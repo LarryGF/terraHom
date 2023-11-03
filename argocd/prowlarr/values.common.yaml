@@ -1,7 +1,7 @@
 prowlarr:
   image:
     repository: lscr.io/linuxserver/prowlarr
-    tag: latest
+    tag: 1.9.4
 
   env:
     PGID: 1001
