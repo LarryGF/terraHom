@@ -409,7 +409,7 @@ rancher:
   volumes:
     config:
       access_modes:
-      - ReadWriteOnce
+      - ReadWriteMany
       create: true
       name: rancher-config
       size: 1Gi
