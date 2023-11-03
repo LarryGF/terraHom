@@ -1,7 +1,7 @@
 apiVersion: v2
 name: rancher-umbrella
-version: 0.0.0
+version: 0.0.1
 dependencies:
   - name: rancher
     repository: https://releases.rancher.com/server-charts/stable
-    version: 2.7.6
+    version: 2.7.9
