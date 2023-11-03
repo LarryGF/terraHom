@@ -233,7 +233,7 @@ kube-prometheus-stack:
 alertmanager-discord:
   image:
     repository: rogerrum/alertmanager-discord
-    tag: 1.0.4
+    tag: 1.0.5
     pullPolicy: IfNotPresent
 
   # -- environment variables. See [image docs](https://github.com/metalmatze/alertmanager-bot) for more configuration options.
