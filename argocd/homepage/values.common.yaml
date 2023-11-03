@@ -27,11 +27,7 @@ homepage:
       maxSurge: 25%
       maxUnavailable: 25%
 
-    bookmarks:
-      - Developer:
-          - Github Base Repo:
-              - abbr: Repo
-                href: https://github.com/LarryGF/pi-k8s
+   
 
     
 
@@ -53,6 +49,11 @@ homepage:
       providers:
         longhorn:
           url: http://longhorn-frontend.longhorn-system.svc.cluster.local
+    bookmarks:
+      - Developer:
+          - Github Base Repo:
+              - abbr: Repo
+                href: https://github.com/LarryGF/pi-k8s
       
 
   persistence:
