@@ -165,7 +165,7 @@ grafana:
       name: grafana-config
       size: 1Gi
 home-assistant:
-  deploy: false
+  deploy: true
   name: home-assistant
   namespace: services
   override:
@@ -178,8 +178,8 @@ home-assistant:
   volumes:
     config:
       access_modes:
-      - ReadWriteMany
-      create: false
+      - ReadWriteOnce
+      create: true
       name: ha-config
       size: 5Gi
 homepage:
