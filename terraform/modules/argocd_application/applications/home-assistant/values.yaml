@@ -12,7 +12,7 @@ home-assistant:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Home Assistant"
         gethomepage.dev/description: ""
-        gethomepage.dev/group: "Internal"
+        gethomepage.dev/group: "Home Services"
         gethomepage.dev/icon: "home-assistant-alt.png"
       enabled: true
       hosts:
