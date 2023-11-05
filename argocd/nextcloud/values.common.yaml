@@ -1,6 +1,6 @@
 nextcloud:
   image:
-    repository: nextcloud
+    flavor: fpm
     tag: 27.1.3-fpm
     pullPolicy: IfNotPresent
 
