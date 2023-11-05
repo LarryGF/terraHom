@@ -1,4 +1,9 @@
 home-assistant:
+  env:
+    PGID: 1001
+    PUID: 1001
+    TZ: ${timezone}
+    PYTHONUSERBASE: /config/deps
 
   nodeSelector:
     priority: ${priority}
@@ -8,7 +13,7 @@ home-assistant:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure,websecure-ext
         traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Home Assistant"

@@ -49,11 +49,12 @@ bazarr:
   priority: high
   volumes:
     config:
+      backup: enabled
       access_modes:
       - ReadWriteOnce
       create: true
       name: bazarr-config
-      size: 200Mi
+      size: 500Mi
     downloads:
       name: media
     downloads-radarr:
@@ -177,6 +178,7 @@ home-assistant:
   priority: critical
   volumes:
     config:
+      backup: enabled
       access_modes:
       - ReadWriteMany
       create: true
@@ -290,6 +292,7 @@ nextcloud:
   priority: high
   volumes:
     config:
+      backup: enabled
       access_modes:
       - ReadWriteOnce
       create: true
@@ -408,6 +411,7 @@ rancher:
   priority: high
   volumes:
     config:
+      backup: enabled
       access_modes:
       - ReadWriteMany
       create: true
