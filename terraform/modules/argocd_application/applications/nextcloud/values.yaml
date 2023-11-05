@@ -99,6 +99,8 @@ nextcloud:
           'trusted_proxies' => array(
           0 => '127.0.0.1',
           1 => '10.42.0.0/16',
+        ),'trusted_domains' => array(
+          0 => 'nextcloud.${domain}',
         ),
         );
       logging.config.php: |-
