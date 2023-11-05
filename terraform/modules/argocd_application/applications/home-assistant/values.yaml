@@ -13,7 +13,7 @@ home-assistant:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure,websecure-ext
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
         traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Home Assistant"
@@ -84,7 +84,7 @@ home-assistant:
   resources:
     limits: 
       cpu: "0.5"
-      memory: 800Mi
+      memory: 1.5Gi
     requests: 
       cpu: "0.1"
       memory: 500Mi
