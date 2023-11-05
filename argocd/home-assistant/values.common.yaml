@@ -1,8 +1,8 @@
 home-assistant:
   # home-assistant.yaml
   image:
-    repository: linuxserver/homeassistant
-    tag: 2023.11.0
+    repository: homeassistant/home-assistant
+    tag: 2023.11
   initContainers:
     copy-configmap:
       image: busybox
