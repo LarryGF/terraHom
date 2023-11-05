@@ -11,11 +11,12 @@ These are the steps you need to follow after you've finished the infrastructure 
   - [Downloaders](#downloaders)
     - [Rtorrent-Flood](#rtorrent-flood)
     - [SABnzbd](#sabnzbd)
-  - [Aggregators](#template-aggregators)
+  - [Aggregators](#aggregators)
     - [Jackett (DEPRECATED)](#jackett-deprecated)
     - [IMPORTANT INFORMATION FOR \*ARR](#important-information-for-arr)
     - [Prowlarr](#prowlarr)
     - [Sonarr/Radarr](#sonarrradarr)
+    - [Bazarr](#bazarr)
     - [Mylar](#mylar)
     - [Adult Content](#adult-content)
   - [Players](#players)
@@ -162,6 +163,23 @@ terraform apply -auto-approve -target module.argocd_application
   - Avatar:
     - For Sonarr use: https://avatars.githubusercontent.com/u/1082903?s=200&v=4
     - For Radarr use: https://avatars.githubusercontent.com/u/25025331?s=200&v=4
+
+### Bazarr
+
+- Add subtitle providers in `Settings` > `Providers`.
+  - Enable preferred providers.
+  - Enter required details for each, including login information.
+
+- Create language profiles under `Settings` > `Languages`.
+  - Click `Add Profile`.
+  - Configure the preferred languages and subtitle settings.
+  - Assign profiles to series and movies in Sonarr and Radarr.
+
+- Go to `Settings` > `Sonarr`/`Radarr` to connect Bazarr to Sonarr and Radarr.
+  - Input your Sonarr/Radarr API key.
+  - Use `sonarr` or `radarr` as your url.
+  - Click `Test` to verify connectivity.
+  - Save the settings.
 
 ### Mylar
 
