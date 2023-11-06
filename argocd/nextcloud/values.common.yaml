@@ -1,7 +1,7 @@
 nextcloud:
   image:
-    flavor: fpm
-    tag: 27.1.3-fpm
+    repository: nextcloud
+    # tag: 24.0.3-apache
     pullPolicy: IfNotPresent
 
   nameOverride: ""
