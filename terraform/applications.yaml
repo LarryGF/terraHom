@@ -49,9 +49,9 @@ bazarr:
   priority: high
   volumes:
     config:
-      backup: enabled
       access_modes:
       - ReadWriteOnce
+      backup: enabled
       create: true
       name: bazarr-config
       size: 500Mi
@@ -178,9 +178,9 @@ home-assistant:
   priority: critical
   volumes:
     config:
-      backup: enabled
       access_modes:
       - ReadWriteMany
+      backup: enabled
       create: true
       name: ha-config
       size: 5Gi
@@ -292,9 +292,9 @@ nextcloud:
   priority: high
   volumes:
     config:
-      backup: enabled
       access_modes:
       - ReadWriteOnce
+      backup: enabled
       create: true
       name: nextcloud-config
       size: 1Gi
@@ -411,9 +411,9 @@ rancher:
   priority: high
   volumes:
     config:
-      backup: enabled
       access_modes:
       - ReadWriteMany
+      backup: enabled
       create: true
       name: rancher-config
       size: 1Gi
