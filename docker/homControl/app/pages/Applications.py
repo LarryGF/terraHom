@@ -82,49 +82,27 @@ def main():
                     st.text_input("Namespace", app_details.get('namespace', ''), key=f"{app_name}-namespace")
                     st.text_input("Priority", app_details.get('priority', ''), key=f"{app_name}-priority")
                     
-                    # # Volumes handling
-                    # volumes = app_details.get('volumes', {})
-                    # with st.expander("**Volumes**"):
-                    #     for vol_name, vol_details in volumes.items():
-                    #         st.write(f"- {vol_name}")
-                    #         for key, val in vol_details.items():
-                    #             if isinstance(val, bool):
-                    #                 st.checkbox(key, vol_details.get(key, False), key=f"{app_name}-{vol_name}-{key}")
-                    #             else:
-                    #                 st.text_input(f"{key}", str(val), key=f"{app_name}-{vol_name}-{key}")
-                    #     if st.button("Add New Volume", key=f"{app_name}-add-volume"):
-                    #         # Create a new unique volume name (this can be changed later by the user)
-                    #         new_volume_name = str(uuid4())[:8]
-                    #         # Initialize the new volume with default values
-                    #         st.session_state[f"{app_name}-{new_volume_name}-create"] = False
-                    #         st.session_state[f"{app_name}-{new_volume_name}-name"] = new_volume_name
-                    #         st.session_state[f"{app_name}-{new_volume_name}-size"] = ""
-                    #         st.session_state[f"{app_name}-{new_volume_name}-access_modes"] = "['']"
-                    #         st.session_state.apps_data[app_name]['volumes'][new_volume_name] = {
-                    #             "create": False,
-                    #             "name": new_volume_name,
-                    #             "size": "",
-                    #             "access_modes": "['']"
-                    #         }
-                    
-                    # Update session state data with widget changes
+                    # Volumes handling
+                    volumes = app_details.get('volumes', {})
+                    with st.expander("**Volumes**"):
+                        for vol_name, vol_details in volumes.items():
+                            st.write(f"- {vol_name}")
+                            for key, val in vol_details.items():
+                                if isinstance(val, bool):
+                                    st.checkbox(key, vol_details.get(key, False), key=f"{app_name}-{vol_name}-{key}")
+                        
+                        if not volumes:
+                            st.write("No PVCs for this app")
                     st.session_state.apps_data[app_name]['deploy'] = st.session_state[app_name]
                     st.session_state.apps_data[app_name]['namespace'] = st.session_state[f"{app_name}-namespace"]
                     st.session_state.apps_data[app_name]['priority'] = st.session_state[f"{app_name}-priority"]
                     
                     # # Update volumes in session state
-                    # for vol_name, vol_details in app_details.get('volumes', {}).items():
-                    #     for key, val in vol_details.items():
-                    #         if isinstance(val, bool):
-                    #             st.session_state.apps_data[app_name]['volumes'][vol_name][key] = st.session_state[f"{app_name}-{vol_name}-{key}"]
-                    #         else:
-                    #             st.session_state.apps_data[app_name]['volumes'][vol_name][key] = st.session_state[f"{app_name}-{vol_name}-{key}"]
+                    for vol_name, vol_details in app_details.get('volumes', {}).items():
+                        for key, val in vol_details.items():
+                            if isinstance(val, bool):
+                                st.session_state.apps_data[app_name]['volumes'][vol_name][key] = st.session_state[f"{app_name}-{vol_name}-{key}"]
 
-    # st.write(st.session_state.apps_data.items())
-    # if st.button('Save Changes'):
-    #     with open(yaml_path, 'w') as yaml_file:
-    #         yaml.dump(st.session_state.apps_data, yaml_file)
-    #     st.success("Changes saved!")
 
 
 if __name__ == "__main__":
