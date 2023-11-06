@@ -1,7 +1,9 @@
 
 # terraHom
 
-<img src="images/logo.svg" width="400" height="400">
+<p align="left">
+  <img src="images/logo.svg" width="400" height="400">
+</p>
 
 _Mostly_ Automated setup to deploy _k3s_ and additional services on your home cluster using `homControl`.
 
@@ -19,16 +21,16 @@ _Mostly_ Automated setup to deploy _k3s_ and additional services on your home cl
     - [VPN Setup 🛠](#vpn-setup-)
       - [Obtaining the VPN config](#obtaining-the-vpn-config)
   - [Automated Deployment 🚀](#automated-deployment-)
-    - [(Non-exhaustive) Requirements](#non-exhaustive-requirements)
-    - [Ansible](#ansible)
-    - [Terraform](#terraform)
+    - [(Non-exhaustive) Requirements 🛠](#non-exhaustive-requirements-)
+    - [Ansible 🛠](#ansible-)
+    - [Terraform 🛠](#terraform-)
       - [(1) Base](#1-base)
       - [(2) Gitops](#2-gitops)
       - [(3) ArgoCD Application](#3-argocd-application)
       - [Accessing ArgoCD](#accessing-argocd)
-  - [Post Install](#post-install)
-  - [Troubleshooting](#troubleshooting)
-  - [Expanding the repo](#expanding-the-repo)
+  - [Post Install 🚀](#post-install-)
+  - [Troubleshooting 🚀](#troubleshooting-)
+  - [Expanding the repo 🚀](#expanding-the-repo-)
 
 ## Terminology 📖
 
@@ -132,10 +134,9 @@ If you are planning on deploying this on an [Air gapped environment](https://en.
 
 This is only necessary if you want to use longhorn. *_*I don't recommend using longhorn for single node deployments*_.
 
-- Attach an external hard drive or create and format a partition on your `storage` node(s) and take note of that partition's name
-  - As of now, the playbooks will only use the same partition name for all `storage` nodes, so bear that in mind if you want to have it all configured from the get go
+- Attach your external hard drive(s) or create and format a partition on your `storage` node(s) and take note of the partition's names
 
-If you're planning on adding any additional drives later that's totally fine, and they can be added manually from the Longhorn UI, or from ansible, only thing to keep in mind is that if you are planning on using Longhorn from the beginning, you should at least have one storage node so the correct Peristent Volume Claims get created and you won't risk loosing any data.
+If you're planning on adding any additional drives later that's totally fine, and they can be added manually from the Longhorn UI, or from ansible, only thing to keep in mind is that if you are planning on using Longhorn from the beginning, you should at least have one storage node so the correct Peristent Volume Claims get created and you won't risk losing any data.
 
 ### VPN Setup 🛠
 
@@ -148,8 +149,7 @@ cat wireguard.config | base64
 and then adding to your `terraform.tfvars`:
 
 ```hcl
-# With your own encoded string, of course
-vpn_config = ""
+vpn_config = "{b64 encoded string}"
 ```
 
 #### Obtaining the VPN config
@@ -160,61 +160,126 @@ If you are like me and are stuck with NordVPN for the foreseeable future, you wo
 
 ## Automated Deployment 🚀
 
-This section covers the `k3s` installation using [ansible playbooks](#ansible) and the deployment of the services using a mix of [Terraform and ArgoCD](#terraform). The playbooks are in charge of preparing the environment, installing required packages, tagging nodes and making the necessary local changes in order for terraform to work (variable creation, kubeconfig creation, etc.) unless you know what you're doing it is strongly advised to install everything using the provided playbooks. In case you want to skip this here is a list of some resource that could be missing, but I might have missed something:
+This section covers the `k3s` installation using [ansible playbooks](#ansible-) and the deployment of the services using a mix of [Terraform and ArgoCD](#terraform-). The playbooks are in charge of preparing the environment, installing required packages, tagging nodes and making the necessary local changes in order for terraform to work (variable creation, kubeconfig creation, etc.) unless you know what you're doing it is strongly advised to install everything using the provided playbooks. In case you want to skip this here is a list of some resource that could be missing, but I might have missed something:
 
-### (Non-exhaustive) Requirements
+### (Non-exhaustive) Requirements 🛠
 
 - [Longhorn](https://staging--longhornio.netlify.app/docs/0.8.1/deploy/install/#installation-requirements)
 
-### Ansible
+### Ansible 🛠
 
-If you're planning on manually installing kubernetes or if you already have a kubernetes cluster you can skip this section and go straight to [Terraform](#terraform). Just make sure that everything is matching to what `ansible` would have created (especially installing dependencies and tagging of resources)
+If you're planning on manually installing kubernetes or if you already have a kubernetes cluster you can skip this section and go straight to [Terraform](#terraform-). Just make sure that everything is matching to what `ansible` would have created (especially installing dependencies and tagging of resources)
 
 1. Create `ansible/inventory/deploy/group_vars/all.yml` with the following:
 
     ```yaml
-      ---
-      k3s_version: v1.26.3+k3s1
-      systemd_dir: /etc/systemd/system
-      master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
-      extra_server_args: "--disable traefik --prefer-bundled-bin --kube-controller-manager-arg bind-address=0.0.0.0 --kube-proxy-arg metrics-bind-address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0" 
-      timezone: 'Your timezone' # in the format America/Chicago
-      nfs_drive_partition: 'your previously selected partition' # for example: "sda1"
-      allowed_ssh_networks:
-          - network1 # in ip/subnet notation: 192.168.1.0/24
-          - network2
+    ---
+    # Specifies the k3s version to be installed.
+    k3s_version: "v1.26.3+k3s1"
+
+    # Directory for systemd service files.
+    systemd_dir: "/etc/systemd/system"
+
+    # IP of the master node, retrieved from Ansible's dynamic inventory.
+    master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
+
+    # Arguments to customize the k3s server behavior. 
+    # Leave these default values unless you know what you're doing
+    extra_server_args: "--disable traefik --prefer-bundled-bin --kube-controller-manager-arg bind-address=0.0.0.0 --kube-proxy-arg metrics-bind-address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0" 
+
+    # Arguments for additional k3s agent configuration.
+    # Leave these default values unless you know what you're doing
+    extra_agent_args: ""
+
+    # System timezone configuration for k3s nodes.
+    timezone: 'UTC' # Change to your desired timezone.
+
+    # Partition for NFS storage, ensure it is formatted and available.
+    nfs_drive_partition: "nvme0n1p1" # Example partition.
+
+    # Networks permitted for SSH access to the nodes.
+    allowed_ssh_networks:
+      - "10.22.0.0/16"
+      - "172.16.100.0/24"
+
+    # ZeroTier network ID for node communication.
+    zerotier_network_id: "1234567890abcdef" # Example network ID.
     ```
 
-2. Create `ansible/inventory/deploy/hosts.ini` with the following:
-  
-    ```ini
-    [master]
-    {master hostname} ansible_host= {master ip} priority=critical
-    
-    [agent]
-    {agent hostname} ansible_host= {agent ip} priority=low
-    {agent hostname2} ansible_host= {agent ip2} priority=high
-    
-    [k3s:children]
-    master
-    agent
-    
-    [storage:children]
-    master
-  
-    ; Additionally you can add individual members to the storage group by doing:
-    ;[storage]
-    ;{agent hostname2}
-    ```
+2. Create `ansible/inventory/deploy/hosts.yaml` with the following:
 
-   - You can always delete or comment (`;`) depending on your setup
-   - Replace the values inside {} with your actual values
+   ```yaml
+   ---
+   # The ungrouped section can contain hosts that don't fit into any other group.
+   ungrouped:
+     hosts: {}
+
+   # Define the master nodes for the k3s cluster. (Multi master is still a WIP, so only define one for now)
+   master:
+     hosts:
+       kilvin:
+         ansible_host: 192.168.x.x # Master node IP.
+         ansible_user: admin # Replace with the actual username.
+         ansible_become_pass: secret # Replace with the actual sudo password.
+         priority: critical # Node priority for orchestration.
+         disks:
+           - device: sda3 # Device identifier for storage.
+             path: /mnt/external-disk # Mount path for the device.
+             name: root # Name label for the disk.
+             longhorn: true # Indicates Longhorn manages this disk.
+
+   # Define the agent nodes for the k3s cluster.
+   agent:
+     hosts:
+       kvothe:
+         ansible_host: 192.168.x.y # Agent node IP.
+         ansible_user: admin # Replace with the actual username.
+         ansible_become_pass: secret # Replace with the actual sudo password.
+         priority: low # Node priority for orchestration.
+         k3s_node_external_ip: 10.242.x.z # Required for multi-cloud clusters, typically used with ZeroTier.
+         disks: [] # List of disk configurations for the node.
+       elodin:
+         ansible_host: 192.168.x.z # Agent node IP.
+         ansible_user: admin # Replace with the actual username.
+         ansible_become_pass: secret # Replace with the actual sudo password.
+         priority: high # Node priority for orchestration.
+         disks:
+           - device: nvme0n1p3 # Device identifier for storage.
+             path: /mnt/external-disk # Mount path for the device.
+             name: elodin-root # Name label for the disk.
+             longhorn: false # Indicates this disk will not be managed by Longhorn.
+
+   # Group definitions for the kubernetes nodes.
+   k3s:
+     children:
+       master:
+       agent:
+
+   # Group definitions for nodes contributing storage resources.
+   storage:
+     hosts:
+       kvothe:
+       elodin:
+     children:
+       master:
+
+   # Group definitions for nodes that are part of a ZeroTier network.
+   zerotier:
+     children:
+       agent:
+       master:
+   ```
+
+   - When `longhorn` is set to `true`, the disk will be managed by Longhorn, which means it will be used for dynamic volume provisioning and managed as part of Longhorn's distributed storage system.
+   - When `longhorn` is set to `false`, the disk will not be managed by Longhorn; what will happen is that the disk will be exposed over NFS and will be added to the `terraform.tfvars` and used to create kubernetes PVCs.
+   - The `zerotier` group is optional. It is used to create an overlay network that connects all of your nodes, even if they are on different networks or behind NAT. You can comment this out if you're not planning on using it.
+   - If `zerotier` is configured, `k3s_node_external_ip` should be set to the node's IP within the ZeroTier network. This IP will be used for cross-node communication within the overlay network, allowing services to communicate across different clouds or data centers as if they were in the same local network.
    - The priority should be one of [critical,high,low]
 
 3. Run the ansible playbook (from the root of the repo):
   
    ```bash
-   ansible-playbook ./ansible/site.yml -i ./ansible/inventory/deploy/hosts.ini --ask-become-pass --user {your_user}
+   ansible-playbook ./ansible/site.yml -i ./ansible/inventory/deploy/hosts.yaml
    ```
 
 4. Once the playbook finishes you can verify if everything is working by running:
@@ -222,20 +287,21 @@ If you're planning on manually installing kubernetes or if you already have a ku
      ```bash
      ❯ kubectl get nodes
       NAME     STATUS   ROLES                  AGE    VERSION
-      kilvin   Ready    control-plane,master   131d   v1.26.3+k3s1
-      kvothe   Ready    worker                 34d    v1.26.3+k3s1
+      kilvin   Ready    control-plane,master   168d   v1.26.3+k3s1
+      kvothe   Ready    worker                 20d    v1.26.3+k3s1
+      elodin   Ready    worker                 20d    v1.26.3+k3s1
      ```
 
-5. Verify that everything ran as expected, some of the required steps won't be executed if all roles don't finish running succesfully on all hosts
+5. Verify that everything ran as expected, some of the next steps won't be executed if all roles don't finish running succesfully on all hosts
 
 6. (Optional) All of the plays have been tagged, so, if you want to make any changes and don't want to run everything again you can just run plays matching specific tags:
   
    ```bash
-   ansible-playbook ./ansible/site.yml -i ./ansible/inventory/deploy/hosts.ini --ask-become-pass --user {your_user} --tags kubernetes,download
+   ansible-playbook ./ansible/site.yml -i ./ansible/inventory/deploy/hosts.yaml --tags kubernetes,download
    
    ```
 
-### Terraform
+### Terraform 🛠
 
 Ansible just installs kubernetes and makes the necessary configurations, but doesn't deploy anything to the cluster, as a matter of fact, by default the playbook even skips some components that come with `k3s` by default to allow for a fresh, fully customized deployment.
 
@@ -326,14 +392,14 @@ kubectl get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' -n
 - Alternatively, if you are deploying the default applications, or at least the `homepage` application, you can head to `https://home.{your_domain}/` where you will find a dashboard that will automatically update with links to your deployed services:
   ![home dashboard](images/home.png)
 
-## Post Install
+## Post Install 🚀
 
 Read the [Post-Install](./docs/Post-Install.md) file to see any additional configs for some of the services to be deployed
 
-## Troubleshooting
+## Troubleshooting 🚀
 
 Read the [Troubleshooting](./docs/Troubleshooting.md) file to find solutions to common problems.
 
-## Expanding the repo
+## Expanding the repo 🚀
 
 Read the [Expanding](./docs/Expanding.md) file to find a more in-depth explanation on how things work and how to add your own services and functionalities.
