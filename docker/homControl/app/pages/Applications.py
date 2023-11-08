@@ -61,6 +61,11 @@ def main():
     # Sort the items based on the 'deploy' key within each nested dictionary
     sorted_items = sorted(items, key=lambda x: x[1].get('deploy', False), reverse=True)
 
+    search_term = st.text_input("Search", "")
+
+    if search_term:
+        sorted_items = [item for item in sorted_items if search_term.lower() in item[0].lower()]
+
     for index, (app_name, app_details) in enumerate(sorted_items):
         col = cols[index % num_cols]
         with col:
