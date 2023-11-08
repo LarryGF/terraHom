@@ -35,7 +35,6 @@ These are the steps you need to follow after you've finished the infrastructure 
     - [Home assistant](#home-assistant)
     - [Duplicati](#duplicati)
 
-
 ## Notifications
 
 ### Discord
