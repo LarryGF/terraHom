@@ -67,7 +67,7 @@ variable "gh_token" {
 variable "gh_base_repo" {
   type        = string
   description = "Standard repo to use for ArgoCD"
-  default = "https://github.com/LarryGF/pi-k8s.git"
+  default = "https://github.com/LarryGF/terraHom.git"
 }
 
 ## Global

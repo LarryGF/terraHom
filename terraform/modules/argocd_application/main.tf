@@ -13,7 +13,7 @@ resource "argocd_application" "application" {
     }
 
     source {
-      repo_url        = "https://github.com/LarryGF/pi-k8s.git"
+      repo_url        = "https://github.com/LarryGF/terraHom.git"
       path = "argocd/${var.name}"
       target_revision = "main"
 
