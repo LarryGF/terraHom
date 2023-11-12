@@ -1,5 +1,10 @@
 sabnzbd:
 
+  env:
+    PGID: 1001
+    PUID: 1001
+    TZ: ${timezone}
+    
   nodeSelector:
     priority: ${priority}
     
