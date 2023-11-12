@@ -61,6 +61,26 @@ bazarr:
       mountPath: /downloads/radarr
       name: media-radarr
       subpath: radarr
+kavita:
+  deploy: true
+  name: kavita
+  namespace: services
+  override:
+    api_key: ${api_keys["bazarr_key"]}
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      backup: enabled
+      create: true
+      name: kavita-config
+      size: 500Mi
+    downloads:
+      name: media
+
 crowdsec:
   deploy: false
   name: crowdsec
