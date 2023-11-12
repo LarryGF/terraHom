@@ -3,11 +3,6 @@ sabnzbd:
     repository: cr.hotio.dev/hotio/sabnzbd
     tag: release-4.1.0
 
-  env:
-    PGID: 1001
-    PUID: 1001
-    TZ: ${timezone}
-    
   initContainers:
     update-volume-permission:
       image: busybox
