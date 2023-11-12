@@ -7,7 +7,7 @@
 
 _Mostly_ Automated setup to deploy _k3s_ and additional services on your home cluster using `homControl`.
 
-You can follow [the wiki](./wiki) for installation, configuration and troubleshooting guides.
+You can follow [the wiki](https://github.com/LarryGF/terraHom/wiki) for installation, configuration and troubleshooting guides.
 
 ## Components
 
