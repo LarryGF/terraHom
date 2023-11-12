@@ -7,16 +7,20 @@ then
     exit 1
 fi
 
+echo "Found pipenv"
+
 # Get the directory of the current script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
+echo "Running on: $DIR"
 # Set the path to the Python script based on the directory of the current script
 SCRIPT_PATH="$DIR/scripts/python/homControl.py"
 
 # Navigate to the directory containing the Python script
 cd "$(dirname "$SCRIPT_PATH")"
+echo "Moving to $(dirname "$SCRIPT_PATH")"
 
 # Install the dependencies using pipenv
+echo "Installing python dependencies"
 pipenv install
 
 # Run the Python script with pipenv
