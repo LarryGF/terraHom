@@ -1,9 +1,9 @@
 app-template:
   defaultPodOptions:
     securityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
       fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
         - 65539
@@ -32,11 +32,14 @@ app-template:
           port: 8080
 
   ingress:
-    media:
+    main:
       enabled: true
-      className: "ingress-nginx"
+      className: "traefik"
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
       hosts:
-        - host: sabnzbd.bjw-s.dev
+        - host: kavita.${domain}
           paths:
             - path: /
               service:
@@ -45,6 +48,11 @@ app-template:
 
   persistence:
     media:
-      existingClaim: nas-media
+      existingClaim: media
       globalMounts:
-        - path: /data/nas-media
+        - path: /downloads
+    config:
+      existingClaim: kavita-config
+      globalMounts:
+        - path: /config
+
