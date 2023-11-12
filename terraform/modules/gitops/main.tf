@@ -6,7 +6,7 @@ resource "argocd_repository_credentials" "default-creds" {
 
 resource "argocd_repository" "default-repo" {
   repo = var.gh_base_repo
-  name = "pi-k8s"
+  name = "terraHom"
   type = "git"
 }
 

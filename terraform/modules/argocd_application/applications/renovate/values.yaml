@@ -58,7 +58,7 @@ renovate:
         "platform": "github",
         "token": "${gh_token}",
         "autodiscover": "true",
-        "autodiscoverFilter": "LarryGF/pi-k8s",
+        "autodiscoverFilter": "LarryGF/terraHom",
 
         "printConfig": true,
         "extends": [":dependencyDashboard"]

@@ -1,12 +1,12 @@
 app-template:
-  defaultPodOptions:
-    securityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-      fsGroup: 1001
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 65539
+  # defaultPodOptions:
+  #   securityContext:
+  #     runAsUser: 1001
+  #     runAsGroup: 1001
+  #     fsGroup: 1001
+  #     fsGroupChangePolicy: "OnRootMismatch"
+  #     supplementalGroups:
+  #       - 65539
 
   controllers:
     main:
@@ -14,9 +14,12 @@ app-template:
         main:
           image:
             repository: linuxserver/kavita
-            tag: latest
+            tag: 0.7.10
             pullPolicy: IfNotPresent
-
+          env:
+            PUID: 1001
+            PGID: 1001
+            TZ: ${timezone}
           probes:
             liveness:
               enabled: false
@@ -29,7 +32,7 @@ app-template:
     main:
       ports:
         http:
-          port: 8080
+          port: 5000
 
   ingress:
     main:
@@ -38,6 +41,10 @@ app-template:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        gethomepage.dev/name: "Kavita"
+        gethomepage.dev/description: "Full-fledged, fast, cross-platform, & open-source manga, comic, and book server"
+        gethomepage.dev/group: "Home Services"
+        gethomepage.dev/icon: "kavita.png"
       hosts:
         - host: kavita.${domain}
           paths:
@@ -45,14 +52,24 @@ app-template:
               service:
                 name: main
                 port: http
+      
+      tls:
+        - secretName: tls-kavita-ingress
+          hosts:
+            - kavita.${domain}
 
-  persistence:
-    media:
-      existingClaim: media
-      globalMounts:
-        - path: /downloads
-    config:
-      existingClaim: kavita-config
-      globalMounts:
-        - path: /config
+  ${indent(2,yamlencode({persistence: { for key, value in storage: key => {
+    "enabled":true,
+    "existingClaim":value.name,
+    "globalMounts": try(value.mountPath == null ? [{"path":"/app/config"}]: [{"path":value.mountPath}],[{"path":"/app/config"}])}}}))}
+
+  # persistence:
+  #   media:
+  #     existingClaim: media
+  #     globalMounts:
+  #       - path: /data
+  #   config:
+  #     existingClaim: kavita-config
+  #     globalMounts:
+  #       - path: /config
 

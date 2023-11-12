@@ -77,9 +77,12 @@ kavita:
       backup: enabled
       create: true
       name: kavita-config
+      mountPath: /config
       size: 500Mi
     downloads:
       name: media
+      mountPath: /data
+
 
 crowdsec:
   deploy: false

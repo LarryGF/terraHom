@@ -54,7 +54,7 @@ homepage:
       - Home Services:
           - homControl:
               href: http://localhost:8501
-              icon: https://raw.githubusercontent.com/LarryGF/pi-k8s/c1682af8f077bce0dcfd04c7d70b64375f2fa042/docker/homControl/app/files/logo_dark-transparent.svg
+              icon: https://raw.githubusercontent.com/LarryGF/terraHom/c1682af8f077bce0dcfd04c7d70b64375f2fa042/docker/homControl/app/files/logo_dark-transparent.svg
     widgets:
       - resources:
           # change backend to 'kubernetes' to use Kubernetes integration. Requires RBAC.
