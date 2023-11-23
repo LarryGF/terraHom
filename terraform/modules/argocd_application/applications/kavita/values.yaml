@@ -27,6 +27,17 @@ app-template:
               enabled: false
             startup:
               enabled: false
+      initContainers:
+        update-volume-permission:
+          image: 
+            repository: busybox
+            tag: latest
+          command:
+            - "sh"
+            - "-c"
+            - "chmod -R 777 /config  && mkdir -p /data/kavita && mkdir -p /data/kavita/comics && mkdir -p /data/kavita/manga && mkdir -p /data/kavita/books && chown -R 1001:1001 /data/kavita"
+          securityContext:
+            runAsUser: 0
 
   service:
     main:
@@ -41,8 +52,8 @@ app-template:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Kavita"
-        gethomepage.dev/description: "Full-fledged, fast, cross-platform, & open-source manga, comic, and book server"
         gethomepage.dev/group: "Home Services"
         gethomepage.dev/icon: "kavita.png"
       hosts:
@@ -61,7 +72,11 @@ app-template:
   ${indent(2,yamlencode({persistence: { for key, value in storage: key => {
     "enabled":true,
     "existingClaim":value.name,
-    "globalMounts": try(value.mountPath == null ? [{"path":"/app/config"}]: [{"path":value.mountPath}],[{"path":"/app/config"}])}}}))}
+    "globalMounts": try(value.mountPath == null ? [{"path":"/app/config"}]: [{"path":value.mountPath}],[{"path":"/app/config"}])}}
+    }
+    )
+    )
+    }
 
   # persistence:
   #   media:
