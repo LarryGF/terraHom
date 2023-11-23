@@ -1,687 +1,687 @@
 # App-template chart
 
 ```yaml
-    ---
-    global:
-    # -- Set an override for the prefix of the fullname
-    nameOverride:
-    # -- Set the entire name definition
-    fullnameOverride:
-    # -- Set additional global labels. Helm templates can be used.
-    labels: {}
-    # -- Set additional global annotations. Helm templates can be used.
+---
+global:
+  # -- Set an override for the prefix of the fullname
+  nameOverride:
+  # -- Set the entire name definition
+  fullnameOverride:
+  # -- Set additional global labels. Helm templates can be used.
+  labels: {}
+  # -- Set additional global annotations. Helm templates can be used.
+  annotations: {}
+
+# -- Set default options for all controllers / pods here
+# Each of these options can be overridden on a Controller level
+defaultPodOptions:
+  # -- Defines affinity constraint rules.
+  # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+  affinity: {}
+
+  # -- Set annotations on the Pod. Pod-specific values will be merged with this.
+  annotations: {}
+
+  # -- Specifies whether a service account token should be automatically mounted.
+  automountServiceAccountToken: true
+
+  # -- Configuring the ndots option may resolve nslookup issues on some Kubernetes setups.
+  dnsConfig:
+    {}
+    # options:
+    #   - name: ndots
+    #     value: "1"
+
+  # -- Defaults to "ClusterFirst" if hostNetwork is false
+  # and "ClusterFirstWithHostNet" if hostNetwork is true.
+  dnsPolicy: # ClusterFirst
+
+  # -- Enable/disable the generation of environment variables for services.
+  # [[ref]](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#accessing-the-service)
+  enableServiceLinks: true
+
+  # -- Allows specifying explicit hostname setting
+  hostname:
+
+  # -- Use hostAliases to add custom entries to /etc/hosts - mapping IP addresses to hostnames.
+  # [[ref]](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/)
+  hostAliases: []
+  # - ip: "192.168.1.100"
+  #   hostnames:
+  #   - "example.com"
+  #   - "www.example.com"
+
+  # -- Use the host's ipc namespace
+  hostIPC: false
+
+  # -- When using hostNetwork make sure you set dnsPolicy to `ClusterFirstWithHostNet`
+  hostNetwork: false
+
+  # -- Use the host's pid namespace
+  hostPID: false
+
+  # -- Set image pull secrets
+  imagePullSecrets: []
+
+  # -- Set labels on the Pod. Pod-specific values will be merged with this.
+  labels: {}
+
+  # -- Node selection constraint
+  # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
+  nodeSelector: {}
+
+  # -- Custom priority class for different treatment by the scheduler
+  priorityClassName: # system-node-critical
+
+  # -- Set Container restart policy.
+  # @default -- `Always`. When `controller.type` is `cronjob` it defaults to `Never`.
+  restartPolicy:
+
+  # -- Allow specifying a runtimeClassName other than the default one (ie: nvidia)
+  runtimeClassName: # nvidia
+
+  # -- Allows specifying a custom scheduler name
+  schedulerName: # awkward-dangerous-scheduler
+
+  # -- Configure the Security Context for the Pod
+  securityContext: {}
+
+  # -- Duration in seconds the pod needs to terminate gracefully
+  # -- [[ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle)]
+  terminationGracePeriodSeconds:
+
+  # -- Specify taint tolerations
+  # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  tolerations: []
+
+  # -- Defines topologySpreadConstraint rules.
+  # [[ref]](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/)
+  topologySpreadConstraints: []
+  # - maxSkew: <integer>
+  #   topologyKey: <string>
+  #   whenUnsatisfiable: <string>
+  #   labelSelector: <object>
+
+controllers:
+  main:
+    # -- enable the controller.
+    enabled: true
+
+    # -- Set the controller type.
+    # Valid options are deployment, daemonset, statefulset or cronjob
+    type: deployment
+    # -- Set annotations on the deployment/statefulset/daemonset/cronjob
     annotations: {}
-
-    # -- Set default options for all controllers / pods here
-    # Each of these options can be overridden on a Controller level
-    defaultPodOptions:
-    # -- Defines affinity constraint rules.
-    # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
-    affinity: {}
-
-    # -- Set annotations on the Pod. Pod-specific values will be merged with this.
-    annotations: {}
-
-    # -- Specifies whether a service account token should be automatically mounted.
-    automountServiceAccountToken: true
-
-    # -- Configuring the ndots option may resolve nslookup issues on some Kubernetes setups.
-    dnsConfig:
-        {}
-        # options:
-        #   - name: ndots
-        #     value: "1"
-
-    # -- Defaults to "ClusterFirst" if hostNetwork is false
-    # and "ClusterFirstWithHostNet" if hostNetwork is true.
-    dnsPolicy: # ClusterFirst
-
-    # -- Enable/disable the generation of environment variables for services.
-    # [[ref]](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#accessing-the-service)
-    enableServiceLinks: true
-
-    # -- Allows specifying explicit hostname setting
-    hostname:
-
-    # -- Use hostAliases to add custom entries to /etc/hosts - mapping IP addresses to hostnames.
-    # [[ref]](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/)
-    hostAliases: []
-    # - ip: "192.168.1.100"
-    #   hostnames:
-    #   - "example.com"
-    #   - "www.example.com"
-
-    # -- Use the host's ipc namespace
-    hostIPC: false
-
-    # -- When using hostNetwork make sure you set dnsPolicy to `ClusterFirstWithHostNet`
-    hostNetwork: false
-
-    # -- Use the host's pid namespace
-    hostPID: false
-
-    # -- Set image pull secrets
-    imagePullSecrets: []
-
-    # -- Set labels on the Pod. Pod-specific values will be merged with this.
+    # -- Set labels on the deployment/statefulset/daemonset/cronjob
     labels: {}
+    # -- Number of desired pods. When using a HorizontalPodAutoscaler, set this to `null`.
+    replicas: 1
+    # -- Set the controller upgrade strategy
+    # For Deployments, valid values are Recreate (default) and RollingUpdate.
+    # For StatefulSets, valid values are OnDelete and RollingUpdate (default).
+    # DaemonSets/CronJobs ignore this.
+    strategy:
 
-    # -- Node selection constraint
-    # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
-    nodeSelector: {}
+    rollingUpdate:
+      # -- Set deployment RollingUpdate max unavailable
+      unavailable:
+      # -- Set deployment RollingUpdate max surge
+      surge:
+      # -- Set statefulset RollingUpdate partition
+      partition:
+    # -- ReplicaSet revision history limit
+    revisionHistoryLimit: 3
 
-    # -- Custom priority class for different treatment by the scheduler
-    priorityClassName: # system-node-critical
-
-    # -- Set Container restart policy.
-    # @default -- `Always`. When `controller.type` is `cronjob` it defaults to `Never`.
-    restartPolicy:
-
-    # -- Allow specifying a runtimeClassName other than the default one (ie: nvidia)
-    runtimeClassName: # nvidia
-
-    # -- Allows specifying a custom scheduler name
-    schedulerName: # awkward-dangerous-scheduler
-
-    # -- Configure the Security Context for the Pod
-    securityContext: {}
-
-    # -- Duration in seconds the pod needs to terminate gracefully
-    # -- [[ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle)]
-    terminationGracePeriodSeconds:
-
-    # -- Specify taint tolerations
-    # [[ref]](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
-    tolerations: []
-
-    # -- Defines topologySpreadConstraint rules.
-    # [[ref]](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/)
-    topologySpreadConstraints: []
-    # - maxSkew: <integer>
-    #   topologyKey: <string>
-    #   whenUnsatisfiable: <string>
-    #   labelSelector: <object>
-
-    controllers:
-    main:
-        # -- enable the controller.
-        enabled: true
-
-        # -- Set the controller type.
-        # Valid options are deployment, daemonset, statefulset or cronjob
-        type: deployment
-        # -- Set annotations on the deployment/statefulset/daemonset/cronjob
-        annotations: {}
-        # -- Set labels on the deployment/statefulset/daemonset/cronjob
-        labels: {}
-        # -- Number of desired pods. When using a HorizontalPodAutoscaler, set this to `null`.
-        replicas: 1
-        # -- Set the controller upgrade strategy
-        # For Deployments, valid values are Recreate (default) and RollingUpdate.
-        # For StatefulSets, valid values are OnDelete and RollingUpdate (default).
-        # DaemonSets/CronJobs ignore this.
-        strategy:
-
-        rollingUpdate:
-        # -- Set deployment RollingUpdate max unavailable
-        unavailable:
-        # -- Set deployment RollingUpdate max surge
-        surge:
-        # -- Set statefulset RollingUpdate partition
-        partition:
-        # -- ReplicaSet revision history limit
-        revisionHistoryLimit: 3
-
-        # -- CronJob configuration. Required only when using `controller.type: cronjob`.
-        # @default -- See below
-        cronjob:
-        # -- Specifies how to treat concurrent executions of a job that is created by this cron job
-        # valid values are Allow, Forbid or Replace
-        concurrencyPolicy: Forbid
-        # -- Sets the CronJob timezone (only works in Kubernetes >= 1.27)
-        timeZone:
-        # -- Sets the CronJob time when to execute your jobs
-        schedule: "*/20 * * * *"
-        # -- The deadline in seconds for starting the job if it misses its scheduled time for any reason
-        startingDeadlineSeconds: 30
-        # -- The number of succesful Jobs to keep
-        successfulJobsHistory: 1
-        # -- The number of failed Jobs to keep
-        failedJobsHistory: 1
-        # --  If this field is set, ttlSecondsAfterFinished after the Job finishes, it is eligible to
-        # be automatically deleted.
-        ttlSecondsAfterFinished:
-        # -- Limits the number of times a failed job will be retried
-        backoffLimit: 6
-
-        # -- StatefulSet configuration. Required only when using `controller.type: statefulset`.
-        statefulset:
-        # -- Set podManagementPolicy, valid values are Parallel and OrderedReady (default).
-        podManagementPolicy:
-
-        # -- Used to create individual disks for each instance.
-        volumeClaimTemplates: []
-        # - name: data
-        #   labels: {}
-        #   annotations: {}
-        #   mountPath: /data
-        #   accessMode: "ReadWriteOnce"
-        #   size: 1Gi
-        # - name: backup
-        #   labels: {}
-        #   annotations: {}
-        #   mountPath: /backup
-        #   subPath: theSubPath
-        #   accessMode: "ReadWriteOnce"
-        #   size: 2Gi
-        #   storageClass: cheap-storage-class
-
-        # Controller-specific overrides for `defaultPodOptions` keys
-        pod: {}
-
-        containers:
-        main:
-            # -- Override the container name
-            nameOverride:
-
-            # -- Override the default container order
-            # Containers get sorted alphanumerically by the `<order>-<identifier>` combination.
-            # @default -- 99
-            order: 1
-
-            # -- Specify if this container depends on any other containers
-            # This is used to determine the order in which the containers are rendered.
-            # The use of "dependsOn" completely disables the "order" field within the controller.
-            dependsOn: []
-
-            image:
-            # -- image repository
-            repository:
-            # -- image tag
-            tag:
-            # -- image pull policy
-            pullPolicy:
-
-            # -- Override the command(s) for the default container
-            command: []
-            # -- Override the args for the default container
-            args: []
-
-            # -- Environment variables. Template enabled.
-            # Syntax options:
-            # A) TZ: UTC
-            # B) PASSWD: '{{ .Release.Name }}'
-            # B) TZ:
-            #      value: UTC
-            #      dependsOn: otherVar
-            # D) PASSWD:
-            #      configMapKeyRef:
-            #        name: config-map-name
-            #        key: key-name
-            # E) PASSWD:
-            #      dependsOn:
-            #        - otherVar1
-            #        - otherVar2
-            #      valueFrom:
-            #        secretKeyRef:
-            #          name: secret-name
-            #          key: key-name
-            #      ...
-            # F) - name: TZ
-            #      value: UTC
-            # G) - name: TZ
-            #      value: '{{ .Release.Name }}'
-            env:
-
-            # -- Secrets and/or ConfigMaps that will be loaded as environment variables.
-            # [[ref]](https://unofficial-kubernetes.readthedocs.io/en/latest/tasks/configure-pod-container/configmap/#use-case-consume-configmap-in-environment-variables)
-            envFrom: []
-            # - configMapRef:
-            #     name: config-map-name
-            # - secretRef:
-            #     name: secret-name
-
-            # -- Probe configuration
-            # -- [[ref]](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
-            # @default -- See below
-            probes:
-            # -- Liveness probe configuration
-            # @default -- See below
-            liveness:
-                # -- Enable the liveness probe
-                enabled: true
-                # -- Set this to `true` if you wish to specify your own livenessProbe
-                custom: false
-                # -- sets the probe type when not using a custom probe
-                # @default -- "TCP"
-                type: TCP
-                # -- The spec field contains the values for the default livenessProbe.
-                # If you selected `custom: true`, this field holds the definition of the livenessProbe.
-                # @default -- See below
-                spec:
-                initialDelaySeconds: 0
-                periodSeconds: 10
-                timeoutSeconds: 1
-                failureThreshold: 3
-
-            # -- Redainess probe configuration
-            # @default -- See below
-            readiness:
-                # -- Enable the readiness probe
-                enabled: true
-                # -- Set this to `true` if you wish to specify your own readinessProbe
-                custom: false
-                # -- sets the probe type when not using a custom probe
-                # @default -- "TCP"
-                type: TCP
-                # -- The spec field contains the values for the default readinessProbe.
-                # If you selected `custom: true`, this field holds the definition of the readinessProbe.
-                # @default -- See below
-                spec:
-                initialDelaySeconds: 0
-                periodSeconds: 10
-                timeoutSeconds: 1
-                failureThreshold: 3
-
-            # -- Startup probe configuration
-            # @default -- See below
-            startup:
-                # -- Enable the startup probe
-                enabled: true
-                # -- Set this to `true` if you wish to specify your own startupProbe
-                custom: false
-                # -- sets the probe type when not using a custom probe
-                # @default -- "TCP"
-                type: TCP
-                # -- The spec field contains the values for the default startupProbe.
-                # If you selected `custom: true`, this field holds the definition of the startupProbe.
-                # @default -- See below
-                spec:
-                initialDelaySeconds: 0
-                timeoutSeconds: 1
-                ## This means it has a maximum of 5*30=150 seconds to start up before it fails
-                periodSeconds: 5
-                failureThreshold: 30
-
-            # -- Set the resource requests / limits for the container.
-            resources:
-            {}
-            ## We usually recommend not to specify default resources and to leave this as a conscious
-            ## choice for the user. This also increases chances charts run on environments with little
-            ## resources, such as Minikube. If you do want to specify resources, uncomment the following
-            ## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-            # limits:
-            #   cpu: 100m
-            #   memory: 128Mi
-            # requests:
-            #   cpu: 100m
-            #   memory: 128Mi
-
-            # -- Configure the Security Context for the container
-            securityContext: {}
-
-            # -- Configure the lifecycle event hooks for the container
-            # -- [[ref](https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/)]
-            lifecycle: {}
-
-            # -- Configure the path at which the file to which the containers termination message will be written.
-            # -- [[ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle-1)]
-            terminationMessagePath:
-
-            # -- Indicate how the containers termination message should be populated.
-            # Valid options are `File` and `FallbackToLogsOnError`.
-            # -- [[ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle-1)]
-            terminationMessagePolicy:
-
-        # -- Specify any initContainers here as dictionary items.
-        # Each initContainer should have its own key
-        # initContainers get sorted alphanumerically by the `<order>-<identifier>` combination
-        # if no order or dependsOn has been configured for them.
-        initContainers: {}
-
-    serviceAccount:
-    # -- Specifies whether a service account should be created
-    create: false
-
-    # -- Annotations to add to the service account
-    annotations: {}
-
-    # -- Labels to add to the service account
-    labels: {}
-
-    # -- The name of the service account to use.
-    # If not set and create is true, a name is generated using the fullname template
-    name: ""
-
-    # -- Use this to populate secrets with the values you specify.
-    # Be aware that these values are not encrypted by default, and could therefore visible
-    # to anybody with access to the values.yaml file.
-    # Additional Secrets can be added by adding a dictionary key similar to the 'secret' object.
+    # -- CronJob configuration. Required only when using `controller.type: cronjob`.
     # @default -- See below
-    secrets:
-    secret:
-        # -- Enables or disables the Secret
-        enabled: false
-        # -- Labels to add to the Secret
-        labels: {}
-        # -- Annotations to add to the Secret
-        annotations: {}
-        # -- Secret stringData content. Helm template enabled.
-        stringData:
-        {}
-        # foo: bar
+    cronjob:
+      # -- Specifies how to treat concurrent executions of a job that is created by this cron job
+      # valid values are Allow, Forbid or Replace
+      concurrencyPolicy: Forbid
+      # -- Sets the CronJob timezone (only works in Kubernetes >= 1.27)
+      timeZone:
+      # -- Sets the CronJob time when to execute your jobs
+      schedule: "*/20 * * * *"
+      # -- The deadline in seconds for starting the job if it misses its scheduled time for any reason
+      startingDeadlineSeconds: 30
+      # -- The number of succesful Jobs to keep
+      successfulJobsHistory: 1
+      # -- The number of failed Jobs to keep
+      failedJobsHistory: 1
+      # --  If this field is set, ttlSecondsAfterFinished after the Job finishes, it is eligible to
+      # be automatically deleted.
+      ttlSecondsAfterFinished:
+      # -- Limits the number of times a failed job will be retried
+      backoffLimit: 6
 
-    # -- Configure configMaps for the chart here.
-    # Additional configMaps can be added by adding a dictionary key similar to the 'config' object.
-    # @default -- See below
-    configMaps:
-    config:
-        # -- Enables or disables the configMap
-        enabled: false
-        # -- Labels to add to the configMap
-        labels: {}
-        # -- Annotations to add to the configMap
-        annotations: {}
-        # -- configMap data content. Helm template enabled.
-        data:
-        {}
-        # foo: bar
+    # -- StatefulSet configuration. Required only when using `controller.type: statefulset`.
+    statefulset:
+      # -- Set podManagementPolicy, valid values are Parallel and OrderedReady (default).
+      podManagementPolicy:
 
-    # -- Configure the services for the chart here.
-    # Additional services can be added by adding a dictionary key similar to the 'main' service.
-    # @default -- See below
-    service:
-    main:
-        # -- Enables or disables the service
-        enabled: true
+      # -- Used to create individual disks for each instance.
+      volumeClaimTemplates: []
+      # - name: data
+      #   labels: {}
+      #   annotations: {}
+      #   mountPath: /data
+      #   accessMode: "ReadWriteOnce"
+      #   size: 1Gi
+      # - name: backup
+      #   labels: {}
+      #   annotations: {}
+      #   mountPath: /backup
+      #   subPath: theSubPath
+      #   accessMode: "ReadWriteOnce"
+      #   size: 2Gi
+      #   storageClass: cheap-storage-class
 
-        # -- Override the name suffix that is used for this service
+    # Controller-specific overrides for `defaultPodOptions` keys
+    pod: {}
+
+    containers:
+      main:
+        # -- Override the container name
         nameOverride:
 
-        # -- Configure which controller this service should target
-        controller: main
+        # -- Override the default container order
+        # Containers get sorted alphanumerically by the `<order>-<identifier>` combination.
+        # @default -- 99
+        order: 1
 
-        # -- Make this the primary service for this controller (used in probes, notes, etc...).
-        # If there is more than 1 service targeting the controller, make sure that only 1 service is
-        # marked as primary.
-        primary: true
+        # -- Specify if this container depends on any other containers
+        # This is used to determine the order in which the containers are rendered.
+        # The use of "dependsOn" completely disables the "order" field within the controller.
+        dependsOn: []
 
-        # -- Set the service type
-        type: ClusterIP
+        image:
+          # -- image repository
+          repository:
+          # -- image tag
+          tag:
+          # -- image pull policy
+          pullPolicy:
 
-        # -- Specify the externalTrafficPolicy for the service. Options: Cluster, Local
-        # -- [[ref](https://kubernetes.io/docs/tutorials/services/source-ip/)]
-        externalTrafficPolicy:
+        # -- Override the command(s) for the default container
+        command: []
+        # -- Override the args for the default container
+        args: []
 
-        # -- Specify the ip policy. Options: SingleStack, PreferDualStack, RequireDualStack
-        ipFamilyPolicy:
-        # -- The ip families that should be used. Options: IPv4, IPv6
-        ipFamilies: []
+        # -- Environment variables. Template enabled.
+        # Syntax options:
+        # A) TZ: UTC
+        # B) PASSWD: '{{ .Release.Name }}'
+        # B) TZ:
+        #      value: UTC
+        #      dependsOn: otherVar
+        # D) PASSWD:
+        #      configMapKeyRef:
+        #        name: config-map-name
+        #        key: key-name
+        # E) PASSWD:
+        #      dependsOn:
+        #        - otherVar1
+        #        - otherVar2
+        #      valueFrom:
+        #        secretKeyRef:
+        #          name: secret-name
+        #          key: key-name
+        #      ...
+        # F) - name: TZ
+        #      value: UTC
+        # G) - name: TZ
+        #      value: '{{ .Release.Name }}'
+        env:
 
-        # -- Provide additional annotations which may be required.
-        annotations: {}
+        # -- Secrets and/or ConfigMaps that will be loaded as environment variables.
+        # [[ref]](https://unofficial-kubernetes.readthedocs.io/en/latest/tasks/configure-pod-container/configmap/#use-case-consume-configmap-in-environment-variables)
+        envFrom: []
+        # - configMapRef:
+        #     name: config-map-name
+        # - secretRef:
+        #     name: secret-name
 
-        # -- Provide additional labels which may be required.
-        labels: {}
-
-        # -- Allow adding additional match labels
-        extraSelectorLabels: {}
-
-        # -- Configure the Service port information here.
-        # Additional ports can be added by adding a dictionary key similar to the 'http' service.
+        # -- Probe configuration
+        # -- [[ref]](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
         # @default -- See below
-        ports:
-        http:
-            # -- Enables or disables the port
+        probes:
+          # -- Liveness probe configuration
+          # @default -- See below
+          liveness:
+            # -- Enable the liveness probe
             enabled: true
+            # -- Set this to `true` if you wish to specify your own livenessProbe
+            custom: false
+            # -- sets the probe type when not using a custom probe
+            # @default -- "TCP"
+            type: TCP
+            # -- The spec field contains the values for the default livenessProbe.
+            # If you selected `custom: true`, this field holds the definition of the livenessProbe.
+            # @default -- See below
+            spec:
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
 
-            # -- Make this the primary port (used in probes, notes, etc...)
-            # If there is more than 1 service, make sure that only 1 port is marked as primary.
-            primary: true
+          # -- Redainess probe configuration
+          # @default -- See below
+          readiness:
+            # -- Enable the readiness probe
+            enabled: true
+            # -- Set this to `true` if you wish to specify your own readinessProbe
+            custom: false
+            # -- sets the probe type when not using a custom probe
+            # @default -- "TCP"
+            type: TCP
+            # -- The spec field contains the values for the default readinessProbe.
+            # If you selected `custom: true`, this field holds the definition of the readinessProbe.
+            # @default -- See below
+            spec:
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
 
-            # -- The port number
-            port:
+          # -- Startup probe configuration
+          # @default -- See below
+          startup:
+            # -- Enable the startup probe
+            enabled: true
+            # -- Set this to `true` if you wish to specify your own startupProbe
+            custom: false
+            # -- sets the probe type when not using a custom probe
+            # @default -- "TCP"
+            type: TCP
+            # -- The spec field contains the values for the default startupProbe.
+            # If you selected `custom: true`, this field holds the definition of the startupProbe.
+            # @default -- See below
+            spec:
+              initialDelaySeconds: 0
+              timeoutSeconds: 1
+              ## This means it has a maximum of 5*30=150 seconds to start up before it fails
+              periodSeconds: 5
+              failureThreshold: 30
 
-            # -- Port protocol.
-            # Support values are `HTTP`, `HTTPS`, `TCP` and `UDP`.
-            # HTTP and HTTPS spawn a TCP service and get used for internal URL and name generation
-            protocol: HTTP
+        # -- Set the resource requests / limits for the container.
+        resources:
+          {}
+          ## We usually recommend not to specify default resources and to leave this as a conscious
+          ## choice for the user. This also increases chances charts run on environments with little
+          ## resources, such as Minikube. If you do want to specify resources, uncomment the following
+          ## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+          # limits:
+          #   cpu: 100m
+          #   memory: 128Mi
+          # requests:
+          #   cpu: 100m
+          #   memory: 128Mi
 
-            # -- Specify a service targetPort if you wish to differ the service port from the application port.
-            # If `targetPort` is specified, this port number is used in the container definition instead of
-            # the `port` value. Therefore named ports are not supported for this field.
-            targetPort:
+        # -- Configure the Security Context for the container
+        securityContext: {}
 
-            # -- Specify the nodePort value for the LoadBalancer and NodePort service types.
-            # [[ref]](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
-            nodePort:
+        # -- Configure the lifecycle event hooks for the container
+        # -- [[ref](https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/)]
+        lifecycle: {}
 
-    # -- Configure the ServiceMonitors for the chart here.
-    # Additional ServiceMonitors can be added by adding a dictionary key similar to the 'main' ServiceMonitors.
+        # -- Configure the path at which the file to which the containers termination message will be written.
+        # -- [[ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle-1)]
+        terminationMessagePath:
+
+        # -- Indicate how the containers termination message should be populated.
+        # Valid options are `File` and `FallbackToLogsOnError`.
+        # -- [[ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle-1)]
+        terminationMessagePolicy:
+
+    # -- Specify any initContainers here as dictionary items.
+    # Each initContainer should have its own key
+    # initContainers get sorted alphanumerically by the `<order>-<identifier>` combination
+    # if no order or dependsOn has been configured for them.
+    initContainers: {}
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: false
+
+  # -- Annotations to add to the service account
+  annotations: {}
+
+  # -- Labels to add to the service account
+  labels: {}
+
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# -- Use this to populate secrets with the values you specify.
+# Be aware that these values are not encrypted by default, and could therefore visible
+# to anybody with access to the values.yaml file.
+# Additional Secrets can be added by adding a dictionary key similar to the 'secret' object.
+# @default -- See below
+secrets:
+  secret:
+    # -- Enables or disables the Secret
+    enabled: false
+    # -- Labels to add to the Secret
+    labels: {}
+    # -- Annotations to add to the Secret
+    annotations: {}
+    # -- Secret stringData content. Helm template enabled.
+    stringData:
+      {}
+      # foo: bar
+
+# -- Configure configMaps for the chart here.
+# Additional configMaps can be added by adding a dictionary key similar to the 'config' object.
+# @default -- See below
+configMaps:
+  config:
+    # -- Enables or disables the configMap
+    enabled: false
+    # -- Labels to add to the configMap
+    labels: {}
+    # -- Annotations to add to the configMap
+    annotations: {}
+    # -- configMap data content. Helm template enabled.
+    data:
+      {}
+      # foo: bar
+
+# -- Configure the services for the chart here.
+# Additional services can be added by adding a dictionary key similar to the 'main' service.
+# @default -- See below
+service:
+  main:
+    # -- Enables or disables the service
+    enabled: true
+
+    # -- Override the name suffix that is used for this service
+    nameOverride:
+
+    # -- Configure which controller this service should target
+    controller: main
+
+    # -- Make this the primary service for this controller (used in probes, notes, etc...).
+    # If there is more than 1 service targeting the controller, make sure that only 1 service is
+    # marked as primary.
+    primary: true
+
+    # -- Set the service type
+    type: ClusterIP
+
+    # -- Specify the externalTrafficPolicy for the service. Options: Cluster, Local
+    # -- [[ref](https://kubernetes.io/docs/tutorials/services/source-ip/)]
+    externalTrafficPolicy:
+
+    # -- Specify the ip policy. Options: SingleStack, PreferDualStack, RequireDualStack
+    ipFamilyPolicy:
+    # -- The ip families that should be used. Options: IPv4, IPv6
+    ipFamilies: []
+
+    # -- Provide additional annotations which may be required.
+    annotations: {}
+
+    # -- Provide additional labels which may be required.
+    labels: {}
+
+    # -- Allow adding additional match labels
+    extraSelectorLabels: {}
+
+    # -- Configure the Service port information here.
+    # Additional ports can be added by adding a dictionary key similar to the 'http' service.
     # @default -- See below
-    serviceMonitor:
-    main:
-        # -- Enables or disables the serviceMonitor.
-        enabled: false
+    ports:
+      http:
+        # -- Enables or disables the port
+        enabled: true
 
-        # -- Override the name suffix that is used for this serviceMonitor.
-        nameOverride:
-
-        # -- Provide additional annotations which may be required.
-        annotations: {}
-
-        # -- Provide additional labels which may be required.
-        labels: {}
-
-        # -- Configures a custom selector for the serviceMonitor, this takes precedence over
-        # specifying a service name.
-        # Helm templates can be used.
-        selector: {}
-
-        # -- Configures the target Service for the serviceMonitor. Helm templates can be used.
-        serviceName: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}'
-
-        # -- Configures the endpoints for the serviceMonitor.
-        # @default -- See values.yaml
-        endpoints:
-        - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
-
-    # -- Configure the ingresses for the chart here.
-    # Additional ingresses can be added by adding a dictionary key similar to the 'main' ingress.
-    # @default -- See below
-    ingress:
-    main:
-        # -- Enables or disables the ingress
-        enabled: false
-
-        # -- Make this the primary ingress (used in probes, notes, etc...).
-        # If there is more than 1 ingress, make sure that only 1 ingress is marked as primary.
+        # -- Make this the primary port (used in probes, notes, etc...)
+        # If there is more than 1 service, make sure that only 1 port is marked as primary.
         primary: true
 
-        # -- Override the name suffix that is used for this ingress.
-        nameOverride:
+        # -- The port number
+        port:
 
-        # -- Provide additional annotations which may be required.
-        annotations:
-        {}
-        # kubernetes.io/ingress.class: nginx
-        # kubernetes.io/tls-acme: "true"
+        # -- Port protocol.
+        # Support values are `HTTP`, `HTTPS`, `TCP` and `UDP`.
+        # HTTP and HTTPS spawn a TCP service and get used for internal URL and name generation
+        protocol: HTTP
 
-        # -- Provide additional labels which may be required.
-        labels: {}
+        # -- Specify a service targetPort if you wish to differ the service port from the application port.
+        # If `targetPort` is specified, this port number is used in the container definition instead of
+        # the `port` value. Therefore named ports are not supported for this field.
+        targetPort:
 
-        # -- Set the ingressClass that is used for this ingress.
-        className: # "nginx"
+        # -- Specify the nodePort value for the LoadBalancer and NodePort service types.
+        # [[ref]](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
+        nodePort:
 
-        # -- Configure the defaultBackend for this ingress. This will disable any other rules for the ingress.
-        defaultBackend:
+# -- Configure the ServiceMonitors for the chart here.
+# Additional ServiceMonitors can be added by adding a dictionary key similar to the 'main' ServiceMonitors.
+# @default -- See below
+serviceMonitor:
+  main:
+    # -- Enables or disables the serviceMonitor.
+    enabled: false
 
-        ## Configure the hosts for the ingress
-        hosts:
-        - # -- Host address. Helm template can be passed.
-            host: chart-example.local
-            ## Configure the paths for the host
-            paths:
-            - # -- Path.  Helm template can be passed.
-                path: /
-                pathType: Prefix
-                service:
-                # -- Overrides the service name reference for this path
-                # This can be an actual service name, or reference a service identifier
-                # from this values.yaml
-                name: main
-                # -- Overrides the service port number reference for this path
-                port:
+    # -- Override the name suffix that is used for this serviceMonitor.
+    nameOverride:
 
-        # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
-        tls: []
-        #  - secretName: chart-example-tls
-        #    hosts:
-        #      - chart-example.local
+    # -- Provide additional annotations which may be required.
+    annotations: {}
 
-    # -- Configure the gateway routes for the chart here.
-    # Additional routes can be added by adding a dictionary key similar to the 'main' route.
-    # [[ref]](https://gateway-api.sigs.k8s.io/references/spec/)
-    # @default -- See below
-    route:
-    main:
-        # -- Enables or disables the route
-        enabled: false
+    # -- Provide additional labels which may be required.
+    labels: {}
 
-        # -- Set the route kind
-        # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
-        kind: HTTPRoute
+    # -- Configures a custom selector for the serviceMonitor, this takes precedence over
+    # specifying a service name.
+    # Helm templates can be used.
+    selector: {}
 
-        # -- Override the name suffix that is used for this route.
-        nameOverride:
+    # -- Configures the target Service for the serviceMonitor. Helm templates can be used.
+    serviceName: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}'
 
-        # -- Provide additional annotations which may be required.
-        annotations: {}
+    # -- Configures the endpoints for the serviceMonitor.
+    # @default -- See values.yaml
+    endpoints:
+      - port: http
+        scheme: http
+        path: /metrics
+        interval: 1m
+        scrapeTimeout: 10s
 
-        # -- Provide additional labels which may be required.
-        labels: {}
+# -- Configure the ingresses for the chart here.
+# Additional ingresses can be added by adding a dictionary key similar to the 'main' ingress.
+# @default -- See below
+ingress:
+  main:
+    # -- Enables or disables the ingress
+    enabled: false
 
-        # -- Configure the resource the route attaches to.
-        parentRefs:
-        - # Group of the referent resource.
-            group: gateway.networking.k8s.io
-            # Kind of the referent resource.
-            kind: Gateway
-            # Name of the referent resource
-            name:
-            # Namespace of the referent resource
+    # -- Make this the primary ingress (used in probes, notes, etc...).
+    # If there is more than 1 ingress, make sure that only 1 ingress is marked as primary.
+    primary: true
+
+    # -- Override the name suffix that is used for this ingress.
+    nameOverride:
+
+    # -- Provide additional annotations which may be required.
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+
+    # -- Provide additional labels which may be required.
+    labels: {}
+
+    # -- Set the ingressClass that is used for this ingress.
+    className: # "nginx"
+
+    # -- Configure the defaultBackend for this ingress. This will disable any other rules for the ingress.
+    defaultBackend:
+
+    ## Configure the hosts for the ingress
+    hosts:
+      - # -- Host address. Helm template can be passed.
+        host: chart-example.local
+        ## Configure the paths for the host
+        paths:
+          - # -- Path.  Helm template can be passed.
+            path: /
+            pathType: Prefix
+            service:
+              # -- Overrides the service name reference for this path
+              # This can be an actual service name, or reference a service identifier
+              # from this values.yaml
+              name: main
+              # -- Overrides the service port number reference for this path
+              port:
+
+    # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+# -- Configure the gateway routes for the chart here.
+# Additional routes can be added by adding a dictionary key similar to the 'main' route.
+# [[ref]](https://gateway-api.sigs.k8s.io/references/spec/)
+# @default -- See below
+route:
+  main:
+    # -- Enables or disables the route
+    enabled: false
+
+    # -- Set the route kind
+    # Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
+    kind: HTTPRoute
+
+    # -- Override the name suffix that is used for this route.
+    nameOverride:
+
+    # -- Provide additional annotations which may be required.
+    annotations: {}
+
+    # -- Provide additional labels which may be required.
+    labels: {}
+
+    # -- Configure the resource the route attaches to.
+    parentRefs:
+      - # Group of the referent resource.
+        group: gateway.networking.k8s.io
+        # Kind of the referent resource.
+        kind: Gateway
+        # Name of the referent resource
+        name:
+        # Namespace of the referent resource
+        namespace:
+        # Name of the section within the target resource.
+        sectionName:
+
+    # -- Host addresses. Helm template can be passed.
+    hostnames: []
+
+    # -- Configure rules for routing. Defaults to the primary service.
+    rules:
+      - # -- Configure backends where matching requests should be sent.
+        backendRefs:
+          - group: ""
+            kind: Service
+            name: main
             namespace:
-            # Name of the section within the target resource.
-            sectionName:
+            port:
+            weight: 1
+        ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
+        matches:
+          - path:
+              type: PathPrefix
+              value: /
 
-        # -- Host addresses. Helm template can be passed.
-        hostnames: []
+# -- Configure persistence for the chart here.
+# Additional items can be added by adding a dictionary key similar to the 'config' key.
+# [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
+# @default -- See below
+persistence:
+  config:
+    # -- Enables or disables the persistence item. Defaults to true
+    enabled: false
 
-        # -- Configure rules for routing. Defaults to the primary service.
-        rules:
-        - # -- Configure backends where matching requests should be sent.
-            backendRefs:
-            - group: ""
-                kind: Service
-                name: main
-                namespace:
-                port:
-                weight: 1
-            ## Configure conditions used for matching incoming requests. Only for HTTPRoutes
-            matches:
-            - path:
-                type: PathPrefix
-                value: /
+    # -- Sets the persistence type
+    # Valid options are persistentVolumeClaim, emptyDir, nfs, hostPath, secret, configMap or custom
+    type: persistentVolumeClaim
 
-    # -- Configure persistence for the chart here.
-    # Additional items can be added by adding a dictionary key similar to the 'config' key.
-    # [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
-    # @default -- See below
-    persistence:
-    config:
-        # -- Enables or disables the persistence item. Defaults to true
-        enabled: false
+    # -- Storage Class for the config volume.
+    # If set to `-`, dynamic provisioning is disabled.
+    # If set to something else, the given storageClass is used.
+    # If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.
+    storageClass: # "-"
 
-        # -- Sets the persistence type
-        # Valid options are persistentVolumeClaim, emptyDir, nfs, hostPath, secret, configMap or custom
-        type: persistentVolumeClaim
+    # -- If you want to reuse an existing claim, the name of the existing PVC can be passed here.
+    existingClaim: # your-claim
 
-        # -- Storage Class for the config volume.
-        # If set to `-`, dynamic provisioning is disabled.
-        # If set to something else, the given storageClass is used.
-        # If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.
-        storageClass: # "-"
+    # -- AccessMode for the persistent volume.
+    # Make sure to select an access mode that is supported by your storage provider!
+    # [[ref]](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes)
+    accessMode: ReadWriteOnce
 
-        # -- If you want to reuse an existing claim, the name of the existing PVC can be passed here.
-        existingClaim: # your-claim
+    # -- The amount of storage that is requested for the persistent volume.
+    size: 1Gi
 
-        # -- AccessMode for the persistent volume.
-        # Make sure to select an access mode that is supported by your storage provider!
-        # [[ref]](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes)
-        accessMode: ReadWriteOnce
+    # -- Set to true to retain the PVC upon `helm uninstall`
+    retain: false
 
-        # -- The amount of storage that is requested for the persistent volume.
-        size: 1Gi
+    # -- Configure mounts to all controllers and containers. By default the persistence item
+    # will be mounted to `/<name_of_the_peristence_item>`.
+    # Example:
+    # globalMounts:
+    #   - path: /config
+    #     readOnly: false
+    globalMounts: []
 
-        # -- Set to true to retain the PVC upon `helm uninstall`
-        retain: false
+    # -- Explicitly configure mounts for specific controllers and containers.
+    # Example:
+    # advancedMounts:
+    #   main: # the controller with the "main" identifier
+    #     main: # the container with the "main" identifier
+    #       - path: /data/config.yaml
+    #         readOnly: true
+    #         subPath: config.yaml
+    #     second-container: # the container with the "second-container" identifier
+    #       - path: /appdata/config
+    #         readOnly: true
+    #   second-controller: # the controller with the "second-controller" identifier
+    #     main: # the container with the "main" identifier
+    #       - path: /data/config.yaml
+    #         readOnly: false
+    #         subPath: config.yaml
+    advancedMounts: {}
 
-        # -- Configure mounts to all controllers and containers. By default the persistence item
-        # will be mounted to `/<name_of_the_peristence_item>`.
-        # Example:
-        # globalMounts:
-        #   - path: /config
-        #     readOnly: false
-        globalMounts: []
+# -- Configure the networkPolicies for the chart here.
+# Additional networkPolicies can be added by adding a dictionary key similar to the 'main' networkPolicy.
+# @default -- See below
+networkpolicies:
+  main:
+    # -- Enables or disables the networkPolicy item. Defaults to true
+    enabled: false
 
-        # -- Explicitly configure mounts for specific controllers and containers.
-        # Example:
-        # advancedMounts:
-        #   main: # the controller with the "main" identifier
-        #     main: # the container with the "main" identifier
-        #       - path: /data/config.yaml
-        #         readOnly: true
-        #         subPath: config.yaml
-        #     second-container: # the container with the "second-container" identifier
-        #       - path: /appdata/config
-        #         readOnly: true
-        #   second-controller: # the controller with the "second-controller" identifier
-        #     main: # the container with the "main" identifier
-        #       - path: /data/config.yaml
-        #         readOnly: false
-        #         subPath: config.yaml
-        advancedMounts: {}
+    # -- Configure which controller this networkPolicy should target
+    controller: main
 
-    # -- Configure the networkPolicies for the chart here.
-    # Additional networkPolicies can be added by adding a dictionary key similar to the 'main' networkPolicy.
-    # @default -- See below
-    networkpolicies:
-    main:
-        # -- Enables or disables the networkPolicy item. Defaults to true
-        enabled: false
+    # -- Define a custom podSelector for the networkPolicy. This takes precedence over targeting a controller.
+    # podSelector: {}
 
-        # -- Configure which controller this networkPolicy should target
-        controller: main
+    # -- The policyTypes for this networkPolicy
+    policyTypes:
+      - Ingress
+      - Egress
 
-        # -- Define a custom podSelector for the networkPolicy. This takes precedence over targeting a controller.
-        # podSelector: {}
-
-        # -- The policyTypes for this networkPolicy
-        policyTypes:
-        - Ingress
-        - Egress
-
-        # -- The rulesets for this networkPolicy
-        # [[ref]](https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource)
-        rules:
-        # -- The ingress rules for this networkPolicy. Allows all ingress traffic by default.
-        ingress:
-            - {}
-        # -- The egress rules for this networkPolicy. Allows all egress traffic by default.
-        egress:
-            - {}
+    # -- The rulesets for this networkPolicy
+    # [[ref]](https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource)
+    rules:
+      # -- The ingress rules for this networkPolicy. Allows all ingress traffic by default.
+      ingress:
+        - {}
+      # -- The egress rules for this networkPolicy. Allows all egress traffic by default.
+      egress:
+        - {}
 ```

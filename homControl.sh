@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Check if pipenv is installed
-if ! command -v pipenv &> /dev/null
-then
-    echo "pipenv could not be found. Please install pipenv and try again."
-    exit 1
-fi
+# # Check if pipenv is installed
+# if ! command -v pipenv &> /dev/null
+# then
+#     echo "pipenv could not be found. Please install pipenv and try again."
+#     exit 1
+# fi
 
-echo "Found pipenv"
+# echo "Found pipenv"
 
 # Get the directory of the current script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
