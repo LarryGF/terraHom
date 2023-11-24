@@ -61,29 +61,6 @@ bazarr:
       mountPath: /downloads/radarr
       name: media-radarr
       subpath: radarr
-kavita:
-  deploy: true
-  name: kavita
-  namespace: services
-  override:
-    api_key: ${api_keys["bazarr_key"]}
-    domain: ${domain}
-    timezone: ${timezone}
-  priority: high
-  volumes:
-    config:
-      access_modes:
-      - ReadWriteOnce
-      backup: enabled
-      create: true
-      name: kavita-config
-      mountPath: /config
-      size: 500Mi
-    downloads:
-      name: media
-      mountPath: /data
-
-
 crowdsec:
   deploy: false
   name: crowdsec
@@ -153,7 +130,7 @@ flood:
     config:
       access_modes:
       - ReadWriteOnce
-      create: false
+      create: true
       name: flood-config
       size: 200Mi
 gow:
@@ -233,6 +210,51 @@ jellyseerr:
       create: false
       name: jellyseerr-config
       size: 200Mi
+kavita:
+  deploy: true
+  name: kavita
+  namespace: services
+  override:
+    api_key: ${api_keys["bazarr_key"]}
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      backup: enabled
+      create: true
+      mountPath: /config
+      name: kavita-config
+      size: 500Mi
+    downloads:
+      mountPath: /data
+      name: media
+jellyfin:
+  deploy: true
+  name: jellyfin
+  namespace: services
+  override:
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      backup: enabled
+      create: true
+      mountPath: /config
+      name: jellyfin-config
+      size: 2Gi
+    downloads:
+      mountPath: /data
+      name: media
+    downloads-radarr:
+      mountPath: /data/radarr
+      name: media-radarr
+      subpath: radarr
 kube-prometheus-stack:
   deploy: true
   name: kube-prometheus-stack

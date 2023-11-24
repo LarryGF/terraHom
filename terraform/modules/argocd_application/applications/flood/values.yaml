@@ -1,8 +1,11 @@
 rtorrent-flood:
-
+  env:
+    HOME: /config
   nodeSelector:
     priority: ${priority}
-    
+  podSecurityContext:
+      runAsGroup: 1001
+      runAsUser: 1000
   ingress:
     main:
       ingressClassName: traefik
