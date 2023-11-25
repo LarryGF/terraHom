@@ -118,7 +118,7 @@ filebrowser:
       name: filebrowser-config
       size: 200Mi
 flood:
-  deploy: false
+  deploy: true
   name: flood
   namespace: services
   override:
@@ -131,6 +131,7 @@ flood:
       access_modes:
       - ReadWriteOnce
       create: true
+      mountPath: /config
       name: flood-config
       size: 200Mi
 gow:
@@ -237,6 +238,7 @@ jellyfin:
   namespace: services
   override:
     domain: ${domain}
+    api_key: ${api_keys["jellyfin_key"]}
     timezone: ${timezone}
   priority: high
   volumes:

@@ -1,49 +1,95 @@
-rtorrent-flood:
-  env:
-    HOME: /config
-  nodeSelector:
-    priority: ${priority}
-  podSecurityContext:
-      runAsGroup: 1001
+app-template:
+  defaultPodOptions:
+    securityContext:
       runAsUser: 1000
+      runAsGroup: 1001
+      fsGroup: 1001
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 65539
+
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: jesec/rtorrent-flood
+            tag: latest
+            pullPolicy: IfNotPresent
+          env:
+            PUID: 1001
+            PGID: 1001
+            HOME: /config
+            TZ: ${timezone}
+          probes:
+            liveness:
+              enabled: false
+            readiness:
+              enabled: false
+            startup:
+              enabled: false
+      initContainers:
+        update-volume-permission:
+          image: 
+            repository: busybox
+            tag: latest
+          command:
+            - "sh"
+            - "-c"
+            - "chmod -R 777 /config"
+          securityContext:
+            runAsUser: 0
+
+  service:
+    main:
+      ports:
+        http:
+          port: 3001
+
   ingress:
     main:
-      ingressClassName: traefik
+      enabled: true
+      className: "traefik"
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
-        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Flood"
-        gethomepage.dev/description: "A beautiful web UI for various torrent clients."
-        gethomepage.dev/group: "Media"
+        gethomepage.dev/group: "Aggregators"
         gethomepage.dev/icon: "flood.png"
-        gethomepage.dev/ping: "http://flood-rtorrent-flood.${namespace}.svc.cluster.local:3000"
         gethomepage.dev/widget.type: "flood"
-        gethomepage.dev/widget.url: "http://flood-rtorrent-flood.${namespace}.svc.cluster.local:3000"
-        gethomepage.dev/widget.username: "admin"
-        gethomepage.dev/widget.password: "admin"
-
-      enabled: true
+        gethomepage.dev/widget.url: "http://flood.${namespace}.svc.cluster.local:3001"
+        gethomepage.dev/widget.key: "${api_key}"
+        gethomepage.dev/widget.enableBlocks: "true"
       hosts:
-        - host: "flood.${domain}"
+        - host: flood.${domain}
           paths:
-          - path: /
+            - path: /
+              service:
+                name: main
+                port: http
+      
       tls:
-        - hosts:
-            - "flood.${domain}"
-          secretName: tls-flood-ingress
+        - secretName: tls-flood-ingress
+          hosts:
+            - flood.${domain}
 
-  persistence:
-    config:
-      enabled: true
-      existingClaim: flood-config
+  ${indent(2,yamlencode({persistence: { for key, value in storage: key => {
+    "enabled":true,
+    "existingClaim":value.name,
+    "globalMounts": try(value.mountPath == null ? [{"path":"/app/config"}]: [{"path":value.mountPath}],[{"path":"/app/config"}])}}
+    }
+    )
+    )
+    }
 
-    downloads:
-      enabled: true
-      existingClaim: media
+  # persistence:
+  #   media:
+  #     existingClaim: media
+  #     globalMounts:
+  #       - path: /data
+  #   config:
+  #     existingClaim: kavita-config
+  #     globalMounts:
+  #       - path: /config
 
-    shared:
-      enabled: true
-      type: emptyDir
-      mountPath: /shared

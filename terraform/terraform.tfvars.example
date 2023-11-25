@@ -38,6 +38,7 @@ api_keys = {
     portainer_key = "key"
     jellyseerr_key = "key"
     pihole_key = "key"
+    jellyfin_key = "key"
     sabnzbd_key = "key"
     discord_webhook_url = "key"
     kwatch_discord_webhook_url = "key"

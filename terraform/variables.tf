@@ -155,6 +155,7 @@ variable "api_keys" {
     pihole_key = "pihole-key"
     portainer_key = "portainer-key"
     nextcloud_key = "nextcloud-key"
+    jellyfin_key = "jellyfin-key"
     sabnzbd_key = "sabnzbd-key"
     authelia_JWT_TOKEN = "authelia-jwt-token"
     authelia_SESSION_ENCRYPTION_KEY = "authelia-session-encryption-key"
