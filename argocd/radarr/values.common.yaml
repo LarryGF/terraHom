@@ -1,7 +1,7 @@
 radarr:
   image:
     repository: lscr.io/linuxserver/radarr
-    tag: 4.3.2.6857-ls167
+    tag: 5.1.3.8246-ls194
 
   env:
     PGID: 1001
