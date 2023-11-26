@@ -1,13 +1,13 @@
 apiVersion: v2
 name: grafana-umbrella
-version: 0.0.5
+version: 0.0.6
 dependencies:
   - name: grafana
     repository: https://grafana.github.io/helm-charts
     version: 7.0.8
   - name: loki-mixin
     repository: https://charts.portefaix.xyz
-    version: 1.5.0
+    version: 1.6.0
   - name: alertmanager-mixin
     repository: https://charts.portefaix.xyz
     version: 1.6.0
