@@ -125,6 +125,8 @@ flood:
     domain: ${domain}
     master_hostname: ${master_hostname}
     timezone: ${timezone}
+    flood_username: ${api_keys["flood_username"]}
+    flood_password: ${api_keys["flood_password"]}
   priority: high
   volumes:
     config:
@@ -134,6 +136,13 @@ flood:
       mountPath: /config
       name: flood-config
       size: 200Mi
+    downloads:
+      mountPath: /downloads
+      name: media
+    downloads-radarr:
+      mountPath: /downloads/radarr
+      name: media-radarr
+      subpath: radarr
 gow:
   deploy: false
   name: gow
@@ -195,6 +204,31 @@ homepage:
     timezone: ${timezone}
   priority: critical
   volumes: {}
+jellyfin:
+  deploy: true
+  name: jellyfin
+  namespace: services
+  override:
+    api_key: ${api_keys["jellyfin_key"]}
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+      - ReadWriteOnce
+      backup: enabled
+      create: true
+      mountPath: /config
+      name: jellyfin-config
+      size: 2Gi
+    downloads:
+      mountPath: /data
+      name: media
+    downloads-radarr:
+      mountPath: /data/radarr
+      name: media-radarr
+      subpath: radarr
 jellyseerr:
   deploy: true
   name: jellyseerr
@@ -232,31 +266,6 @@ kavita:
     downloads:
       mountPath: /data
       name: media
-jellyfin:
-  deploy: true
-  name: jellyfin
-  namespace: services
-  override:
-    domain: ${domain}
-    api_key: ${api_keys["jellyfin_key"]}
-    timezone: ${timezone}
-  priority: high
-  volumes:
-    config:
-      access_modes:
-      - ReadWriteOnce
-      backup: enabled
-      create: true
-      mountPath: /config
-      name: jellyfin-config
-      size: 2Gi
-    downloads:
-      mountPath: /data
-      name: media
-    downloads-radarr:
-      mountPath: /data/radarr
-      name: media-radarr
-      subpath: radarr
 kube-prometheus-stack:
   deploy: true
   name: kube-prometheus-stack

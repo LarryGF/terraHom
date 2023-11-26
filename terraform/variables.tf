@@ -154,6 +154,8 @@ variable "api_keys" {
     jellyseerr_key = "jellyseerr-key"
     pihole_key = "pihole-key"
     portainer_key = "portainer-key"
+    flood_username = "flood-username"
+    flood_password = "flood-password"
     nextcloud_key = "nextcloud-key"
     jellyfin_key = "jellyfin-key"
     sabnzbd_key = "sabnzbd-key"
