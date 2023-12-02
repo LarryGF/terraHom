@@ -149,6 +149,7 @@ variable "api_keys" {
     radarr_key = "radarr-key"
     sonarr_key = "sonarr-key"
     prowlarr_key = "prowlarr-key"
+    tautulli_key = "tautulli-key"
     bazarr_key = "bazarr-key"
     plex_key = "plex-key"
     jellyseerr_key = "jellyseerr-key"

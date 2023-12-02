@@ -153,6 +153,10 @@ authelia:
         policy: bypass
         resources:
         - "^/api/.*$"
+      - domain_regex: 'tautulli.${domain}'
+        policy: bypass
+        resources:
+        - "^/api/.*$"
       - domain_regex: 'sabnzbd.${domain}'
         policy: bypass
         resources:

@@ -47,6 +47,7 @@
 
 - debug:
     var: inventory_hostname
+
 # DNS
 - name: Set hostname
   hostname:
@@ -113,7 +114,6 @@
       - nfs-common
     state: present
 
-
 - name: Set up logrotate for daemon.log and syslog
   copy:
     dest: "/etc/logrotate.d/large_logfiles"
@@ -133,8 +133,44 @@
         endscript
       }
 
-# Oh-my-zsh
+# GPU
+- name: Detect Graphics Card
+  shell: lspci | grep -i 'VGA\|Display'
+  register: gpu_check
+  changed_when: false
+  ignore_errors: true
 
+- name: Set fact for GPU presence
+  set_fact:
+    gpu_present: "{{ 'VGA' in gpu_check.stdout or 'Display' in gpu_check.stdout }}"
+
+- name: Enable non-free repositories in Debian
+  lineinfile:
+    path: /etc/apt/sources.list
+    regexp: '^deb http://deb.debian.org/debian/ ([a-z]+) main'
+    line: 'deb http://deb.debian.org/debian/ \1 main contrib non-free non-free-firmware'
+    backrefs: yes
+  notify: update apt cache
+
+- name: Install Intel GPU drivers
+  apt:
+    name: intel-media-va-driver
+    state: present
+  when: gpu_present and 'Intel' in gpu_check.stdout
+
+- name: Install AMD GPU drivers
+  apt:
+    name: 
+      - xserver-xorg-video-amdgpu
+      - firmware-amd-graphics
+      - libgl1-mesa-dri
+      - libglx-mesa0
+      - mesa-vulkan-drivers
+      - xserver-xorg-video-all
+    state: present
+  when: gpu_present and 'AMD' in gpu_check.stdout
+
+# Oh-my-zsh
 - name: Install Zsh
   package:
     name: 
