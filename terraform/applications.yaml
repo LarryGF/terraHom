@@ -575,3 +575,13 @@ tautulli:
       create: true
       name: tautulli-config
       size: 200Mi
+amd-gpu:
+  deploy: true
+  name: amd-gpu
+  namespace: kube-system
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: 'critical'
+  volumes: {}
