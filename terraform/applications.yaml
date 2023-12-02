@@ -123,10 +123,10 @@ flood:
   namespace: services
   override:
     domain: ${domain}
+    flood_password: ${api_keys["flood_password"]}
+    flood_username: ${api_keys["flood_username"]}
     master_hostname: ${master_hostname}
     timezone: ${timezone}
-    flood_username: ${api_keys["flood_username"]}
-    flood_password: ${api_keys["flood_password"]}
   priority: high
   volumes:
     config:
@@ -560,17 +560,18 @@ sonarr:
       name: sonarr-config
       size: 512Mi
 tautulli:
-  deploy: false
+  deploy: true
   name: tautulli
   namespace: services
   override:
     domain: ${domain}
+    api_key: ${api_keys["tautulli_key"]}
     timezone: ${timezone}
   priority: high
   volumes:
     config:
       access_modes:
       - ReadWriteOnce
-      create: false
+      create: true
       name: tautulli-config
       size: 200Mi

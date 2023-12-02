@@ -33,6 +33,7 @@ api_keys = {
     radarr_key = "key"
     sonarr_key = "key"
     prowlarr_key = "key"
+    tautulli_key = "tautulli-key"
     bazarr_key = "key"
     plex_key = "key"
     portainer_key = "key"

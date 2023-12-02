@@ -9,3 +9,7 @@
   
 - name: enable iscsid
   service: name=iscsid state=started enabled=yes
+
+- name: update apt cache
+  apt:
+    update_cache: yes
