@@ -51,6 +51,6 @@ plex:
       mountPath: /downloads/radarr
       subpath: radarr
   
-  resources:
-    limits:
-      amd.com/gpu: 1
+  # resources:
+  #   limits:
+  #     amd.com/gpu: 1
