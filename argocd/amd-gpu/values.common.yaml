@@ -1,9 +1,4 @@
 amd-gpu:
-  nfd:
-    enabled: true
-
-  labeller:
-    enabled: true
 
   namespace: kube-system
 

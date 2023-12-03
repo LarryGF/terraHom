@@ -4,8 +4,8 @@ resource "helm_release" "argo-cd" {
   chart      = "argo-cd"
   repository = "https://argoproj.github.io/argo-helm"
   namespace  = "gitops"
-  reuse_values = true
-  version = "5.36.2"
+  reuse_values = false
+  version = "5.51.6"
   set {
     name  = "env.TZ"
     value = var.timezone

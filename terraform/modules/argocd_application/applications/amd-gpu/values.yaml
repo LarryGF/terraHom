@@ -1,0 +1,6 @@
+amd-gpu:
+  nfd:
+    enabled: true
+
+  labeller:
+    enabled: false
