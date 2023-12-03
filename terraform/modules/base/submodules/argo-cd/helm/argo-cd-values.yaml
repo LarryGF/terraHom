@@ -43,7 +43,7 @@ configs:
     application.instanceLabelKey: argocd.argoproj.io/instance
     exec.enabled: true
     admin.enabled: true
-    timeout.reconciliation: 30s
+    timeout.reconciliation: 20s
     timeout.hard.reconciliation: 0s
 
     # Dex configuration
@@ -60,12 +60,13 @@ configs:
     #         - name: your-github-org
 
   params:
+    create: true
     otlp.address: ''
     server.insecure: true # set to insecure to prevent redirection loop
     server.basehref: /
     server.rootpath: ''
     server.disable.auth: false
-    server.enable.gzip: false
+    server.enable.gzip: true
     server.x.frame.options: sameorigin
 
 
@@ -343,7 +344,8 @@ applicationSet:
 notifications:
   # -- Enable notifications controller
   enabled: true
-
+  clusterRoleRules:
+    rules: []
   # -- Notifications controller name string
   name: notifications-controller
 
