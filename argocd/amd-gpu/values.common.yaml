@@ -1,9 +1,9 @@
 amd-gpu:
 
   namespace: kube-system
+
   nfd:
     enabled: true
-
 
   lbl:
     image:
