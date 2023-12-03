@@ -1,3 +1,4 @@
+{{- $root:= index .Values "amd-gpu" }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -22,13 +23,13 @@ subjects:
   namespace: default
 - kind: ServiceAccount
   name: default
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $root.namespace }}
 ---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: {{ .Chart.Name }}-labeller-daemonset
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $root.namespace }}
 spec:
   selector:
     matchLabels:
@@ -38,19 +39,19 @@ spec:
       labels:
         name: amdgpu-lr-ds
     spec:
-      {{- if .Values.nfd.enabled }}
-      {{- with .Values.node_selector }}
+      {{- if $root.nfd.enabled }}
+      {{- with $root.node_selector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- end }}
       priorityClassName: system-node-critical
-      {{- with .Values.tolerations }}
+      {{- with $root.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - image: {{ .Values.lbl.image.repository }}:{{ .Values.lbl.image.tag }}
+      - image: {{ $root.lbl.image.repository }}:{{ $root.lbl.image.tag }}
         name: {{ .Chart.Name }}-lr-cntr
         imagePullPolicy: Always
         workingDir: /root
@@ -71,7 +72,7 @@ spec:
           - name: dev
             mountPath: /dev
         resources:
-          {{- toYaml .Values.lbl.resources | nindent 10 }}
+          {{- toYaml $root.lbl.resources | nindent 10 }}
       volumes:
         - name: sys
           hostPath:
