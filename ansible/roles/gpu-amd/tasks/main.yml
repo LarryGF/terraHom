@@ -1,0 +1,21 @@
+---
+- name: Enable non-free repositories in Debian
+  lineinfile:
+    path: /etc/apt/sources.list
+    regexp: '^deb http://deb.debian.org/debian/ ([a-z]+) main'
+    line: 'deb http://deb.debian.org/debian/ \1 main contrib non-free'
+    backrefs: yes
+  notify: update apt cache
+
+- name: Install AMD GPU drivers
+  apt:
+    name: 
+      - xserver-xorg-video-amdgpu
+      - firmware-amd-graphics
+      - libgl1-mesa-dri
+      - libglx-mesa0
+      - mesa-vulkan-drivers
+      - xserver-xorg-video-all
+    state: present
+
+
