@@ -2,12 +2,7 @@ amd-gpu:
 
   namespace: kube-system
 
-  dp:
-    image:
-      repository: docker.io/rocm/k8s-device-plugin
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: "1.25.2.5"
-    resources: {}
+
 
   lbl:
     image:
