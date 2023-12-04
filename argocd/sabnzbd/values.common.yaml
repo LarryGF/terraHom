@@ -6,7 +6,7 @@ sabnzbd:
   initContainers:
     update-volume-permission:
       image: busybox
-      command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/sabnzbd && chown -R 1001:1001 /downloads/sabnzbd"]
+      command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/sabnzbd && chown 1001:1001 /downloads/sabnzbd"]
 
       volumeMounts:
       - name: config

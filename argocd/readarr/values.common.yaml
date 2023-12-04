@@ -11,7 +11,7 @@ readarr:
   initContainers:
     update-volume-permission:
       image: busybox
-      command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/readarr && chown -R 1001:1001 /downloads/readarr"]
+      command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/readarr && chown 1001:1001 /downloads/readarr"]
 
       volumeMounts:
       - name: config

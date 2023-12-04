@@ -7,7 +7,7 @@ bazarr:
   initContainers:
       update-volume-permission:
         image: busybox
-        command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/bazarr && chown -R 1001:1001 /downloads/bazarr"]
+        command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/bazarr && chown 1001:1001 /downloads/bazarr"]
 
         volumeMounts:
         - name: config

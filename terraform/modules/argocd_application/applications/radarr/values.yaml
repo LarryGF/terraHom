@@ -48,7 +48,7 @@ radarr:
   initContainers:
     update-volume-permission:
       image: busybox
-      command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/radarr && chown -R 1001:1001 /downloads/radarr"]
+      command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/radarr && chown 1001:1001 /downloads/radarr"]
 
       volumeMounts:
       - name: config
