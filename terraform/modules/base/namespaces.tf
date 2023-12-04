@@ -109,3 +109,17 @@ resource "kubernetes_namespace" "operators" {
     ]
   }
 }
+
+resource "kubernetes_namespace" "node-feature-discovery" {
+  metadata {
+    annotations = {
+      name = "node-feature-discovery"
+    }
+    name = "node-feature-discovery"
+  }
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
+  }
+}

@@ -18,4 +18,63 @@
       - xserver-xorg-video-all
     state: present
 
+- name: Create /etc/apt/keyrings directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
 
+- name: Download ROCm GPG key
+  ansible.builtin.get_url:
+    url: https://repo.radeon.com/rocm/rocm.gpg.key
+    dest: /tmp/rocm.gpg.key
+    mode: '0644'
+
+- name: Convert GPG key to keyring format and store
+  ansible.builtin.shell:
+    cmd: gpg --dearmor < /tmp/rocm.gpg.key | sudo tee /etc/apt/keyrings/rocm.gpg > /dev/null
+  args:
+    executable: /bin/bash
+  become: true
+
+- name: Add Kernel driver repository
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/amdgpu.list
+    content: |
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/5.7.1/ubuntu jammy main
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Add ROCm repository
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/rocm.list
+    content: |
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/debian jammy main
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Set package preference for ROCm repository
+  ansible.builtin.copy:
+    dest: /etc/apt/preferences.d/rocm-pin-600
+    content: |
+      Package: *
+      Pin: release o=repo.radeon.com
+      Pin-Priority: 600
+    owner: root
+    group: root
+    mode: '0644'
+  notify: update apt cache
+
+- name: Install AMD GPU ROCm drivers
+  apt:
+    name: amdgpu-dkms
+    state: present
+
+- name: Install AMD GPU ROCm runtimes
+  apt:
+    name: rocm-hip-libraries
+    state: present

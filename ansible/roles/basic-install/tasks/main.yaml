@@ -1,0 +1,90 @@
+---
+# NTP
+- name: Install NTP
+  package:
+    name: ntp
+    state: present
+  notify: enable ntp
+
+# Networkmanager
+- name: Install networkmanager
+  package:
+    name: network-manager
+    state: present
+  notify: enable NetworkManager
+
+# Miscellaneous
+- name: Install dependencies
+  package:
+    name: 
+      - procps
+      - apparmor
+      - iptables
+      - micro
+      - gpg
+      - htop
+    state: present
+
+# Longhorn
+- name: Install open-iscsi
+  package:
+    name: open-iscsi
+    state: present
+  notify: enable iscsid
+
+- name: Install required packages for Longhorn
+  package:
+    name:
+      - curl
+      - grep
+      - mawk
+      - util-linux
+      - nfs-common
+    state: present
+
+
+
+# Oh-my-zsh
+- name: Install Zsh
+  package:
+    name: 
+      - zsh
+      - git
+    state: present
+
+- name: Clone Oh-My-Zsh repository
+  git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: "/home/{{ ansible_user }}/.oh-my-zsh"
+    update: true
+
+- name: Clone powerlevel10k
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "/home/{{ ansible_user }}/.oh-my-zsh/themes/powerlevel10k"
+    update: true
+
+- name: Clone zsh-syntax-highlighting
+  git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: "/home/{{ ansible_user }}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+    update: true
+
+- name: Clone zsh-autosuggestions
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: "/home/{{ ansible_user }}/.oh-my-zsh/plugins/zsh-autosuggestions"
+    update: true
+
+- name: Change user's shell to Zsh
+  shell: usermod --shell /usr/bin/zsh {{ ansible_user }}
+
+- name: Copy custom zshrc
+  template:
+    src: zshrc
+    dest: "/home/{{ ansible_user }}/.zshrc"
+
+- name: Copy custom powerlevel10k config
+  copy:
+    src: p10k
+    dest: "/home/{{ ansible_user }}/.p10k.zsh"
