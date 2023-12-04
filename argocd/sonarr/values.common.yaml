@@ -12,7 +12,7 @@ sonarr:
   initContainers:
     update-volume-permission:
       image: busybox
-      command: ["sh", "-c", "chmod -R 777 /config && mkdir -p /downloads/sonarr && chown -R 1001:1001 /downloads/sonarr"]
+      command: ["sh", "-c", "chmod -R 777 /config && mkdir -p /downloads/sonarr && chown 1001:1001 /downloads/sonarr"]
 
       volumeMounts:
       - name: config
