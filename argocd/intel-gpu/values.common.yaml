@@ -21,7 +21,7 @@ intel-device-plugins-operator:
     registrySecret: ""
 
 intel-device-plugins-gpu:
-  name: gpudeviceplugin-sample
+  name: gpudeviceplugin
 
   image:
     hub: intel
