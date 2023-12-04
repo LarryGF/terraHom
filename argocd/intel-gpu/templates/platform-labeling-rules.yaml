@@ -16,9 +16,7 @@ spec:
           gpu.intel.com/tiles: {op: Exists}
     name: intel.gpu.fractionalresources
   # generic rule for older and upcoming devices
-  - labelsTemplate: |
-      {{ range .pci.device }}gpu.intel.com/device-id.{{ .class }}-{{ .device }}.present=true
-      {{ end }}
+  - labelsTemplate: {{ printf "{{ range .pci.device }}gpu.intel.com/device-id.{{ .class }}-{{ .device }}.present=true\n      {{ end }}" | quote }}    
     matchFeatures:
       - feature: pci.device
         matchExpressions:
@@ -32,7 +30,7 @@ spec:
             value:
             - "8086"
     name: intel.gpu.generic.deviceid
-  - labelsTemplate: gpu.intel.com/device-id.0300-{{ (index .pci.device 0).device }}.count={{ len .pci.device }}
+  - labelsTemplate:  {{ printf "gpu.intel.com/device-id.0300-{{ (index .pci.device 0).device }}.count={{ len .pci.device }}" | quote }}
     matchFeatures:
       - feature: pci.device
         matchExpressions:
@@ -45,7 +43,7 @@ spec:
             value:
             - "8086"
     name: intel.gpu.generic.count.300
-  - labelsTemplate: gpu.intel.com/device-id.0380-{{ (index .pci.device 0).device }}.count={{ len .pci.device }}
+  - labelsTemplate:  {{ printf "gpu.intel.com/device-id.0380-{{ (index .pci.device 0).device }}.count={{ len .pci.device }}" | quote }}
     matchFeatures:
       - feature: pci.device
         matchExpressions:
@@ -60,7 +58,7 @@ spec:
     name: intel.gpu.generic.count.380
   - labels:
       gpu.intel.com/product: "Max_1100"
-    labelsTemplate: "gpu.intel.com/device.count={{ len .pci.device }}"
+    labelsTemplate:   {{ printf "gpu.intel.com/device.count={{ len .pci.device }}" | quote }}
     matchFeatures:
     - feature: pci.device
       matchExpressions:
@@ -79,7 +77,7 @@ spec:
     name: intel.gpu.max.1100
   - labels:
       gpu.intel.com/product: "Max_1550"
-    labelsTemplate: "gpu.intel.com/device.count={{ len .pci.device }}"
+    labelsTemplate:  {{ printf "gpu.intel.com/device.count={{ len .pci.device }}" | quote }}
     matchFeatures:
     - feature: pci.device
       matchExpressions:
@@ -123,7 +121,7 @@ spec:
   - labels:
       gpu.intel.com/family: "Flex_Series"
       gpu.intel.com/product: "Flex_170"
-    labelsTemplate: "gpu.intel.com/device.count={{ len .pci.device }}"
+    labelsTemplate: {{ printf "gpu.intel.com/device.count={{ len .pci.device }}" | quote }}
     matchFeatures:
     - feature: pci.device
       matchExpressions:
@@ -143,7 +141,7 @@ spec:
   - labels:
       gpu.intel.com/family: "Flex_Series"
       gpu.intel.com/product: "Flex_140"
-    labelsTemplate: "gpu.intel.com/device.count={{ len .pci.device }}"
+    labelsTemplate: {{ printf "gpu.intel.com/device.count={{ len .pci.device }}" | quote }}
     matchFeatures:
     - feature: pci.device
       matchExpressions:
