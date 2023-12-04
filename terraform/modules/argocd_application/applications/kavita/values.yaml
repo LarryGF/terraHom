@@ -35,7 +35,7 @@ app-template:
           command:
             - "sh"
             - "-c"
-            - "chmod -R 777 /config  && mkdir -p /data/kavita && mkdir -p /data/kavita/comics && mkdir -p /data/kavita/manga && mkdir -p /data/kavita/books && chown -R 1001:1001 /data/kavita"
+            - "chmod -R 777 /config  && mkdir -p /data/kavita && mkdir -p /data/kavita/comics && mkdir -p /data/kavita/manga && mkdir -p /data/kavita/books && chown 1001:1001 /data/kavita"
           securityContext:
             runAsUser: 0
 

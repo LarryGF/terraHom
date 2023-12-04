@@ -16,7 +16,7 @@ nzbget:
   initContainers:
       update-volume-permission:
         image: busybox
-        command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/nzbget && chown -R 1001:1001 /downloads/nzbget"]
+        command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/nzbget && chown 1001:1001 /downloads/nzbget"]
 
         volumeMounts:
         - name: config
