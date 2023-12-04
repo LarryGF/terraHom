@@ -595,3 +595,13 @@ node-feature-discovery:
     timezone: ${timezone}
   priority: 'critical'
   volumes: {}
+intel-gpu:
+  deploy: true
+  name: intel-gpu
+  namespace: kube-system
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: 'critical'
+  volumes: {}
