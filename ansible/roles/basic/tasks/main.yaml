@@ -12,41 +12,10 @@
   when:
     - ansible_swaptotal_mb > 1
 
-# Upgrade System
-- name: Upgrade system
-  apt:
-    upgrade: dist
-    update_cache: true
-
 # Time
 - name: Set timezone
   timezone:
     name: "{{ timezone }}"
-
-- name: Ensure chrony is not installed
-  package:
-    name: chrony
-    state: absent
-
-- name: Install NTP
-  package:
-    name: ntp
-    state: present
-  notify: enable ntp
-
-- name: Install Procps
-  package:
-    name: procps
-    state: present
-
-- name: Install networkmanager
-  package:
-    name: network-manager
-    state: present
-  notify: enable NetworkManager
-
-- debug:
-    var: inventory_hostname
 
 # DNS
 - name: Set hostname
@@ -60,6 +29,20 @@
     line: "127.0.1.1\t{{ inventory_hostname }}"
     state: present
     backup: true
+
+- name: Configure Cloudflare DNS
+  copy:
+    src: "resolv.conf"
+    dest: "/etc/resolv.conf"
+    owner: root
+    group: root
+    mode: 0644
+
+# Disable packages and services
+- name: Ensure chrony is not installed
+  package:
+    name: chrony
+    state: absent
 
 - name: Stop and disable systemd-resolved
   systemd:
@@ -77,61 +60,15 @@
     insertafter: '^\[main\]'
   notify: restart networkmanager
 
-- name: Configure Cloudflare DNS
-  copy:
-    src: "resolv.conf"
-    dest: "/etc/resolv.conf"
-    owner: root
-    group: root
-    mode: 0644
+# Upgrade System
+- name: Import upgrade role
+  import_role:
+    name: basic-upgrade
 
-# AppArmor
-- name: Install apparmor
-  package:
-    name: apparmor
-    state: present
-
-# Iptables
-- name: Install iptables
-  package:
-    name: iptables
-    state: present
-    
-# Longhorn
-- name: Install open-iscsi
-  package:
-    name: open-iscsi
-    state: present
-  notify: enable iscsid
-
-- name: Install required packages for Longhorn
-  package:
-    name:
-      - curl
-      - grep
-      - mawk
-      - util-linux
-      - nfs-common
-    state: present
-
-- name: Set up logrotate for daemon.log and syslog
-  copy:
-    dest: "/etc/logrotate.d/large_logfiles"
-    content: |
-      /var/log/daemon.log
-      /var/log/syslog
-      {
-        rotate 1
-        weekly
-        missingok
-        notifempty
-        compress
-        delaycompress
-        sharedscripts
-        postrotate
-          /bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
-        endscript
-      }
+# Install Dependencies
+- name: Import install role
+  import_role:
+    name: basic-install
 
 # GPU
 - name: Detect Graphics Card
@@ -155,47 +92,22 @@
     name: gpu-amd
   when: gpu_present and 'AMD' in gpu_check.stdout
 
-# Oh-my-zsh
-- name: Install Zsh
-  package:
-    name: 
-      - zsh
-      - git
-    state: present
-
-- name: Clone Oh-My-Zsh repository
-  git:
-    repo: https://github.com/ohmyzsh/ohmyzsh.git
-    dest: "/home/{{ ansible_user }}/.oh-my-zsh"
-    update: true
-
-- name: Clone powerlevel10k
-  git:
-    repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "/home/{{ ansible_user }}/.oh-my-zsh/themes/powerlevel10k"
-    update: true
-
-- name: Clone zsh-syntax-highlighting
-  git:
-    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: "/home/{{ ansible_user }}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
-    update: true
-
-- name: Clone zsh-autosuggestions
-  git:
-    repo: https://github.com/zsh-users/zsh-autosuggestions.git
-    dest: "/home/{{ ansible_user }}/.oh-my-zsh/plugins/zsh-autosuggestions"
-    update: true
-
-- name: Change user's shell to Zsh
-  shell: usermod --shell /usr/bin/zsh {{ ansible_user }}
-
-- name: Copy custom zshrc
-  template:
-    src: zshrc
-    dest: "/home/{{ ansible_user }}/.zshrc"
-
-- name: Copy custom powerlevel10k config
+# Log rotation
+- name: Set up logrotate for daemon.log and syslog
   copy:
-    src: p10k
-    dest: "/home/{{ ansible_user }}/.p10k.zsh"
+    dest: "/etc/logrotate.d/large_logfiles"
+    content: |
+      /var/log/daemon.log
+      /var/log/syslog
+      {
+        rotate 1
+        weekly
+        missingok
+        notifempty
+        compress
+        delaycompress
+        sharedscripts
+        postrotate
+          /bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
+        endscript
+      }

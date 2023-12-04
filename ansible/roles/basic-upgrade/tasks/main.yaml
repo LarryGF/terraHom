@@ -1,0 +1,22 @@
+---
+# Change sources
+- name: Update Debian repository sources
+  lineinfile:
+    path: /etc/apt/sources.list
+    backup: yes
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - { regexp: '^deb http://deb.debian.org/debian [a-z]+ ', line: 'deb http://deb.debian.org/debian {{ hostvars[inventory_hostname].debian_version | default(default_debian_version) }} main contrib non-free' }
+    - { regexp: '^deb-src http://deb.debian.org/debian/ [a-z]+ ', line: 'deb-src http://deb.debian.org/debian/ {{ hostvars[inventory_hostname].debian_version | default(default_debian_version) }} main' }
+    - { regexp: '^deb http://security.debian.org/debian-security [a-z]+-security ', line: 'deb http://security.debian.org/debian-security {{ hostvars[inventory_hostname].debian_version | default(default_debian_version) }}-security main contrib' }
+    - { regexp: '^deb-src http://security.debian.org/debian-security [a-z]+-security ', line: 'deb-src http://security.debian.org/debian-security {{ hostvars[inventory_hostname].debian_version | default(default_debian_version) }}-security main contrib' }
+    - { regexp: '^deb-src http://deb.debian.org/debian/ [a-z]+-updates ', line: 'deb-src http://deb.debian.org/debian/ {{ hostvars[inventory_hostname].debian_version | default(default_debian_version) }}-updates main contrib' }
+  notify: update apt cache
+
+
+# Upgrade System
+- name: Upgrade system
+  apt:
+    upgrade: dist
+    update_cache: true

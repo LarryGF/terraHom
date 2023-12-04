@@ -585,3 +585,13 @@ amd-gpu:
     timezone: ${timezone}
   priority: 'critical'
   volumes: {}
+node-feature-discovery:
+  deploy: true
+  name: node-feature-discovery
+  namespace: node-feature-discovery
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: 'critical'
+  volumes: {}
