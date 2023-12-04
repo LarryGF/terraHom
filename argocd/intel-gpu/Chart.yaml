@@ -1,0 +1,7 @@
+apiVersion: v2
+name: intel-gpu-umbrella
+version: 0.0.1
+dependencies:
+  - name: intel-device-plugins-operator
+    repository: https://intel.github.io/helm-charts
+    version: 0.28.0

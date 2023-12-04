@@ -64,6 +64,11 @@ resource "argocd_project" "gitops" {
       namespace = "cattle-system"
     }
 
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "node-feature-discovery"
+    }
+
     # cluster_resource_blacklist {
     #   group = "*"
     #   kind  = "*"
