@@ -19,3 +19,21 @@ intel-device-plugins-operator:
     registryUrl: ""
     registryUser: ""
     registrySecret: ""
+
+intel-device-plugins-gpu:
+
+  initImage:
+    enable: true
+    hub: intel
+    tag: ""
+
+  sharedDevNum: 5
+  logLevel: 2
+  resourceManager: true
+  enableMonitoring: true
+  allocationPolicy: "none"
+
+  nodeSelector:
+    intel.feature.node.kubernetes.io/gpu: 'true'
+
+  nodeFeatureRule: true

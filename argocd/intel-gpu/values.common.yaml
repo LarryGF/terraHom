@@ -26,19 +26,3 @@ intel-device-plugins-gpu:
   image:
     hub: intel
     tag: ""
-
-  initImage:
-    enable: true
-    hub: intel
-    tag: ""
-
-  sharedDevNum: 5
-  logLevel: 2
-  resourceManager: true
-  enableMonitoring: true
-  allocationPolicy: "none"
-
-  nodeSelector:
-    intel.feature.node.kubernetes.io/gpu: 'true'
-
-  nodeFeatureRule: true
