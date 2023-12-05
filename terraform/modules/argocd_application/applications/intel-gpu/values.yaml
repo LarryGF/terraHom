@@ -27,7 +27,7 @@ intel-device-plugins-gpu:
     hub: intel
     tag: ""
 
-  sharedDevNum: 5
+  sharedDevNum: 2
   logLevel: 2
   resourceManager: true
   enableMonitoring: true
