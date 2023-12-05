@@ -4,6 +4,7 @@ import webbrowser
 import argparse
 
 def main(build_image):
+    docker_image = "larrygf/homcontrol"
     # Initialize the Docker client
     client = docker.from_env()
 
@@ -35,6 +36,7 @@ def main(build_image):
         try:
             # Build the Docker image
             client.images.build(path="../../docker/homControl", tag="terrahom/homcontrol")
+            docker_image = "terrahom/homcontrol"
         except docker.errors.BuildError as e:
             print("Error during build:", e)
             return
@@ -42,7 +44,7 @@ def main(build_image):
     print("Starting Docker container...")
     # Run the Docker container with the specified configurations
     container = client.containers.run(
-        "terrahom/homcontrol",
+        docker_image,
         name="homcontrol_container", # Name the container for easier reference
         detach=True,
         network_mode="host",
