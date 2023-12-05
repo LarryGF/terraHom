@@ -7,10 +7,10 @@
 tautulli:
   image:
     # -- image repository
-    repository: lscr.io/linuxserver/tautulli
+    repository: ghcr.io/linuxserver/tautulli
     # -- image pull policy
     pullPolicy: IfNotPresent
-    tag: v2.13.3
+    tag: 2.13.3
   # -- Configures service settings for the chart.
   # @default -- See values.yaml
   service:
