@@ -58,3 +58,13 @@ variable "priority" {
   description = "Determines in which node to run the helm chart"
 
 }
+
+variable "gpu" {
+  type        = string
+  description = "Determines which GPU your application will use"
+   validation {
+    condition     = var.gpu == "none" || var.gpu == "intel" || var.gpu == "amd"
+    error_message = "The value must be none, intel or amd\n"
+  }
+
+}

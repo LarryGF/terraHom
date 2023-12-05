@@ -9,6 +9,7 @@ st.set_page_config(
     page_icon="https://raw.githubusercontent.com/LarryGF/pi-k8s/c1682af8f077bce0dcfd04c7d70b64375f2fa042/docker/homControl/app/files/logo_dark-transparent.svg"
     )
 st.title("Applications Configuration Dashboard")
+gpu_types = ["none", "amd", "intel"]
 
 def load_yaml(file_path):
     """Load and parse the YAML file."""
@@ -84,8 +85,11 @@ def main():
                 with st.columns(1)[0]:
                     st.write(f"### {app_name}")
                     st.checkbox("Deploy", app_details.get('deploy', False), key=app_name)
-                    st.text_input("Namespace", app_details.get('namespace', ''), key=f"{app_name}-namespace")
-                    st.text_input("Priority", app_details.get('priority', ''), key=f"{app_name}-priority")
+                    with st.expander("**Settings**"):
+                        st.text_input("Namespace", app_details.get('namespace', ''), key=f"{app_name}-namespace")
+                        # st.text_input("GPU", app_details.get('gpu', ''), key=f"{app_name}-gpu")
+                        st.radio("Pass GPU",gpu_types, key=f"{app_name}-gpu", index=gpu_types.index(app_details.get('gpu', 'none')))
+                        st.text_input("Priority", app_details.get('priority', ''), key=f"{app_name}-priority")
                     
                     # Volumes handling
                     volumes = app_details.get('volumes', {})
@@ -100,6 +104,9 @@ def main():
                             st.write("No PVCs for this app")
                     st.session_state.apps_data[app_name]['deploy'] = st.session_state[app_name]
                     st.session_state.apps_data[app_name]['namespace'] = st.session_state[f"{app_name}-namespace"]
+                    st.session_state.apps_data[app_name]['gpu'] = st.session_state[f"{app_name}-gpu"].lower()
+                    if st.session_state.apps_data[app_name]['gpu'] not in ["","none","amd","intel"]:
+                        st.error("GPU Type must be one of: none, amd, intel")
                     st.session_state.apps_data[app_name]['priority'] = st.session_state[f"{app_name}-priority"]
                     
                     # # Update volumes in session state

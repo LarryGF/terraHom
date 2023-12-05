@@ -1,8 +1,20 @@
 # This file contains the configuration for applications.
 # Make changes with caution!
 
+amd-gpu:
+  deploy: true
+  gpu: none
+  name: amd-gpu
+  namespace: kube-system
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: critical
+  volumes: {}
 authelia:
   deploy: true
+  gpu: none
   name: authelia
   namespace: authelia
   override:
@@ -40,6 +52,7 @@ authelia:
       size: 200Mi
 bazarr:
   deploy: true
+  gpu: none
   name: bazarr
   namespace: services
   override:
@@ -63,6 +76,7 @@ bazarr:
       subpath: radarr
 crowdsec:
   deploy: false
+  gpu: none
   name: crowdsec
   namespace: crowdsec
   override:
@@ -93,6 +107,7 @@ crowdsec:
       size: 1Gi
 dex:
   deploy: false
+  gpu: none
   name: dex
   namespace: services
   override:
@@ -103,6 +118,7 @@ dex:
   volumes: {}
 filebrowser:
   deploy: false
+  gpu: none
   name: filebrowser
   namespace: services
   override:
@@ -119,6 +135,7 @@ filebrowser:
       size: 200Mi
 flood:
   deploy: true
+  gpu: none
   name: flood
   namespace: services
   override:
@@ -145,6 +162,7 @@ flood:
       subpath: radarr
 gow:
   deploy: false
+  gpu: none
   name: gow
   namespace: services
   override:
@@ -160,6 +178,7 @@ gow:
       size: 100Mi
 grafana:
   deploy: true
+  gpu: none
   name: grafana
   namespace: monitoring
   override:
@@ -177,6 +196,7 @@ grafana:
       size: 1Gi
 home-assistant:
   deploy: true
+  gpu: none
   name: home-assistant
   namespace: services
   override:
@@ -196,6 +216,7 @@ home-assistant:
       size: 5Gi
 homepage:
   deploy: true
+  gpu: none
   name: homepage
   namespace: services
   override:
@@ -204,8 +225,20 @@ homepage:
     timezone: ${timezone}
   priority: critical
   volumes: {}
+intel-gpu:
+  deploy: true
+  gpu: none
+  name: intel-gpu
+  namespace: kube-system
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: critical
+  volumes: {}
 jellyfin:
   deploy: true
+  gpu: amd
   name: jellyfin
   namespace: services
   override:
@@ -231,6 +264,7 @@ jellyfin:
       subpath: radarr
 jellyseerr:
   deploy: true
+  gpu: none
   name: jellyseerr
   namespace: services
   override:
@@ -247,6 +281,7 @@ jellyseerr:
       size: 200Mi
 kavita:
   deploy: true
+  gpu: none
   name: kavita
   namespace: services
   override:
@@ -268,6 +303,7 @@ kavita:
       name: media
 kube-prometheus-stack:
   deploy: true
+  gpu: none
   name: kube-prometheus-stack
   namespace: monitoring
   override:
@@ -281,6 +317,7 @@ kube-prometheus-stack:
   volumes: {}
 kubeview:
   deploy: false
+  gpu: none
   name: kubeview
   namespace: services
   override:
@@ -296,6 +333,7 @@ kubeview:
       size: 200Mi
 kwatch:
   deploy: false
+  gpu: none
   name: kwatch
   namespace: monitoring
   override:
@@ -309,6 +347,7 @@ kwatch:
   volumes: {}
 loki:
   deploy: false
+  gpu: none
   name: loki
   namespace: monitoring
   override:
@@ -319,6 +358,7 @@ loki:
   volumes: {}
 mylar:
   deploy: false
+  gpu: none
   name: mylar
   namespace: services
   override:
@@ -334,6 +374,7 @@ mylar:
       size: 200Mi
 nextcloud:
   deploy: true
+  gpu: none
   name: nextcloud
   namespace: services
   override:
@@ -360,8 +401,20 @@ nextcloud:
       create: false
       name: nextcloud-db-config
       size: 5Gi
+node-feature-discovery:
+  deploy: true
+  gpu: none
+  name: node-feature-discovery
+  namespace: node-feature-discovery
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: critical
+  volumes: {}
 nzbget:
   deploy: false
+  gpu: none
   name: nzbget
   namespace: services
   override:
@@ -379,6 +432,7 @@ nzbget:
       size: 1Gi
 plex:
   deploy: true
+  gpu: intel
   name: plex
   namespace: services
   override:
@@ -398,6 +452,7 @@ plex:
       size: 5Gi
 portainer:
   deploy: false
+  gpu: none
   name: portainer
   namespace: kube-system
   override:
@@ -414,6 +469,7 @@ portainer:
       size: 1Gi
 promtail:
   deploy: true
+  gpu: none
   name: promtail
   namespace: monitoring
   override:
@@ -424,6 +480,7 @@ promtail:
   volumes: {}
 prowlarr:
   deploy: true
+  gpu: none
   name: prowlarr
   namespace: services
   override:
@@ -441,6 +498,7 @@ prowlarr:
       size: 512Mi
 radarr:
   deploy: true
+  gpu: none
   name: radarr
   namespace: services
   override:
@@ -458,6 +516,7 @@ radarr:
       size: 512Mi
 rancher:
   deploy: true
+  gpu: none
   name: rancher
   namespace: cattle-system
   override:
@@ -475,6 +534,7 @@ rancher:
       size: 1Gi
 readarr:
   deploy: false
+  gpu: none
   name: readarr
   namespace: services
   override:
@@ -490,6 +550,7 @@ readarr:
       size: 200Mi
 renovate:
   deploy: false
+  gpu: none
   name: renovate
   namespace: services
   override:
@@ -507,6 +568,7 @@ renovate:
       size: 512Mi
 sabnzbd:
   deploy: true
+  gpu: none
   name: sabnzbd
   namespace: services
   override:
@@ -529,6 +591,7 @@ sabnzbd:
       subpath: radarr
 samba:
   deploy: false
+  gpu: none
   name: samba
   namespace: services
   override:
@@ -544,6 +607,7 @@ samba:
       size: 100Mi
 sonarr:
   deploy: true
+  gpu: none
   name: sonarr
   namespace: services
   override:
@@ -561,11 +625,12 @@ sonarr:
       size: 512Mi
 tautulli:
   deploy: true
+  gpu: none
   name: tautulli
   namespace: services
   override:
-    domain: ${domain}
     api_key: ${api_keys["tautulli_key"]}
+    domain: ${domain}
     timezone: ${timezone}
   priority: high
   volumes:
@@ -575,33 +640,3 @@ tautulli:
       create: true
       name: tautulli-config
       size: 200Mi
-amd-gpu:
-  deploy: true
-  name: amd-gpu
-  namespace: kube-system
-  override:
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-    timezone: ${timezone}
-  priority: 'critical'
-  volumes: {}
-node-feature-discovery:
-  deploy: true
-  name: node-feature-discovery
-  namespace: node-feature-discovery
-  override:
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-    timezone: ${timezone}
-  priority: 'critical'
-  volumes: {}
-intel-gpu:
-  deploy: true
-  name: intel-gpu
-  namespace: kube-system
-  override:
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-    timezone: ${timezone}
-  priority: 'critical'
-  volumes: {}

@@ -18,6 +18,7 @@ module "argocd_application" {
   override_values = each.value.override
   name = each.value.name
   namespace = each.value.namespace
+  gpu = try(each.value.gpu,"none")
   storage_definitions = each.value.volumes
   priority = try(each.value.priority,"critical")
   deploy = each.value.deploy

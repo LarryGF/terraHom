@@ -20,8 +20,8 @@ cd "$(dirname "$SCRIPT_PATH")"
 echo "Moving to $(dirname "$SCRIPT_PATH")"
 
 # Install the dependencies using pipenv
-echo "Installing python dependencies"
-pipenv install
+# echo "Installing python dependencies"
+# pipenv install
 
 # Run the Python script with pipenv
 if [ -f "$SCRIPT_PATH" ]; then
