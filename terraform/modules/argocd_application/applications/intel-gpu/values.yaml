@@ -23,7 +23,7 @@ intel-device-plugins-operator:
 intel-device-plugins-gpu:
 
   initImage:
-    enable: true
+    enable: false
     hub: intel
     tag: ""
 
