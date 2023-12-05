@@ -5,6 +5,6 @@ dependencies:
   - name: intel-device-plugins-operator
     repository: https://intel.github.io/helm-charts
     version: 0.28.0
-  # - name: intel-device-plugins-gpu
-  #   repository: https://intel.github.io/helm-charts
-  #   version: 0.28.0
+  - name: intel-device-plugins-gpu
+    repository: https://intel.github.io/helm-charts
+    version: 0.28.0
