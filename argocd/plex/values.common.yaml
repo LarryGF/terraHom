@@ -1,7 +1,7 @@
 plex:
   image:
     repository: ghcr.io/hotio/plex
-    tag: release-1.32.7.7621-871adbd44
+    tag: release-1.32.8.7639-fb6452ebf
     pullPolicy: Always
 
   hostNetwork: true
