@@ -29,9 +29,6 @@ locals {
         subpath      = null
       }, vol_data) }
     })}
-  # applications = merge(local.template_applications, local.duplicati_definition)
-
-  
 
   cluster_storage = {
     for key,value in var.nfs_servers : key => value if try(value.longhorn == false, false)
