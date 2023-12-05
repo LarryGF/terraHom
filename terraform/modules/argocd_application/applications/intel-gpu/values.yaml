@@ -27,10 +27,10 @@ intel-device-plugins-gpu:
     hub: intel
     tag: ""
 
-  sharedDevNum: 1
+  sharedDevNum: 2
   logLevel: 2
   resourceManager: false
-  enableMonitoring: true
+  enableMonitoring: false
   allocationPolicy: "none"
 
   nodeSelector:
