@@ -1,8 +1,9 @@
 import os
 import docker
 import webbrowser
+import argparse
 
-def main():
+def main(build_image):
     # Initialize the Docker client
     client = docker.from_env()
 
@@ -29,13 +30,14 @@ def main():
     except docker.errors.NotFound:
         print("No existing container found with the name 'homcontrol_container'.")
 
-    print("Building Docker image...")
-    try:
-        # Build the Docker image
-        client.images.build(path="../../docker/homControl", tag="terrahom/homcontrol")
-    except docker.errors.BuildError as e:
-        print("Error during build:", e)
-        return
+    if build_image:
+        print("Building Docker image...")
+        try:
+            # Build the Docker image
+            client.images.build(path="../../docker/homControl", tag="terrahom/homcontrol")
+        except docker.errors.BuildError as e:
+            print("Error during build:", e)
+            return
 
     print("Starting Docker container...")
     # Run the Docker container with the specified configurations
@@ -64,4 +66,7 @@ def main():
     exit(0)
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--build", action="store_true", help="Build the Docker image")
+    args = parser.parse_args()
+    main(args.build)

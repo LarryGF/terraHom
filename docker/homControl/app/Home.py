@@ -39,7 +39,6 @@ def main():
 
     🧭 Use the sidebar to glide through the app. Begin with setting up your Terraform configurations and then march ahead to plan and deploy your modules.
 
-    Ready. Set. Automate! 🤖
     """)
 
 if __name__ == "__main__":
