@@ -468,7 +468,7 @@ portainer:
       name: portainer-config
       size: 1Gi
 promtail:
-  deploy: true
+  deploy: false
   gpu: none
   name: promtail
   namespace: monitoring
