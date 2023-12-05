@@ -46,7 +46,7 @@ COPY ./app/ /app/
 # Make port 8501 available to the world outside this container (Streamlit default port)
 
 # Define environment variable (Optional)
-# ENV NAME World
+ENV APP homControl
 
 # Run app.py when the container launches using pipenv
 CMD ["pipenv", "run", "streamlit", "run", "Home.py"]
