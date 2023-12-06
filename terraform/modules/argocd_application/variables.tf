@@ -68,3 +68,9 @@ variable "gpu" {
   }
 
 }
+
+variable "ignore_differences" {
+  type        = list(any)
+  description = "Object that contains the ignore differences for the argocd application"
+
+}
