@@ -1,0 +1,166 @@
+goldilocks:
+  # uninstallVPA -- Enabling this flag will remove a vpa installation that was previously managed with this chart. It is considered deprecated and will be removed in a later release.
+  uninstallVPA: true
+
+  vpa:
+    # vpa.enabled -- If true, the vpa will be installed as a sub-chart
+    enabled: true
+    updater:
+      enabled: false
+
+  metrics-server:
+    # metrics-server.enabled -- If true, the metrics-server will be installed as a sub-chart
+    enabled: true
+    apiService:
+      create: true
+
+  image:
+    # image.repository -- Repository for the goldilocks image
+    repository: us-docker.pkg.dev/fairwinds-ops/oss/goldilocks
+    # image.tag -- The goldilocks image tag to use
+    tag: v4.10.0
+    # image.pullPolicy -- imagePullPolicy - Highly recommended to leave this as `Always`
+    pullPolicy: Always
+
+  # imagePullSecrets -- A list of image pull secret names to use
+  imagePullSecrets: []
+
+  nameOverride: ""
+  fullnameOverride: ""
+
+  controller:
+    # controller.enabled -- Whether or not to install the controller deployment
+    enabled: true
+    # controller.revisionHistoryLimit -- Number of old replicasets to retain, default is 10, 0 will garbage-collect old replicasets
+    revisionHistoryLimit: 10
+    rbac:
+      # controller.rbac.create -- If set to true, rbac resources will be created for the controller
+      create: true
+      # controller.rbac.enableArgoproj -- If set to true, the clusterrole will give access to argoproj.io resources
+      enableArgoproj: true
+      # controller.rbac.extraRules -- Extra rbac rules for the controller clusterrole
+      extraRules: []
+      # controller.rbac.extraClusterRoleBindings -- A list of ClusterRoles for which ClusterRoleBindings will be created for the ServiceAccount, if enabled
+      extraClusterRoleBindings: []
+    serviceAccount:
+      # controller.serviceAccount.create -- If true, a service account will be created for the controller. If set to false, you must set `controller.serviceAccount.name`
+      create: true
+      # controller.serviceAccount.name -- The name of an existing service account to use for the controller. Combined with `controller.serviceAccount.create`
+      name:
+
+    # controller.flags -- A map of additional flags to pass to the controller
+    flags: {}
+    # controller.logVerbosity -- Controller log verbosity. Can be set from 1-10 with 10 being extremely verbose
+    logVerbosity: "2"
+    # controller.nodeSelector -- Node selector for the controller pod
+    nodeSelector: {}
+    # controller.tolerations -- Tolerations for the controller pod
+    tolerations: []
+    # controller.affinity -- Affinity for the controller pods
+    affinity: {}
+    # controller.topologySpreadConstraints -- Topology spread constraints for the controller pods
+    topologySpreadConstraints: []
+    # controller.resources -- The resources block for the controller pods
+    resources:
+      limits: {}
+      requests:
+        cpu: 25m
+        memory: 256Mi
+    # controller.podSecurityContext -- Defines the podSecurityContext for the controller pod
+    podSecurityContext:
+      seccompProfile:
+        type: RuntimeDefault
+    # controller.securityContext -- The container securityContext for the controller container
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 10324
+      capabilities:
+        drop:
+          - ALL
+
+    deployment:
+      # controller.deployment.extraVolumeMounts -- Extra volume mounts for the controller container
+      extraVolumeMounts: []
+      # controller.deployment.extraVolumes -- Extra volumes for the controller pod
+      extraVolumes: []
+      # controller.deployment.annotations -- Extra annotations for the controller deployment
+      annotations: {}
+      # controller.deployment.additionalLabels -- Extra labels for the controller deployment
+      additionalLabels: {}
+
+      # controller.deployment.podAnnotations -- Extra annotations for the controller pod
+      podAnnotations: {}
+
+  dashboard:
+    # dashboard.basePath -- Path on which the dashboard is served. Defaults to `/`
+    basePath: null
+    # dashboard.enabled -- If true, the dashboard component will be installed
+    enabled: true
+    # dashboard.revisionHistoryLimit -- Number of old replicasets to retain, default is 10, 0 will garbage-collect old replicasets
+    revisionHistoryLimit: 10
+    # dashboard.replicaCount -- Number of dashboard pods to run
+    replicaCount: 2
+    service:
+      # dashboard.service.type -- The type of the dashboard service
+      type: ClusterIP
+      # dashboard.service.port -- The port to run the dashboard service on
+      port: 80
+      # dashboard.service.annotations -- Extra annotations for the dashboard service
+      annotations: {}
+    # dashboard.flags -- A map of additional flags to pass to the dashboard
+    flags: {}
+    # dashboard.logVerbosity -- Dashboard log verbosity. Can be set from 1-10 with 10 being extremely verbose
+    logVerbosity: "2"
+    # dashboard.excludeContainers -- Container names to exclude from displaying in the Goldilocks dashboard
+    excludeContainers: "linkerd-proxy,istio-proxy"
+    rbac:
+      # dashboard.rbac.create -- If set to true, rbac resources will be created for the dashboard
+      create: true
+      # dashboard.rbac.enableArgoproj -- If set to true, the clusterrole will give access to argoproj.io resources
+      enableArgoproj: true
+    serviceAccount:
+      # dashboard.serviceAccount.create -- If true, a service account will be created for the dashboard. If set to false, you must set `dashboard.serviceAccount.name`
+      create: true
+      # dashboard.serviceAccount.name -- The name of an existing service account to use for the controller. Combined with `dashboard.serviceAccount.create`
+      name:
+
+    deployment:
+      # dashboard.deployment.annotations -- Extra annotations for the dashboard deployment
+      annotations: {}
+      # dashboard.deployment.additionalLabels -- Extra labels for the dashboard deployment
+      additionalLabels: {}
+      # dashboard.deployment.extraVolumeMounts -- Extra volume mounts for the dashboard container
+      extraVolumeMounts: []
+      # dashboard.deployment.extraVolumes -- Extra volumes for the dashboard pod
+      extraVolumes: []
+
+      # dashboard.deployment.podAnnotations -- Extra annotations for the dashboard pod
+      podAnnotations: {}
+
+
+    # dashboard.resources -- A resources block for the dashboard.
+    resources:
+      limits: {}
+      requests:
+        cpu: 25m
+        memory: 256Mi
+    # dashboard.podSecurityContext -- Defines the podSecurityContext for the dashboard pod
+    podSecurityContext:
+      seccompProfile:
+        type: RuntimeDefault
+    # dashboard.securityContext -- The container securityContext for the dashboard container
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 10324
+      capabilities:
+        drop:
+          - ALL
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    # dashboard.topologySpreadConstraints -- Topology spread constraints for the dashboard pods
+    topologySpreadConstraints: []
