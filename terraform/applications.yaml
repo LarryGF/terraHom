@@ -61,6 +61,24 @@ authelia:
       create: false
       name: redis-data-replica
       size: 200Mi
+authentik:
+  deploy: true
+  gpu: none
+  name: authentik
+  namespace: kube-system
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    secret: ${api_keys["authentik_secret_key"]}
+    psql_password: ${api_keys["authentik_postgresql_password"]}
+    timezone: ${timezone}
+    smtp_host: ${api_keys["smtp_host"]}
+    smtp_password: ${api_keys["smtp_password"]}
+    smtp_port: ${api_keys["smtp_port"]}
+    smtp_sender_email: ${api_keys["smtp_sender_email"]}
+    smtp_username: ${api_keys["smtp_username"]}
+  priority: critical
+  server_side: 'false'
 bazarr:
   deploy: true
   gpu: none

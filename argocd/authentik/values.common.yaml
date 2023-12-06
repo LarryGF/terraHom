@@ -1,0 +1,219 @@
+authentik:
+  # -- Server replicas
+  replicas: 1
+  # -- Custom priority class for different treatment by the scheduler
+  priorityClassName:
+  # -- server securityContext
+  securityContext: {}
+  # -- server containerSecurityContext
+  containerSecurityContext: {}
+  # -- server deployment strategy
+  strategy: {}
+    # type: RollingUpdate
+    # rollingUpdate:
+    #  maxSurge: 25%
+    #  maxUnavailable: 25%
+
+  worker:
+    # -- worker replicas
+    replicas: 1
+    # -- Custom priority class for different treatment by the scheduler
+    priorityClassName:
+    # -- worker securityContext
+    securityContext: {}
+    # -- worker containerSecurityContext
+    containerSecurityContext: {}
+    # -- worker strategy
+    strategy: {}
+      # type: RollingUpdate
+      # rollingUpdate:
+      #  maxSurge: 25%
+      #  maxUnavailable: 25%
+
+  image:
+    repository: ghcr.io/goauthentik/server
+    tag: 2023.10.4
+    # -- optional container image digest
+    digest: ""
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+
+  # -- Specify any initContainers here as dictionary items. Each initContainer should have its own key. The dictionary item key will determine the order. Helm templates can be used
+  initContainers: {}
+
+  # -- Specify any additional containers here as dictionary items. Each additional container should have its own key. Helm templates can be used.
+  additionalContainers: {}
+
+
+  # -- List of config maps to mount blueprints from. Only keys in the
+  # configmap ending with ".yaml" wil be discovered and applied
+  blueprints: []
+
+  # -- see configuration options at https://goauthentik.io/docs/installation/configuration/
+  env: {}
+  # AUTHENTIK_VAR_NAME: VALUE
+
+  envFrom: []
+  #  - configMapRef:
+  #      name: special-config
+
+  envValueFrom: {}
+  #  AUTHENTIK_VAR_NAME:
+  #    secretKeyRef:
+  #      key: password
+  #      name: my-secret
+
+  service:
+    # -- Service that is created to access authentik
+    enabled: true
+    type: ClusterIP
+    port: 80
+    name: http
+    protocol: TCP
+    labels: {}
+    annotations: {}
+
+  volumes: []
+
+  volumeMounts: []
+
+  # -- affinity applied to the deployments
+  affinity: {}
+
+  #  -- tolerations applied to the deployments
+  tolerations: []
+
+  # -- nodeSelector applied to the deployments
+  nodeSelector: {}
+
+  resources:
+    server: {}
+    worker: {}
+
+  autoscaling:
+    server:
+      # -- Create a HPA for the server deployment
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 5
+      targetCPUUtilizationPercentage: 50
+    worker:
+      # -- Create a HPA for the worker deployment
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 5
+      targetCPUUtilizationPercentage: 80
+
+  pdb:
+    server:
+      # -- Deploy a PodDistrubtionBudget for the server
+      enabled: false
+      # -- Labels to be added to the server pdb
+      labels: {}
+      # -- Annotations to be added to the server pdb
+      annotations: {}
+      # -- Number of pods that are available after eviction as number or percentage (eg.: 50%)
+      # @default -- `""` (defaults to 0 if not specified)
+      minAvailable: ""
+      # -- Number of pods that are unavailable after eviction as number or percentage (eg.: 50%)
+      ## Has higher precedence over `pdb.server.minAvailable`
+      maxUnavailable: ""
+    worker:
+      # -- Deploy a PodDistrubtionBudget for the worker
+      enabled: false
+      # -- Labels to be added to the worker pdb
+      labels: {}
+      # -- Annotations to be added to the worker pdb
+      annotations: {}
+      # -- Number of pods that are available after eviction as number or percentage (eg.: 50%)
+      # @default -- `""` (defaults to 0 if not specified)
+      minAvailable: ""
+      # -- Number of pods that are unavailable after eviction as number or percentage (eg.: 50%)
+      ## Has higher precedence over `pdb.worker.minAvailable`
+      maxUnavailable: ""
+
+  livenessProbe:
+    # -- enables or disables the livenessProbe
+    enabled: true
+    httpGet:
+      # -- liveness probe url path
+      path: /-/health/live/
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 10
+
+  startupProbe:
+    # -- enables or disables the livenessProbe
+    enabled: true
+    httpGet:
+      # -- liveness probe url path
+      path: /-/health/live/
+      port: http
+    failureThreshold: 60
+    periodSeconds: 5
+
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: /-/health/ready/
+      port: http
+    periodSeconds: 10
+
+  serviceAccount:
+    # -- Service account is needed for managed outposts
+    create: true
+    annotations: {}
+    serviceAccountSecret:
+      # -- As we use the authentik-remote-cluster chart as subchart, and that chart
+      # creates a service account secret by default which we don't need here, disable its creation
+      enabled: false
+    fullnameOverride: authentik
+    nameOverride: authentik
+
+  prometheus:
+    serviceMonitor:
+      create: false
+      interval: 30s
+      scrapeTimeout: 3s
+      # -- labels additional on ServiceMonitor
+      labels: {}
+    rules:
+      create: false
+      # -- labels additional on PrometheusRule
+      labels: {}
+
+  geoip:
+    # -- optional GeoIP, deploys a cronjob to download the maxmind database
+    enabled: false
+    # -- sign up under https://www.maxmind.com/en/geolite2/signup
+    accountId: ""
+    # -- sign up under https://www.maxmind.com/en/geolite2/signup
+    licenseKey: ""
+    editionIds: "GeoLite2-City"
+    image: maxmindinc/geoipupdate:v4.8
+    # -- number of hours between update runs
+    updateInterval: 8
+    # -- server containerSecurityContext
+    containerSecurityContext: {}
+  postgresql:
+    # -- enable the bundled bitnami postgresql chart
+    enabled: false
+    postgresqlMaxConnections: 500
+    postgresqlUsername: "authentik"
+    # postgresqlPassword: ""
+    postgresqlDatabase: "authentik"
+    # persistence:
+    #   enabled: true
+    #   storageClass:
+    #   accessModes:
+    #     - ReadWriteOnce
+    image:
+      tag: 15.4.0-debian-11-r0
+  redis:
+    # -- enable the bundled bitnami redis chart
+    enabled: false
+    architecture: standalone
+    auth:
+      enabled: false
+    image:
+      tag: 6.2.10-debian-11-r13

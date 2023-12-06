@@ -160,9 +160,6 @@ variable "api_keys" {
     nextcloud_key = "nextcloud-key"
     jellyfin_key = "jellyfin-key"
     sabnzbd_key = "sabnzbd-key"
-    authelia_JWT_TOKEN = "authelia-jwt-token"
-    authelia_SESSION_ENCRYPTION_KEY = "authelia-session-encryption-key"
-    authelia_STORAGE_ENCRYPTION_KEY = "authelia-storage-encryption-key"
     smtp_username = "authelia-smtp-username"
     smtp_password = "authelia-smtp-password"
     smtp_host = "authelia-smtp-host"
@@ -171,6 +168,11 @@ variable "api_keys" {
     crowdsec_enrollment_key = "crowdsec-enrollment-key"
     discord_webhook_url = "discord-webhook-url"
     kwatch_discord_webhook_url = "kwatch-discord-webhook-url"
+    authelia_JWT_TOKEN = "authelia-jwt-token"
+    authelia_SESSION_ENCRYPTION_KEY = "authelia-session-encryption-key"
+    authelia_STORAGE_ENCRYPTION_KEY = "authelia-storage-encryption-key"
+    authentik_secret_key = "authentik-secret-key"
+    authentik_postgresql_password = "authentik-postgresql-password"
   }
 }
 

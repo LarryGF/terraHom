@@ -47,6 +47,8 @@ api_keys = {
     authelia_SESSION_ENCRYPTION_KEY = "key"
     authelia_STORAGE_ENCRYPTION_KEY = "key"
     crowdsec_enrollment_key = "key"
+    authentik_secret_key = "authentik-secret-key"
+    authentik_postgresql_password = "authentik-postgresql-password"
 }
 
 ## Components
