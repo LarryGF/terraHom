@@ -32,6 +32,7 @@ module "adguardhome" {
   timezone        = var.timezone
   master_hostname = var.master_hostname
   master_ip       = var.master_ip
+  sc_name = var.sc_name
   depends_on = [
     kubernetes_namespace.services,
   ]

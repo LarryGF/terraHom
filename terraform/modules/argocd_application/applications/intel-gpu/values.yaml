@@ -29,8 +29,6 @@ intel-device-plugins-gpu:
 
   sharedDevNum: 2
   logLevel: 2
-  resourceManager: false
-  enableMonitoring: false
   allocationPolicy: "none"
 
   nodeSelector:

@@ -312,7 +312,7 @@ kube-prometheus-stack:
     master_hostname: ${master_hostname}
     master_ip: ${master_ip}
     timezone: ${timezone}
-  priority: critical
+  priority: high
   server_side: 'true'
   volumes: {}
 kubeview:
@@ -410,7 +410,7 @@ node-feature-discovery:
     domain: ${domain}
     master_hostname: ${master_hostname}
     timezone: ${timezone}
-  priority: critical
+  priority: high
   volumes: {}
 nzbget:
   deploy: false

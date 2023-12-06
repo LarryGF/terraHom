@@ -26,6 +26,24 @@ resource "helm_release" "adguard-home" {
 
 }
 
+resource "kubernetes_persistent_volume_claim" "adguard" {
+  metadata {
+    name      = "adguard-config"
+    namespace = "services"
+
+  }
+  spec {
+    access_modes       = ["ReadWriteOnce"]
+    storage_class_name = var.sc_name
+
+    resources {
+      requests = {
+        storage = "1Gi"
+      }
+    }
+  }
+}
+
 variable "domain" {
   type        = string
   description = "DuckDNS domain to use"
@@ -45,5 +63,11 @@ variable "master_hostname" {
 variable "master_ip" {
   type        = string
   description = "IP for the master node"
+
+}
+
+variable "sc_name" {
+  type        = string
+  description = "Storage class name"
 
 }

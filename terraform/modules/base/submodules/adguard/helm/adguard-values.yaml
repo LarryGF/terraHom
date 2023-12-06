@@ -74,7 +74,9 @@ service:
 persistence:
   config:
     enabled: true
-    type: emptyDir
+    type: pvc
+    existingClaim: adguard-config
+
 
 prometheus:
   serviceMonitor:
