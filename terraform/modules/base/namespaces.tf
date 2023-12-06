@@ -3,11 +3,14 @@ resource "kubernetes_namespace" "services" {
     annotations = {
       name = "Services"
     }
+    labels = {
+      "goldilocks.fairwinds.com/enabled" = true
+    }
     name = "services"
   }
   lifecycle {
     ignore_changes = [
-      metadata
+      metadata[0].annotations
     ]
   }
 }
@@ -17,11 +20,14 @@ resource "kubernetes_namespace" "monitoring" {
     annotations = {
       name = "Monitoring"
     }
+    labels = {
+      "goldilocks.fairwinds.com/enabled" = true
+    }
     name = "monitoring"
   }
   lifecycle {
     ignore_changes = [
-      metadata
+      metadata[0].annotations
     ]
   }
 }
@@ -31,11 +37,14 @@ resource "kubernetes_namespace" "gitops" {
     annotations = {
       name = "GitOps"
     }
+    labels = {
+      "goldilocks.fairwinds.com/enabled" = true
+    }
     name = "gitops"
   }
   lifecycle {
     ignore_changes = [
-      metadata
+      metadata[0].annotations
     ]
   }
 }
@@ -73,11 +82,14 @@ resource "kubernetes_namespace" "crowdsec" {
     annotations = {
       name = "Crowdsec"
     }
+    labels = {
+      "goldilocks.fairwinds.com/enabled" = true
+    }
     name = "crowdsec"
   }
   lifecycle {
     ignore_changes = [
-      metadata
+      metadata[0].annotations
     ]
   }
 }
@@ -105,7 +117,7 @@ resource "kubernetes_namespace" "operators" {
   }
   lifecycle {
     ignore_changes = [
-      metadata
+      metadata[0].annotations
     ]
   }
 }
@@ -119,7 +131,7 @@ resource "kubernetes_namespace" "node-feature-discovery" {
   }
   lifecycle {
     ignore_changes = [
-      metadata
+      metadata[0].annotations
     ]
   }
 }
