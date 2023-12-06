@@ -120,7 +120,6 @@ variable "use_longhorn" {
 variable "sc_name" {
   type        = string
   description = "Storage Class name"
-  default = "local-path"
 }
 
 variable "api_keys" {

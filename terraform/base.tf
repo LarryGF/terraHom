@@ -11,7 +11,7 @@ module "base" {
   gh_username        = var.gh_username
   gh_token           = var.gh_token
   gh_base_repo       = var.gh_base_repo
-
+  sc_name = local.sc_name
   timezone          = var.timezone
   letsencrypt_email = var.letsencrypt_email
   domain            = var.domain
