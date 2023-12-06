@@ -79,6 +79,7 @@ authentik:
     smtp_username: ${api_keys["smtp_username"]}
   priority: critical
   server_side: 'false'
+  
 bazarr:
   deploy: true
   gpu: none

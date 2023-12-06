@@ -19,7 +19,7 @@ locals {
   ))
 
   applications = { for app, values in local.template_applications : app => merge(values, {
-      volumes = { for vol_name, vol_data in values.volumes : vol_name => merge({
+      volumes = { for vol_name, vol_data in try(values.volumes,{}) : vol_name => merge({
         create       = false,
         backup       = "disabled",
         name         = "",
