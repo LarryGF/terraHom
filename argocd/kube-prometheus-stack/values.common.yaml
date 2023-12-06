@@ -504,11 +504,11 @@ kube-prometheus-stack:
     prometheusSpec:
       resources:
         requests:
-          cpu: 10m
-          memory: 53M
+          cpu: 182m
+          memory: 4282M
         limits:
-          cpu: 42m
-          memory: 191M
+          cpu: 182m
+          memory: 4282M
       ruleSelectorNilUsesHelmValues: false
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false
