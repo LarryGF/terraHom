@@ -12,6 +12,17 @@ amd-gpu:
     timezone: ${timezone}
   priority: critical
   volumes: {}
+goldilocks:
+  deploy: true
+  gpu: none
+  name: goldilocks
+  namespace: kube-system
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: high
+  volumes: {}
 authelia:
   deploy: true
   gpu: none
