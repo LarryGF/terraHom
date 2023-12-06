@@ -15,7 +15,7 @@ games-on-whales:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "GOW"
         gethomepage.dev/description: "Streams graphic applications/games"
-        gethomepage.dev/group: "Internal"
+        gethomepage.dev/group: "Home Services"
         gethomepage.dev/icon: "https://artifacthub.io/image/af0a46a7-596b-4d29-b1bc-9ed7ba9e0e1d@1x"
       enabled: true
       hosts:
@@ -40,3 +40,13 @@ games-on-whales:
   # See Custom configuration section in the Readme
   graphic_resources:
 
+  %{ if gpu == "amd" }
+  resources:
+    limits:
+      amd.com/gpu: 1
+  %{ endif }
+  %{ if gpu == "intel" }
+  resources:
+    limits:
+      gpu.intel.com/i915: "1" 
+  %{ endif }

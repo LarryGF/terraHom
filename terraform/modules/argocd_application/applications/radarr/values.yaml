@@ -32,18 +32,18 @@ radarr:
     prometheusRule:
       enabled: true
 
-  persistence:
-    config:
-      enabled: true
-      existingClaim: radarr-config
-    downloads:
-      enabled: true
-      existingClaim: media
-    downloads-radarr:
-      enabled: true
-      existingClaim: media-radarr
-      mountPath: /downloads/radarr
-      subpath: radarr    
+  # persistence:
+  #   config:
+  #     enabled: true
+  #     existingClaim: radarr-config
+  #   downloads:
+  #     enabled: true
+  #     existingClaim: media
+  #   downloads-radarr:
+  #     enabled: true
+  #     existingClaim: media-radarr
+  #     mountPath: /downloads/radarr
+  #     subpath: radarr    
 
   initContainers:
     update-volume-permission:
@@ -59,4 +59,5 @@ radarr:
         mountPath: /downloads/radarr
       securityContext:
         runAsUser: 0
-  
+  # Generating persistence config from applications.yaml
+  ${indent(2,yamlencode({persistence: { for key, value in storage: key => {"enabled":true,"existingClaim":value.name,"mountPath": try(value.mountPath,null),"subpath": try(value.subpath,null)}}}))}

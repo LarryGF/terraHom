@@ -161,8 +161,8 @@ flood:
       name: media-radarr
       subpath: radarr
 gow:
-  deploy: false
-  gpu: none
+  deploy: true
+  gpu: amd
   name: gow
   namespace: services
   override:
@@ -173,7 +173,7 @@ gow:
     config:
       access_modes:
       - ReadWriteOnce
-      create: false
+      create: true
       name: gow-config
       size: 100Mi
 grafana:
@@ -228,6 +228,12 @@ homepage:
 intel-gpu:
   deploy: true
   gpu: none
+  ignore:
+  - group: deviceplugin.intel.com
+    jq_path_expressions:
+    - .metadata.annotations
+    - .spec.resourceManager
+    kind: GpuDevicePlugin
   name: intel-gpu
   namespace: kube-system
   override:
@@ -236,15 +242,9 @@ intel-gpu:
     timezone: ${timezone}
   priority: critical
   volumes: {}
-  ignore:
-    -  kind: GpuDevicePlugin
-       group: deviceplugin.intel.com
-       jq_path_expressions: 
-        - .metadata.annotations
-        - .spec.resourceManager
 jellyfin:
   deploy: true
-  gpu: amd
+  gpu: none
   name: jellyfin
   namespace: services
   override:
@@ -520,6 +520,12 @@ radarr:
       create: false
       name: radarr-config
       size: 512Mi
+    downloads:
+      name: media
+    downloads-radarr:
+      mountPath: /downloads/radarr
+      name: media-radarr
+      subpath: radarr
 rancher:
   deploy: true
   gpu: none
@@ -629,6 +635,8 @@ sonarr:
       create: false
       name: sonarr-config
       size: 512Mi
+    downloads:
+      name: media
 tautulli:
   deploy: true
   gpu: none
