@@ -176,6 +176,9 @@ gow:
       create: true
       name: gow-config
       size: 100Mi
+    home:
+      name: gow-home
+
 grafana:
   deploy: true
   gpu: none
@@ -456,6 +459,12 @@ plex:
       create: false
       name: plex-config
       size: 5Gi
+    downloads:
+      name: media
+    downloads-radarr:
+      mountPath: /downloads/radarr
+      name: media-radarr
+      subpath: radarr
 portainer:
   deploy: false
   gpu: none
