@@ -27,14 +27,32 @@ games-on-whales:
             - "gow.${domain}"
           secretName: tls-gow-ingress
 
-
+  sunshine:
+    image:
+      # -- sunshine image repository
+      repository: ghcr.io/games-on-whales/sunshine
+      # -- sunshine image tag
+      tag: master
+      # -- sunshine image pull policy
+      pullPolicy: IfNotPresent
+    # -- sunshine web interface user
+    user: admin
+    # -- sunshine web interface pasword
+    password: admin
+    # -- sunshine log level
+    logLevel: debug
+    # -- sunshine additional env settings
+    env:
+      TZ: ${timezone}
+      PUID: 1001
+      PGID: 1001
   # -- Configure persistence settings for the chart under this key.
   # @default -- See values.yaml
-  persistence:
-    home:
-      enabled: true
-      type: emptyDir
-      mountPath: /home/retro
+  # persistence:
+  #   home:
+  #     enabled: true
+  #     type: emptyDir
+  #     mountPath: /home/retro
 
   # -- (object) Pass GPU resources to Xorg, steam and retroarch containers
   # See Custom configuration section in the Readme
@@ -50,3 +68,5 @@ games-on-whales:
     limits:
       gpu.intel.com/i915: "1" 
   %{ endif }
+  # Generating persistence config from applications.yaml
+  ${indent(2,yamlencode({persistence: { for key, value in storage: key => {"enabled":true,"existingClaim":try(value.name,null),"mountPath": try(value.mountPath,null),"subpath": try(value.subpath,null)}}}))}

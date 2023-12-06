@@ -25,22 +25,7 @@ games-on-whales:
   # See Custom configuration section in the Readme
   graphic_resources:
 
-  sunshine:
-    image:
-      # -- sunshine image repository
-      repository: ghcr.io/games-on-whales/sunshine
-      # -- sunshine image tag
-      tag: master
-      # -- sunshine image pull policy
-      pullPolicy: IfNotPresent
-    # -- sunshine web interface user
-    user: admin
-    # -- sunshine web interface pasword
-    password: admin
-    # -- sunshine log level
-    logLevel: debug
-    # -- sunshine additional env settings
-    env: {}
+  
   xorg:
     image:
       # -- xorg image repository
