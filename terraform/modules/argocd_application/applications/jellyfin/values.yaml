@@ -32,14 +32,10 @@ app-template:
           resources:
             limits:
               amd.com/gpu: 1
-            requests:
-              amd.com/gpu: 1
           %{ endif }
           %{ if gpu == "intel" }
           resources:
             limits:
-              gpu.intel.com/i915: "1" 
-            requests: 
               gpu.intel.com/i915: "1" 
           %{ endif }
       initContainers:
