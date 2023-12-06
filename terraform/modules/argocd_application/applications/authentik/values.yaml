@@ -7,16 +7,25 @@ authentik:
   additionalContainers: {}
 
   ingress:
-    enabled: false
-    ingressClassName: ""
-    annotations: {}
+    enabled: true
+    ingressClassName: "traefik"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext,websecure
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Authentik"
+      gethomepage.dev/group: "Home Services"
+      gethomepage.dev/icon: "authentik.png"
     labels: {}
     hosts:
-      - host: authentik.domain.tld
+      - host: &host authentik.${domain}
         paths:
           - path: "/"
             pathType: Prefix
-    tls: []
+    tls:
+      - hosts:
+            - *host
+        secretName: tls-authentik-ingress
 
   # -- Annotations to add to the server and worker deployments
   annotations: {}
