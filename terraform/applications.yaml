@@ -236,6 +236,12 @@ intel-gpu:
     timezone: ${timezone}
   priority: critical
   volumes: {}
+  ignore:
+    -  kind: GpuDevicePlugin
+       group: deviceplugin.intel.com
+       jq_path_expressions: 
+        - .metadata.annotations
+        - .spec.resourceManager
 jellyfin:
   deploy: true
   gpu: amd

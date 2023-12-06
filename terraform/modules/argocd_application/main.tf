@@ -24,6 +24,14 @@ resource "argocd_application" "application" {
       }
     }
 
+    dynamic ignore_difference {
+      for_each = var.ignore_differences
+      content {
+        group         = try(ignore_difference.value.group,null)
+        kind          = try(ignore_difference.value.kind,null)
+        jq_path_expressions = try(ignore_difference.value.jq_path_expressions,null)
+      }
+    }
     sync_policy {
       automated {
         prune       = true

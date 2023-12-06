@@ -24,6 +24,7 @@ module "argocd_application" {
   deploy = each.value.deploy
   project = module.gitops.project
   server_side = try(each.value.server_side, "false")
+  ignore_differences = try(each.value.ignore, [])
   depends_on = [
     module.gitops
   ]
