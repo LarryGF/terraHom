@@ -1,0 +1,160 @@
+authentik:
+
+  # -- Specify any initContainers here as dictionary items. Each initContainer should have its own key. The dictionary item key will determine the order. Helm templates can be used
+  initContainers: {}
+
+  # -- Specify any additional containers here as dictionary items. Each additional container should have its own key. Helm templates can be used.
+  additionalContainers: {}
+
+  ingress:
+    enabled: false
+    ingressClassName: ""
+    annotations: {}
+    labels: {}
+    hosts:
+      - host: authentik.domain.tld
+        paths:
+          - path: "/"
+            pathType: Prefix
+    tls: []
+
+  # -- Annotations to add to the server and worker deployments
+  annotations: {}
+
+  # -- Annotations to add to the server and worker pods
+  podAnnotations: {}
+
+  authentik:
+    # -- Log level for server and worker
+    log_level: info
+    # -- Secret key used for cookie singing and unique user IDs,
+    # don't change this after the first install
+    secret_key: ${secret}
+    # -- Path for the geoip database. If the file doesn't exist, GeoIP features are disabled.
+    geoip: /geoip/GeoLite2-City.mmdb
+    email:
+      # -- SMTP Server emails are sent from, fully optional
+      host: ${smtp_host}
+      port: ${smtp_port}
+      # -- SMTP credentials, when left empty, not authentication will be done
+      username: ${smtp_username}
+      # -- SMTP credentials, when left empty, not authentication will be done
+      password: ${smtp_password}
+      # -- Enable either use_tls or use_ssl, they can't be enabled at the same time.
+      use_tls: false
+      # -- Enable either use_tls or use_ssl, they can't be enabled at the same time.
+      use_ssl: true
+      # -- Connection timeout
+      timeout: 30
+      # -- Email from address, can either be in the format "foo@bar.baz" or "authentik <foo@bar.baz>"
+      from: ${smtp_sender_email}
+    outposts:
+      # -- Template used for managed outposts. The following placeholders can be used
+      # %(type)s - the type of the outpost
+      # %(version)s - version of your authentik install
+      # %(build_hash)s - only for beta versions, the build hash of the image
+      container_image_base: ghcr.io/goauthentik/%(type)s:%(version)s
+    error_reporting:
+      # -- This sends anonymous usage-data, stack traces on errors and
+      # performance data to sentry.beryju.org, and is fully opt-in
+      enabled: false
+      # -- This is a string that is sent to sentry with your error reports
+      environment: "k8s"
+      # -- Send PII (Personally identifiable information) data to sentry
+      send_pii: false
+    postgresql:
+      # -- set the postgresql hostname to talk to
+      # if unset and .Values.postgresql.enabled == true, will generate the default
+      # @default -- `{{ .Release.Name }}-postgresql`
+      host: "{{ .Release.Name }}-postgresql"
+      # -- postgresql Database name
+      # @default -- `authentik`
+      name: "authentik"
+      # -- postgresql Username
+      # @default -- `authentik`
+      user: "authentik"
+      password: ${psql_password}
+      port: 5432
+    redis:
+      # -- set the redis hostname to talk to
+      # @default -- `{{ .Release.Name }}-redis-master`
+      host: "{{ .Release.Name }}-redis-master"
+      password: ""
+
+  # -- List of config maps to mount blueprints from. Only keys in the
+  # configmap ending with ".yaml" wil be discovered and applied
+  blueprints: []
+
+  # -- see configuration options at https://goauthentik.io/docs/installation/configuration/
+  env: {}
+  # AUTHENTIK_VAR_NAME: VALUE
+
+  envFrom: []
+  #  - configMapRef:
+  #      name: special-config
+
+  envValueFrom: {}
+  #  AUTHENTIK_VAR_NAME:
+  #    secretKeyRef:
+  #      key: password
+  #      name: my-secret
+
+  volumes: []
+
+  volumeMounts: []
+
+  # -- nodeSelector applied to the deployments
+  nodeSelector:
+    priority: ${priority}
+
+  resources:
+    server: {}
+    worker: {}
+
+  prometheus:
+    serviceMonitor:
+      create: true
+      interval: 30s
+      scrapeTimeout: 3s
+      # -- labels additional on ServiceMonitor
+      labels: {}
+    rules:
+      create: true
+      # -- labels additional on PrometheusRule
+      labels: {}
+
+  geoip:
+    # -- optional GeoIP, deploys a cronjob to download the maxmind database
+    enabled: false
+    # -- sign up under https://www.maxmind.com/en/geolite2/signup
+    accountId: ""
+    # -- sign up under https://www.maxmind.com/en/geolite2/signup
+    licenseKey: ""
+    editionIds: "GeoLite2-City"
+    image: maxmindinc/geoipupdate:v4.8
+    # -- number of hours between update runs
+    updateInterval: 8
+    # -- server containerSecurityContext
+    containerSecurityContext: {}
+  postgresql:
+    # -- enable the bundled bitnami postgresql chart
+    enabled: true
+    postgresqlMaxConnections: 500
+    postgresqlUsername: "authentik"
+    postgresqlPassword: ${psql_password}
+    postgresqlDatabase: "authentik"
+    # persistence:
+    #   enabled: true
+    #   storageClass:
+    #   accessModes:
+    #     - ReadWriteOnce
+    image:
+      tag: 15.4.0-debian-11-r0
+  redis:
+    # -- enable the bundled bitnami redis chart
+    enabled: true
+    architecture: standalone
+    auth:
+      enabled: false
+    image:
+      tag: 6.2.10-debian-11-r13

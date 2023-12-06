@@ -1,0 +1,7 @@
+apiVersion: v2
+name: authentik-umbrella
+version: 0.0.1
+dependencies:
+  - name: authentik
+    repository: https://charts.goauthentik.io/
+    version: 2023.10.4
