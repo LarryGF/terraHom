@@ -2,7 +2,13 @@ homepage:
 
   nodeSelector:
     priority: ${priority}
-    
+  resources:
+    requests:
+      cpu: 15m
+      memory: 204M
+    limits:
+      cpu: 21m
+      memory: 530M
   ingress:
     main:
       ingressClassName: traefik

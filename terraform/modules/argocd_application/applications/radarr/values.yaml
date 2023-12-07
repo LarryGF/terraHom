@@ -2,7 +2,13 @@ radarr:
 
   nodeSelector:
     priority: ${priority}
-  
+  resources:
+    requests:
+      cpu: 10m
+      memory: 248M
+    limits:
+      cpu: 44m
+      memory: 684M
   ingress:
     main:
       ingressClassName: traefik

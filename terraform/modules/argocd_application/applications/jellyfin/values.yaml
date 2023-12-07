@@ -30,13 +30,23 @@ app-template:
               enabled: false
           %{ if gpu == "amd" }
           resources:
+            requests:
+              cpu: 15m
+              memory: 763M
             limits:
               amd.com/gpu: 1
+              cpu: 21m
+              memory: 1687M
           %{ endif }
           %{ if gpu == "intel" }
           resources:
+            requests:
+              cpu: 15m
+              memory: 763M
             limits:
-              gpu.intel.com/i915: "1" 
+              gpu.intel.com/i915: "1"
+              cpu: 21m
+              memory: 1687M 
           %{ endif }
       initContainers:
         update-volume-permission:

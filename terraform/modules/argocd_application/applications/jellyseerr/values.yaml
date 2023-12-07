@@ -2,7 +2,13 @@ jellyseerr:
 
   nodeSelector:
     priority: ${priority}
-    
+  resources:
+    requests:
+      cpu: 15m
+      memory: 272M
+    limits:
+      cpu: 21m
+      memory: 530M
   ingress:
     main:
       ingressClassName: traefik
