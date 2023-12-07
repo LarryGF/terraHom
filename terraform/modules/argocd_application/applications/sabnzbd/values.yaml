@@ -7,7 +7,14 @@ sabnzbd:
     
   nodeSelector:
     priority: ${priority}
-    
+  
+  resources:
+    requests:
+      cpu: 15m
+      memory: 105M
+    limits:
+      cpu: 44m
+      memory: 1488M
   ingress:
     main:
       ingressClassName: traefik

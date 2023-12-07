@@ -9,11 +9,11 @@ bazarr:
   
   resources:
     requests:
-      cpu: 143m
-      memory: 512M
+      cpu: 108m
+      memory: 587M
     limits:
-      cpu: 143m
-      memory: 512M
+      cpu: 354m
+      memory: 1146M
   ingress:
     main:
       ingressClassName: traefik

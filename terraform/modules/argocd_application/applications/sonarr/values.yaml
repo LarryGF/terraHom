@@ -2,7 +2,14 @@ sonarr:
 
   nodeSelector:
     priority: ${priority}
-    
+  
+  resources:
+    requests:
+      cpu: 295m
+      memory: 1310M
+    limits:
+      cpu: 1582m
+      memory: 3576M
   ingress:
     main:
       ingressClassName: traefik

@@ -4,7 +4,13 @@ tautulli:
 
   nodeSelector:
     priority: ${priority}
-    
+  resources:
+    requests:
+      cpu: 22m
+      memory: 127M
+    limits:
+      cpu: 212m
+      memory: 247M
   ingress:
     main:
       ingressClassName: traefik
