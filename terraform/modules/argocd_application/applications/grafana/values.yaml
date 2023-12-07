@@ -33,11 +33,11 @@ grafana:
   sidecar:
     resources:
       requests:
-        cpu: 11m
-        memory: 127M
+        cpu: 10m
+        memory: 110M
       limits:
-        cpu: 11m
-        memory: 127M
+        cpu: 21m
+        memory: 248M
     image:
       repository: kiwigrid/k8s-sidecar
       tag: 1.25.1
