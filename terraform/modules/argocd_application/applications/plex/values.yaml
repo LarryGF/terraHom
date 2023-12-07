@@ -6,6 +6,7 @@ plex:
     PUID: 1001
     PLEX_CLAIM: ${plex_claim_token}
     PLEX_PREFERENCE_1: "FriendlyName=plexHome"
+    PLEX_ADVERTISE_URL: "https://plex.${domain}"
     TZ: ${timezone}
 
 

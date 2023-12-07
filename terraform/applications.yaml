@@ -12,17 +12,6 @@ amd-gpu:
     timezone: ${timezone}
   priority: critical
   volumes: {}
-goldilocks:
-  deploy: true
-  gpu: none
-  name: goldilocks
-  namespace: kube-system
-  override:
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-    timezone: ${timezone}
-  priority: high
-  volumes: {}
 authelia:
   deploy: true
   gpu: none
@@ -69,17 +58,16 @@ authentik:
   override:
     domain: ${domain}
     master_hostname: ${master_hostname}
-    secret: ${api_keys["authentik_secret_key"]}
     psql_password: ${api_keys["authentik_postgresql_password"]}
-    timezone: ${timezone}
+    secret: ${api_keys["authentik_secret_key"]}
     smtp_host: ${api_keys["smtp_host"]}
     smtp_password: ${api_keys["smtp_password"]}
     smtp_port: ${api_keys["smtp_port"]}
     smtp_sender_email: ${api_keys["smtp_sender_email"]}
     smtp_username: ${api_keys["smtp_username"]}
-  priority: critical
+    timezone: ${timezone}
+  priority: high
   server_side: 'false'
-  
 bazarr:
   deploy: true
   gpu: none
@@ -190,8 +178,19 @@ flood:
       mountPath: /downloads/radarr
       name: media-radarr
       subpath: radarr
-gow:
+goldilocks:
   deploy: true
+  gpu: none
+  name: goldilocks
+  namespace: kube-system
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: high
+  volumes: {}
+gow:
+  deploy: false
   gpu: amd
   name: gow
   namespace: services
@@ -208,7 +207,6 @@ gow:
       size: 100Mi
     home:
       name: gow-home
-
 grafana:
   deploy: true
   gpu: none
@@ -228,7 +226,7 @@ grafana:
       name: grafana-config
       size: 1Gi
 home-assistant:
-  deploy: true
+  deploy: false
   gpu: none
   name: home-assistant
   namespace: services
@@ -319,7 +317,7 @@ jellyseerr:
       name: jellyseerr-config
       size: 200Mi
 kavita:
-  deploy: true
+  deploy: false
   gpu: none
   name: kavita
   namespace: services
@@ -412,7 +410,7 @@ mylar:
       name: mylar-config
       size: 200Mi
 nextcloud:
-  deploy: true
+  deploy: false
   gpu: none
   name: nextcloud
   namespace: services
