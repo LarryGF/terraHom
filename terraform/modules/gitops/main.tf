@@ -56,6 +56,10 @@ resource "argocd_project" "gitops" {
     }
     destination {
       server    = "https://kubernetes.default.svc"
+      namespace = "authentik"
+    }
+    destination {
+      server    = "https://kubernetes.default.svc"
       namespace = "crowdsec"
     }
 
