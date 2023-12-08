@@ -54,7 +54,7 @@ authentik:
   deploy: true
   gpu: none
   name: authentik
-  namespace: kube-system
+  namespace: authentik
   override:
     domain: ${domain}
     master_hostname: ${master_hostname}

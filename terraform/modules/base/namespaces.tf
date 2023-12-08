@@ -77,6 +77,20 @@ resource "kubernetes_namespace" "authelia" {
   }
 }
 
+resource "kubernetes_namespace" "authentik" {
+  metadata {
+    annotations = {
+      name = "Authentik"
+    }
+    name = "authentik"
+  }
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
+  }
+}
+
 resource "kubernetes_namespace" "crowdsec" {
   metadata {
     annotations = {
