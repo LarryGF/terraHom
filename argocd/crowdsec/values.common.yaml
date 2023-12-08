@@ -108,12 +108,12 @@ crowdsec:
       #   labels:
       #     type: syslog
     
-    resources:
-      limits:
-        memory: 100Mi
-      requests:
-        cpu: 150m
-        memory: 100Mi
+    # resources:
+    #   limits:
+    #     memory: 100Mi
+    #   requests:
+    #     cpu: 150m
+    #     memory: 100Mi
     # -- Enable persistent volumes
     persistentVolume:
       # -- Persistent volume for config folder. Stores local config (parsers, scenarios etc.)

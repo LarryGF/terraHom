@@ -1,11 +1,11 @@
 grafana:
-  resources:
-    requests:
-      cpu: 10m
-      memory: 182M
-    limits:
-      cpu: 43m
-      memory: 721M
+  # resources:
+  #   requests:
+  #     cpu: 10m
+  #     memory: 182M
+  #   limits:
+  #     cpu: 43m
+  #     memory: 721M
   nodeSelector:
     priority: ${priority}
     
@@ -31,13 +31,13 @@ grafana:
         secretName: tls-grafana-ingress
 
   sidecar:
-    resources:
-      requests:
-        cpu: 10m
-        memory: 110M
-      limits:
-        cpu: 21m
-        memory: 248M
+    # resources:
+    #   requests:
+    #     cpu: 10m
+    #     memory: 110M
+    #   limits:
+    #     cpu: 21m
+    #     memory: 248M
     image:
       repository: kiwigrid/k8s-sidecar
       tag: 1.25.1

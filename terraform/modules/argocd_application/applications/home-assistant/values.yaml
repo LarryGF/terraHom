@@ -67,13 +67,13 @@ home-assistant:
       volumeMounts:
       - name: config
         mountPath: /config
-      resources:
-        requests:
-          cpu: 11m
-          memory: 145M
-        limits:
-          cpu: 11m
-          memory: 145M
+      # resources:
+      #   requests:
+      #     cpu: 11m
+      #     memory: 145M
+      #   limits:
+      #     cpu: 11m
+      #     memory: 145M
 
   persistence:
     config:
@@ -88,10 +88,10 @@ home-assistant:
     #   type: hostPath
     #   hostPath: /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2434151-if00
     #   mountPath: /dev/ttyUSB0
-  resources:
-    requests:
-      cpu: 10m
-      memory: 350M
-    limits:
-      cpu: 44m
-      memory: 1419M
+  # resources:
+  #   requests:
+  #     cpu: 10m
+  #     memory: 350M
+  #   limits:
+  #     cpu: 44m
+  #     memory: 1419M

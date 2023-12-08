@@ -179,7 +179,7 @@ flood:
       name: media-radarr
       subpath: radarr
 goldilocks:
-  deploy: true
+  deploy: false
   gpu: none
   name: goldilocks
   namespace: kube-system

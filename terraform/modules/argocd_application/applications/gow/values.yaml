@@ -60,23 +60,23 @@ games-on-whales:
 
   %{ if gpu == "amd" }
   resources:
-    requests:
-      cpu: 10m
-      memory: 127M
+    # requests:
+    #   cpu: 10m
+    #   memory: 127M
     limits:
       amd.com/gpu: 1
-      cpu: 44m
-      memory: 513M
+      # cpu: 44m
+      # memory: 513M
   %{ endif }
   %{ if gpu == "intel" }
   resources:
-    requests:
-      cpu: 10m
-      memory: 127M
+    # requests:
+    #   cpu: 10m
+    #   memory: 127M
     limits:
       gpu.intel.com/i915: "1"
-      cpu: 44m
-      memory: 513M
+      # cpu: 44m
+      # memory: 513M
   %{ endif }
   # Generating persistence config from applications.yaml
   ${indent(2,yamlencode({persistence: { for key, value in storage: key => {"enabled":true,"existingClaim":try(value.name,null),"mountPath": try(value.mountPath,null),"subpath": try(value.subpath,null)}}}))}
