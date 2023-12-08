@@ -7,20 +7,20 @@ bazarr:
   nodeSelector:
     priority: ${priority}
   
-  resources:
-    requests:
-      cpu: 108m
-      memory: 587M
-    limits:
-      cpu: 354m
-      memory: 1146M
+  # resources:
+  #   requests:
+  #     cpu: 108m
+  #     memory: 587M
+  #   limits:
+  #     cpu: 354m
+  #     memory: 1146M
   ingress:
     main:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
-        traefik.ingress.kubernetes.io/router.middlewares: authentik-authentik@kubernetescrd
+        traefik.ingress.kubernetes.io/router.middlewares: authentik-ak-outpost-authentik-embedded-outpost@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Bazarr"
         gethomepage.dev/description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles"

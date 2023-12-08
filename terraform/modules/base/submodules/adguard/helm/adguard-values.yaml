@@ -84,13 +84,13 @@ prometheus:
     interval: 30s
     additionalLabels: {}
 
-resources:
-  requests:
-    cpu: 15m
-    memory: 248M
-  limits:
-    cpu: 21m
-    memory: 484M
+# resources:
+#   requests:
+#     cpu: 15m
+#     memory: 248M
+#   limits:
+#     cpu: 21m
+#     memory: 484M
     
 config: |
   bind_host: 0.0.0.0

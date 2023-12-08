@@ -340,13 +340,13 @@ kube-prometheus-stack:
   ##
   prometheus-node-exporter:
     namespaceOverride: ""
-    resources:
-      requests:
-        cpu: 15m
-        memory: 105M
-      limits:
-        cpu: 21m
-        memory: 105M
+    # resources:
+    #   requests:
+    #     cpu: 15m
+    #     memory: 105M
+    #   limits:
+    #     cpu: 21m
+    #     memory: 105M
     podLabels:
       ## Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards
       ##
@@ -502,13 +502,13 @@ kube-prometheus-stack:
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheusspec
     ##
     prometheusSpec:
-      resources:
-        requests:
-          cpu: 181m
-          memory: 4273M
-        limits:
-          cpu: 445m
-          memory: 9429M
+      # resources:
+      #   requests:
+      #     cpu: 181m
+      #     memory: 4273M
+      #   limits:
+      #     cpu: 445m
+      #     memory: 9429M
       ruleSelectorNilUsesHelmValues: false
       serviceMonitorSelectorNilUsesHelmValues: false
       podMonitorSelectorNilUsesHelmValues: false

@@ -27,10 +27,10 @@ prowlarr:
         - hosts:
             - "prowlarr.${domain}"
           secretName: tls-prowlarr-ingress
-  resources:
-    requests:
-      cpu: 15m
-      memory: 476M
-    limits:
-      cpu: 181m
-      memory: 928M
+  # resources:
+  #   requests:
+  #     cpu: 15m
+  #     memory: 476M
+  #   limits:
+  #     cpu: 181m
+  #     memory: 928M

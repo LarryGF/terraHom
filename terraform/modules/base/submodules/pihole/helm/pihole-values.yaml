@@ -145,13 +145,13 @@ probes:
     port: http
     scheme: HTTP
 
-resources:
-  limits:
-   cpu: 512m
-   memory: 512Mi
-  requests:
-   cpu: 256m
-   memory: 256Mi
+# resources:
+#   limits:
+#    cpu: 512m
+#    memory: 512Mi
+#   requests:
+#    cpu: 256m
+#    memory: 256Mi
 
 persistentVolumeClaim:
   enabled: true
