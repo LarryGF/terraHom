@@ -6,6 +6,10 @@ authentik:
   # -- Specify any additional containers here as dictionary items. Each additional container should have its own key. Helm templates can be used.
   additionalContainers: {}
 
+  # -- List of config maps to mount blueprints from. Only keys in the
+  # configmap ending with ".yaml" wil be discovered and applied
+  blueprints: []
+
   ingress:
     enabled: true
     ingressClassName: "traefik"
@@ -90,9 +94,7 @@ authentik:
       host: "{{ .Release.Name }}-redis-master"
       password: ""
 
-  # -- List of config maps to mount blueprints from. Only keys in the
-  # configmap ending with ".yaml" wil be discovered and applied
-  blueprints: []
+
 
   # -- see configuration options at https://goauthentik.io/docs/installation/configuration/
   env: {}

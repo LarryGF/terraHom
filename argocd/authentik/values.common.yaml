@@ -45,9 +45,6 @@ authentik:
   additionalContainers: {}
 
 
-  # -- List of config maps to mount blueprints from. Only keys in the
-  # configmap ending with ".yaml" wil be discovered and applied
-  blueprints: []
 
   # -- see configuration options at https://goauthentik.io/docs/installation/configuration/
   env: {}
@@ -83,12 +80,6 @@ authentik:
   #  -- tolerations applied to the deployments
   tolerations: []
 
-  # -- nodeSelector applied to the deployments
-  nodeSelector: {}
-
-  resources:
-    server: {}
-    worker: {}
 
   autoscaling:
     server:
@@ -172,7 +163,7 @@ authentik:
 
   prometheus:
     serviceMonitor:
-      create: false
+      create: true
       interval: 30s
       scrapeTimeout: 3s
       # -- labels additional on ServiceMonitor
@@ -195,25 +186,3 @@ authentik:
     updateInterval: 8
     # -- server containerSecurityContext
     containerSecurityContext: {}
-  postgresql:
-    # -- enable the bundled bitnami postgresql chart
-    enabled: false
-    postgresqlMaxConnections: 500
-    postgresqlUsername: "authentik"
-    # postgresqlPassword: ""
-    postgresqlDatabase: "authentik"
-    # persistence:
-    #   enabled: true
-    #   storageClass:
-    #   accessModes:
-    #     - ReadWriteOnce
-    image:
-      tag: 15.4.0-debian-11-r0
-  redis:
-    # -- enable the bundled bitnami redis chart
-    enabled: false
-    architecture: standalone
-    auth:
-      enabled: false
-    image:
-      tag: 6.2.10-debian-11-r13
