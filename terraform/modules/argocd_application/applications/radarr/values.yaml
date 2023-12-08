@@ -7,8 +7,8 @@ radarr:
       cpu: 10m
       memory: 248M
     limits:
-      cpu: 44m
-      memory: 684M
+      cpu: 200m
+      memory: 700M
   ingress:
     main:
       ingressClassName: traefik
