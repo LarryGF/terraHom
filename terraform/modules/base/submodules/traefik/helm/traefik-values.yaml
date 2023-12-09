@@ -6,6 +6,7 @@ image:
   tag: ""
   pullPolicy: IfNotPresent
 
+priorityClassName: system-node-critical
 
 hub:
   enabled: false

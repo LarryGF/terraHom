@@ -32,6 +32,7 @@ defaultSettings:
   createDefaultDiskLabeledNodes: true
   defaultReplicaCount: 1
   defaultDataPath: ${default_data_path}
+  priorityClass: system-node-critical
 
 longhornUI:
   nodeSelector:
