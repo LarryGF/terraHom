@@ -51,7 +51,7 @@ authelia:
       name: redis-data-replica
       size: 200Mi
 authentik:
-  deploy: true
+  deploy: false
   gpu: none
   name: authentik
   namespace: authentik

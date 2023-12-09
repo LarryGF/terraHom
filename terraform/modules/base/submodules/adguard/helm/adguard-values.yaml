@@ -1,7 +1,7 @@
 # adguard-home.yaml
 
 image:
-  tag: v0.106.3
+  tag: v0.108.0-b.51
 
 controller:
   replicas: 1
