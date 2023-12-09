@@ -25,6 +25,7 @@ module "argocd_application" {
   project = module.gitops.project
   server_side = try(each.value.server_side, "false")
   ignore_differences = try(each.value.ignore, [])
+  mfa = try(each.value.mfa, true)
   depends_on = [
     module.gitops
   ]

@@ -59,6 +59,11 @@ variable "priority" {
 
 }
 
+variable "mfa" {
+  type        = bool
+  description = "If true, the service should be protected by MFA"
+
+}
 variable "gpu" {
   type        = string
   description = "Determines which GPU your application will use"

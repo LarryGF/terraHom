@@ -8,7 +8,9 @@ nextcloud:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
       traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+      %{~ if mfa ~}
       traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      %{~ endif ~}
       # traefik.ingress.kubernetes.io/router.middlewares: services-nextcloud-redirect-caldav@kubernetescrd
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Nextcloud"

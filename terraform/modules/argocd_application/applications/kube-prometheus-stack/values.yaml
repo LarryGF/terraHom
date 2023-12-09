@@ -165,6 +165,9 @@ kube-prometheus-stack:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        %{~ if mfa ~}
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ endif ~}
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Alertmanager"
         gethomepage.dev/description: "The Alertmanager handles alerts sent by client applications such as the Prometheus server"
@@ -185,6 +188,9 @@ kube-prometheus-stack:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        %{~ if mfa ~}
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ endif ~}
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Prometheus"
         gethomepage.dev/description: "Monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach"

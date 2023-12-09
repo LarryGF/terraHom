@@ -14,7 +14,9 @@ home-assistant:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        %{~ if mfa ~}
         traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ endif ~}
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Home Assistant"
         gethomepage.dev/description: ""
@@ -42,6 +44,9 @@ home-assistant:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          %{~ if mfa ~}
+          traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+          %{~ endif ~}
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: "HA Code Server"
           gethomepage.dev/description: ""

@@ -18,7 +18,9 @@ samba:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        %{~ if mfa ~}
         traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ endif ~}
       enabled: true
       hosts:
         - host: "samba.${domain}"

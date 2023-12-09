@@ -4,6 +4,7 @@
 amd-gpu:
   deploy: true
   gpu: none
+  mfa: true
   name: amd-gpu
   namespace: kube-system
   override:
@@ -15,6 +16,7 @@ amd-gpu:
 authelia:
   deploy: true
   gpu: none
+  mfa: true
   name: authelia
   namespace: authelia
   override:
@@ -53,6 +55,7 @@ authelia:
 authentik:
   deploy: false
   gpu: none
+  mfa: true
   name: authentik
   namespace: authentik
   override:
@@ -71,6 +74,7 @@ authentik:
 bazarr:
   deploy: true
   gpu: none
+  mfa: true
   name: bazarr
   namespace: services
   override:
@@ -95,6 +99,7 @@ bazarr:
 crowdsec:
   deploy: false
   gpu: none
+  mfa: true
   name: crowdsec
   namespace: crowdsec
   override:
@@ -126,6 +131,7 @@ crowdsec:
 dex:
   deploy: false
   gpu: none
+  mfa: true
   name: dex
   namespace: services
   override:
@@ -137,6 +143,7 @@ dex:
 filebrowser:
   deploy: false
   gpu: none
+  mfa: true
   name: filebrowser
   namespace: services
   override:
@@ -154,6 +161,7 @@ filebrowser:
 flood:
   deploy: true
   gpu: none
+  mfa: false
   name: flood
   namespace: services
   override:
@@ -181,6 +189,7 @@ flood:
 goldilocks:
   deploy: false
   gpu: none
+  mfa: true
   name: goldilocks
   namespace: kube-system
   override:
@@ -192,6 +201,7 @@ goldilocks:
 gow:
   deploy: false
   gpu: amd
+  mfa: true
   name: gow
   namespace: services
   override:
@@ -210,6 +220,7 @@ gow:
 grafana:
   deploy: true
   gpu: none
+  mfa: true
   name: grafana
   namespace: monitoring
   override:
@@ -228,6 +239,7 @@ grafana:
 home-assistant:
   deploy: false
   gpu: none
+  mfa: true
   name: home-assistant
   namespace: services
   override:
@@ -248,6 +260,7 @@ home-assistant:
 homepage:
   deploy: true
   gpu: none
+  mfa: true
   name: homepage
   namespace: services
   override:
@@ -265,6 +278,7 @@ intel-gpu:
     - .metadata.annotations
     - .spec.resourceManager
     kind: GpuDevicePlugin
+  mfa: true
   name: intel-gpu
   namespace: kube-system
   override:
@@ -276,6 +290,7 @@ intel-gpu:
 jellyfin:
   deploy: true
   gpu: none
+  mfa: false
   name: jellyfin
   namespace: services
   override:
@@ -302,6 +317,7 @@ jellyfin:
 jellyseerr:
   deploy: true
   gpu: none
+  mfa: false
   name: jellyseerr
   namespace: services
   override:
@@ -319,6 +335,7 @@ jellyseerr:
 kavita:
   deploy: false
   gpu: none
+  mfa: true
   name: kavita
   namespace: services
   override:
@@ -341,6 +358,7 @@ kavita:
 kube-prometheus-stack:
   deploy: true
   gpu: none
+  mfa: false
   name: kube-prometheus-stack
   namespace: monitoring
   override:
@@ -355,6 +373,7 @@ kube-prometheus-stack:
 kubeview:
   deploy: false
   gpu: none
+  mfa: true
   name: kubeview
   namespace: services
   override:
@@ -371,6 +390,7 @@ kubeview:
 kwatch:
   deploy: false
   gpu: none
+  mfa: true
   name: kwatch
   namespace: monitoring
   override:
@@ -385,6 +405,7 @@ kwatch:
 loki:
   deploy: false
   gpu: none
+  mfa: true
   name: loki
   namespace: monitoring
   override:
@@ -396,6 +417,7 @@ loki:
 mylar:
   deploy: false
   gpu: none
+  mfa: true
   name: mylar
   namespace: services
   override:
@@ -412,6 +434,7 @@ mylar:
 nextcloud:
   deploy: false
   gpu: none
+  mfa: true
   name: nextcloud
   namespace: services
   override:
@@ -441,6 +464,7 @@ nextcloud:
 node-feature-discovery:
   deploy: true
   gpu: none
+  mfa: true
   name: node-feature-discovery
   namespace: node-feature-discovery
   override:
@@ -452,6 +476,7 @@ node-feature-discovery:
 nzbget:
   deploy: false
   gpu: none
+  mfa: true
   name: nzbget
   namespace: services
   override:
@@ -470,6 +495,7 @@ nzbget:
 plex:
   deploy: true
   gpu: intel
+  mfa: false
   name: plex
   namespace: services
   override:
@@ -496,6 +522,7 @@ plex:
 portainer:
   deploy: false
   gpu: none
+  mfa: true
   name: portainer
   namespace: kube-system
   override:
@@ -513,6 +540,7 @@ portainer:
 promtail:
   deploy: false
   gpu: none
+  mfa: true
   name: promtail
   namespace: monitoring
   override:
@@ -524,6 +552,7 @@ promtail:
 prowlarr:
   deploy: true
   gpu: none
+  mfa: true
   name: prowlarr
   namespace: services
   override:
@@ -542,6 +571,7 @@ prowlarr:
 radarr:
   deploy: true
   gpu: none
+  mfa: true
   name: radarr
   namespace: services
   override:
@@ -566,6 +596,7 @@ radarr:
 rancher:
   deploy: true
   gpu: none
+  mfa: false
   name: rancher
   namespace: cattle-system
   override:
@@ -584,6 +615,7 @@ rancher:
 readarr:
   deploy: false
   gpu: none
+  mfa: true
   name: readarr
   namespace: services
   override:
@@ -600,6 +632,7 @@ readarr:
 renovate:
   deploy: false
   gpu: none
+  mfa: true
   name: renovate
   namespace: services
   override:
@@ -618,6 +651,7 @@ renovate:
 sabnzbd:
   deploy: true
   gpu: none
+  mfa: true
   name: sabnzbd
   namespace: services
   override:
@@ -641,6 +675,7 @@ sabnzbd:
 samba:
   deploy: false
   gpu: none
+  mfa: true
   name: samba
   namespace: services
   override:
@@ -657,6 +692,7 @@ samba:
 sonarr:
   deploy: true
   gpu: none
+  mfa: true
   name: sonarr
   namespace: services
   override:
@@ -677,6 +713,7 @@ sonarr:
 tautulli:
   deploy: true
   gpu: none
+  mfa: false
   name: tautulli
   namespace: services
   override:
