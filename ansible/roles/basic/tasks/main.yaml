@@ -111,3 +111,16 @@
           /bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
         endscript
       }
+
+- name: Increase system watchers
+  become: true
+  ansible.builtin.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: yes
+    sysctl_set: yes
+    ignoreerrors: no
+  loop:
+    - { name: 'fs.inotify.max_user_instances', value: '1280' }
+    - { name: 'fs.inotify.max_user_watches', value: '1235100' }
