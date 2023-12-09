@@ -32,7 +32,7 @@ module "longhorn" {
   default_data_path = var.default_data_path
   depends_on = [
     module.cert-manager,
-    
+    module.prometheus-crds
   ]
 }
 

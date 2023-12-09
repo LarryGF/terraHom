@@ -40,6 +40,13 @@ resource "kubectl_manifest" "backup" {
   depends_on = [helm_release.longhorn]
 }
 
+resource "kubectl_manifest" "longhorn-service-monitor-rule" {
+  yaml_body = file(
+    "${path.module}/helm/longhorn-servicemonitor-rule.tpl.yaml"
+  )
+
+  depends_on = [helm_release.longhorn]
+}
 variable "domain" {
   type        = string
   description = "DuckDNS domain to use"
