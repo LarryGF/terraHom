@@ -24,6 +24,10 @@ resource "helm_release" "cert-manager" {
     name = "startupapicheck.nodeSelector.kubernetes\\.io/hostname"
     value = var.master_hostname
   }
+  set {
+    name = "global.priorityClassName"
+    value = "system-node-critical"
+  }
 }
 
 resource "kubectl_manifest" "letsencrypt-issuer" {

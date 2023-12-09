@@ -19,6 +19,7 @@ global:
   nodeSelector:
     priority: critical
 
+  priorityClassName: system-node-critical
   env: []
 
 ## Argo Configs
