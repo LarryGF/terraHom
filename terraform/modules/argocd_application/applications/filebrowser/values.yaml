@@ -11,7 +11,9 @@ filebrowser:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        %{~ if mfa ~}
         traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ endif ~}
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "File Browser"
         gethomepage.dev/description: ""

@@ -19,8 +19,10 @@ bazarr:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
+        %{~ if mfa ~}
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ endif ~}
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
-        traefik.ingress.kubernetes.io/router.middlewares: authentik-ak-outpost-authentik-embedded-outpost@kubernetescrd
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Bazarr"
         gethomepage.dev/description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles"

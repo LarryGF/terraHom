@@ -28,7 +28,7 @@ app-template:
               enabled: false
             startup:
               enabled: false
-          %{ if gpu == "amd" }
+          %{~ if gpu == "amd" ~}
           resources:
             # requests:
             #   cpu: 15m
@@ -37,8 +37,8 @@ app-template:
               amd.com/gpu: 1
               # cpu: 21m
               # memory: 1687M
-          %{ endif }
-          %{ if gpu == "intel" }
+          %{~ endif ~}
+          %{~ if gpu == "intel" ~}
           resources:
             # requests:
             #   cpu: 15m
@@ -47,7 +47,7 @@ app-template:
               gpu.intel.com/i915: "1"
               # cpu: 21m
               # memory: 1687M 
-          %{ endif }
+          %{~ endif ~}
       initContainers:
         update-volume-permission:
           image: 
@@ -73,6 +73,9 @@ app-template:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        %{~ if mfa ~}
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ endif ~}
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Jellyfin"
         gethomepage.dev/group: "Media"

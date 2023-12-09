@@ -14,6 +14,9 @@ rancher:
     includeDefaultExtraAnnotations: true
     extraAnnotations:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      %{~ if mfa ~}
+      traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+      %{~ endif ~}
       gethomepage.dev/enabled: "true"
       gethomepage.dev/name: "Rancher"
       gethomepage.dev/description: ""

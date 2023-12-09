@@ -19,7 +19,9 @@ plex:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext,websecure
-        # traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ if mfa ~}
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ endif ~}
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Plex"
         gethomepage.dev/description: "Plex combines free movies & TV with your favorite streaming services and personal media"
@@ -51,15 +53,15 @@ plex:
   #     existingClaim: media-radarr
   #     mountPath: /downloads/radarr
   #     subpath: radarr
-  %{ if gpu == "amd" }
+  %{~ if gpu == "amd" ~}
   resources:
     limits:
       amd.com/gpu: 1
-  %{ endif }
-  %{ if gpu == "intel" }
+  %{~ endif ~}
+  %{~ if gpu == "intel" ~}
   resources:
     limits:
       gpu.intel.com/i915: "1" 
-  %{ endif }
+  %{~ endif ~}
   # Generating persistence config from applications.yaml
   ${indent(2,yamlencode({persistence: { for key, value in storage: key => {"enabled":true,"existingClaim":value.name,"mountPath": try(value.mountPath,null),"subpath": try(value.subpath,null)}}}))}

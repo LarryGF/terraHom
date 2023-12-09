@@ -88,6 +88,7 @@ def main():
                     with st.expander("**Settings**"):
                         st.text_input("Namespace", app_details.get('namespace', ''), key=f"{app_name}-namespace")
                         # st.text_input("GPU", app_details.get('gpu', ''), key=f"{app_name}-gpu")
+                        st.checkbox("MFA", app_details.get('mfa', True), key=f"{app_name}-mfa")
                         st.radio("Pass GPU",gpu_types, key=f"{app_name}-gpu", index=gpu_types.index(app_details.get('gpu', 'none')))
                         st.text_input("Priority", app_details.get('priority', ''), key=f"{app_name}-priority")
                     
@@ -104,6 +105,7 @@ def main():
                             st.write("No PVCs for this app")
                     st.session_state.apps_data[app_name]['deploy'] = st.session_state[app_name]
                     st.session_state.apps_data[app_name]['namespace'] = st.session_state[f"{app_name}-namespace"]
+                    st.session_state.apps_data[app_name]['mfa'] = st.session_state[f"{app_name}-mfa"]
                     st.session_state.apps_data[app_name]['gpu'] = st.session_state[f"{app_name}-gpu"].lower()
                     if st.session_state.apps_data[app_name]['gpu'] not in ["","none","amd","intel"]:
                         st.error("GPU Type must be one of: none, amd, intel")
