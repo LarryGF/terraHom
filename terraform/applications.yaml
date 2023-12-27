@@ -159,7 +159,7 @@ filebrowser:
       name: filebrowser-config
       size: 200Mi
 flood:
-  deploy: true
+  deploy: false
   gpu: none
   mfa: false
   name: flood
@@ -260,7 +260,7 @@ home-assistant:
 homepage:
   deploy: true
   gpu: none
-  mfa: true
+  mfa: false
   name: homepage
   namespace: services
   override:

@@ -48,6 +48,8 @@ app-template:
               # cpu: 21m
               # memory: 1687M 
           %{~ endif ~}
+          nodeSelector:
+            priority: ${priority}
       initContainers:
         update-volume-permission:
           image: 
