@@ -48,7 +48,7 @@ def main(build_image):
         name="homcontrol_container", # Name the container for easier reference
         detach=True,
         network_mode="host",
-
+        restart_policy={"Name": "always"},
         # ports={'8501/tcp': 8501},  # Forward port 8501 on localhost to port 8501 in the container
         volumes={
             os.path.abspath('../../terraform'): {'bind': '/app/terraform', 'mode': 'rw'},
