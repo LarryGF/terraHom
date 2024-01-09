@@ -594,7 +594,7 @@ radarr:
       name: media-radarr
       subpath: radarr
 rancher:
-  deploy: true
+  deploy: false
   gpu: none
   mfa: false
   name: rancher
