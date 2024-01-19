@@ -1,7 +1,7 @@
 sabnzbd:
   image:
     repository: cr.hotio.dev/hotio/sabnzbd
-    tag: release-4.1.0
+    tag: release-4.2.1
 
   initContainers:
     update-volume-permission:
