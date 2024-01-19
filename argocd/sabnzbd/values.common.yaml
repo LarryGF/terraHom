@@ -1,6 +1,6 @@
 sabnzbd:
   image:
-    repository: cr.hotio.dev/hotio/sabnzbd
+    repository: ghcr.io/hotio/sabnzbd
     tag: release-4.2.1
 
   initContainers:
