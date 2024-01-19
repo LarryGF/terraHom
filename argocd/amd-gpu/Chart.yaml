@@ -3,5 +3,5 @@ name: amd-gpu-umbrella
 version: 0.0.4
 dependencies:
   - name: amd-gpu
-    repository: https://radeonopencompute.github.io/k8s-device-plugin
-    version: 0.10.0
+    repository: https://rocm.github.io/k8s-device-plugin/
+    version: 0.11.0
