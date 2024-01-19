@@ -1,7 +1,7 @@
 apiVersion: v2
 name: goldilocks-umbrella
-version: 0.0.0
+version: 0.0.1
 dependencies:
   - name: goldilocks
     repository: https://charts.fairwinds.com/stable
-    version: 8.0.0
+    version: 8.0.1
