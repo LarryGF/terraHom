@@ -29,3 +29,36 @@ grafana:
       org_role: Admin
     panels:
       disable_sanitize_html: true
+
+  plugins:
+    - grafana-piechart-panel
+
+loki-mixin:
+  fullnameOverride: loki-mixin
+  grafana:
+    folder: Loki
+
+alertmanager-mixin:
+  fullnameOverride: alertmanager-mixin
+  grafana:
+    folder: Prometheus
+
+kube-state-metrics-mixin:
+  fullnameOverride: kube-state-metrics-mixin
+  grafana:
+    folder: Prometheus
+
+prometheus-operator-mixin:
+  fullnameOverride: prometheus-operator-mixin
+  grafana:
+    folder: Prometheus
+
+promtail-mixin:
+  fullnameOverride: promtail-mixin
+  grafana:
+    folder: Loki
+
+tempo-mixin:
+  fullnameOverride: tempo-mixin
+  grafana:
+    folder: Tempo
