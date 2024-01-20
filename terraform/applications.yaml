@@ -13,6 +13,18 @@ amd-gpu:
     timezone: ${timezone}
   priority: critical
   volumes: {}
+argo-workflows:
+  deploy: true
+  gpu: none
+  mfa: true
+  name: argo-workflows
+  namespace: gitops
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: low
+  volumes: {}
 authelia:
   deploy: true
   gpu: none
@@ -306,7 +318,7 @@ jellyfin:
       create: true
       mountPath: /config
       name: jellyfin-config
-      size: 2Gi
+      size: 5368709120
     downloads:
       mountPath: /data
       name: media
