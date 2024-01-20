@@ -6,13 +6,17 @@ metadata:
   annotations:
     ingress.kubernetes.io/rewrite-target: /$2
     ingress.kubernetes.io/protocol: https # Traefik
+    cert-manager.io/cluster-issuer: letsencrypt
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   rules:
     - http:
         paths:
           - backend:
-              serviceName: argo-workflow-server
-              servicePort: 2746
+              service:
+                name: argo-workflow-server
+                port: 
+                    number: 2746
             path: /argo(/|$)(.*)
             pathType: Prefix
 
