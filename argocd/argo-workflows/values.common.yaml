@@ -66,6 +66,8 @@ argo-workflow:
       create: true
 
   controller:
+    serviceMonitor:
+      enabled: true
     image:
       # -- Registry to use for the controller
       registry: quay.io
