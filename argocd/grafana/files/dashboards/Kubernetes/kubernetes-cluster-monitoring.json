@@ -265,7 +265,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "sum (container_memory_working_set_bytes{id=\"/\",kubernetes_io_hostname=~\"^$Node$\"}) / sum (machine_memory_bytes{kubernetes_io_hostname=~\"^$Node$\"}) * 100",
+                    "expr": "sum (container_memory_working_set_bytes{kubernetes_io_hostname=~\"^$Node$\"}) / sum (machine_memory_bytes{kubernetes_io_hostname=~\"^$Node$\"}) * 100",
                     "interval": "10s",
                     "intervalFactor": 1,
                     "refId": "A",
@@ -357,7 +357,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "sum (rate (container_cpu_usage_seconds_total{id=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[1m])) / sum (machine_cpu_cores{kubernetes_io_hostname=~\"^$Node$\"}) * 100",
+                    "expr": "sum (rate (container_cpu_usage_seconds_total{kubernetes_io_hostname=~\"^$Node$\"}[1m])) / sum (machine_cpu_cores{kubernetes_io_hostname=~\"^$Node$\"}) * 100",
                     "interval": "10s",
                     "intervalFactor": 1,
                     "refId": "A",
@@ -449,7 +449,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "sum (container_fs_usage_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\",kubernetes_io_hostname=~\"^$Node$\"}) / sum (container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\",kubernetes_io_hostname=~\"^$Node$\"}) * 100",
+                    "expr": "sum (container_fs_usage_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",kubernetes_io_hostname=~\"^$Node$\"}) / sum (container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",kubernetes_io_hostname=~\"^$Node$\"}) * 100",
                     "interval": "10s",
                     "intervalFactor": 1,
                     "legendFormat": "",
@@ -543,7 +543,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "sum (container_memory_working_set_bytes{id=\"/\",kubernetes_io_hostname=~\"^$Node$\"})",
+                    "expr": "sum (container_memory_working_set_bytes{kubernetes_io_hostname=~\"^$Node$\"})",
                     "interval": "10s",
                     "intervalFactor": 1,
                     "refId": "A",
@@ -727,7 +727,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "sum (rate (container_cpu_usage_seconds_total{id=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[1m]))",
+                    "expr": "sum (rate (container_cpu_usage_seconds_total{kubernetes_io_hostname=~\"^$Node$\"}[1m]))",
                     "interval": "10s",
                     "intervalFactor": 1,
                     "refId": "A",
@@ -911,7 +911,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "sum (container_fs_usage_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\",kubernetes_io_hostname=~\"^$Node$\"})",
+                    "expr": "sum (container_fs_usage_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",kubernetes_io_hostname=~\"^$Node$\"})",
                     "interval": "10s",
                     "intervalFactor": 1,
                     "refId": "A",
@@ -1003,7 +1003,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "sum (container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",id=\"/\",kubernetes_io_hostname=~\"^$Node$\"})",
+                    "expr": "sum (container_fs_limit_bytes{device=~\"^/dev/[sv]d[a-z][1-9]$\",kubernetes_io_hostname=~\"^$Node$\"})",
                     "interval": "10s",
                     "intervalFactor": 1,
                     "refId": "A",
