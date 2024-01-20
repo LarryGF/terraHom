@@ -1,1 +1,57 @@
 argo-workflow:
+  server:
+    ## Ingress configuration.
+    # ref: https://kubernetes.io/docs/user-guide/ingress/
+    ingress:
+      # -- Enable an ingress resource
+      enabled: true
+      # -- Additional ingress annotations
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        %{~ if mfa ~}
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ endif ~}
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Argo Workflows"
+        gethomepage.dev/description: "Container-native workflow engine for orchestrating parallel jobs on Kubernetes"
+        gethomepage.dev/group: "Internal"
+        gethomepage.dev/icon: "argocd.png"
+      # -- Additional ingress labels
+      labels: {}
+      # -- Defines which ingress controller will implement the resource
+      ingressClassName: traefik
+
+      # -- List of ingress hosts
+      ## Hostnames must be provided if Ingress is enabled.
+      ## Secrets must be manually created in the namespace
+      hosts:
+        - "workflows.${domain}"
+        # - argoworkflows.example.com
+
+      # -- List of ingress paths
+      paths:
+        - /
+
+      # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
+      pathType: Prefix
+      # -- Additional ingress paths
+      extraPaths: []
+        # - path: /*
+        #   backend:
+        #     serviceName: ssl-redirect
+        #     servicePort: use-annotation
+        ## for Kubernetes >=1.19 (when "networking.k8s.io/v1" is used)
+        # - path: /*
+        #   pathType: Prefix
+        #   backend:
+        #     service
+        #       name: ssl-redirect
+        #       port:
+        #         name: use-annotation
+
+      # -- Ingress TLS configuration
+      tls:
+        - secretName: tls-workflows-ingress
+          hosts:
+            - "workflows.${domain}"
