@@ -14,3 +14,5 @@ spec:
               serviceName: argo-workflow-server
               servicePort: 2746
             path: /argo(/|$)(.*)
+            pathType: Prefix
+
