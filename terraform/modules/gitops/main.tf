@@ -73,6 +73,11 @@ resource "argocd_project" "gitops" {
       namespace = "node-feature-discovery"
     }
 
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "default"
+    }
+
     # cluster_resource_blacklist {
     #   group = "*"
     #   kind  = "*"
