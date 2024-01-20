@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argo-workflow-server
+  name: argo-workflows-server
   annotations:
     ingress.kubernetes.io/rewrite-target: /$2
     ingress.kubernetes.io/protocol: https # Traefik
@@ -15,7 +15,7 @@ spec:
         paths:
           - backend:
               service:
-                name: argo-workflow-server
+                name: argo-workflows-server
                 port: 
                     number: 2746
             path: /argo(/|$)(.*)
