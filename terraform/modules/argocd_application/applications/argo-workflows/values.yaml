@@ -1,4 +1,4 @@
-argo-workflow:
+argo-workflows:
   server:
     ## Ingress configuration.
     # ref: https://kubernetes.io/docs/user-guide/ingress/
@@ -14,7 +14,6 @@ argo-workflow:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Argo Workflows"
-        gethomepage.dev/description: "Container-native workflow engine for orchestrating parallel jobs on Kubernetes"
         gethomepage.dev/group: "Internal"
         gethomepage.dev/icon: "argocd.png"
       # -- Additional ingress labels
