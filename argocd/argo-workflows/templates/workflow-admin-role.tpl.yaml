@@ -1,14 +1,20 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
   creationTimestamp: null
   name: workflow-admin
-  namespace: gitops
 rules:
 - apiGroups:
   - argoproj.io
   resources:
   - workflows
+  - clusterworkflowtemplates
+  - cronworkflows
+  - workflowtemplates
+  - eventsources
+  - sensors
+  - workfloweventbindings
   verbs:
   - list
   - update
+  - watch
