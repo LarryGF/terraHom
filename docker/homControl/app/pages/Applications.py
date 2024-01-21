@@ -87,7 +87,6 @@ def main():
                     st.checkbox("Deploy", app_details.get('deploy', False), key=app_name)
                     with st.expander("**Settings**"):
                         st.text_input("Namespace", app_details.get('namespace', ''), key=f"{app_name}-namespace")
-                        # st.text_input("GPU", app_details.get('gpu', ''), key=f"{app_name}-gpu")
                         st.checkbox("MFA", app_details.get('mfa', True), key=f"{app_name}-mfa")
                         st.radio("Pass GPU",gpu_types, key=f"{app_name}-gpu", index=gpu_types.index(app_details.get('gpu', 'none')))
                         st.text_input("Priority", app_details.get('priority', ''), key=f"{app_name}-priority")
