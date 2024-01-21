@@ -5,7 +5,7 @@ metadata:
   name: workflow-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: workflow-admin
 subjects:
 - kind: ServiceAccount
