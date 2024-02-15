@@ -1,7 +1,7 @@
 apiVersion: v2
 name: flood-umbrella
-version: 0.0.3
+version: 0.0.4
 dependencies:
   - name: app-template
     repository: https://bjw-s.github.io/helm-charts
-    version: 2.4.0
+    version: 2.6.0
