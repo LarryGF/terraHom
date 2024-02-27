@@ -1,6 +1,6 @@
 apiVersion: v2
 name: grafana-umbrella
-version: 0.0.16
+version: 0.0.17
 dependencies:
   - name: grafana
     repository: https://grafana.github.io/helm-charts
@@ -19,4 +19,4 @@ dependencies:
     version: 1.3.0
   - name: promtail-mixin
     repository: https://charts.portefaix.xyz
-    version: 1.6.0
+    version: 1.7.0
