@@ -723,7 +723,7 @@ sonarr:
     downloads:
       name: media
 tautulli:
-  deploy: true
+  deploy: false
   gpu: none
   mfa: false
   name: tautulli
