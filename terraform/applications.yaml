@@ -28,7 +28,7 @@ argo-workflows:
 authelia:
   deploy: true
   gpu: none
-  mfa: true
+  mfa: false
   name: authelia
   namespace: authelia
   override:
@@ -55,15 +55,15 @@ authelia:
     redis-master:
       access_modes:
       - ReadWriteOnce
-      create: false
+      create: true
       name: redis-data-master
-      size: 200Mi
+      size: 1Gi
     redis-replica:
       access_modes:
       - ReadWriteOnce
-      create: false
+      create: true
       name: redis-data-replica
-      size: 200Mi
+      size: 1Gi
 authentik:
   deploy: false
   gpu: none
@@ -739,4 +739,4 @@ tautulli:
       - ReadWriteOnce
       create: true
       name: tautulli-config
-      size: 200Mi
+      size: 1Gi
