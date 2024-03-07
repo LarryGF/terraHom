@@ -1,7 +1,7 @@
 apiVersion: v2
 name: renovate-umbrella
-version: 0.0.21
+version: 0.0.22
 dependencies:
   - name: renovate
     repository: https://docs.renovatebot.com/helm-charts
-    version: 37.231.0
+    version: 37.231.2
