@@ -1,7 +1,7 @@
 apiVersion: v2
 name: nfd-umbrella
-version: 0.0.3
+version: 0.0.4
 dependencies:
   - name: node-feature-discovery
     repository: https://kubernetes-sigs.github.io/node-feature-discovery/charts
-    version: 0.15.1
+    version: 0.15.2
