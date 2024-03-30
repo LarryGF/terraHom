@@ -16,7 +16,7 @@ terraform {
     }
 
     argocd = {
-      source = "oboukili/argocd"
+      source  = "oboukili/argocd"
       version = ">= 5.2.0"
     }
 
@@ -39,12 +39,12 @@ provider "helm" {
 }
 
 provider "kubectl" {
-  
+
 }
 
 provider "argocd" {
-    server_addr = "argo.${var.domain}:443"
-    username = "admin"
-    password = module.base.argo-cd-password
+  server_addr = "argo.${var.domain}:443"
+  username    = "admin"
+  password    = module.base.argo-cd-password
 }
 
