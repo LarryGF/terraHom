@@ -11,16 +11,16 @@ module "base" {
   gh_username        = var.gh_username
   gh_token           = var.gh_token
   gh_base_repo       = var.gh_base_repo
-  sc_name = local.sc_name
-  timezone          = var.timezone
-  letsencrypt_email = var.letsencrypt_email
-  domain            = var.domain
-  master_hostname   = var.master_hostname
-  master_ip         = var.master_ip
-  vpn_config        = var.vpn_config
+  sc_name            = local.sc_name
+  timezone           = var.timezone
+  letsencrypt_email  = var.letsencrypt_email
+  domain             = var.domain
+  master_hostname    = var.master_hostname
+  master_ip          = var.master_ip
+  vpn_config         = var.vpn_config
   # nfs_server        = var.nfs_server
-  api_keys          = var.api_keys
-  use_longhorn      = var.use_longhorn
+  api_keys     = var.api_keys
+  use_longhorn = var.use_longhorn
 }
 
 module "sandbox" {

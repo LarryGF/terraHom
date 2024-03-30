@@ -3,29 +3,29 @@ module "gitops" {
   argocd_password = module.base.argo-cd-password
   gh_token        = var.gh_token
   gh_username     = var.gh_username
-  gh_base_repo   = var.gh_base_repo
-  domain = var.domain
-  depends_on = [ 
-    module.base 
-    ]
+  gh_base_repo    = var.gh_base_repo
+  domain          = var.domain
+  depends_on = [
+    module.base
+  ]
 }
 
 module "argocd_application" {
-  for_each = local.applications
-  source = "./modules/argocd_application"
-  gh_base_repo   = var.gh_base_repo
-  sc_name = local.sc_name
-  override_values = each.value.override
-  name = each.value.name
-  namespace = each.value.namespace
-  gpu = try(each.value.gpu,"none")
+  for_each            = local.applications
+  source              = "./modules/argocd_application"
+  gh_base_repo        = var.gh_base_repo
+  sc_name             = local.sc_name
+  override_values     = each.value.override
+  name                = each.value.name
+  namespace           = each.value.namespace
+  gpu                 = try(each.value.gpu, "none")
   storage_definitions = each.value.volumes
-  priority = try(each.value.priority,"critical")
-  deploy = each.value.deploy
-  project = module.gitops.project
-  server_side = try(each.value.server_side, "false")
-  ignore_differences = try(each.value.ignore, [])
-  mfa = try(each.value.mfa, true)
+  priority            = try(each.value.priority, "critical")
+  deploy              = each.value.deploy
+  project             = module.gitops.project
+  server_side         = try(each.value.server_side, "false")
+  ignore_differences  = try(each.value.ignore, [])
+  mfa                 = try(each.value.mfa, true)
   depends_on = [
     module.gitops
   ]
@@ -51,10 +51,10 @@ module "argocd_application" {
 #       repo_url        = "ghcr.io/akuity/kargo-charts"
 #       target_revision = "0.1.0"
 #       chart= "kargo"
-      
+
 
 #       helm {
-        
+
 #         values = templatefile("./modules/argocd_application/applications/kargo/values.yaml",merge({
 #           timezone:var.timezone,
 #           domain: var.domain

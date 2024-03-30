@@ -1,0 +1,48 @@
+ddclient:
+  replicaCount: 1
+
+  image:
+    repository: linuxserver/ddclient
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+    digest: "sha256:b65b67cfd2eb01c27f10ae4a926a9b3cebae88dd99ae0a4d3f0549580693977b"
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  securityContext:
+    {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  # config section of ddclient.conf
+  config: |
+    daemon=120
+    syslog=yes
+    verbose=yes
+    protocol=dyndns2
+    # "use=cmd" and the curl command is one way of doing this; other ways exist
+    use=cmd, cmd='curl https://checkipv4.dedyn.io/'
+    ssl=yes
+    server=update.dedyn.io
+    login=${domain}
+    password=${token}
+    ${domain}

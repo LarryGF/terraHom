@@ -66,7 +66,7 @@ variable "gh_token" {
 variable "gh_base_repo" {
   type        = string
   description = "Standard repo to use for ArgoCD"
-  default = "https://github.com/LarryGF/terraHom.git"
+  default     = "https://github.com/LarryGF/terraHom.git"
 }
 
 ## Global
@@ -125,54 +125,54 @@ variable "allowed_networks" {
 variable "plex_claim_token" {
   type        = string
   description = "Plex claim token"
-  default = ""
+  default     = ""
 }
 
 variable "use_longhorn" {
   type        = bool
   description = "Uses longhorn or local-path"
-  default = false
+  default     = false
 }
 
 
 variable "use_sandbox" {
   type        = bool
   description = "Create a sandbox environment and credentials for testing"
-  default = false
+  default     = false
 }
 ## Keys
 
 variable "api_keys" {
   description = "API Keys for each service"
-  type = map(string)
+  type        = map(string)
   default = {
-    radarr_key = "radarr-key"
-    sonarr_key = "sonarr-key"
-    prowlarr_key = "prowlarr-key"
-    tautulli_key = "tautulli-key"
-    bazarr_key = "bazarr-key"
-    plex_key = "plex-key"
-    jellyseerr_key = "jellyseerr-key"
-    pihole_key = "pihole-key"
-    portainer_key = "portainer-key"
-    flood_username = "flood-username"
-    flood_password = "flood-password"
-    nextcloud_key = "nextcloud-key"
-    jellyfin_key = "jellyfin-key"
-    sabnzbd_key = "sabnzbd-key"
-    smtp_username = "authelia-smtp-username"
-    smtp_password = "authelia-smtp-password"
-    smtp_host = "authelia-smtp-host"
-    smtp_port = "authelia-smtp-port"
-    smtp_sender_email = "authelia-smtp-sender-email"
-    crowdsec_enrollment_key = "crowdsec-enrollment-key"
-    discord_webhook_url = "discord-webhook-url"
-    kwatch_discord_webhook_url = "kwatch-discord-webhook-url"
-    authelia_JWT_TOKEN = "authelia-jwt-token"
+    radarr_key                      = "radarr-key"
+    sonarr_key                      = "sonarr-key"
+    prowlarr_key                    = "prowlarr-key"
+    tautulli_key                    = "tautulli-key"
+    bazarr_key                      = "bazarr-key"
+    plex_key                        = "plex-key"
+    jellyseerr_key                  = "jellyseerr-key"
+    pihole_key                      = "pihole-key"
+    portainer_key                   = "portainer-key"
+    flood_username                  = "flood-username"
+    flood_password                  = "flood-password"
+    nextcloud_key                   = "nextcloud-key"
+    jellyfin_key                    = "jellyfin-key"
+    sabnzbd_key                     = "sabnzbd-key"
+    smtp_username                   = "authelia-smtp-username"
+    smtp_password                   = "authelia-smtp-password"
+    smtp_host                       = "authelia-smtp-host"
+    smtp_port                       = "authelia-smtp-port"
+    smtp_sender_email               = "authelia-smtp-sender-email"
+    crowdsec_enrollment_key         = "crowdsec-enrollment-key"
+    discord_webhook_url             = "discord-webhook-url"
+    kwatch_discord_webhook_url      = "kwatch-discord-webhook-url"
+    authelia_JWT_TOKEN              = "authelia-jwt-token"
     authelia_SESSION_ENCRYPTION_KEY = "authelia-session-encryption-key"
     authelia_STORAGE_ENCRYPTION_KEY = "authelia-storage-encryption-key"
-    authentik_secret_key = "authentik-secret-key"
-    authentik_postgresql_password = "authentik-postgresql-password"
+    authentik_secret_key            = "authentik-secret-key"
+    authentik_postgresql_password   = "authentik-postgresql-password"
   }
 }
 

@@ -18,6 +18,10 @@ resource "helm_release" "ddclient" {
   wait            = true
   wait_for_jobs   = true
   timeout         = 180
+
+  lifecycle {
+    ignore_changes = [values, version]
+  }
 }
 
 variable "domain" {
