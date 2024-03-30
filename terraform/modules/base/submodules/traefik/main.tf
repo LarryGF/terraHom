@@ -5,7 +5,7 @@ resource "kubectl_manifest" "middlewares" {
     "${path.module}/middlewares/${each.value}",
     {
       "source_range"     = concat(split(",", "${local.my_ip}/32,${var.source_range}"))
-      "source_range_ext" = concat(split(",", join(",", [var.source_range, var.source_range_ext, "${local.my_ip}/32"])), local.cloudflare_ip_subnets)
+      "source_range_ext" = concat(split(",", join(",", [var.source_range, var.source_range_ext, "${local.my_ip}/32"])))
       "namespace"        = var.namespace
       "domain"           = var.domain
     }
