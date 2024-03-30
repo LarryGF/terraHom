@@ -4,10 +4,10 @@ resource "kubectl_manifest" "middlewares" {
   yaml_body = templatefile(
     "${path.module}/middlewares/${each.value}",
     {
-      "source_range" = concat(split(",", "${local.my_ip}/32,${var.source_range}"),local.cloudflare_ip_subnets)
-      "source_range_ext" = concat(split(",", join(",",[var.source_range,var.source_range_ext,"${local.my_ip}/32"])),local.cloudflare_ip_subnets)
-      "namespace"    = var.namespace
-      "domain" = var.domain
+      "source_range"     = concat(split(",", "${local.my_ip}/32,${var.source_range}"))
+      "source_range_ext" = concat(split(",", join(",", [var.source_range, var.source_range_ext, "${local.my_ip}/32"])), local.cloudflare_ip_subnets)
+      "namespace"        = var.namespace
+      "domain"           = var.domain
     }
   )
 
@@ -15,10 +15,10 @@ resource "kubectl_manifest" "middlewares" {
 }
 
 resource "helm_release" "error-pages" {
-  name         = "error-pages"
-  chart        = "error-pages"
-  repository   = "https://k8s-at-home.com/charts"
-  namespace    = var.namespace
+  name       = "error-pages"
+  chart      = "error-pages"
+  repository = "https://k8s-at-home.com/charts"
+  namespace  = var.namespace
   set {
     name  = "image.tag"
     value = "latest"
@@ -27,24 +27,16 @@ resource "helm_release" "error-pages" {
     name  = "env.TEMPLATE_NAME"
     value = "ghost"
   }
-  # values = [
-  #   templatefile(
-  #     "${path.module}/helm/error-pages-values.yaml",
-  #     {
-  #       timezone = var.timezone
-  #     }
-  #   )
-  # ]
 
 }
 
 
 resource "helm_release" "traefik" {
-  name       = "traefik"
-  chart      = "traefik"
-  repository = "https://traefik.github.io/charts"
-  namespace  = "kube-system"
-  version = "26.1.0"
+  name            = "traefik"
+  chart           = "traefik"
+  repository      = "https://traefik.github.io/charts"
+  namespace       = "kube-system"
+  version         = "26.1.0"
   cleanup_on_fail = true
   wait            = true
   wait_for_jobs   = true
@@ -57,8 +49,8 @@ resource "helm_release" "traefik" {
         log_level          = var.log_level
         access_log_enabled = var.access_log_enabled
         master_hostname    = var.master_hostname
-        domain    = var.domain
-        namespace = "kube-system"
+        domain             = var.domain
+        namespace          = "kube-system"
       }
     )
   ]
