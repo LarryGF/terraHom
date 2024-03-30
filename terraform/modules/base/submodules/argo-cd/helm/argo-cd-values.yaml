@@ -1,3 +1,4 @@
+fullnameOverride: argocd
 
 openshift:
   # -- enables using arbitrary uid for argo repo server
@@ -257,10 +258,8 @@ server:
       gethomepage.dev/name: "Argo CD"
       gethomepage.dev/group: "Internal"
       gethomepage.dev/icon: "argocd.png"
-    hosts: 
-      - argo.${domain}
-    paths:
-      - /
+    hostname: argo.${domain}
+    path: /
     # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
     pathType: Prefix
     # -- Additional ingress paths
