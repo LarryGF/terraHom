@@ -151,6 +151,7 @@ variable "api_keys" {
     prowlarr_key                    = "prowlarr-key"
     tautulli_key                    = "tautulli-key"
     bazarr_key                      = "bazarr-key"
+    calibre_web_key                 = "calibre-web-key"
     plex_key                        = "plex-key"
     jellyseerr_key                  = "jellyseerr-key"
     pihole_key                      = "pihole-key"

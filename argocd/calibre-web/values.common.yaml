@@ -1,0 +1,22 @@
+calibre-web:
+  image:
+    repository: lscr.io/linuxserver/calibre-web
+    tag: 0.6.21-ls260
+
+  initContainers:
+    update-volume-permission:
+      image: busybox
+      command:
+        [
+          "sh",
+          "-c",
+          "chmod -R 777 /config  && mkdir -p /downloads/calibre && chown 1001:1001 /downloads/calibre",
+        ]
+
+      volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+      securityContext:
+        runAsUser: 0

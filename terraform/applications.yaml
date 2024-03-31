@@ -120,6 +120,27 @@ bazarr:
       mountPath: /downloads/radarr
       name: media-radarr
       subpath: radarr
+calibre-web:
+  deploy: true
+  gpu: none
+  mfa: true
+  name: calibre-web
+  namespace: services
+  override:
+    api_key: ${api_keys["calibre_web_key"]}
+    domain: ${domain}
+    timezone: ${timezone}
+  priority: high
+  volumes:
+    config:
+      access_modes:
+        - ReadWriteOnce
+      backup: enabled
+      create: true
+      name: calibre-web-config
+      size: 500Mi
+    downloads:
+      name: media
 crowdsec:
   deploy: false
   gpu: none
