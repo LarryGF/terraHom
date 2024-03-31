@@ -1,0 +1,46 @@
+calibre-web:
+  env:
+    PGID: 1001
+    PUID: 1001
+    TZ: ${timezone}
+  
+  nodeSelector:
+    priority: ${priority}
+  
+  # resources:
+  #   requests:
+  #     cpu: 108m
+  #     memory: 587M
+  #   limits:
+  #     cpu: 354m
+  #     memory: 1146M
+  ingress:
+    main:
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        %{~ if mfa ~}
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-forwardauth-authelia@kubernetescrd
+        %{~ endif ~}
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/name: "Calibre Web"
+        gethomepage.dev/description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles"
+        gethomepage.dev/group: "Aggregators"
+        gethomepage.dev/icon: "calibre-web"
+        gethomepage.dev/widget.type: "calibreweb"
+        gethomepage.dev/widget.url: "http://calibre.${namespace}.svc.cluster.local:6767"
+        gethomepage.dev/widget.key: "${api_key}"
+      enabled: true
+      hosts:
+        - host: "calibre.${domain}"
+          paths:
+          - path: /
+      tls:
+        - hosts:
+            - "calibre.${domain}"
+          secretName: tls-calibre-ingress
+
+
+  # Generating persistence config from applications.yaml
+  ${indent(2,yamlencode({persistence: { for key, value in storage: key => {"enabled":true,"existingClaim":value.name,"mountPath": try(value.mountPath,null),"subpath": try(value.subpath,null)}}}))}
