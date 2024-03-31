@@ -13,18 +13,6 @@ amd-gpu:
     timezone: ${timezone}
   priority: critical
   volumes: {}
-ddclient:
-  deploy: true
-  gpu: none
-  mfa: false
-  name: ddclient
-  namespace: services
-  override:
-    domain: ${domain}
-    master_hostname: ${master_hostname}
-    timezone: ${timezone}
-  priority: critical
-  volumes: {}
 argo-workflows:
   deploy: true
   gpu: none
@@ -56,23 +44,23 @@ authelia:
     smtp_username: ${api_keys["smtp_username"]}
     timezone: ${timezone}
   priority: critical
-  server_side: "false"
+  server_side: 'false'
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: authelia-config
       size: 200Mi
     redis-master:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: true
       name: redis-data-master
       size: 1Gi
     redis-replica:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: true
       name: redis-data-replica
       size: 1Gi
@@ -94,7 +82,7 @@ authentik:
     smtp_username: ${api_keys["smtp_username"]}
     timezone: ${timezone}
   priority: high
-  server_side: "false"
+  server_side: 'false'
 bazarr:
   deploy: true
   gpu: none
@@ -109,7 +97,7 @@ bazarr:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       backup: enabled
       create: true
       name: bazarr-config
@@ -123,7 +111,7 @@ bazarr:
 calibre-web:
   deploy: true
   gpu: none
-  mfa: true
+  mfa: false
   name: calibre-web
   namespace: services
   override:
@@ -134,7 +122,7 @@ calibre-web:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       backup: enabled
       create: true
       name: calibre-web-config
@@ -153,26 +141,38 @@ crowdsec:
     master_hostname: ${master_hostname}
     timezone: ${timezone}
   priority: critical
-  server_side: "false"
+  server_side: 'false'
   volumes:
     agent_config:
       access_modes:
-        - ReadWriteMany
+      - ReadWriteMany
       create: false
       name: crowdsec-agent-config
       size: 500Mi
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: crowdsec-config
       size: 200Mi
     data:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: crowdsec-data
       size: 1Gi
+ddclient:
+  deploy: true
+  gpu: none
+  mfa: false
+  name: ddclient
+  namespace: services
+  override:
+    domain: ${domain}
+    master_hostname: ${master_hostname}
+    timezone: ${timezone}
+  priority: critical
+  volumes: {}
 dex:
   deploy: false
   gpu: none
@@ -183,7 +183,7 @@ dex:
     domain: ${domain}
     master_hostname: ${master_hostname}
     timezone: ${timezone}
-  priority: ""
+  priority: ''
   volumes: {}
 filebrowser:
   deploy: false
@@ -199,7 +199,7 @@ filebrowser:
   volumes:
     config:
       access_modes:
-        - ReadWriteMany
+      - ReadWriteMany
       create: false
       name: filebrowser-config
       size: 200Mi
@@ -219,7 +219,7 @@ flood:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: true
       mountPath: /config
       name: flood-config
@@ -256,7 +256,7 @@ gow:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: true
       name: gow-config
       size: 100Mi
@@ -273,11 +273,11 @@ grafana:
     master_hostname: ${master_hostname}
     timezone: ${timezone}
   priority: high
-  server_side: "true"
+  server_side: 'true'
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: grafana-config
       size: 1Gi
@@ -297,7 +297,7 @@ home-assistant:
   volumes:
     config:
       access_modes:
-        - ReadWriteMany
+      - ReadWriteMany
       backup: enabled
       create: true
       name: ha-config
@@ -318,11 +318,11 @@ intel-gpu:
   deploy: true
   gpu: none
   ignore:
-    - group: deviceplugin.intel.com
-      jq_path_expressions:
-        - .metadata.annotations
-        - .spec.resourceManager
-      kind: GpuDevicePlugin
+  - group: deviceplugin.intel.com
+    jq_path_expressions:
+    - .metadata.annotations
+    - .spec.resourceManager
+    kind: GpuDevicePlugin
   mfa: true
   name: intel-gpu
   namespace: kube-system
@@ -346,7 +346,7 @@ jellyfin:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       backup: enabled
       create: true
       mountPath: /config
@@ -373,7 +373,7 @@ jellyseerr:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: jellyseerr-config
       size: 200Mi
@@ -391,7 +391,7 @@ kavita:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       backup: enabled
       create: true
       mountPath: /config
@@ -413,7 +413,7 @@ kube-prometheus-stack:
     master_ip: ${master_ip}
     timezone: ${timezone}
   priority: high
-  server_side: "true"
+  server_side: 'true'
   volumes: {}
 kubeview:
   deploy: false
@@ -424,11 +424,11 @@ kubeview:
   override:
     domain: ${domain}
     timezone: ${timezone}
-  priority: ""
+  priority: ''
   volumes:
     config:
       access_modes:
-        - ReadWriteMany
+      - ReadWriteMany
       create: false
       name: kubeview-config
       size: 200Mi
@@ -444,8 +444,8 @@ kwatch:
     master_hostname: ${master_hostname}
     master_ip: ${master_ip}
     timezone: ${timezone}
-  priority: ""
-  server_side: "false"
+  priority: ''
+  server_side: 'false'
   volumes: {}
 loki:
   deploy: false
@@ -472,7 +472,7 @@ mylar:
   volumes:
     config:
       access_modes:
-        - ReadWriteMany
+      - ReadWriteMany
       create: false
       name: mylar-config
       size: 200Mi
@@ -495,14 +495,14 @@ nextcloud:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       backup: enabled
       create: true
       name: nextcloud-config
       size: 1Gi
     db:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: nextcloud-db-config
       size: 5Gi
@@ -529,11 +529,11 @@ nzbget:
     master_hostname: ${master_hostname}
     master_ip: ${master_ip}
     timezone: ${timezone}
-  priority: ""
+  priority: ''
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: nzbget-config
       size: 1Gi
@@ -554,7 +554,7 @@ plex:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: plex-config
       size: 5Gi
@@ -578,7 +578,7 @@ portainer:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: portainer-config
       size: 1Gi
@@ -609,7 +609,7 @@ prowlarr:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: prowlarr-config
       size: 512Mi
@@ -628,7 +628,7 @@ radarr:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: radarr-config
       size: 512Mi
@@ -652,7 +652,7 @@ rancher:
   volumes:
     config:
       access_modes:
-        - ReadWriteMany
+      - ReadWriteMany
       backup: enabled
       create: true
       name: rancher-config
@@ -666,11 +666,11 @@ readarr:
   override:
     domain: ${domain}
     timezone: ${timezone}
-  priority: ""
+  priority: ''
   volumes:
     config:
       access_modes:
-        - ReadWriteMany
+      - ReadWriteMany
       create: false
       name: readarr-config
       size: 200Mi
@@ -685,11 +685,11 @@ renovate:
     gh_token: ${gh_token}
     gh_username: ${gh_username}
     timezone: ${timezone}
-  priority: ""
+  priority: ''
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: renovate-config
       size: 512Mi
@@ -707,7 +707,7 @@ sabnzbd:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: sabnzbd-config
       size: 200Mi
@@ -730,7 +730,7 @@ samba:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: samba-config
       size: 100Mi
@@ -749,7 +749,7 @@ sonarr:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: false
       name: sonarr-config
       size: 512Mi
@@ -769,7 +769,7 @@ tautulli:
   volumes:
     config:
       access_modes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       create: true
       name: tautulli-config
       size: 1Gi

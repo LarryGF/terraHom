@@ -3,6 +3,7 @@ calibre-web:
     PGID: 1001
     PUID: 1001
     TZ: ${timezone}
+    DOCKER_MODS: linuxserver/calibre-web:universal-calibre
   
   nodeSelector:
     priority: ${priority}
@@ -25,12 +26,12 @@ calibre-web:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure-ext
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Calibre Web"
-        gethomepage.dev/description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles"
-        gethomepage.dev/group: "Aggregators"
+        gethomepage.dev/group: "Home Services"
         gethomepage.dev/icon: "calibre-web"
         gethomepage.dev/widget.type: "calibreweb"
         gethomepage.dev/widget.url: "http://calibre.${namespace}.svc.cluster.local:6767"
-        gethomepage.dev/widget.key: "${api_key}"
+        gethomepage.dev/widget.password: "${api_key}"
+        gethomepage.dev/widget.username: "admin"
       enabled: true
       hosts:
         - host: "calibre.${domain}"
