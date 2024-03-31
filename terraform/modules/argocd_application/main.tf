@@ -1,5 +1,5 @@
 resource "argocd_application" "application" {
-  count = var.deploy ? 1:0
+  count = var.deploy ? 1 : 0
   metadata {
     name      = var.name
     namespace = "gitops"
@@ -14,30 +14,30 @@ resource "argocd_application" "application" {
 
     source {
       repo_url        = "https://github.com/LarryGF/terraHom.git"
-      path = "argocd/${var.name}"
+      path            = "argocd/${var.name}"
       target_revision = "main"
 
       helm {
-        
+
         value_files = local.values_files
-        values = templatefile("${path.module}/applications/${var.name}/values.yaml",merge(
+        values = try(templatefile("${path.module}/applications/${var.name}/values.yaml", merge(
           var.override_values,
           {
-          "namespace":var.namespace,
-          "priority":var.priority,
-          "storage":var.storage_definitions,
-          "gpu":var.gpu,
-          "mfa":var.mfa
-          }))
+            "namespace" : var.namespace,
+            "priority" : var.priority,
+            "storage" : var.storage_definitions,
+            "gpu" : var.gpu,
+            "mfa" : var.mfa
+        })), null)
       }
     }
 
-    dynamic ignore_difference {
+    dynamic "ignore_difference" {
       for_each = var.ignore_differences
       content {
-        group         = try(ignore_difference.value.group,null)
-        kind          = try(ignore_difference.value.kind,null)
-        jq_path_expressions = try(ignore_difference.value.jq_path_expressions,null)
+        group               = try(ignore_difference.value.group, null)
+        kind                = try(ignore_difference.value.kind, null)
+        jq_path_expressions = try(ignore_difference.value.jq_path_expressions, null)
       }
     }
     sync_policy {
@@ -47,7 +47,7 @@ resource "argocd_application" "application" {
         allow_empty = true
       }
       # Only available from ArgoCD 1.5.0 onwards
-      sync_options = ["Validate=false","ServerSideApply=${var.server_side}"]
+      sync_options = ["Validate=false", "ServerSideApply=${var.server_side}"]
       retry {
         limit = "5"
         backoff {
@@ -58,9 +58,9 @@ resource "argocd_application" "application" {
       }
     }
   }
-  depends_on = [ 
+  depends_on = [
     kubernetes_persistent_volume_claim.application_storage
-   ]
+  ]
 }
 
 resource "kubernetes_persistent_volume_claim" "application_storage" {
@@ -69,9 +69,9 @@ resource "kubernetes_persistent_volume_claim" "application_storage" {
     name      = each.value.name
     namespace = var.namespace
     labels = {
-    #   "recurring-job-group.longhorn.io/source" = "enabled"
-    #   "recurring-job-group.longhorn.io/backup" = try(each.value.backup,"disabled")
-      "recurring-job.longhorn.io/backup" = try(each.value.backup,"disabled")
+      #   "recurring-job-group.longhorn.io/source" = "enabled"
+      #   "recurring-job-group.longhorn.io/backup" = try(each.value.backup,"disabled")
+      "recurring-job.longhorn.io/backup" = try(each.value.backup, "disabled")
     }
   }
   spec {
