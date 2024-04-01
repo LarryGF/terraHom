@@ -29,7 +29,7 @@ calibre-web:
         gethomepage.dev/group: "Home Services"
         gethomepage.dev/icon: "calibre-web"
         gethomepage.dev/widget.type: "calibreweb"
-        gethomepage.dev/widget.url: "http://calibre.${namespace}.svc.cluster.local:6767"
+        gethomepage.dev/widget.url: "http://calibre-web.${namespace}.svc.cluster.local:8083"
         gethomepage.dev/widget.password: "${api_key}"
         gethomepage.dev/widget.username: "admin"
       enabled: true
