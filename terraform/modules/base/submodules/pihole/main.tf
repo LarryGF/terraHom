@@ -20,7 +20,7 @@ resource "helm_release" "pihole" {
   })]
 
   recreate_pods = true
-  version = "2.22.0"
+  version = "2.23.0"
 
 }
 
