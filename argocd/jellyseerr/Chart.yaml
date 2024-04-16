@@ -1,7 +1,7 @@
 apiVersion: v2
 name: jellyseerr-umbrella
-version: 0.0.1
+version: 0.0.2
 dependencies:
   - name: jellyseerr
     repository: https://loeken.github.io/helm-charts
-    version: 1.7.0
+    version: 1.8.0
