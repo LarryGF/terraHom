@@ -1,5 +1,4 @@
 amd-gpu:
-
   namespace: kube-system
 
   nfd:
@@ -17,12 +16,13 @@ amd-gpu:
     allowPrivilegeEscalation: false
     capabilities:
       drop:
-      - ALL
+        - ALL
 
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
 
+  node_selector_enabled: true
   node_selector:
     feature.node.kubernetes.io/pci-0300_1002.present: "true"
     kubernetes.io/arch: amd64
