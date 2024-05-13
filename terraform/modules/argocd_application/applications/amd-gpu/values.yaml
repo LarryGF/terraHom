@@ -1,6 +1,4 @@
 amd-gpu:
-
-
   labeller:
     enabled: false
 
@@ -8,5 +6,5 @@ amd-gpu:
     image:
       repository: docker.io/rocm/k8s-device-plugin
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "1.25.2.8"
+      # tag: "1.25.2.8"
     resources: {}
