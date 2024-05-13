@@ -1,7 +1,7 @@
 sabnzbd:
   image:
     repository: ghcr.io/hotio/sabnzbd
-    tag: release-4.2.1
+    tag: release-4.3.1
 #  # VPN side-car
 #   addons:
 #     vpn:
