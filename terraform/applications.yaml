@@ -712,6 +712,7 @@ sabnzbd:
       name: sabnzbd-config
       size: 200Mi
     downloads:
+      mountPath: /downloads
       name: media
     downloads-radarr:
       mountPath: /downloads/radarr
