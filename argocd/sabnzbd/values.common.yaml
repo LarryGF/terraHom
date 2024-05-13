@@ -1,22 +1,25 @@
 sabnzbd:
   image:
     repository: ghcr.io/hotio/sabnzbd
-    tag: release-4.2.1
+    tag: release-4.3.1
 
   initContainers:
     update-volume-permission:
       image: busybox
-      command: ["sh", "-c", "chmod -R 777 /config  && mkdir -p /downloads/sabnzbd && chown 1001:1001 /downloads/sabnzbd"]
+      command:
+        [
+          "sh",
+          "-c",
+          "chmod -R 777 /config  && mkdir -p /downloads/sabnzbd && chown 1001:1001 /downloads/sabnzbd",
+        ]
 
       volumeMounts:
-      - name: config
-        mountPath: /config
-      - name: downloads 
-        mountPath: /downloads 
+        - name: config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
       securityContext:
         runAsUser: 0
-
-
 #  # VPN side-car
 #   addons:
 #     vpn:
