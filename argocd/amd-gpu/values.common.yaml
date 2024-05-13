@@ -7,7 +7,6 @@ amd-gpu:
   lbl:
     image:
       repository: docker.io/rocm/k8s-device-plugin
-      tag: "labeller-1.25.2.5"
     resources: {}
 
   imagePullSecrets: []
