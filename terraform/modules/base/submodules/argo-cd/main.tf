@@ -5,7 +5,7 @@ resource "helm_release" "argo-cd" {
   repository = "https://argoproj.github.io/argo-helm"
   namespace  = "gitops"
   reuse_values = false
-  version = "6.10.2"
+  version = "6.11.1"
   set {
     name  = "env.TZ"
     value = var.timezone
