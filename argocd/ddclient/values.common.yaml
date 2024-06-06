@@ -24,25 +24,10 @@ ddclient:
     {}
     # fsGroup: 2000
 
-  securityContext:
-    {}
+  securityContext: {}
 
   nodeSelector: {}
 
   tolerations: []
 
   affinity: {}
-
-  # config section of ddclient.conf
-  config: |
-    daemon=120
-    syslog=yes
-    verbose=yes
-    protocol=dyndns2
-    # "use=cmd" and the curl command is one way of doing this; other ways exist
-    use=cmd, cmd='curl https://checkipv4.dedyn.io/'
-    ssl=yes
-    server=update.dedyn.io
-    login=${domain}
-    password=${token}
-    ${domain}
