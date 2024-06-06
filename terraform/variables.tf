@@ -174,6 +174,7 @@ variable "api_keys" {
     authelia_STORAGE_ENCRYPTION_KEY = "authelia-storage-encryption-key"
     authentik_secret_key            = "authentik-secret-key"
     authentik_postgresql_password   = "authentik-postgresql-password"
+    ddclient_token                  = "ddclient-token"
   }
 }
 

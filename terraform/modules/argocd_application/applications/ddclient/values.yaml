@@ -1,6 +1,7 @@
 ddclient:
   nodeSelector:
     priority: ${priority}
+
   config: |
     daemon=120
     syslog=yes
