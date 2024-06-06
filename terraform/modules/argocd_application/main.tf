@@ -20,7 +20,7 @@ resource "argocd_application" "application" {
       helm {
 
         value_files = local.values_files
-        values = try(templatefile("${path.module}/applications/${var.name}/values.yaml", merge(
+        values = templatefile("${path.module}/applications/${var.name}/values.yaml", merge(
           var.override_values,
           {
             "namespace" : var.namespace,
@@ -28,7 +28,7 @@ resource "argocd_application" "application" {
             "storage" : var.storage_definitions,
             "gpu" : var.gpu,
             "mfa" : var.mfa
-        })), null)
+        }))
       }
     }
 
