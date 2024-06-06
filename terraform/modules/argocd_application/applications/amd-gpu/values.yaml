@@ -1,10 +1,25 @@
 amd-gpu:
   labeller:
-    enabled: false
-
+    enabled: true
+  nfd:
+    enabled: true
   dp:
     image:
       repository: docker.io/rocm/k8s-device-plugin
       # Overrides the image tag whose default is the chart appVersion.
       # tag: "1.25.2.8"
     resources: {}
+
+  node-feature-discovery:
+    master:
+      nodeSelector:
+        feature.node.kubernetes.io/pci-0300_1002.present: "true"
+        kubernetes.io/arch: amd64
+    worker:
+      nodeSelector:
+        feature.node.kubernetes.io/pci-0300_1002.present: "true"
+        kubernetes.io/arch: amd64
+    gc:
+      nodeSelector:
+        feature.node.kubernetes.io/pci-0300_1002.present: "true"
+        kubernetes.io/arch: amd64
