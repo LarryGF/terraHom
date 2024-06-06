@@ -17,7 +17,7 @@
   run_once: true
   set_fact:
     primary_master: "https://{{ ansible_default_ipv4.address }}:6443"
-  
+
 - debug:
     var: primary_master
 
@@ -83,7 +83,7 @@
 
 - debug:
     var: ansible_user
-    
+
 - name: Create directory .kube
   file:
     path: ~{{ ansible_user }}/.kube
@@ -105,6 +105,10 @@
       --server=https://{{ master_ip }}:6443
       --kubeconfig ~{{ ansible_user }}/.kube/config
   changed_when: true
+
+- name: Import sync role
+  import_role:
+    name: sync
 
 - name: Create kubectl symlink
   when: inventory_hostname == groups['master'][0]
@@ -132,7 +136,6 @@
   vars:
     cluster_init: null
 
-
 - name: Restart K3s service on Primary Master
   when: inventory_hostname == groups['master'][0]
   systemd:
@@ -141,8 +144,7 @@
     state: started
     enabled: yes
 
-
-- name: Add priority label to master servers 
+- name: Add priority label to master servers
   become: no
   local_action:
     module: command kubectl --kubeconfig ~/.kube/config label nodes {{ inventory_hostname }} priority=critical --overwrite

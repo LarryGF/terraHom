@@ -1,6 +1,6 @@
 ---
 - name: Copy k3s config
   fetch:
-    src: ~/.kube/config 
+    src: ~{{ ansible_user }}/.kube/config
     dest: ~/.kube/config
     flat: yes

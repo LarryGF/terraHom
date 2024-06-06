@@ -53,13 +53,6 @@
     - kubernetes
     - agent
 
-- name: Kubernetes config sync to host
-  hosts: master
-  roles:
-    - role: sync
-  tags:
-    - kubernetes
-
 - name: Configure storage nodes
   hosts: storage
   become: true
@@ -68,7 +61,6 @@
   tags:
     - kubernetes
     - storage
-
 # - name: Install and Configure ZeroTier
 #   hosts: zerotier
 #   become: true
