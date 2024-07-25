@@ -1,7 +1,7 @@
 apiVersion: v2
 name: kwatch-umbrella
-version: 0.0.6
+version: 0.0.7
 dependencies:
   - name: kwatch
     repository: https://kwatch.dev/charts
-    version: 0.9.5
+    version: 0.10.0
