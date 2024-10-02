@@ -1,10 +1,10 @@
 apiVersion: v2
 name: authelia-umbrella
-version: 0.0.17
+version: 0.0.18
 dependencies:
   - name: authelia
     repository: https://charts.authelia.com
-    version: 0.9.6
+    version: 0.9.8
   - name: redis
     repository: https://charts.bitnami.com/bitnami
     version: 18.19.4
