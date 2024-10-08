@@ -1,7 +1,7 @@
 apiVersion: v2
 name: portainer-umbrella
-version: 0.0.8
+version: 0.0.9
 dependencies:
   - name: portainer
     repository: https://portainer.github.io/k8s/
-    version: 1.0.54
+    version: 1.0.55
