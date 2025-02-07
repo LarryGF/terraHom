@@ -1,7 +1,7 @@
 apiVersion: v2
 name: loki-umbrella
-version: 0.0.14
+version: 0.0.15
 dependencies:
   - name: loki-distributed
     repository: https://grafana.github.io/helm-charts
-    version: 0.80.0
+    version: 0.80.1
