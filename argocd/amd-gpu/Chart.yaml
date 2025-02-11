@@ -1,7 +1,7 @@
 apiVersion: v2
 name: amd-gpu-umbrella
-version: 0.0.9
+version: 0.0.10
 dependencies:
   - name: amd-gpu
     repository: https://rocm.github.io/k8s-device-plugin/
-    version: 0.17.0
+    version: 0.18.0
