@@ -1,7 +1,7 @@
 apiVersion: v2
 name: crowdsec-umbrella
-version: 0.0.14
+version: 0.0.15
 dependencies:
   - name: crowdsec
     repository: https://crowdsecurity.github.io/helm-charts
-    version: 0.17.1
+    version: 0.18.0
