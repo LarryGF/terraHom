@@ -1,7 +1,7 @@
 apiVersion: v2
 name: argo-workflows-umbrella
-version: 0.0.59
+version: 0.0.60
 dependencies:
   - name: argo-workflows
     repository: https://argoproj.github.io/argo-helm
-    version: 0.47.0
+    version: 0.47.1
