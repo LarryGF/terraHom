@@ -1,7 +1,7 @@
 apiVersion: v2
 name: pihole-umbrella
-version: 0.0.19
+version: 0.0.20
 dependencies:
   - name: pihole
     repository: https://mojo2600.github.io/pihole-kubernetes/
-    version: 2.37.0
+    version: 2.38.0
