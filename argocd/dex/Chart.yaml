@@ -1,7 +1,7 @@
 apiVersion: v2
 name: dex-umbrella
-version: 0.0.2
+version: 0.0.3
 dependencies:
   - name: dex
     repository: https://charts.dexidp.io
-    version: 0.25.2
+    version: 0.26.0
