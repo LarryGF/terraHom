@@ -1,5 +1,5 @@
 # Use an official Python runtime as the base image
-FROM python:3.14-slim
+FROM python:3.15-slim
 
 EXPOSE 8501
 # Set the working directory in the container
